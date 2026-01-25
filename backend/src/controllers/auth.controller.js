@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 const { ApiError, asyncHandler } = require('../utils/errors');
 const pool = require('../config/db');
 
@@ -27,47 +28,93 @@ const createUser = async ({ username, email, password }) => {
 };
 
 const login = asyncHandler(async (req, res) => {
-  if (!req.user) {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    throw new ApiError(400, 'Username and password are required');
+  }
+
+  const [rows] = await pool.query(
+    `
+    SELECT id, username, password_hash, salt, role
+    FROM users
+    WHERE username = ?
+    `,
+    [username]
+  );
+
+  if (rows.length === 0) {
     throw new ApiError(401, 'Invalid credentials');
   }
-  const jwtSecret = process.env.JWT_SECRET;
-  if (!jwtSecret) throw new ApiError(500, 'JWT_SECRET is not configured');
-  const token = jwt.sign(
-    { role: req.user.role, username: req.user.username, userId: req.user.id },
-    jwtSecret,
-    { expiresIn: '12h' }
-  );
-  if (req.session) {
-    await new Promise((resolve) => req.session.save(() => resolve()));
+
+  const user = rows[0];
+  let isValid = false;
+
+  /**
+   * NEW USERS — bcrypt
+   */
+  if (user.password_hash.startsWith('$2')) {
+    isValid = await bcrypt.compare(password, user.password_hash);
   }
-  res.json({ token, user: { username: req.user.username, role: req.user.role } });
+
+  /**
+   * LEGACY USERS — sha256 + salt
+   */
+  else {
+    const computed = legacyHash(password, user.salt);
+    isValid = computed === user.password_hash;
+
+    // silently upgrade legacy users to bcrypt
+    if (isValid) {
+      const newHash = await bcrypt.hash(password, 12);
+      await pool.query(
+        'UPDATE users SET password_hash = ?, salt = ? WHERE id = ?',
+        [newHash, '', user.id]
+      );
+    }
+  }
+
+  if (!isValid) {
+    throw new ApiError(401, 'Invalid credentials');
+  }
+
+  // success response (keep minimal)
+  res.json({
+    id: user.id,
+    username: user.username,
+    role: user.role,
+  });
 });
 
 const register = asyncHandler(async (req, res) => {
-  const { username, password, email } = req.body;
-  const jwtSecret = process.env.JWT_SECRET;
+  const { username, email, password } = req.body;
 
-  if (!jwtSecret) throw new ApiError(500, 'JWT_SECRET is not configured');
-  if (!username || !password) throw new ApiError(400, 'username and password are required');
-  if (username.length < 3) throw new ApiError(400, 'username must be at least 3 characters');
-  if (password.length < 8) throw new ApiError(400, 'password must be at least 8 characters');
+  if (!username || !password) {
+    throw new ApiError(400, 'Username and password are required');
+  }
 
+  // check if user already exists
   const [existing] = await pool.query(
-    'SELECT id FROM users WHERE username = ? OR (email IS NOT NULL AND email = ?) LIMIT 1',
-    [username, email || null]
+    'SELECT id FROM users WHERE username = ? OR email = ?',
+    [username, email]
   );
+
   if (existing.length > 0) {
     throw new ApiError(409, 'User already exists');
   }
 
-  const user = await createUser({ username, email, password });
-  const token = jwt.sign(
-    { role: user.role, username: user.username, userId: user.id },
-    jwtSecret,
-    { expiresIn: '12h' }
+  // bcrypt hash for new users
+  const passwordHash = await bcrypt.hash(password, 12);
+
+  await pool.query(
+    `
+    INSERT INTO users (username, email, password_hash, salt)
+    VALUES (?, ?, ?, ?)
+    `,
+    [username, email || null, passwordHash, '']
   );
 
-  res.status(201).json({ token, user: { id: user.id, username: user.username, email } });
+  res.status(201).json({ success: true });
 });
 
 const me = asyncHandler(async (req, res) => {

@@ -32,6 +32,8 @@ const SignIn = () => {
   const [status, setStatus] = useState<Status>({ type: 'idle' });
   const [loading, setLoading] = useState(false);
   const hasToken = useMemo(() => Boolean(loggedIn), [loggedIn]);
+  console.log('API_BASE =', API_BASE);
+
 
   const redirectToShop = () => {
     if (typeof window === 'undefined') return;
@@ -80,10 +82,10 @@ const SignIn = () => {
       }
 
       const data = await res.json();
-      if (data?.token && typeof window !== 'undefined') {
-        localStorage.setItem('forgerealm_admin_token', data.token);
-        window.dispatchEvent(new Event('forgerealm-admin-token-changed'));
-      }
+      // if (data?.token && typeof window !== 'undefined') {
+      //   localStorage.setItem('forgerealm_admin_token', data.token);
+      //   window.dispatchEvent(new Event('forgerealm-admin-token-changed'));
+      // }
       setLoggedIn(true);
       setStatus({ type: 'success', message: 'Signed in successfully' });
       redirectToShop();

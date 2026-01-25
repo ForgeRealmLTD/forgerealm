@@ -5,21 +5,35 @@ const { requireAdmin } = require('../middleware/auth.middleware');
 
 const router = express.Router();
 
-router.post('/login', (req, res, next) => {
-  const headers = req.headers; // all request headers
-  console.log({ headers });
-  return passport.authenticate('local', (err, user, info) => {
-    if (err) return next(err);
-    if (!user) return res.status(401).json({ error: info?.message || 'Invalid credentials' });
-    req.logIn(user, (loginErr) => {
-      if (loginErr) return next(loginErr);
-      return login(req, res);
+/**
+ * USER LOGIN (shop users)
+ * Uses bcrypt logic in auth.controller.js
+ */
+router.post('/login', login);
+
+/**
+ * USER REGISTER
+ */
+router.post('/register', register);
+
+/**
+ * ADMIN LOGIN (passport / admin_users)
+ */
+router.post(
+  '/admin/login',
+  passport.authenticate('local', { session: true }),
+  (req, res) => {
+    res.json({
+      id: req.user.id,
+      username: req.user.username,
+      role: req.user.role,
     });
-  })(req, res, next)
-}
+  }
 );
 
-router.post('/register', register);
+/**
+ * ADMIN SESSION
+ */
 router.get('/me', requireAdmin, me);
 router.post('/logout', requireAdmin, logout);
 
