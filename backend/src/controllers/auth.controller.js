@@ -50,21 +50,14 @@ const login = asyncHandler(async (req, res) => {
   const user = rows[0];
   let isValid = false;
 
-  /**
-   * NEW USERS — bcrypt
-   */
   if (user.password_hash.startsWith('$2')) {
     isValid = await bcrypt.compare(password, user.password_hash);
   }
 
-  /**
-   * LEGACY USERS — sha256 + salt
-   */
   else {
     const computed = legacyHash(password, user.salt);
     isValid = computed === user.password_hash;
 
-    // silently upgrade legacy users to bcrypt
     if (isValid) {
       const newHash = await bcrypt.hash(password, 12);
       await pool.query(

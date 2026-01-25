@@ -5,20 +5,10 @@ const { requireAdmin } = require('../middleware/auth.middleware');
 
 const router = express.Router();
 
-/**
- * USER LOGIN (shop users)
- * Uses bcrypt logic in auth.controller.js
- */
 router.post('/login', login);
 
-/**
- * USER REGISTER
- */
 router.post('/register', register);
 
-/**
- * ADMIN LOGIN (passport / admin_users)
- */
 router.post(
   '/admin/login',
   passport.authenticate('local', { session: true }),
@@ -31,9 +21,6 @@ router.post(
   }
 );
 
-/**
- * ADMIN SESSION
- */
 router.get('/me', requireAdmin, me);
 router.post('/logout', requireAdmin, logout);
 
