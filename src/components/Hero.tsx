@@ -157,6 +157,48 @@ const useTheme = () => {
   return theme;
 };
 
+const darkParticlePositions = [
+  { left: "6%", top: "12%" },
+  { left: "18%", top: "28%" },
+  { left: "32%", top: "18%" },
+  { left: "44%", top: "36%" },
+  { left: "58%", top: "22%" },
+  { left: "72%", top: "30%" },
+  { left: "84%", top: "16%" },
+  { left: "12%", top: "58%" },
+  { left: "26%", top: "72%" },
+  { left: "40%", top: "62%" },
+  { left: "54%", top: "70%" },
+  { left: "68%", top: "58%" },
+  { left: "82%", top: "74%" },
+  { left: "8%", top: "88%" },
+  { left: "36%", top: "90%" },
+  { left: "64%", top: "88%" },
+  { left: "92%", top: "56%" },
+  { left: "78%", top: "44%" },
+];
+
+const lightParticleConfig = [
+  { left: "5%", top: "12%", size: 1.4, colorClass: "from-amber-300/80 to-orange-300/70" },
+  { left: "18%", top: "22%", size: 1.2, colorClass: "from-yellow-300/80 to-amber-300/70" },
+  { left: "30%", top: "14%", size: 1.6, colorClass: "from-orange-300/75 to-amber-300/65" },
+  { left: "42%", top: "28%", size: 1.1, colorClass: "from-amber-300/70 to-yellow-300/60" },
+  { left: "55%", top: "18%", size: 1.8, colorClass: "from-orange-300/65 to-yellow-300/55" },
+  { left: "70%", top: "26%", size: 1.3, colorClass: "from-yellow-300/60 to-orange-300/50" },
+  { left: "84%", top: "12%", size: 1.5, colorClass: "from-amber-300/80 to-orange-300/70" },
+  { left: "12%", top: "46%", size: 1.2, colorClass: "from-yellow-300/80 to-amber-300/70" },
+  { left: "26%", top: "58%", size: 1.6, colorClass: "from-orange-300/75 to-amber-300/65" },
+  { left: "40%", top: "50%", size: 1.1, colorClass: "from-amber-300/70 to-yellow-300/60" },
+  { left: "54%", top: "62%", size: 1.7, colorClass: "from-orange-300/65 to-yellow-300/55" },
+  { left: "68%", top: "54%", size: 1.3, colorClass: "from-yellow-300/60 to-orange-300/50" },
+  { left: "82%", top: "60%", size: 1.5, colorClass: "from-amber-300/80 to-orange-300/70" },
+  { left: "8%", top: "78%", size: 1.2, colorClass: "from-yellow-300/80 to-amber-300/70" },
+  { left: "24%", top: "88%", size: 1.6, colorClass: "from-orange-300/75 to-amber-300/65" },
+  { left: "48%", top: "84%", size: 1.1, colorClass: "from-amber-300/70 to-yellow-300/60" },
+  { left: "66%", top: "88%", size: 1.8, colorClass: "from-orange-300/65 to-yellow-300/55" },
+  { left: "90%", top: "78%", size: 1.3, colorClass: "from-yellow-300/60 to-orange-300/50" },
+];
+
 export default function Hero({ onLoadComplete }: HeroProps) {
   const [splineLoaded, setSplineLoaded] = useState(false);
   const [splineEverLoaded, setSplineEverLoaded] = useState(false);
@@ -274,15 +316,13 @@ export default function Hero({ onLoadComplete }: HeroProps) {
       {/* Floating particles for extra magic */}
       {!isLight && (
         <div className="absolute inset-0 -z-5 overflow-hidden">
-          {Array.from({ length: 30 }, (_, i) => (
+          {darkParticlePositions.map((spot, i) => (
             <div
               key={i}
-              className="absolute w-1 h-1 bg-blue-400/50 rounded-full animate-bounce"
+              className="absolute w-1 h-1 bg-blue-400/50 rounded-full"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${4 + Math.random() * 4}s`
+                left: spot.left,
+                top: spot.top,
               }}
             />
           ))}
@@ -292,33 +332,18 @@ export default function Hero({ onLoadComplete }: HeroProps) {
       {/* Light mode floating particles - more vibrant and dynamic */}
       {isLight && (
         <div className="absolute inset-0 -z-5 overflow-hidden">
-          {Array.from({ length: 35 }, (_, i) => {
-            const colors = [
-              'from-amber-300/80 to-orange-300/70',
-              'from-yellow-300/80 to-amber-300/70',
-              'from-orange-300/75 to-amber-300/65',
-              'from-amber-300/70 to-yellow-300/60',
-              'from-orange-300/65 to-yellow-300/55',
-              'from-yellow-300/60 to-orange-300/50'
-            ];
-            const colorClass = colors[i % colors.length];
-            const size = 1 + Math.random() * 1.5; // 1-2.5px
-            
-            return (
-              <div
-                key={i}
-                className={`absolute rounded-full animate-bounce bg-gradient-to-r ${colorClass} shadow-[0_0_8px_rgba(251,191,36,0.4)]`}
-                style={{
-                  width: `${size}px`,
-                  height: `${size}px`,
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 5}s`,
-                  animationDuration: `${3 + Math.random() * 4}s`
-                }}
-              />
-            );
-          })}
+          {lightParticleConfig.map((spot, i) => (
+            <div
+              key={i}
+              className={`absolute rounded-full bg-gradient-to-r ${spot.colorClass} shadow-[0_0_8px_rgba(251,191,36,0.4)]`}
+              style={{
+                width: `${spot.size}px`,
+                height: `${spot.size}px`,
+                left: spot.left,
+                top: spot.top,
+              }}
+            />
+          ))}
         </div>
       )}
 
@@ -344,7 +369,7 @@ export default function Hero({ onLoadComplete }: HeroProps) {
 
       {/* Main Hero */}
       <div
-        className={`relative z-10 grid grid-cols-1 lg:grid-cols-2 items-center max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-24 lg:py-32 gap-16 lg:gap-36 xl:gap-40 transition-opacity duration-700 ${heroVisible ? "opacity-100" : "opacity-0"
+        className={`relative z-10 grid grid-cols-1 lg:grid-cols-2 items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 lg:pt-32 pb-16 sm:pb-24 lg:pb-32 gap-12 lg:gap-36 xl:gap-40 transition-opacity duration-700 ${heroVisible ? "opacity-100" : "opacity-0"
           }`}
       >
         {/* Left side */}
@@ -370,18 +395,18 @@ export default function Hero({ onLoadComplete }: HeroProps) {
             <div className="relative inline-block max-w-full">
               <span className={`absolute -inset-3 ${isLight ? "bg-gradient-to-r from-amber-300/40 via-orange-200/30 to-pink-200/40" : "bg-gradient-to-r from-blue-500/30 to-cyan-400/30"} blur-3xl rounded-lg block animate-pulse`} />
               <h1
-                className={`relative max-w-full font-display leading-tight lg:leading-normal ${isLight ? "text-4xl sm:text-6xl lg:text-6xl" : "text-5xl sm:text-6xl lg:text-7xl"} font-bold tracking-tight break-words ${isLight ? "text-slate-900 drop-shadow-[0_4px_12px_rgba(0,0,0,0.15)]" : "bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-cyan-200 drop-shadow-[0_0_30px_rgba(59,130,246,0.4)]"}`}
+                className={`relative max-w-full font-display leading-tight lg:leading-normal ${isLight ? "text-3xl sm:text-6xl lg:text-6xl" : "text-4xl sm:text-6xl lg:text-7xl"} font-bold tracking-tight break-words ${isLight ? "text-slate-900 drop-shadow-[0_4px_12px_rgba(0,0,0,0.15)]" : "bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-cyan-200 drop-shadow-[0_0_30px_rgba(59,130,246,0.4)]"}`}
               >
                 Forge<span className={isLight ? "text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-500 to-orange-400 drop-shadow-[0_2px_8px_rgba(251,146,60,0.45)]" : "text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500 drop-shadow-[0_0_20px_rgba(59,130,246,0.6)]"}>Realm</span>
               </h1>
             </div>
           </div>
 
-          <p className={`mt-4 text-2xl ${isLight ? "text-slate-900 font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.1)]" : "text-blue-200"} text-center lg:text-left font-semibold drop-shadow-lg`}>
+          <p className={`mt-4 text-lg sm:text-2xl ${isLight ? "text-slate-900 font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.1)]" : "text-blue-200"} text-center lg:text-left font-semibold drop-shadow-lg`}>
             Your vision, printed with purpose.
           </p>
 
-          <p className={`mt-6 text-lg sm:text-lg lg:text-xl ${isLight ? "text-slate-800 drop-shadow-[0_1px_4px_rgba(0,0,0,0.08)]" : "text-gray-300"} max-w-lg leading-relaxed text-center lg:text-left mx-auto lg:mx-0 drop-shadow-md`}>
+          <p className={`mt-4 sm:mt-6 text-base sm:text-lg lg:text-xl ${isLight ? "text-slate-800 drop-shadow-[0_1px_4px_rgba(0,0,0,0.08)]" : "text-gray-300"} max-w-lg leading-relaxed text-center lg:text-left mx-auto lg:mx-0 px-4 sm:px-0 drop-shadow-md`}>
             Slick sculptures, modular accents, and daily essentials engineered with planet-first materials.
           </p>
 
@@ -392,24 +417,24 @@ export default function Hero({ onLoadComplete }: HeroProps) {
           >
             <a
               href="/shop"
-              className={`items-center px-6 py-3 sm:px-8 sm:py-4 rounded-2xl font-bold text-base sm:text-lg lg:text-xl uppercase tracking-wide hover:scale-105 transition-all duration-300 inline-flex gap-2 sm:gap-3 shadow-lg hover:shadow-2xl ${isLight ? "bg-gradient-to-r from-amber-500 via-orange-500 to-pink-500 text-white hover:shadow-[0_12px_40px_rgba(251,191,36,0.4)] border-2 border-white/20" : "bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:shadow-[0_0_20px_rgba(96,165,250,0.7)]"}`}
+              className={`items-center px-5 py-2.5 sm:px-8 sm:py-4 rounded-2xl font-bold text-sm sm:text-lg lg:text-xl uppercase tracking-wide hover:scale-105 transition-all duration-300 inline-flex gap-2 sm:gap-3 shadow-lg hover:shadow-2xl ${isLight ? "bg-gradient-to-r from-amber-500 via-orange-500 to-pink-500 text-white hover:shadow-[0_12px_40px_rgba(251,191,36,0.4)] border-2 border-white/20" : "bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:shadow-[0_0_20px_rgba(96,165,250,0.7)]"}`}
             >
               <FaShoppingBag className="text-lg sm:text-xl" />
               <span>Shop</span>
             </a>
             <a
               href="/subscribe"
-              className={`items-center px-6 py-3 sm:px-8 sm:py-4 rounded-2xl font-bold text-base sm:text-lg lg:text-xl uppercase tracking-wide hover:scale-105 transition-all duration-300 border-2 ${isLight ? "border-gradient-to-r from-purple-500 to-pink-500 bg-white/90 text-slate-800 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white hover:shadow-[0_12px_40px_rgba(168,85,247,0.3)] backdrop-blur-sm" : "border border-blue-400 text-blue-300 hover:bg-blue-500 hover:text-white hover:shadow-[0_0_20px_rgba(96,165,250,0.5)]"}`}
+              className={`items-center px-5 py-2.5 sm:px-8 sm:py-4 rounded-2xl font-bold text-sm sm:text-lg lg:text-xl uppercase tracking-wide hover:scale-105 transition-all duration-300 border-2 ${isLight ? "border-gradient-to-r from-purple-500 to-pink-500 bg-white/90 text-slate-800 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white hover:shadow-[0_12px_40px_rgba(168,85,247,0.3)] backdrop-blur-sm" : "border border-blue-400 text-blue-300 hover:bg-blue-500 hover:text-white hover:shadow-[0_0_20px_rgba(96,165,250,0.5)]"}`}
             >
               Join Us!
             </a>
           </div>
 
           {printAnimation && (
-            <div className="mt-8 flex justify-center lg:hidden">
-              <div className={`relative overflow-hidden rounded-[2rem] p-[1px] ${isLight ? "shadow-[0_25px_80px_rgba(251,191,36,0.4)]" : "shadow-[0_25px_80px_rgba(78,71,229,0.4)]"}`}>
+            <div className="mt-8 flex justify-center lg:hidden w-full">
+              <div className={`relative w-full max-w-[30rem] mx-auto overflow-hidden rounded-[2rem] p-[1px] ${isLight ? "shadow-[0_25px_80px_rgba(251,191,36,0.4)]" : "shadow-[0_25px_80px_rgba(78,71,229,0.4)]"}`}>
                 <span className={`absolute inset-[-1000%] animate-[spin_2s_linear_infinite] ${isLight ? "bg-[conic-gradient(from_90deg_at_50%_50%,#ffffff_0%,#f59e0b_50%,#ffffff_100%)]" : "bg-[conic-gradient(from_90deg_at_50%_50%,#ffffff_0%,#4e47e5_50%,#ffffff_100%)]"}`} />
-                <div className={`relative rounded-[2rem] ${isLight ? "bg-gradient-to-br from-amber-400 via-orange-500 to-pink-500" : "bg-[#4e47e5]"} p-5`}>
+                <div className={`relative rounded-[2rem] ${isLight ? "bg-gradient-to-br from-amber-400 via-orange-500 to-pink-500" : "bg-[#4e47e5]"} p-5 sm:p-6`}>
                   <div className={`pointer-events-none absolute inset-0 rounded-[2rem] ${isLight ? "bg-gradient-to-br from-white/40 via-amber-100/20 to-white/10" : "bg-gradient-to-br from-white/30 via-transparent to-white/5"}`} />
                   <div className={`pointer-events-none absolute -top-6 -right-6 h-20 w-20 rounded-full ${isLight ? "bg-amber-200/20" : "bg-white/15"} blur-2xl`} />
                   <div className={`pointer-events-none absolute -bottom-8 left-6 h-24 w-24 rounded-full ${isLight ? "bg-pink-300/25" : "bg-indigo-300/25"} blur-3xl`} />
@@ -434,7 +459,7 @@ export default function Hero({ onLoadComplete }: HeroProps) {
                     ForgeRealm Lab
                   </div>
                   <div className="flex items-center justify-center">
-                    <Lottie animationData={printAnimation} loop className="h-72 w-72" />
+                    <Lottie animationData={printAnimation} loop className="h-80 w-80 sm:h-[22rem] sm:w-[22rem]" />
                   </div>
                 </div>
               </div>

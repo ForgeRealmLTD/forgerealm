@@ -4,6 +4,42 @@ import { FaInstagram, FaFacebook, FaTwitter, FaEtsy } from "react-icons/fa";
 
 export default function Footer() {
   const [modal, setModal] = useState<"privacy" | "terms" | "sla" | null>(null);
+  const [subscribeStatus, setSubscribeStatus] = useState<"idle" | "success" | "error">("idle");
+  const [submitting, setSubmitting] = useState(false);
+  const apiBase =
+    typeof import.meta !== "undefined" && import.meta.env.PUBLIC_API_URL_LOCAL
+      ? import.meta.env.PUBLIC_API_URL_LOCAL
+      : import.meta.env.PUBLIC_API_URL;
+
+  const handleSubscribe = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
+    setSubscribeStatus("idle");
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const payload = {
+      firstName: data.get("firstName"),
+      lastName: data.get("lastName"),
+      email: data.get("email"),
+      company: data.get("company"),
+    };
+
+    try {
+      const res = await fetch(`${apiBase}/api/subscribe`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error("Subscribe failed");
+      form.reset();
+      setSubscribeStatus("success");
+    } catch {
+      setSubscribeStatus("error");
+    } finally {
+      setSubmitting(false);
+    }
+  };
   return (
     <footer className="relative overflow-hidden py-16 bg-slate-950/85 border-t border-white/10 backdrop-blur">
       <div
@@ -91,54 +127,70 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Subscribe (Mailchimp embedded) */}
+          {/* Subscribe */}
           <div>
             <div className="font-semibold text-white">Stay Updated</div>
 
             <form
-              action="https://app.us12.list-manage.com/subscribe/post?u=ce1d7fb1b345f9a78d8548647&id=6be3589439&f_id=00c366e9f0"
-              method="post"
-              target="_blank"
-              noValidate
               className="mt-3 flex flex-col gap-3"
+              onSubmit={handleSubscribe}
             >
               <input
                 required
                 type="text"
-                name="FNAME"
-                id="mce-FNAME"
+                name="firstName"
+                id="subscribe-first-name"
                 placeholder="First name"
                 aria-label="First name"
                 className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-white outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-white/50"
               />
 
               <input
+                type="text"
+                name="lastName"
+                id="subscribe-last-name"
+                placeholder="Last name"
+                aria-label="Last name"
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-white outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-white/50"
+              />
+
+              <input
                 required
                 type="email"
-                name="EMAIL"
-                id="mce-EMAIL"
+                name="email"
+                id="subscribe-email"
                 placeholder="you@example.com"
                 aria-label="Email address"
                 className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-white outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-white/50"
               />
 
-              {/* Honeypot field to prevent spam */}
-              <div aria-hidden="true" style={{ position: "absolute", left: "-5000px" }}>
-                <input
-                  type="text"
-                  name="b_ce1d7fb1b345f9a78d8548647_6be3589439"
-                  tabIndex={-1}
-                  defaultValue=""
-                />
-              </div>
+              <input
+                type="text"
+                name="company"
+                id="subscribe-company"
+                placeholder="Company (optional)"
+                aria-label="Company"
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-white outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-white/50"
+              />
 
               <button
                 type="submit"
-                className="rounded-xl bg-blue-500 hover:bg-blue-400 text-white px-4 py-2 font-semibold transition shadow-lg shadow-blue-500/20"
+                disabled={submitting}
+                className="rounded-xl bg-blue-500 hover:bg-blue-400 text-white px-4 py-2 font-semibold transition shadow-lg shadow-blue-500/20 disabled:cursor-not-allowed disabled:opacity-70"
               >
-                Subscribe
+                {submitting ? "Submitting..." : "Subscribe"}
               </button>
             </form>
+            {subscribeStatus === "success" && (
+              <div className="mt-3 rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-3 py-2 text-xs text-emerald-100">
+                Thank you for your interest. You’ll receive an email from ForgeRealm shortly.
+              </div>
+            )}
+            {subscribeStatus === "error" && (
+              <div className="mt-3 rounded-xl border border-red-400/30 bg-red-500/10 px-3 py-2 text-xs text-red-100">
+                Something went wrong. Please try again.
+              </div>
+            )}
           </div>
         </div>
 

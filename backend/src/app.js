@@ -10,11 +10,15 @@ require('dotenv').config();
 
 const productRoutes = require('./routes/products.routes');
 const authRoutes = require('./routes/auth.routes');
+const subscribeRoutes = require('./routes/subscribe.routes');
 const userRoutes = require('./routes/users.routes');
 const { notFound, errorHandler } = require('./utils/errors');
 const pool = require('./config/db');
 
 const app = express();
+
+const hashPassword = (password, salt) =>
+  crypto.createHash('sha256').update(password + salt).digest('hex');
 
 // Trust proxies (Cloudflare/ALB) so req.ip and protocol are correct
 app.enable('trust proxy');
@@ -28,6 +32,7 @@ const corsOptions = {
     'https://forgerealm.vercel.app',
     'http://localhost:3000',
     'http://localhost:3000',
+    'http://localhost:4321',
     'http://localhost:8080',
     'http://127.0.0.1:8787'
   ],
@@ -90,11 +95,23 @@ passport.use(
 
       if (!dbUser) {
         const envMatch = envAdmins.find((a) => a.username === username && a.password === password);
-        if (!envMatch) return done(null, false, { message: 'Invalid credentials' });
-        return done(null, { id: `env:${envMatch.username}`, username: envMatch.username, role: 'admin' });
+        if (envMatch) {
+          return done(null, { id: `env:${envMatch.username}`, username: envMatch.username, role: 'admin' });
+        }
+
+        const [userRows] = await pool.query(
+          'SELECT id, username, password_hash, salt, role, email_verified FROM users WHERE username = ? LIMIT 1',
+          [username]
+        );
+        const user = userRows[0];
+        if (!user) return done(null, false, { message: 'Invalid credentials' });
+        const computedUser = hashPassword(password, user.salt || '');
+        if (computedUser !== user.password_hash) return done(null, false, { message: 'Invalid credentials' });
+        if (!user.email_verified) return done(null, false, { message: 'Email not verified' });
+        return done(null, { id: user.id, username: user.username, role: user.role || 'user' });
       }
 
-      const computed = crypto.createHash('sha256').update(password + dbUser.salt).digest('hex');
+      const computed = hashPassword(password, dbUser.salt);
       if (computed !== dbUser.password_hash) return done(null, false, { message: 'Invalid credentials' });
 
       return done(null, { id: dbUser.id, username: dbUser.username, role: dbUser.role || 'admin' });
@@ -110,6 +127,61 @@ passport.deserializeUser((user, done) => done(null, user));
 app.use(passport.initialize());
 app.use(passport.session());
 
+const ensureUsersTable = async () => {
+  try {
+    await pool.query(
+      `
+      CREATE TABLE IF NOT EXISTS users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(64) NOT NULL UNIQUE,
+        email VARCHAR(255) NULL UNIQUE,
+        password_hash VARCHAR(255) NOT NULL,
+        salt VARCHAR(255) NOT NULL DEFAULT '',
+        role VARCHAR(32) NOT NULL DEFAULT 'user',
+        email_verified TINYINT(1) NOT NULL DEFAULT 0,
+        email_verification_token_hash VARCHAR(255) NULL,
+        email_verification_sent_at DATETIME NULL,
+        email_verified_at DATETIME NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+      `
+    );
+  } catch (err) {
+    console.error('Users table check failed:', err.message || err);
+  }
+};
+
+const ensureUsersColumns = async () => {
+  const columns = [
+    { name: 'email_verified', definition: 'TINYINT(1) NOT NULL DEFAULT 0' },
+    { name: 'email_verification_token_hash', definition: 'VARCHAR(255) NULL' },
+    { name: 'email_verification_sent_at', definition: 'DATETIME NULL' },
+    { name: 'email_verified_at', definition: 'DATETIME NULL' },
+  ];
+
+  try {
+    const [rows] = await pool.query(
+      `
+      SELECT COLUMN_NAME
+      FROM INFORMATION_SCHEMA.COLUMNS
+      WHERE TABLE_SCHEMA = DATABASE()
+        AND TABLE_NAME = 'users'
+      `
+    );
+    const existing = new Set(rows.map((row) => row.COLUMN_NAME));
+
+    for (const column of columns) {
+      if (!existing.has(column.name)) {
+        await pool.query(`ALTER TABLE users ADD COLUMN ${column.name} ${column.definition}`);
+      }
+    }
+  } catch (err) {
+    console.error('Users columns check failed:', err.message || err);
+  }
+};
+
+ensureUsersTable().then(ensureUsersColumns);
+
 // Health endpoints for load balancers
 app.get('/', (req, res) => res.json({ status: 'ok' }));
 app.get('/health', (req, res) => res.send('ok'));
@@ -118,6 +190,16 @@ app.get('/health', (req, res) => res.send('ok'));
 const loginLimiter = rateLimit({
   windowMs: 60 * 1000, // 1 minute
   max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) =>
+    req.headers['cf-connecting-ip'] ||
+    (req.headers['x-forwarded-for'] && req.headers['x-forwarded-for'].split(',')[0].trim()) ||
+    req.ip,
+});
+const registerLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 8,
   standardHeaders: true,
   legacyHeaders: false,
   keyGenerator: (req) =>
@@ -143,7 +225,8 @@ app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 // Routes
 app.use('/api/products', productRoutes);
-app.use('/api/auth', loginLimiter, authRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/subscribe', subscribeRoutes);
 app.use('/api/users', userRoutes);
 
 // 404 + error handling

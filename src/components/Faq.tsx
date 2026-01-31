@@ -108,7 +108,7 @@ export default function Faq() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[1fr_2fr] xl:grid-cols-[400px_1fr]">
           {/* Enhanced Left spotlight */}
-          <div className="relative order-2 lg:order-1">
+          <div className="relative order-1 lg:order-1">
             <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-br from-amber-400/20 via-yellow-500/10 to-transparent blur-[120px]" />
             <div className={`relative rounded-[2rem] border backdrop-blur-2xl shadow-[0_30px_90px_rgba(0,0,0,0.45)] transition-all duration-300 hover:scale-[1.02] p-6 ${isLight ? "border-slate-200/50 bg-white/80 hover:border-amber-300/60 hover:bg-white/90 hover:shadow-[0_30px_90px_rgba(251,191,36,0.2)]" : "border-white/10 bg-white/5 hover:border-amber-300/60 hover:bg-white/10 hover:shadow-[0_0_40px_rgba(251,191,36,0.3)]"}`}>
               <div className="flex items-center gap-3">
@@ -144,7 +144,7 @@ export default function Faq() {
           </div>
 
           {/* Enhanced FAQ items */}
-          <div className="space-y-4 order-1 lg:order-2">
+          <div className="space-y-4 order-2 lg:order-2">
             {faqs.map((item, idx) => (
               <details
                 key={item.q}

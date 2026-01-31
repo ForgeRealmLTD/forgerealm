@@ -20,16 +20,14 @@ const AdminUsersList = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('forgerealm_admin_token') : null;
-    if (!token) {
-      setError('Admin token missing. Sign in first.');
-      setLoading(false);
-      return;
-    }
-
     const fetchUsers = async () => {
       try {
+        const token = typeof window !== 'undefined' ? localStorage.getItem('forgerealm_admin_token') : null;
+        if (!token) {
+          throw new Error('Admin token missing. Sign in first.');
+        }
         const res = await fetch(`${API_BASE}/api/users`, {
+          credentials: 'include',
           headers: { Authorization: `Bearer ${token}` }
         });
         const body = await res.json().catch(() => ({}));
