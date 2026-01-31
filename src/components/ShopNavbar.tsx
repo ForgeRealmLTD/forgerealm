@@ -5,6 +5,21 @@ import { FaShoppingBag } from 'react-icons/fa';
 
 type Link = { label: string; href: string };
 
+const envBase =
+  typeof import.meta !== 'undefined' && typeof import.meta.env.PUBLIC_API_URL === 'string'
+    ? import.meta.env.PUBLIC_API_URL.trim().replace(/\/$/, '')
+    : '';
+
+const envLocal =
+  typeof import.meta !== 'undefined' && typeof import.meta.env.PUBLIC_API_URL_LOCAL === 'string'
+    ? import.meta.env.PUBLIC_API_URL_LOCAL.trim().replace(/\/$/, '')
+    : '';
+
+const API_BASE =
+  (typeof window !== 'undefined' && window.location.origin.startsWith('http://localhost')
+    ? envLocal || ''
+    : envBase || '');
+
 const baseLinks: Link[] = [
   { label: 'Popular', href: '#products' },
   { label: 'Collections', href: '#collections' }
@@ -12,7 +27,7 @@ const baseLinks: Link[] = [
 
 const ShopNavbar = () => {
   const [open, setOpen] = useState(false);
-  const [hasAdminToken, setHasAdminToken] = useState(false);
+  const [authRole, setAuthRole] = useState<'admin' | 'user' | null>(null);
 
   useEffect(() => {
     const onScroll = () => {
@@ -27,29 +42,52 @@ const ShopNavbar = () => {
 
     const updateToken = () => {
       const token = localStorage.getItem('forgerealm_admin_token');
-      setHasAdminToken(Boolean(token));
+      if (!token) {
+        setAuthRole(null);
+        return;
+      }
+      fetch(`${API_BASE}/api/auth/me`, {
+        credentials: 'include',
+        headers: { Authorization: `Bearer ${token}` }
+      })
+        .then(async (res) => {
+          if (!res.ok) {
+            setAuthRole(null);
+            return;
+          }
+          const body = await res.json().catch(() => ({}));
+          setAuthRole(body?.user?.role || 'user');
+        })
+        .catch(() => setAuthRole(null));
     };
 
     updateToken();
-    window.addEventListener('storage', updateToken);
     window.addEventListener('forgerealm-admin-token-changed', updateToken);
 
     return () => {
-      window.removeEventListener('storage', updateToken);
       window.removeEventListener('forgerealm-admin-token-changed', updateToken);
     };
   }, []);
 
-  const links: (Link & { isLogout?: boolean })[] = hasAdminToken
-    ? [...baseLinks, { label: 'Users', href: '/shop/users' }, { label: 'LOGOUT', href: '#', isLogout: true }]
+  const isAuthed = Boolean(authRole);
+  const links: (Link & { isLogout?: boolean })[] = isAuthed
+    ? [
+        ...baseLinks,
+        ...(authRole === 'admin' ? [{ label: 'Users', href: '/shop/users' }] : []),
+        { label: 'LOGOUT', href: '#', isLogout: true }
+      ]
     : [...baseLinks, { label: 'Sign In', href: '/shop/sign-in' }];
 
   const handleLogout = () => {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('forgerealm_admin_token');
-      window.dispatchEvent(new Event('forgerealm-admin-token-changed'));
-      setHasAdminToken(false);
-      window.location.href = '/shop';
+      fetch(`${API_BASE}/api/auth/logout`, { method: 'POST', credentials: 'include' })
+        .catch(() => {})
+        .finally(() => {
+          localStorage.removeItem('forgerealm_admin_token');
+          window.dispatchEvent(new Event('forgerealm-admin-token-changed'));
+          setAuthRole(null);
+          window.location.href = '/shop';
+        });
     }
   };
 
@@ -65,7 +103,7 @@ const ShopNavbar = () => {
           </a>
 
           <nav className="hidden md:flex items-center gap-8 text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">
-            {hasAdminToken && (
+            {isAuthed && (
               <div
                 className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white"
                 title="Logged in"
@@ -136,7 +174,7 @@ const ShopNavbar = () => {
           </button>
         </div>
         <nav className="flex flex-col gap-4 text-sm uppercase tracking-wide text-slate-200">
-          {hasAdminToken && (
+          {isAuthed && (
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white">
               <FiUser className="text-sm" />
               Logged in

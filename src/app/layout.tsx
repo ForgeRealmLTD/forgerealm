@@ -95,8 +95,6 @@ export default function RootLayout({
       {/* ✅ No manual preconnects — handled automatically by next/font */}
       <head>
         <Script src="/theme-init.js" strategy="beforeInteractive" />
-        {/* Mailchimp: site connection code (hard-coded as provided) */}
-        
       </head>
 
       {/* ✅ Hydration mismatch permanently suppressed here */}

@@ -6,55 +6,65 @@ function isValidEmail(email: string) {
 
 export async function POST(request: Request) {
   try {
-    const { email } = await request.json();
+    let payload: any = {};
+    const contentType = request.headers.get("content-type") || "";
+
+    if (contentType.includes("application/json")) {
+      payload = await request.json();
+    } else {
+      const form = await request.formData();
+      payload = {
+        firstName: form.get("firstName"),
+        lastName: form.get("lastName"),
+        email: form.get("email"),
+        company: form.get("company"),
+      };
+    }
+
+    const email = String(payload.email || "");
     if (!email || !isValidEmail(email)) {
       return NextResponse.json({ message: "Invalid email" }, { status: 400 });
     }
 
-    const apiKey = process.env.MAILCHIMP_API_KEY;
-    const audienceId = process.env.MAILCHIMP_AUDIENCE_ID;
-    const dc = process.env.MAILCHIMP_SERVER_PREFIX; // e.g., us21
+    const apiKey = process.env.BREVO_API_KEY;
+    const listId = process.env.BREVO_SUBSCRIBE_LIST_ID || "7";
 
-    if (!apiKey || !audienceId || !dc) {
+    if (!apiKey) {
       return NextResponse.json(
-        { message: "Mailchimp env vars are not configured" },
+        { message: "Brevo env vars are not configured" },
         { status: 500 }
       );
     }
 
-    const url = `https://${dc}.api.mailchimp.com/3.0/lists/${audienceId}/members`;
-
-    const res = await fetch(url, {
+    const res = await fetch("https://api.brevo.com/v3/contacts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Basic ${Buffer.from(`anystring:${apiKey}`).toString("base64")}`,
+        "api-key": apiKey,
       },
       body: JSON.stringify({
-        email_address: email,
-        status: "pending", // double opt-in; use "subscribed" for single opt-in
+        email,
+        updateEnabled: true,
+        listIds: [Number(listId)],
+        attributes: {
+          FIRSTNAME: payload.firstName || "",
+          LASTNAME: payload.lastName || "",
+          COMPANY: payload.company || "",
+        },
       }),
-      // Opt out of Next.js fetch caching
       cache: "no-store",
     });
 
-    const data = await res.json();
-
-    if (res.status === 200 || res.status === 204) {
+    if (res.ok) {
       return NextResponse.json({ ok: true });
     }
 
-    // Already subscribed error from Mailchimp
-    if (res.status === 400 && data?.title === "Member Exists") {
-      return NextResponse.json({ ok: true, message: "Already subscribed" });
-    }
-
-    // Forward message if available
+    const data = await res.json().catch(() => ({}));
     return NextResponse.json(
-      { message: data?.detail || data?.title || "Mailchimp error" },
+      { message: data?.message || "Brevo error" },
       { status: 400 }
     );
-  } catch { 
+  } catch {
     return NextResponse.json({ message: "Unexpected error" }, { status: 500 });
   }
 }

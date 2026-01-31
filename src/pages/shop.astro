@@ -327,7 +327,6 @@ const apiLocal = import.meta.env.PUBLIC_API_URL_LOCAL ? import.meta.env.PUBLIC_A
         if (res.ok) {
           showContent();
         } else {
-          localStorage.removeItem('forgerealm_admin_token');
           showGate();
         }
       })

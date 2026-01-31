@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Subscribe | ForgeRealm" description="Subscribe to get notified about ForgeRealm booths, products, and offers.">
-  <section class="min-h-screen bg-slate-950 text-white px-5 relative overflow-hidden">
+  <section class="min-h-screen bg-slate-950 text-white px-5 pb-12 relative overflow-hidden">
     {/* Enhanced ambient lighting for subscribe page */}
     <div class="pointer-events-none absolute inset-0 -z-10">
       <div class="absolute top-1/4 left-1/4 h-96 w-96 rounded-full bg-gradient-to-r from-blue-500/30 to-cyan-400/20 blur-[160px] animate-pulse" />
@@ -40,40 +40,54 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <p class="mt-2 text-center text-slate-300">Get early drops, booth intel, and special offers.</p>
           <div class="pt-6 md:pt-10">
             <form
-              action="https://app.us12.list-manage.com/subscribe/post?u=ce1d7fb1b345f9a78d8548647&id=6be3589439&f_id=00c366e9f0"
-              method="post"
-              target="_blank"
-              noValidate
+              id="subscribe-form"
               class="flex flex-col gap-5 rounded-2xl border border-white/10 bg-white/5 p-6 shadow-xl shadow-blue-500/10 backdrop-blur hover:bg-white/10 hover:border-blue-400/30 transition-all duration-300"
             >
-              <label class="block text-sm text-white/80 font-semibold" for="mce-FNAME">
+              <label class="block text-sm text-white/80 font-semibold" for="subscribe-first-name">
                 First Name
                 <input
                   required
                   type="text"
-                  name="FNAME"
-                  id="mce-FNAME"
+                  name="firstName"
+                  id="subscribe-first-name"
                   placeholder="Enter your name"
                   class="mt-2 w-full rounded-lg border border-white/10 bg-slate-900/70 px-3 py-2 text-white shadow-inner outline-none focus:border-blue-400 focus:ring-0 placeholder:text-white/40"
                 />
               </label>
 
-              <label class="block text-sm text-white/80 font-semibold" for="mce-EMAIL">
+              <label class="block text-sm text-white/80 font-semibold" for="subscribe-last-name">
+                Last Name
+                <input
+                  type="text"
+                  name="lastName"
+                  id="subscribe-last-name"
+                  placeholder="Last name (optional)"
+                  class="mt-2 w-full rounded-lg border border-white/10 bg-slate-900/70 px-3 py-2 text-white shadow-inner outline-none focus:border-blue-400 focus:ring-0 placeholder:text-white/40"
+                />
+              </label>
+
+              <label class="block text-sm text-white/80 font-semibold" for="subscribe-email">
                 Email Address
                 <input
                   required
                   type="email"
-                  name="EMAIL"
-                  id="mce-EMAIL"
+                  name="email"
+                  id="subscribe-email"
                   placeholder="you@example.com"
                   class="mt-2 w-full rounded-lg border border-white/10 bg-slate-900/70 px-3 py-2 text-white shadow-inner outline-none focus:border-blue-400 focus:ring-0 placeholder:text-white/40"
                 />
               </label>
 
-              {/* Honeypot for spam protection */}
-              <div aria-hidden="true" style={{ position: 'absolute', left: '-5000px' }}>
-                <input type="text" name="b_ce1d7fb1b345f9a78d8548647_6be3589439" tabIndex="-1" value="" />
-              </div>
+              <label class="block text-sm text-white/80 font-semibold" for="subscribe-company">
+                Company
+                <input
+                  type="text"
+                  name="company"
+                  id="subscribe-company"
+                  placeholder="Company (optional)"
+                  class="mt-2 w-full rounded-lg border border-white/10 bg-slate-900/70 px-3 py-2 text-white shadow-inner outline-none focus:border-blue-400 focus:ring-0 placeholder:text-white/40"
+                />
+              </label>
 
               <div class="pt-1 text-xs text-white/60">
                 By joining, you'll receive updates about new products, services, offers, and booth events from ForgeRealm.
@@ -96,6 +110,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                 </span>
               </button>
             </form>
+            <div
+              id="subscribe-toast"
+              class="hidden mt-6 rounded-2xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100"
+            >
+              Thank you for your interest. You’ll receive an email from ForgeRealm shortly.
+            </div>
           </div>
           <div class="pt-8 pb-10 text-center text-sm text-slate-300">
             <p class="whitespace-nowrap">
@@ -117,3 +137,36 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
   </section>
 </BaseLayout>
+
+<script is:inline>
+  const form = document.getElementById('subscribe-form');
+  const toast = document.getElementById('subscribe-toast');
+  const apiBase =
+    window.location.origin.startsWith('http://localhost')
+      ? (import.meta.env.PUBLIC_API_URL_LOCAL || import.meta.env.PUBLIC_API_URL || '')
+      : (import.meta.env.PUBLIC_API_URL || import.meta.env.PUBLIC_API_URL_LOCAL || '');
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const payload = {
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
+      email: data.get('email'),
+      company: data.get('company'),
+    };
+
+    const res = await fetch(`${apiBase}/api/subscribe`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (res.ok) {
+      form.reset();
+      if (toast) {
+        toast.classList.remove('hidden');
+      }
+    }
+  });
+</script>
