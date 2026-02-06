@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const apiBase = import.meta.env.PUBLIC_API_URL ? import.meta.env.PUBLIC_API_URL.trim().replace(/\/$/, '') : '';
+const apiLocal = import.meta.env.PUBLIC_API_URL_LOCAL ? import.meta.env.PUBLIC_API_URL_LOCAL.trim().replace(/\/$/, '') : '';
+---
+
+<BaseLayout title="Verify Email | ForgeRealm" description="Verify your ForgeRealm account to unlock the shop.">
+  <main
+    class="relative isolate min-h-[100svh] bg-slate-950 text-white overflow-x-hidden"
+    data-api-base={apiBase}
+    data-api-local={apiLocal}
+  >
+    <div class="pointer-events-none absolute inset-0 -z-10">
+      <div class="absolute -left-32 -top-24 h-[440px] w-[440px] rounded-full bg-gradient-to-r from-blue-500/35 to-cyan-400/25 blur-[160px] animate-pulse" />
+      <div class="absolute right-[-160px] top-10 h-[360px] w-[360px] rounded-full bg-gradient-to-r from-emerald-500/25 to-teal-400/20 blur-[180px] animate-pulse" style={{ animationDelay: '1s' }} />
+      <div class="absolute bottom-1/4 right-1/4 h-56 w-56 rounded-full bg-gradient-to-r from-fuchsia-500/15 to-pink-400/10 blur-[110px] animate-pulse" style={{ animationDelay: '0.5s' }} />
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.10),transparent_40%),radial-gradient(circle_at_80%_0%,rgba(167,139,250,0.08),transparent_35%),radial-gradient(circle_at_50%_80%,rgba(16,185,129,0.10),transparent_45%)]" />
+    </div>
+
+    <section class="mx-auto flex min-h-[100svh] w-full max-w-6xl items-center px-6 py-20 sm:px-10">
+      <div class="w-full">
+        <div class="mx-auto max-w-2xl">
+          <div class="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/5 p-8 shadow-2xl shadow-blue-500/20 backdrop-blur">
+            <div class="absolute -inset-16 bg-gradient-to-br from-blue-500/20 via-transparent to-cyan-400/20 blur-3xl" aria-hidden />
+            <div class="relative space-y-6">
+              <div class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.35em] text-blue-100">
+                Account Verification
+              </div>
+
+              <div class="space-y-3">
+                <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-cyan-200">
+                  Light the ForgeRealm gateway.
+                </h1>
+                <p class="text-base text-slate-200/90">
+                  Paste your verification token or use the magic link from your inbox to unlock your account.
+                </p>
+              </div>
+
+              <form id="verify-form" class="grid gap-4">
+                <label class="flex flex-col gap-2 text-sm text-slate-200">
+                  <span class="text-xs uppercase tracking-wide text-slate-300">Verification token</span>
+                  <input
+                    id="verify-token"
+                    class="w-full rounded-2xl border border-white/10 bg-slate-900/70 px-4 py-3 text-sm text-slate-100 shadow-inner focus:border-blue-400 focus:outline-none placeholder-slate-500"
+                    placeholder="Paste token from your email"
+                    required
+                  />
+                </label>
+                <button
+                  id="verify-submit"
+                  type="submit"
+                  class="relative overflow-hidden rounded-full p-[2px] focus:outline-none"
+                >
+                  <span class="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#ffffff_0%,#3b82f6_20%,#06b6d4_40%,#3b82f6_60%,#ffffff_80%,#3b82f6_100%)]" />
+                  <span class="relative inline-flex w-full items-center justify-center gap-2 rounded-full bg-blue-500 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-blue-400">
+                    Verify Email
+                  </span>
+                </button>
+              </form>
+
+              <div id="verify-status" class="hidden rounded-xl border border-white/10 bg-slate-900/70 px-4 py-3 text-sm text-slate-200" />
+
+              <div class="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.3em] text-blue-200/80">
+                <a href="/shop/sign-in" class="rounded-full border border-white/15 bg-white/5 px-4 py-2 hover:border-blue-400/40 hover:bg-white/10 transition">
+                  Back to sign in
+                </a>
+                <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2">
+                  <span class="h-2 w-2 rounded-full bg-emerald-300" />
+                  Secure link required
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</BaseLayout>
+
+<script is:inline>
+  const root = document.querySelector('main');
+  const apiBase = root?.dataset.apiBase || '';
+  const apiLocal = root?.dataset.apiLocal || '';
+  const base =
+    window.location.origin.startsWith('http://localhost')
+      ? apiLocal || apiBase || ''
+      : apiBase || apiLocal || '';
+
+  const form = document.getElementById('verify-form');
+  const input = document.getElementById('verify-token');
+  const status = document.getElementById('verify-status');
+  const submit = document.getElementById('verify-submit');
+
+  const setStatus = (message, tone) => {
+    if (!status) return;
+    status.textContent = message;
+    status.className = `rounded-xl border px-4 py-3 text-sm ${
+      tone === 'success'
+        ? 'border-emerald-400/40 bg-emerald-500/10 text-emerald-100'
+        : tone === 'error'
+        ? 'border-red-400/40 bg-red-500/10 text-red-100'
+        : 'border-blue-400/30 bg-blue-500/10 text-blue-100'
+    }`;
+  };
+
+  const tokenFromUrl = new URLSearchParams(window.location.search).get('token');
+  if (tokenFromUrl && input) {
+    input.value = tokenFromUrl;
+  }
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!input || !submit) return;
+    const token = input.value.trim();
+    if (!token) return;
+
+    submit.setAttribute('disabled', 'true');
+    submit.classList.add('opacity-70');
+    setStatus('Verifying your account...', 'info');
+
+    try {
+      const res = await fetch(`${base}/api/auth/verify?token=${encodeURIComponent(token)}`);
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || 'Verification failed');
+      }
+      setStatus('Verified! You can sign in now.', 'success');
+    } catch (err) {
+      setStatus(err.message || 'Verification failed', 'error');
+    } finally {
+      submit.removeAttribute('disabled');
+      submit.classList.remove('opacity-70');
+    }
+  });
+</script>

@@ -6,45 +6,97 @@ import SignIn from '../../components/SignIn';
 
 <BaseLayout title="ForgeRealm Sign In" description="Sign in to the ForgeRealm shop">
   <ShopNavbar client:load />
-  <main class="min-h-[100dvh] bg-slate-950 text-white px-5">
+
+  <main class="min-h-[100dvh] bg-slate-950 text-white px-5 pb-10">
     <div class="h-24 md:h-28" />
-    <section class="mx-auto flex w-full max-w-6xl flex-wrap rounded-3xl border border-white/10 bg-slate-900/60 shadow-2xl shadow-blue-500/10 overflow-hidden">
-      <div class="flex w-full flex-col md:w-1/2 lg:w-1/3">
-        <div class="flex justify-center pt-10 md:justify-start md:pl-10 mb-6 md:mb-8">
-          <a href="/shop" class="border-b-4 border-b-blue-500 pb-2 text-2xl font-bold text-white hover:text-blue-200 transition-colors">
-            ForgeRealm
-          </a>
-        </div>
-        <div class="my-auto flex flex-col justify-center px-6 pt-8 sm:px-14 md:justify-start md:px-8 md:pt-4 lg:px-10">
-          <p class="text-center text-3xl font-bold">Welcome</p>
-          <p class="mt-2 text-center text-slate-300">Sign in to access your ForgeRealm account.</p>
-          <div class="pt-4 flex justify-center">
+
+    <div class="relative mx-auto w-full max-w-6xl overflow-hidden rounded-3xl p-[1px]">
+      <span
+        class="fr-border-spin fr-border-desktop absolute inset-[-50%] rounded-[calc(theme(borderRadius.3xl)+4px)] bg-[conic-gradient(from_90deg_at_52%_48%,#3b82f6_0%,#06b6d4_35%,#3b82f6_70%,#06b6d4_100%)]"
+      ></span>
+      <span
+        class="fr-border-mobile absolute inset-0 rounded-3xl border border-transparent bg-[linear-gradient(135deg,#3b82f6,#06b6d4)] [mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)] [mask-composite:exclude]"
+        style={{ padding: '1px' }}
+      ></span>
+
+      <style>
+        @keyframes fr-spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        .fr-border-spin {
+          animation: fr-spin 10s linear infinite;
+          transform-origin: center;
+          will-change: transform;
+          transform: translateZ(0);
+          backface-visibility: hidden;
+          pointer-events: none;
+        }
+        @media (max-width: 640px) {
+          .fr-border-desktop {
+            display: none;
+          }
+          .fr-border-mobile {
+            display: block;
+          }
+        }
+        @media (min-width: 641px) {
+          .fr-border-mobile {
+            display: none;
+          }
+        }
+      </style>
+
+      <section class="relative flex w-full flex-wrap rounded-3xl border border-white/10 bg-slate-950/95 shadow-2xl shadow-blue-500/10 backdrop-blur overflow-hidden">
+        <div class="flex w-full flex-col md:w-1/2 lg:w-1/3">
+          <div class="flex justify-center pt-10 md:justify-start md:pl-10 mb-6 md:mb-8">
             <a
               href="/shop"
-              class="inline-flex items-center gap-2 rounded-full bg-white text-blue-700 font-semibold px-4 py-2 text-xs uppercase tracking-[0.18em] hover:bg-blue-100 transition-colors shadow-md shadow-blue-500/20"
+              class="border-b-4 border-b-blue-500 pb-2 text-2xl font-bold text-white hover:text-blue-200 transition-colors"
             >
-              Return to shop
+              ForgeRealm
             </a>
           </div>
-          <div class="pt-6 md:pt-10">
-            <SignIn client:load />
-          </div>
-          <div class="pt-5 pb-5 text-center text-sm text-slate-300">
-            <p class="whitespace-nowrap">
-              Don't have an account?
-              <a href="/shop/register" class="font-semibold underline hover:text-white"> Register here. </a>
+
+          <div class="my-auto flex flex-col justify-center px-6 pt-8 sm:px-14 md:justify-start md:px-8 md:pt-4 lg:px-10">
+            <p class="text-center text-3xl font-bold">Welcome</p>
+            <p class="mt-2 text-center text-slate-300">
+              Sign in to access your ForgeRealm account.
             </p>
+
+            <div class="pt-4 flex justify-center">
+              <a
+                href="/shop"
+                class="inline-flex items-center gap-2 rounded-full bg-white text-blue-700 font-semibold px-4 py-2 text-xs uppercase tracking-[0.18em] hover:bg-blue-100 transition-colors shadow-md shadow-blue-500/20"
+              >
+                Return to shop
+              </a>
+            </div>
+
+            <div class="pt-6 md:pt-10">
+              <SignIn client:load />
+            </div>
+
+            <div class="pt-5 pb-5 text-center text-sm text-slate-300">
+              <p class="whitespace-nowrap">
+                Don't have an account?
+                <a href="/shop/register" class="font-semibold underline hover:text-white">
+                  Register here.
+                </a>
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="pointer-events-none hidden select-none bg-black/60 md:block md:w-1/2 lg:w-2/3">
-        <img
-          class="h-full w-full object-cover opacity-90"
-          src="/sign.jpg"
-          alt="ForgeRealm shop"
-          loading="lazy"
-        />
-      </div>
-    </section>
+
+        <div class="pointer-events-none hidden select-none bg-black/60 md:block md:w-1/2 lg:w-2/3">
+          <img
+            class="h-full w-full object-cover opacity-90"
+            src="/sign.jpg"
+            alt="ForgeRealm shop"
+            loading="lazy"
+          />
+        </div>
+      </section>
+    </div>
   </main>
 </BaseLayout>

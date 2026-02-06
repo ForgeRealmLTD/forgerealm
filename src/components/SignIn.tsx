@@ -32,6 +32,8 @@ const SignIn = () => {
   const [status, setStatus] = useState<Status>({ type: 'idle' });
   const [loading, setLoading] = useState(false);
   const hasToken = useMemo(() => Boolean(loggedIn), [loggedIn]);
+  console.log('API_BASE =', API_BASE);
+
 
   const redirectToShop = () => {
     if (typeof window === 'undefined') return;
@@ -158,10 +160,24 @@ const SignIn = () => {
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex items-center gap-2 rounded-full bg-blue-500 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-blue-400 disabled:cursor-not-allowed disabled:opacity-70"
+              className="relative overflow-hidden rounded-full p-[2px] focus:outline-none disabled:cursor-not-allowed disabled:opacity-70 group"
             >
-              {loading ? 'Working...' : hasToken ? 'Re-login' : 'Login'}
+              <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#ffffff_0%,#3b82f6_20%,#06b6d4_40%,#3b82f6_60%,#ffffff_80%,#3b82f6_100%)]" />
+              <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite_reverse] bg-[conic-gradient(from_90deg_at_50%_50%,#ffffff_0%,#06b6d4_25%,#3b82f6_50%,#06b6d4_75%,#ffffff_100%)] opacity-60" />
+              <span className="relative inline-flex items-center gap-2 rounded-full bg-blue-500 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-blue-400">
+                {loading ? 'Working...' : hasToken ? 'Re-login' : 'Login'}
+              </span>
             </button>
+            <a
+              href="/shop/register"
+              className="relative overflow-hidden rounded-full p-[2px] focus:outline-none group"
+            >
+              <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#fff7ed_0%,#FBA93A_30%,#111827_55%,#FBA93A_80%,#fff7ed_100%)]" />
+              <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite_reverse] bg-[conic-gradient(from_90deg_at_50%_50%,#FBA93A_0%,#111827_35%,#FBA93A_70%,#111827_100%)] opacity-60" />
+              <span className="relative inline-flex items-center gap-2 rounded-full bg-[#FBA93A] px-5 py-2 text-sm font-semibold uppercase tracking-wide text-slate-900 transition hover:bg-[#fbbf6a] shadow-md shadow-black/30">
+                Sign up
+              </span>
+            </a>
             {hasToken && (
               <>
                 <button

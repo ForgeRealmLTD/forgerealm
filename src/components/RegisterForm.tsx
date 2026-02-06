@@ -1,5 +1,5 @@
 import type { FormEvent } from 'react';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 const envBase =
   typeof import.meta !== 'undefined' && typeof import.meta.env.PUBLIC_API_URL === 'string'
@@ -11,11 +11,11 @@ const envLocal =
     ? import.meta.env.PUBLIC_API_URL_LOCAL.trim().replace(/\/$/, '')
     : '';
 
-// Prefer local API when running from localhost; fallback to prod base; final fallback matches backend default (8080)
+// Prefer local API when running from localhost; fallback to prod base.
 const API_BASE =
   (typeof window !== 'undefined' && window.location.origin.startsWith('http://localhost')
-    ? envLocal || 'http://localhost:8080'
-    : envBase || envLocal || 'http://localhost:8080');
+    ? envLocal || ''
+    : envBase || '');
 
 const logDebug = (..._args: unknown[]) => {};
 
@@ -29,22 +29,25 @@ const RegisterForm = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [token, setToken] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>({ type: 'idle' });
   const [loading, setLoading] = useState(false);
-
-  const hasToken = useMemo(() => Boolean(token), [token]);
+  const redirectToShop = () => {
+    if (typeof window === 'undefined') return;
+    if (window.location.pathname.includes('/shop/register')) {
+      window.location.assign('/shop/sign-in');
+    }
+  };
 
   const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setStatus({ type: 'idle' });
-    setToken(null);
     try {
       const res = await fetch(`${API_BASE}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password })
+        body: JSON.stringify({ username, email, password }),
+        credentials: 'include',
       });
 
       if (!res.ok) {
@@ -52,9 +55,9 @@ const RegisterForm = () => {
         throw new Error(body.error || 'Registration failed');
       }
 
-      const data = await res.json();
-      setToken(data.token);
-      setStatus({ type: 'success', message: 'Account created! You can now sign in.' });
+      await res.json().catch(() => ({}));
+      setStatus({ type: 'success', message: 'Account created! Check your inbox to verify, then sign in.' });
+      redirectToShop();
     } catch (err: any) {
       setStatus({ type: 'error', message: err.message || 'Registration failed' });
     } finally {
@@ -95,8 +98,9 @@ const RegisterForm = () => {
               }`}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email (optional)"
+              placeholder="Email"
               autoComplete="email"
+              required
             />
           </label>
           <label className="flex flex-col gap-2 text-sm text-slate-200">
@@ -117,13 +121,14 @@ const RegisterForm = () => {
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex items-center gap-2 rounded-full bg-blue-500 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-blue-400 disabled:cursor-not-allowed disabled:opacity-70"
+              className="relative overflow-hidden rounded-full p-[2px] focus:outline-none disabled:cursor-not-allowed disabled:opacity-70 group"
             >
-              {loading ? 'Working...' : 'Register'}
+              <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#ffffff_0%,#3b82f6_20%,#06b6d4_40%,#3b82f6_60%,#ffffff_80%,#3b82f6_100%)]" />
+              <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite_reverse] bg-[conic-gradient(from_90deg_at_50%_50%,#ffffff_0%,#06b6d4_25%,#3b82f6_50%,#06b6d4_75%,#ffffff_100%)] opacity-60" />
+              <span className="relative inline-flex items-center gap-2 rounded-full bg-blue-500 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-blue-400">
+                {loading ? 'Working...' : 'Register'}
+              </span>
             </button>
-            {hasToken && (
-              <span className="text-xs uppercase tracking-wide text-emerald-300">Registered</span>
-            )}
           </div>
         </form>
 
