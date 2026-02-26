@@ -316,15 +316,16 @@ const apiLocal = import.meta.env.PUBLIC_API_URL_LOCAL ? import.meta.env.PUBLIC_A
       return;
     }
     if (!base) {
-      showContent();
+      showGate();
       return;
     }
     fetch(`${base}/api/auth/me`, {
       credentials: 'include',
       headers: { Authorization: `Bearer ${token}` },
     })
-      .then((res) => {
-        if (res.ok) {
+      .then((res) => res.ok ? res.json() : Promise.reject())
+      .then((data) => {
+        if (data?.user?.role === 'admin') {
           showContent();
         } else {
           showGate();

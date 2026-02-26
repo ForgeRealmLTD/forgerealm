@@ -9,7 +9,7 @@ const {
 
 const router = express.Router();
 
-router.get('/', getProducts);
+router.get('/', requireAdmin, getProducts);
 router.get('/:id', getProductById);
 router.post('/', requireAdmin, upload.array('images', 5), createProduct);
 
