@@ -2,7 +2,7 @@ name: Daily README Pulse
 
 on:
   schedule:
-    - cron: "17 9 * * *"
+    - cron: "30 12 * * *"
   workflow_dispatch:
 
 permissions:
