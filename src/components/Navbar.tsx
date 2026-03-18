@@ -94,7 +94,7 @@ export default function Navbar() {
         <div className={`navbar-glow hover-shine flex items-center justify-between rounded-full border px-5 py-2 backdrop-blur-2xl shadow-lg transition-all duration-500 ${isLight ? 'border-slate-200/50 bg-white/85 shadow-[0_8px_32px_rgba(15,23,42,0.12)] hover:shadow-[0_16px_56px_rgba(15,23,42,0.18)] hover:bg-white/92' : 'border-white/15 bg-gradient-to-r from-blue-600/80 via-indigo-600/85 to-purple-600/80 shadow-[0_8px_40px_rgba(59,130,246,0.25)] hover:shadow-[0_16px_60px_rgba(99,102,241,0.4)] hover:border-white/25'}`}>
           <a href="#homepage" className="inline-flex items-center gap-2" aria-label="ForgeRealm home">
             <img
-              src="/frowl.webp"
+              src="/headfrlogorv.png"
               alt="ForgeRealm Logo"
               width={32}
               height={32}

@@ -381,9 +381,9 @@ export default function Hero({ onLoadComplete }: HeroProps) {
       >
         {/* Left side */}
         <div className="" style={lightPanelStyle}>
-          <div className="flex items-center gap-6 mb-2 justify-center lg:justify-start">
+          <div className="flex items-center gap-3 sm:gap-4 mb-2">
             <img
-              src="/notitlefrwatermark.webp"
+              src="/frlogorv.png"
               alt="ForgeRealm Logo"
               width={90}
               height={90}
@@ -392,7 +392,7 @@ export default function Hero({ onLoadComplete }: HeroProps) {
             />
             {/* Mobile logo */}
             <img
-              src="/notitlefrwatermark.webp"
+              src="/frlogorv.png"
               alt="ForgeRealm Logo"
               width={60}
               height={60}
@@ -409,18 +409,18 @@ export default function Hero({ onLoadComplete }: HeroProps) {
             </div>
           </div>
 
-          <p className={`mt-4 text-lg sm:text-2xl ${isLight ? "text-slate-900 font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.1)]" : "text-blue-200"} text-center lg:text-left font-semibold drop-shadow-lg`}>
+          <p className={`mt-4 text-lg sm:text-2xl ${isLight ? "text-slate-900 font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.1)]" : "text-blue-200"} font-semibold drop-shadow-lg`}>
             Your vision, printed with purpose.
           </p>
 
-          <p className={`mt-4 sm:mt-6 text-base sm:text-lg lg:text-xl ${isLight ? "text-slate-800 drop-shadow-[0_1px_4px_rgba(0,0,0,0.08)]" : "text-gray-300"} max-w-lg leading-relaxed text-center lg:text-left mx-auto lg:mx-0 px-4 sm:px-0 drop-shadow-md`}>
+          <p className={`mt-4 sm:mt-6 text-base sm:text-lg lg:text-xl ${isLight ? "text-slate-800 drop-shadow-[0_1px_4px_rgba(0,0,0,0.08)]" : "text-gray-300"} max-w-lg leading-relaxed px-0 drop-shadow-md`}>
             Slick sculptures, modular accents, and daily essentials engineered with planet-first materials.
           </p>
 
           {/* Buttons */}
           <div
             ref={buttonsRef}
-            className="mt-10 flex flex-wrap justify-center text-center lg:justify-start gap-3"
+            className="mt-10 flex flex-wrap gap-3"
           >
             <a
               href="/shop"

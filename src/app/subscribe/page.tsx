@@ -53,7 +53,7 @@ export default function SubscribePage() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.25),transparent_70%)] blur-3xl" />
         <div className="relative z-10 flex flex-col items-center px-8 py-20">
           <Image
-            src="/notitlefrwatermark.png"
+            src="/frlogorv.png"
             alt="ForgeRealm Display"
             width={260}
             height={260}

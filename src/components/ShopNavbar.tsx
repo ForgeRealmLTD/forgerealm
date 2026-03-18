@@ -96,7 +96,7 @@ const ShopNavbar = () => {
       <div className="mx-auto max-w-7xl px-4 py-4">
         <div className="flex items-center justify-between rounded-full border border-white/20 bg-slate-950/70 px-5 py-3 shadow-lg shadow-blue-500/15 backdrop-blur">
           <a href="/" className="inline-flex items-center gap-2 text-white" aria-label="ForgeRealm home">
-            <img src="/frowl.webp" alt="ForgeRealm Logo" width={32} height={32} className="h-8 w-8 rounded-full" loading="eager" />
+            <img src="/headfrlogorv.png" alt="ForgeRealm Logo" width={32} height={32} className="h-8 w-8 rounded-full" loading="eager" />
             <span className="font-extrabold tracking-[0.2em] text-xs uppercase">
               Forge<span className="text-blue-300">Realm</span>
             </span>
