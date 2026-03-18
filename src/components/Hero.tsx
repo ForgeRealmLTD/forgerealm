@@ -285,16 +285,19 @@ export default function Hero({ onLoadComplete }: HeroProps) {
       {!isLight && (
         <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none w-full h-full overflow-hidden">
           <div className="absolute inset-0 bg-[#0a1222] bg-[radial-gradient(circle_at_18%_12%,rgba(10,18,34,0.9),transparent_60%),radial-gradient(circle_at_78%_18%,rgba(30,58,138,0.22),transparent_50%),radial-gradient(circle_at_55%_80%,rgba(8,47,73,0.28),transparent_60%)]" />
+          {/* Aurora overlay */}
+          <div className="absolute inset-0 aurora-bg opacity-60" />
         </div>
       )}
 
-      {/* Enhanced Ambient lighting with more depth */}
+      {/* Enhanced Ambient lighting with smooth breathing */}
       {!isLight && (
         <div className="hidden lg:block absolute inset-0 -z-10">
-          <div className="absolute top-1/3 left-[10%] h-80 w-80 bg-gradient-to-r from-blue-500/30 to-cyan-400/20 rounded-full blur-[140px] animate-pulse" />
-          <div className="absolute bottom-1/4 right-[10%] h-96 w-96 bg-gradient-to-r from-indigo-400/25 to-purple-500/20 rounded-full blur-[160px] animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute top-0 left-1/2 h-64 w-64 bg-gradient-to-r from-fuchsia-500/15 to-pink-400/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
-          <div className="absolute top-2/3 right-1/4 h-48 w-48 bg-gradient-to-r from-emerald-500/20 to-teal-400/15 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '0.5s' }} />
+          <div className="absolute top-1/3 left-[10%] h-80 w-80 bg-gradient-to-r from-blue-500/35 to-cyan-400/25 rounded-full blur-[140px] animate-glow-breathe" style={{ '--breathe-duration': '8s' } as React.CSSProperties} />
+          <div className="absolute bottom-1/4 right-[10%] h-96 w-96 bg-gradient-to-r from-indigo-400/30 to-purple-500/25 rounded-full blur-[160px] animate-glow-breathe" style={{ '--breathe-duration': '10s', animationDelay: '1.5s' } as React.CSSProperties} />
+          <div className="absolute top-0 left-1/2 h-64 w-64 bg-gradient-to-r from-fuchsia-500/20 to-pink-400/15 rounded-full blur-[120px] animate-glow-breathe" style={{ '--breathe-duration': '12s', animationDelay: '3s' } as React.CSSProperties} />
+          <div className="absolute top-2/3 right-1/4 h-48 w-48 bg-gradient-to-r from-emerald-500/25 to-teal-400/20 rounded-full blur-[100px] animate-glow-breathe" style={{ '--breathe-duration': '9s', animationDelay: '0.8s' } as React.CSSProperties} />
+          <div className="absolute top-1/2 left-[40%] h-72 w-72 bg-gradient-to-r from-violet-500/15 to-blue-400/10 rounded-full blur-[180px] animate-glow-breathe" style={{ '--breathe-duration': '14s', animationDelay: '5s' } as React.CSSProperties} />
         </div>
       )}
       {isLight && (
@@ -313,17 +316,21 @@ export default function Hero({ onLoadComplete }: HeroProps) {
         </div>
       )}
 
-      {/* Floating particles for extra magic */}
+      {/* Floating particles with drift animation */}
       {!isLight && (
         <div className="absolute inset-0 -z-5 overflow-hidden">
           {darkParticlePositions.map((spot, i) => (
             <div
               key={i}
-              className="absolute w-1 h-1 bg-blue-400/50 rounded-full"
+              className="absolute rounded-full bg-blue-400/60 shadow-[0_0_6px_rgba(96,165,250,0.5)] animate-float-drift"
               style={{
+                width: `${1 + (i % 3) * 0.5}px`,
+                height: `${1 + (i % 3) * 0.5}px`,
                 left: spot.left,
                 top: spot.top,
-              }}
+                '--drift-duration': `${5 + (i % 5) * 1.5}s`,
+                '--drift-delay': `${(i * 0.4)}s`,
+              } as React.CSSProperties}
             />
           ))}
         </div>
@@ -395,9 +402,9 @@ export default function Hero({ onLoadComplete }: HeroProps) {
             <div className="relative inline-block max-w-full">
               <span className={`absolute -inset-3 ${isLight ? "bg-gradient-to-r from-amber-300/40 via-orange-200/30 to-pink-200/40" : "bg-gradient-to-r from-blue-500/30 to-cyan-400/30"} blur-3xl rounded-lg block animate-pulse`} />
               <h1
-                className={`relative max-w-full font-display leading-tight lg:leading-normal ${isLight ? "text-3xl sm:text-6xl lg:text-6xl" : "text-4xl sm:text-6xl lg:text-7xl"} font-bold tracking-tight break-words ${isLight ? "text-slate-900 drop-shadow-[0_4px_12px_rgba(0,0,0,0.15)]" : "bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-cyan-200 drop-shadow-[0_0_30px_rgba(59,130,246,0.4)]"}`}
+                className={`relative max-w-full font-display leading-tight lg:leading-normal ${isLight ? "text-3xl sm:text-6xl lg:text-6xl" : "text-4xl sm:text-6xl lg:text-7xl"} font-bold tracking-tight break-words ${isLight ? "text-slate-900 drop-shadow-[0_4px_12px_rgba(0,0,0,0.15)]" : "bg-gradient-to-r from-white via-blue-200 via-cyan-200 to-white text-gradient-animated drop-shadow-[0_0_30px_rgba(59,130,246,0.4)]"}`}
               >
-                Forge<span className={isLight ? "text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-500 to-orange-400 drop-shadow-[0_2px_8px_rgba(251,146,60,0.45)]" : "text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500 drop-shadow-[0_0_20px_rgba(59,130,246,0.6)]"}>Realm</span>
+                Forge<span className={isLight ? "text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-500 to-orange-400 drop-shadow-[0_2px_8px_rgba(251,146,60,0.45)]" : "bg-gradient-to-r from-blue-400 via-cyan-300 via-purple-400 to-blue-400 text-gradient-animated drop-shadow-[0_0_20px_rgba(59,130,246,0.6)]"}>Realm</span>
               </h1>
             </div>
           </div>

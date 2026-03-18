@@ -5,14 +5,38 @@
     "strictNullChecks": true,
     "allowJs": true,
     "baseUrl": ".",
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "jsxImportSource": "react",
-    "types": ["astro/client"],
+    "types": [
+      "astro/client"
+    ],
     "paths": {
-      "~/*": ["src/*"],
-      "@/*": ["src/*"]
-    }
+      "~/*": [
+        "src/*"
+      ],
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "strict": false,
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist/"]
+  "include": [
+    "**/*",
+    ".astro/types.d.ts",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "dist/"
+  ]
 }

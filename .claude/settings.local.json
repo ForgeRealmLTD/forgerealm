@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --prefix backend list discord.js)",
+      "Bash(node -e \"const SlashCommandBuilder = require\\(''discord.js''\\).SlashCommandBuilder; const cmd = new SlashCommandBuilder\\(\\).setName\\(''test''\\).setDescription\\(''test''\\); console.log\\(typeof cmd.toJSON\\);\")",
+      "Bash(node --check /a/Projects/forgerealm/backend/src/bot/handlers/interactionCreate.js)",
+      "Bash(node --check /a/Projects/forgerealm/backend/src/bot/monitors/registrationWatch.js)",
+      "Bash(node --check /a/Projects/forgerealm/backend/src/bot/monitors/healthCheck.js)",
+      "Bash(node --check /a/Projects/forgerealm/backend/src/bot/utils/embeds.js)",
+      "Bash(grep -ri pip /a/Projects/forgerealm --include=*.js --include=*.json --include=*.md --include=*.yaml --include=*.yml)",
+      "Bash(grep -ri discord /a/Projects/forgerealm --include=*.js --include=*.ts --include=*.tsx --include=*.json)"
+    ]
+  }
+}

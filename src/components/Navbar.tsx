@@ -6,12 +6,12 @@ import { FaShoppingBag } from "react-icons/fa";
 import { FiUser } from "react-icons/fi";
 
 const envBase =
-  typeof import.meta !== "undefined" && typeof import.meta.env.PUBLIC_API_URL === "string"
+  typeof import.meta !== "undefined" && import.meta.env && typeof import.meta.env.PUBLIC_API_URL === "string"
     ? import.meta.env.PUBLIC_API_URL.trim().replace(/\/$/, "")
     : "";
 
 const envLocal =
-  typeof import.meta !== "undefined" && typeof import.meta.env.PUBLIC_API_URL_LOCAL === "string"
+  typeof import.meta !== "undefined" && import.meta.env && typeof import.meta.env.PUBLIC_API_URL_LOCAL === "string"
     ? import.meta.env.PUBLIC_API_URL_LOCAL.trim().replace(/\/$/, "")
     : "";
 
@@ -91,7 +91,7 @@ export default function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
       <div className="mx-auto max-w-7xl w-full px-4 py-4">
-        <div className={`flex items-center justify-between rounded-full border px-5 py-2 backdrop-blur-xl shadow-lg transition-all duration-500 ${isLight ? 'border-slate-200/50 bg-white/90 shadow-[0_8px_32px_rgba(15,23,42,0.15)] hover:shadow-[0_12px_48px_rgba(15,23,42,0.2)]' : 'border-white/20 bg-gradient-to-r from-blue-500/90 via-blue-600/90 to-indigo-600/90 shadow-[0_8px_32px_rgba(59,130,246,0.3)] hover:shadow-[0_12px_48px_rgba(59,130,246,0.4)]'}`}>
+        <div className={`navbar-glow hover-shine flex items-center justify-between rounded-full border px-5 py-2 backdrop-blur-2xl shadow-lg transition-all duration-500 ${isLight ? 'border-slate-200/50 bg-white/85 shadow-[0_8px_32px_rgba(15,23,42,0.12)] hover:shadow-[0_16px_56px_rgba(15,23,42,0.18)] hover:bg-white/92' : 'border-white/15 bg-gradient-to-r from-blue-600/80 via-indigo-600/85 to-purple-600/80 shadow-[0_8px_40px_rgba(59,130,246,0.25)] hover:shadow-[0_16px_60px_rgba(99,102,241,0.4)] hover:border-white/25'}`}>
           <a href="#homepage" className="inline-flex items-center gap-2" aria-label="ForgeRealm home">
             <img
               src="/frowl.webp"

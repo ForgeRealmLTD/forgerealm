@@ -9,7 +9,7 @@ type User = {
 };
 
 const envBase =
-  typeof import.meta !== 'undefined' && typeof import.meta.env.PUBLIC_API_URL === 'string'
+  typeof import.meta !== 'undefined' && import.meta.env && typeof import.meta.env.PUBLIC_API_URL === 'string'
     ? import.meta.env.PUBLIC_API_URL.trim().replace(/\/$/, '')
     : '';
 const API_BASE = envBase || 'http://localhost:4000';

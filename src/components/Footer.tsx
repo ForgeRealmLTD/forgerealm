@@ -7,9 +7,9 @@ export default function Footer() {
   const [subscribeStatus, setSubscribeStatus] = useState<"idle" | "success" | "error">("idle");
   const [submitting, setSubmitting] = useState(false);
   const apiBase =
-    typeof import.meta !== "undefined" && import.meta.env.PUBLIC_API_URL_LOCAL
+    typeof import.meta !== "undefined" && import.meta.env && import.meta.env.PUBLIC_API_URL_LOCAL
       ? import.meta.env.PUBLIC_API_URL_LOCAL
-      : import.meta.env.PUBLIC_API_URL;
+      : (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.PUBLIC_API_URL) || "";
 
   const handleSubscribe = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -41,11 +41,12 @@ export default function Footer() {
     }
   };
   return (
-    <footer className="relative overflow-hidden py-16 bg-slate-950/85 border-t border-white/10 backdrop-blur">
+    <footer className="relative overflow-hidden py-16 bg-slate-950/90 border-t border-white/10 backdrop-blur-xl">
       <div
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(59,130,246,0.08),transparent_35%),radial-gradient(circle_at_85%_10%,rgba(16,185,129,0.08),transparent_32%),radial-gradient(circle_at_50%_80%,rgba(129,140,248,0.06),transparent_36%)]"
         aria-hidden
       />
+      <div className="pointer-events-none absolute inset-0 aurora-bg opacity-30" aria-hidden />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
         <div className="grid md:grid-cols-4 gap-10 text-sm text-white/80">
           {/* Brand */}
@@ -58,16 +59,16 @@ export default function Footer() {
 
             {/* Social icons */}
             <div className="flex gap-4 mt-5 text-lg text-white/70">
-              <a href="#" aria-label="Instagram" className="hover:text-blue-300 transition">
+              <a href="#" aria-label="Instagram" className="hover:text-pink-400 hover:drop-shadow-[0_0_8px_rgba(236,72,153,0.5)] transition-all duration-300 hover:scale-110">
                 <FaInstagram />
               </a>
-              <a href="#" aria-label="Facebook" className="hover:text-blue-300 transition">
+              <a href="#" aria-label="Facebook" className="hover:text-blue-400 hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.5)] transition-all duration-300 hover:scale-110">
                 <FaFacebook />
               </a>
-              <a href="#" aria-label="Twitter" className="hover:text-blue-300 transition">
+              <a href="#" aria-label="Twitter" className="hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.5)] transition-all duration-300 hover:scale-110">
                 <FaTwitter />
               </a>
-              <a href="#" aria-label="Etsy" className="hover:text-blue-300 transition">
+              <a href="#" aria-label="Etsy" className="hover:text-orange-400 hover:drop-shadow-[0_0_8px_rgba(251,146,60,0.5)] transition-all duration-300 hover:scale-110">
                 <FaEtsy />
               </a>
             </div>
@@ -176,7 +177,7 @@ export default function Footer() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="rounded-xl bg-blue-500 hover:bg-blue-400 text-white px-4 py-2 font-semibold transition shadow-lg shadow-blue-500/20 disabled:cursor-not-allowed disabled:opacity-70"
+                className="rounded-xl bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-500 bg-[length:200%_auto] hover:bg-right text-white px-4 py-2 font-semibold transition-all duration-500 shadow-lg shadow-blue-500/25 hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {submitting ? "Submitting..." : "Subscribe"}
               </button>

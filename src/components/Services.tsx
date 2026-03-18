@@ -77,7 +77,7 @@ export default function Services() {
           {/* Header with icon */}
           <div className="max-w-2xl flex items-center gap-4">
             <div className="relative">
-              <h2 className={`font-display text-3xl sm:text-4xl font-extrabold ${isLight ? "text-slate-900" : "text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-cyan-200 drop-shadow-[0_0_20px_rgba(125,200,255,0.5)]"} flex items-center`}>
+              <h2 className={`font-display text-3xl sm:text-4xl font-extrabold ${isLight ? "text-slate-900" : "bg-gradient-to-r from-white via-blue-200 via-cyan-200 to-white text-gradient-animated drop-shadow-[0_0_20px_rgba(125,200,255,0.5)]"} flex items-center`}>
                 Our Services
               </h2>
               <div className={`absolute -inset-2 blur-xl rounded-lg -z-10 ${isLight ? "bg-gradient-to-r from-blue-200/40 to-cyan-100/30" : "bg-gradient-to-r from-blue-500/20 to-cyan-400/20"}`} />
@@ -104,7 +104,7 @@ export default function Services() {
             ].map((item, idx) => (
               <div
                 key={item.title}
-                className={`rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-2xl hover:border-blue-400/70 hover:shadow-blue-500/20 hover:shadow-lg transition ${
+                className={`hover-shine rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-2xl hover:border-blue-400/70 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] hover:shadow-lg transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 ${
                   idx === 0 ? "lg:col-span-4" : idx === 1 ? "lg:col-span-2" : idx === 2 ? "lg:col-span-3" : "lg:col-span-3"
                 }`}
               >
@@ -138,7 +138,7 @@ export default function Services() {
             ].map((service, i) => (
               <article
                 key={i}
-                className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-2xl hover:border-blue-400/70 hover:shadow-blue-500/20 hover:shadow-lg transition flex flex-col"
+                className="hover-shine rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-2xl hover:border-blue-400/70 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] hover:shadow-lg transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 flex flex-col"
               >
                 <div className="flex items-center gap-3 mb-2">
                   {service.icon}

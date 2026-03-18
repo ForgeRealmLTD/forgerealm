@@ -6,12 +6,12 @@ import { FaShoppingBag } from 'react-icons/fa';
 type Link = { label: string; href: string };
 
 const envBase =
-  typeof import.meta !== 'undefined' && typeof import.meta.env.PUBLIC_API_URL === 'string'
+  typeof import.meta !== 'undefined' && import.meta.env && typeof import.meta.env.PUBLIC_API_URL === 'string'
     ? import.meta.env.PUBLIC_API_URL.trim().replace(/\/$/, '')
     : '';
 
 const envLocal =
-  typeof import.meta !== 'undefined' && typeof import.meta.env.PUBLIC_API_URL_LOCAL === 'string'
+  typeof import.meta !== 'undefined' && import.meta.env && typeof import.meta.env.PUBLIC_API_URL_LOCAL === 'string'
     ? import.meta.env.PUBLIC_API_URL_LOCAL.trim().replace(/\/$/, '')
     : '';
 

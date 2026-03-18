@@ -342,6 +342,168 @@ code, pre {
   font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
+/* ── Sexy aurora background ── */
+@keyframes aurora {
+  0%, 100% {
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg);
+  }
+  25% {
+    background-position: 50% 100%;
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: hue-rotate(15deg);
+  }
+  75% {
+    background-position: 50% 0%;
+  }
+}
+
+.aurora-bg {
+  background: linear-gradient(
+    -45deg,
+    rgba(59,130,246,0.15),
+    rgba(139,92,246,0.12),
+    rgba(6,182,212,0.10),
+    rgba(236,72,153,0.08),
+    rgba(59,130,246,0.15)
+  );
+  background-size: 400% 400%;
+  animation: aurora 15s ease-in-out infinite;
+}
+
+/* ── Animated gradient text ── */
+@keyframes gradient-text-flow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.text-gradient-animated {
+  background-size: 200% auto;
+  animation: gradient-text-flow 4s ease-in-out infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── Floating drift for particles ── */
+@keyframes float-drift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.4;
+  }
+  25% {
+    transform: translate(12px, -18px) scale(1.2);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-8px, -30px) scale(0.9);
+    opacity: 0.6;
+  }
+  75% {
+    transform: translate(15px, -12px) scale(1.1);
+    opacity: 0.9;
+  }
+}
+
+.animate-float-drift {
+  animation: float-drift var(--drift-duration, 6s) ease-in-out infinite;
+  animation-delay: var(--drift-delay, 0s);
+}
+
+/* ── Glow breathe for ambient orbs ── */
+@keyframes glow-breathe {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1) translate(0, 0);
+  }
+  33% {
+    opacity: 0.6;
+    transform: scale(1.15) translate(5%, -3%);
+  }
+  66% {
+    opacity: 0.45;
+    transform: scale(1.08) translate(-3%, 5%);
+  }
+}
+
+.animate-glow-breathe {
+  animation: glow-breathe var(--breathe-duration, 8s) ease-in-out infinite;
+}
+
+/* ── Navbar animated border ── */
+@keyframes border-flow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.navbar-glow {
+  position: relative;
+}
+
+.navbar-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, rgba(59,130,246,0.4), rgba(139,92,246,0.3), rgba(6,182,212,0.4), rgba(59,130,246,0.4));
+  background-size: 300% 300%;
+  animation: border-flow 4s ease-in-out infinite;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.navbar-glow:hover::before {
+  opacity: 1;
+}
+
+/* ── Smooth scale-in for cards ── */
+@keyframes card-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.animate-card-reveal {
+  animation: card-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── Shine sweep on hover ── */
+@keyframes shine-sweep {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+.hover-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.hover-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  transition: none;
+  pointer-events: none;
+}
+
+.hover-shine:hover::after {
+  animation: shine-sweep 0.8s ease forwards;
+}
+
 /* Animations & custom utilities (unchanged) */
 @keyframes marquee {
   from {

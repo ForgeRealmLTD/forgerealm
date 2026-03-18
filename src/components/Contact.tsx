@@ -91,7 +91,7 @@ export default function Contact() {
             {/* Header with enhanced glow */}
             <div className="flex items-center gap-4">
               <div className="relative">
-                <h2 className={`font-display text-4xl sm:text-5xl font-extrabold ${isLight ? "text-slate-900" : "text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-cyan-200 drop-shadow-[0_0_20px_rgba(125,200,255,0.5)]"}`}>
+                <h2 className={`font-display text-4xl sm:text-5xl font-extrabold ${isLight ? "text-slate-900" : "bg-gradient-to-r from-white via-blue-200 via-cyan-200 to-white text-gradient-animated drop-shadow-[0_0_20px_rgba(125,200,255,0.5)]"}`}>
                   Contact
                 </h2>
                 <div className={`absolute -inset-2 blur-xl rounded-lg -z-10 ${isLight ? "bg-gradient-to-r from-blue-200/50 to-cyan-100/40" : "bg-gradient-to-r from-blue-500/20 to-cyan-400/20"}`} />
@@ -115,7 +115,7 @@ export default function Contact() {
               ].map((item, idx) => (
                 <div
                   key={item.title}
-                  className={`group flex items-center gap-6 p-6 rounded-3xl border backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:shadow-lg ${isLight ? "border-slate-200/60 bg-white/90 hover:border-blue-400/70 hover:bg-white hover:shadow-[0_0_30px_rgba(59,130,246,0.2)]" : "border-white/10 bg-gradient-to-r from-white/5 to-white/2 hover:border-blue-400/40 hover:bg-white/10 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]"}`}
+                  className={`hover-shine group flex items-center gap-6 p-6 rounded-3xl border backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:-translate-y-1 hover:shadow-lg ${isLight ? "border-slate-200/60 bg-white/90 hover:border-blue-400/70 hover:bg-white hover:shadow-[0_0_30px_rgba(59,130,246,0.2)]" : "border-white/10 bg-gradient-to-r from-white/5 to-white/2 hover:border-blue-400/40 hover:bg-white/10 hover:shadow-[0_0_35px_rgba(59,130,246,0.3)]"}`}
                   style={{ transform: "none" }}
                 >
                   <div className={`flex-shrink-0 p-3 rounded-2xl bg-blue-500/10 group-hover:bg-blue-500/20 transition-colors ${item.hoverColor}`}>
