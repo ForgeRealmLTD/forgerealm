@@ -35,10 +35,10 @@ const SignIn = () => {
   console.log('API_BASE =', API_BASE);
 
 
-  const redirectToShop = () => {
+  const redirectToDashboard = () => {
     if (typeof window === 'undefined') return;
-    if (window.location.pathname.includes('/shop/sign-in')) {
-      window.location.assign('/shop');
+    if (window.location.pathname.includes('/shop/sign-in') || window.location.pathname === '/shop') {
+      window.location.assign('/shop/dashboard');
     }
   };
 
@@ -88,7 +88,7 @@ const SignIn = () => {
       }
       setLoggedIn(true);
       setStatus({ type: 'success', message: 'Signed in successfully' });
-      redirectToShop();
+      redirectToDashboard();
     } catch (err: any) {
       setLoggedIn(false);
       setStatus({ type: 'error', message: err.message || 'Login failed' });

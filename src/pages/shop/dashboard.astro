@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ShopNavbar from '../../components/ShopNavbar';
+import Dashboard from '../../components/Dashboard';
+
+const apiBase = import.meta.env.PUBLIC_API_URL ? import.meta.env.PUBLIC_API_URL.trim().replace(/\/$/, '') : '';
+const apiLocal = import.meta.env.PUBLIC_API_URL_LOCAL ? import.meta.env.PUBLIC_API_URL_LOCAL.trim().replace(/\/$/, '') : '';
+---
+
+<BaseLayout title="Dashboard | ForgeRealm" description="Your ForgeRealm dashboard — featured prints, quick links, and portal access.">
+  <ShopNavbar client:load />
+
+  <main
+    class="relative isolate min-h-[100svh] bg-slate-950 text-white overflow-x-hidden"
+    data-api-base={apiBase}
+    data-api-local={apiLocal}
+  >
+    <!-- Ambient lighting -->
+    <div class="pointer-events-none absolute inset-0 -z-10">
+      <div class="absolute -left-32 -top-24 h-[480px] w-[480px] rounded-full bg-gradient-to-r from-blue-500/35 to-cyan-400/25 blur-[160px] animate-pulse" />
+      <div class="absolute right-[-160px] top-10 h-[400px] w-[400px] rounded-full bg-gradient-to-r from-emerald-500/25 to-teal-400/20 blur-[180px] animate-pulse" style="animation-delay: 1s;" />
+      <div class="absolute top-1/2 left-1/3 h-72 w-72 rounded-full bg-gradient-to-r from-indigo-500/20 to-purple-400/15 blur-[130px] animate-pulse" style="animation-delay: 2s;" />
+      <div class="absolute bottom-1/4 right-1/4 h-56 w-56 rounded-full bg-gradient-to-r from-fuchsia-500/15 to-pink-400/10 blur-[110px] animate-pulse" style="animation-delay: 0.5s;" />
+
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.10),transparent_40%),radial-gradient(circle_at_80%_0%,rgba(167,139,250,0.08),transparent_35%),radial-gradient(circle_at_50%_80%,rgba(16,185,129,0.10),transparent_45%),radial-gradient(circle_at_70%_50%,rgba(6,182,212,0.06),transparent_35%)]" />
+
+      <!-- Floating particles -->
+      <div class="absolute inset-0 overflow-hidden">
+        {Array.from({ length: 15 }, (_, i) => (
+          <div
+            class="absolute w-1 h-1 bg-blue-400/30 rounded-full animate-bounce"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 4}s`,
+              animationDuration: `${3 + Math.random() * 3}s`
+            }}
+          />
+        ))}
+      </div>
+    </div>
+
+    <div id="dashboard-content">
+      <Dashboard client:load />
+    </div>
+  </main>
+</BaseLayout>
+
+<script is:inline>
+  (() => {
+    const token = localStorage.getItem('forgerealm_admin_token');
+    if (!token) {
+      window.location.href = '/shop/sign-in';
+    }
+  })();
+</script>

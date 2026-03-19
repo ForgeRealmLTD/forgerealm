@@ -325,8 +325,9 @@ const apiLocal = import.meta.env.PUBLIC_API_URL_LOCAL ? import.meta.env.PUBLIC_A
     })
       .then((res) => res.ok ? res.json() : Promise.reject())
       .then((data) => {
-        if (data?.user?.role === 'admin') {
-          showContent();
+        if (data?.user) {
+          // All authenticated users get redirected to the dashboard
+          window.location.href = '/shop/dashboard';
         } else {
           showGate();
         }

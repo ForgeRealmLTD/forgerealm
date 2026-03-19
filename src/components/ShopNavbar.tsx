@@ -72,6 +72,7 @@ const ShopNavbar = () => {
   const isAuthed = Boolean(authRole);
   const links: (Link & { isLogout?: boolean })[] = isAuthed
     ? [
+        { label: 'Dashboard', href: '/shop/dashboard' },
         ...baseLinks,
         ...(authRole === 'admin' ? [{ label: 'Users', href: '/shop/users' }] : []),
         { label: 'LOGOUT', href: '#', isLogout: true }
