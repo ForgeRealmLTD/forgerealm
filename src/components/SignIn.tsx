@@ -38,7 +38,7 @@ const SignIn = () => {
   const redirectToDashboard = () => {
     if (typeof window === 'undefined') return;
     if (window.location.pathname.includes('/shop/sign-in') || window.location.pathname === '/shop') {
-      window.location.assign('/shop/dashboard');
+      window.location.assign('/shop');
     }
   };
 

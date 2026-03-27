@@ -120,16 +120,6 @@ export default function Navbar() {
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
-            {hasAdminToken && (
-              <div
-                className={`inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-wide shadow-lg ${isLight ? 'border-slate-200/50 bg-white/80 text-slate-700 shadow-[0_0_10px_rgba(15,23,42,0.1)]' : 'border-white/20 bg-white/10 text-white shadow-[0_0_10px_rgba(255,255,255,0.1)]'}`}
-                title="Logged in"
-                aria-label="Logged in"
-              >
-                <FiUser className={`text-sm ${isLight ? 'text-blue-600' : 'text-blue-200'}`} />
-                <span className={isLight ? "text-slate-900" : "text-blue-100"}>Logged in</span>
-              </div>
-            )}
             <a
               href="/shop"
               className="inline-flex items-center gap-2 rounded-full bg-amber-400 text-slate-900 font-bold text-xs uppercase tracking-wide px-4 py-2 hover:bg-amber-300 transition-all duration-300 shadow-[0_4px_15px_rgba(251,169,58,0.3)] hover:shadow-[0_6px_20px_rgba(251,169,58,0.4)]"
@@ -137,12 +127,22 @@ export default function Navbar() {
               <FaShoppingBag className="text-blue-600" />
               <span>Shop</span>
             </a>
-            <a
-              href="/shop/sign-in"
-              className={`rounded-full font-bold text-xs uppercase tracking-wide px-4 py-2 transition-all duration-300 ${isLight ? 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)] shadow-[0_4px_15px_rgba(37,99,235,0.3)]' : 'bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-700 hover:shadow-[0_6px_20px_rgba(59,130,246,0.3)] shadow-[0_4px_15px_rgba(255,255,255,0.2)]'}`}
-            >
-              Sign In
-            </a>
+            {hasAdminToken ? (
+              <a
+                href="/shop/dashboard"
+                className={`inline-flex items-center gap-2 rounded-full font-bold text-xs uppercase tracking-wide px-4 py-2 transition-all duration-300 ${isLight ? 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)] shadow-[0_4px_15px_rgba(37,99,235,0.3)]' : 'bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-700 hover:shadow-[0_6px_20px_rgba(59,130,246,0.3)] shadow-[0_4px_15px_rgba(255,255,255,0.2)]'}`}
+              >
+                <FiUser className="text-sm" />
+                Profile
+              </a>
+            ) : (
+              <a
+                href="/shop/sign-in"
+                className={`rounded-full font-bold text-xs uppercase tracking-wide px-4 py-2 transition-all duration-300 ${isLight ? 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)] shadow-[0_4px_15px_rgba(37,99,235,0.3)]' : 'bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-700 hover:shadow-[0_6px_20px_rgba(59,130,246,0.3)] shadow-[0_4px_15px_rgba(255,255,255,0.2)]'}`}
+              >
+                Sign In
+              </a>
+            )}
             <button
               onClick={toggleTheme}
               aria-label="Toggle theme"
@@ -188,12 +188,6 @@ export default function Navbar() {
         </div>
 
         <nav className="flex flex-col gap-4 text-sm uppercase tracking-wide">
-          {hasAdminToken && (
-            <div className={`inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-wide ${isLight ? 'border-slate-200/50 bg-white/80 text-slate-700' : 'border-white/20 bg-white/10 text-white'}`}>
-              <FiUser className="text-sm" />
-              Logged in
-            </div>
-          )}
           {navLinks.map(([label, href]) => (
             <a
               key={label}
@@ -216,24 +210,34 @@ export default function Navbar() {
           >
             <FaShoppingBag className="text-blue-600" /> Shop
           </a>
-          <a
-            href="/shop/sign-in"
-            onClick={() => setOpen(false)}
-            className={`rounded-full px-6 py-3 text-sm font-bold uppercase tracking-wide transition text-center shadow-lg ${isLight ? 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)]' : 'bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-700 hover:shadow-[0_6px_20px_rgba(59,130,246,0.3)]'}`}
-          >
-            Sign In
-          </a>
-          {hasAdminToken && (
-            <button
-              type="button"
-              onClick={() => {
-                handleLogout();
-                setOpen(false);
-              }}
-              className={`rounded-full px-6 py-3 text-sm font-bold uppercase tracking-wide transition text-center shadow-lg border ${isLight ? 'border-slate-300/50 bg-white text-slate-700 hover:bg-slate-50' : 'border-white/20 bg-white/10 text-white hover:bg-white/20'}`}
+          {hasAdminToken ? (
+            <>
+              <a
+                href="/shop/dashboard"
+                onClick={() => setOpen(false)}
+                className={`rounded-full px-6 py-3 text-sm font-bold uppercase tracking-wide transition text-center shadow-lg inline-flex items-center justify-center gap-2 ${isLight ? 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)]' : 'bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-700 hover:shadow-[0_6px_20px_rgba(59,130,246,0.3)]'}`}
+              >
+                <FiUser className="text-sm" /> Profile
+              </a>
+              <button
+                type="button"
+                onClick={() => {
+                  handleLogout();
+                  setOpen(false);
+                }}
+                className={`rounded-full px-6 py-3 text-sm font-bold uppercase tracking-wide transition text-center shadow-lg border ${isLight ? 'border-slate-300/50 bg-white text-slate-700 hover:bg-slate-50' : 'border-white/20 bg-white/10 text-white hover:bg-white/20'}`}
+              >
+                Log out
+              </button>
+            </>
+          ) : (
+            <a
+              href="/shop/sign-in"
+              onClick={() => setOpen(false)}
+              className={`rounded-full px-6 py-3 text-sm font-bold uppercase tracking-wide transition text-center shadow-lg ${isLight ? 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)]' : 'bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-700 hover:shadow-[0_6px_20px_rgba(59,130,246,0.3)]'}`}
             >
-              Log out
-            </button>
+              Sign In
+            </a>
           )}
           <button
             onClick={() => {

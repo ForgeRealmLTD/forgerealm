@@ -203,6 +203,7 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
         <nav className="hidden md:flex items-center gap-1">
           <a href="/" className="rounded-lg px-3 py-2 text-sm text-slate-400 transition-all hover:bg-white/5 hover:text-white">Home</a>
           <a href="#products" className="rounded-lg px-3 py-2 text-sm text-slate-400 transition-all hover:bg-white/5 hover:text-white">Shop</a>
+          <a href="/shop/dashboard" className="rounded-lg px-3 py-2 text-sm text-slate-400 transition-all hover:bg-white/5 hover:text-white">Profile</a>
           <div className="ml-2 h-5 w-px bg-white/10" />
           <button
             onClick={onCartOpen}
@@ -254,6 +255,7 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
               </div>
               <a href="/" className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white">Home</a>
               <a href="#products" onClick={() => setMobileOpen(false)} className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white">Shop</a>
+              <a href="/shop/dashboard" className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white">Profile</a>
             </div>
           </motion.div>
         )}
