@@ -433,7 +433,7 @@ export default function Hero({ onLoadComplete }: HeroProps) {
               href="/subscribe"
               className={`items-center px-5 py-2.5 sm:px-8 sm:py-4 rounded-2xl font-bold text-sm sm:text-lg lg:text-xl uppercase tracking-wide hover:scale-105 transition-all duration-300 border-2 ${isLight ? "border-gradient-to-r from-purple-500 to-pink-500 bg-white/90 text-slate-800 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white hover:shadow-[0_12px_40px_rgba(168,85,247,0.3)] backdrop-blur-sm" : "border border-blue-400 text-blue-300 hover:bg-blue-500 hover:text-white hover:shadow-[0_0_20px_rgba(96,165,250,0.5)]"}`}
             >
-              Join Us!
+              Subscribe
             </a>
           </div>
 

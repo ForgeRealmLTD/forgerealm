@@ -138,10 +138,10 @@ export default function Navbar() {
               <span>Shop</span>
             </a>
             <a
-              href="/subscribe"
+              href="/shop/sign-in"
               className={`rounded-full font-bold text-xs uppercase tracking-wide px-4 py-2 transition-all duration-300 ${isLight ? 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)] shadow-[0_4px_15px_rgba(37,99,235,0.3)]' : 'bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-700 hover:shadow-[0_6px_20px_rgba(59,130,246,0.3)] shadow-[0_4px_15px_rgba(255,255,255,0.2)]'}`}
             >
-              Subscribe
+              Sign In
             </a>
             <button
               onClick={toggleTheme}
@@ -217,11 +217,11 @@ export default function Navbar() {
             <FaShoppingBag className="text-blue-600" /> Shop
           </a>
           <a
-            href="/subscribe"
+            href="/shop/sign-in"
             onClick={() => setOpen(false)}
             className={`rounded-full px-6 py-3 text-sm font-bold uppercase tracking-wide transition text-center shadow-lg ${isLight ? 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)]' : 'bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-700 hover:shadow-[0_6px_20px_rgba(59,130,246,0.3)]'}`}
           >
-            Subscribe
+            Sign In
           </a>
           {hasAdminToken && (
             <button
