@@ -1,7 +1,7 @@
 {
   "framework": "astro",
   "buildCommand": "npm run build",
-  "outputDirectory": "dist",
+  "outputDirectory": "dist/client",
   "headers": [
     {
       "source": "/(.*)\\.(js|css|ico|png|jpg|jpeg|gif|svg|webp|mp4|woff2|woff|ttf|eot)$",
