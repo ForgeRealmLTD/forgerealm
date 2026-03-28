@@ -8,7 +8,15 @@
       "Bash(node --check /a/Projects/forgerealm/backend/src/bot/monitors/healthCheck.js)",
       "Bash(node --check /a/Projects/forgerealm/backend/src/bot/utils/embeds.js)",
       "Bash(grep -ri pip /a/Projects/forgerealm --include=*.js --include=*.json --include=*.md --include=*.yaml --include=*.yml)",
-      "Bash(grep -ri discord /a/Projects/forgerealm --include=*.js --include=*.ts --include=*.tsx --include=*.json)"
+      "Bash(grep -ri discord /a/Projects/forgerealm --include=*.js --include=*.ts --include=*.tsx --include=*.json)",
+      "Bash(git status:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(curl -sI https://forgerealm.co.uk)",
+      "Bash(curl -s https://forgerealm.co.uk)",
+      "Bash(curl -sI \"https://forgerealm-git-master-forgerealms-projects.vercel.app\")",
+      "Bash(curl -s \"https://forgerealm-git-master-forgerealms-projects.vercel.app\")"
     ]
   }
 }
