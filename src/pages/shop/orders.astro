@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import OrderHistory from '../../components/OrderHistory';
+---
+
+<BaseLayout title="Orders | ForgeRealm" description="View your ForgeRealm order history and track shipments.">
+  <main class="relative isolate min-h-[100svh] bg-[#0a0f1a] text-white overflow-x-hidden pt-16 sm:pt-20">
+    <OrderHistory client:load />
+  </main>
+</BaseLayout>
+
+<script is:inline>
+  (() => {
+    const token = localStorage.getItem('forgerealm_admin_token');
+    if (!token) {
+      window.location.href = '/shop/sign-in';
+    }
+  })();
+</script>

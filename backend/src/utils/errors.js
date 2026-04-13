@@ -15,7 +15,8 @@ const notFound = (req, res, next) => {
 const errorHandler = (err, req, res, next) => {
   console.error(err);
   const status = err.status || 500;
-  const message = err.message || 'Internal server error';
+  // Only expose error details for known ApiError instances; generic message for unexpected 500s
+  const message = err instanceof ApiError ? err.message : (status === 500 ? 'Internal server error' : err.message || 'Internal server error');
   res.status(status).json({ error: message });
 };
 

@@ -1,12 +1,37 @@
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 const { ApiError, asyncHandler } = require('../utils/errors');
+const { sendBrevoEmail } = require('../utils/email');
 const pool = require('../config/db');
 
-const hashPassword = (password, salt) =>
+const BCRYPT_ROUNDS = 12;
+
+/* ── Password helpers (rolling migration from SHA256 → bcrypt) ── */
+
+const legacySha256 = (password, salt) =>
   crypto.createHash('sha256').update(password + salt).digest('hex');
 
-const generateSalt = () => crypto.randomBytes(16).toString('hex');
+/**
+ * Verify a password against a stored hash.
+ * Tries bcrypt first; falls back to legacy SHA256 if the hash isn't bcrypt.
+ * Returns { valid: boolean, needsRehash: boolean }.
+ */
+const verifyPassword = async (plain, hash, legacySalt) => {
+  if (hash.startsWith('$2')) {
+    const valid = await bcrypt.compare(plain, hash);
+    return { valid, needsRehash: false };
+  }
+  // Legacy SHA256 path
+  const computed = legacySha256(plain, legacySalt || '');
+  return { valid: computed === hash, needsRehash: true };
+};
+
+/** Silently upgrade a legacy hash to bcrypt after successful login. */
+const rehashIfNeeded = async (userId, plain, table = 'users') => {
+  const newHash = await bcrypt.hash(plain, BCRYPT_ROUNDS);
+  await pool.query(`UPDATE ${table} SET password_hash = ?, salt = '' WHERE id = ?`, [newHash, userId]);
+};
 
 const getDbAdmin = async (username) => {
   const [rows] = await pool.query(
@@ -17,11 +42,10 @@ const getDbAdmin = async (username) => {
 };
 
 const createUser = async ({ username, email, password }) => {
-  const salt = generateSalt();
-  const passwordHash = hashPassword(password, salt);
+  const passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
   const [result] = await pool.query(
     'INSERT INTO users (username, email, password_hash, salt, role, email_verified, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())',
-    [username, email || null, passwordHash, salt, 'user', 0]
+    [username, email || null, passwordHash, '', 'user', 0]
   );
   return { id: result.insertId, username, email, role: 'user' };
 };
@@ -30,19 +54,12 @@ const createVerificationToken = () => crypto.randomBytes(32).toString('hex');
 const hashToken = (token) => crypto.createHash('sha256').update(token).digest('hex');
 
 const sendVerificationEmail = async ({ toEmail, toName, token }) => {
-  const apiKey = process.env.BREVO_API_KEY;
-  const senderEmail = process.env.BREVO_SENDER_EMAIL || 'info@forgerealm.co.uk';
-  const senderName = process.env.BREVO_SENDER_NAME || 'ForgeRealm';
   const appBaseUrl = process.env.APP_BASE_URL || 'https://forgerealm.co.uk';
-
-  if (!apiKey) {
-    throw new ApiError(500, 'BREVO_API_KEY is not configured');
-  }
-
   const verifyUrl = `${appBaseUrl}/shop/verify?token=${encodeURIComponent(token)}`;
-  const payload = {
-    sender: { name: senderName, email: senderEmail },
-    to: [{ email: toEmail, name: toName || toEmail }],
+
+  await sendBrevoEmail({
+    to: toEmail,
+    toName: toName || toEmail,
     subject: 'Activate your ForgeRealm access',
     htmlContent: `
       <div style="margin:0;padding:0;background:#0b1220;font-family:'Trebuchet MS',Arial,sans-serif;color:#e2e8f0;">
@@ -85,7 +102,7 @@ const sendVerificationEmail = async ({ toEmail, toName, token }) => {
                             Verify Email
                           </a>
                           <p style="margin:14px 0 0;font-size:12px;color:#c7d2fe;">
-                            This link expires after use for safety.
+                            This link expires after 24 hours.
                           </p>
                         </td>
                       </tr>
@@ -105,7 +122,7 @@ const sendVerificationEmail = async ({ toEmail, toName, token }) => {
                     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                       <tr>
                         <td style="font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.2em;">
-                          ForgeRealm Lab · Leeds, UK
+                          ForgeRealm Lab &middot; Leeds, UK
                         </td>
                         <td style="text-align:right;font-size:11px;color:#94a3b8;">
                           Need help? Reply to this email.
@@ -126,28 +143,14 @@ const sendVerificationEmail = async ({ toEmail, toName, token }) => {
                 </tr>
               </table>
               <p style="margin:18px 0 0;font-size:11px;color:#64748b;text-align:center;">
-                You’re receiving this because you created a ForgeRealm account.
+                You're receiving this because you created a ForgeRealm account.
               </p>
             </td>
           </tr>
         </table>
       </div>
     `,
-  };
-
-  const response = await fetch('https://api.brevo.com/v3/smtp/email', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'api-key': apiKey,
-    },
-    body: JSON.stringify(payload),
   });
-
-  if (!response.ok) {
-    const body = await response.json().catch(() => ({}));
-    throw new ApiError(502, body.message || 'Failed to send verification email');
-  }
 };
 
 const addBrevoContact = async ({ email, username }) => {
@@ -258,12 +261,25 @@ const verifyEmail = asyncHandler(async (req, res) => {
 
   const tokenHash = hashToken(token);
   const [rows] = await pool.query(
-    'SELECT id, email, username, email_verified FROM users WHERE email_verification_token_hash = ? LIMIT 1',
+    'SELECT id, email, username, email_verified, email_verification_sent_at FROM users WHERE email_verification_token_hash = ? LIMIT 1',
     [tokenHash]
   );
   const user = rows[0];
   if (!user) {
     throw new ApiError(400, 'Invalid or expired verification token');
+  }
+
+  // Token expires after 24 hours
+  if (user.email_verification_sent_at) {
+    const sentAt = new Date(user.email_verification_sent_at);
+    const hoursElapsed = (Date.now() - sentAt.getTime()) / (1000 * 60 * 60);
+    if (hoursElapsed > 24) {
+      await pool.query(
+        'UPDATE users SET email_verification_token_hash = NULL, email_verification_sent_at = NULL WHERE id = ?',
+        [user.id]
+      );
+      throw new ApiError(400, 'Verification link has expired. Please register again.');
+    }
   }
 
   if (!user.email_verified) {
@@ -314,4 +330,177 @@ const logout = asyncHandler(async (req, res) => {
   res.json({ message: 'Logged out' });
 });
 
-module.exports = { login, register, me, logout, verifyEmail };
+/* ═══════════════════════════ Password Change ═══════════════════════════ */
+
+const updatePassword = asyncHandler(async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  if (!currentPassword || !newPassword) {
+    throw new ApiError(400, 'Current password and new password are required');
+  }
+  if (newPassword.length < 8) {
+    throw new ApiError(400, 'New password must be at least 8 characters');
+  }
+
+  const userId = req.user.userId || req.user.id;
+  if (!userId || String(userId).startsWith('env:')) {
+    throw new ApiError(400, 'Password change is not available for environment-based accounts');
+  }
+
+  const [rows] = await pool.query(
+    'SELECT id, password_hash, salt FROM users WHERE id = ? LIMIT 1',
+    [userId]
+  );
+  const user = rows[0];
+  if (!user) throw new ApiError(404, 'User not found');
+
+  const { valid } = await verifyPassword(currentPassword, user.password_hash, user.salt);
+  if (!valid) throw new ApiError(401, 'Current password is incorrect');
+
+  const newHash = await bcrypt.hash(newPassword, BCRYPT_ROUNDS);
+  await pool.query("UPDATE users SET password_hash = ?, salt = '' WHERE id = ?", [newHash, userId]);
+
+  res.json({ success: true });
+});
+
+/* ═══════════════════════════ Password Reset Flow ═══════════════════════════ */
+
+const requestPasswordReset = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  if (!email) throw new ApiError(400, 'Email is required');
+
+  // Always respond with success to prevent email enumeration
+  const respond = () => res.json({ success: true });
+
+  const [rows] = await pool.query(
+    'SELECT id, username, email FROM users WHERE email = ? LIMIT 1',
+    [email]
+  );
+  const user = rows[0];
+  if (!user) return respond();
+
+  const token = createVerificationToken();
+  const tokenHash = hashToken(token);
+
+  await pool.query(
+    'UPDATE users SET password_reset_token_hash = ?, password_reset_sent_at = NOW() WHERE id = ?',
+    [tokenHash, user.id]
+  );
+
+  const appBaseUrl = process.env.APP_BASE_URL || 'https://forgerealm.co.uk';
+  const resetUrl = `${appBaseUrl}/shop/reset-password?token=${encodeURIComponent(token)}`;
+
+  try {
+    await sendBrevoEmail({
+      to: user.email,
+      toName: user.username,
+      subject: 'Reset your ForgeRealm password',
+      htmlContent: `
+        <div style="margin:0;padding:0;background:#0b1220;font-family:'Trebuchet MS',Arial,sans-serif;color:#e2e8f0;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0b1220;padding:32px 12px;">
+            <tr>
+              <td align="center">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:640px;border-radius:28px;overflow:hidden;background:#0f172a;border:1px solid rgba(148,163,184,0.15);box-shadow:0 24px 60px rgba(59,130,246,0.25);">
+                  <tr>
+                    <td style="padding:28px 28px 12px;">
+                      <div style="display:inline-block;padding:6px 14px;border-radius:999px;background:rgba(59,130,246,0.15);border:1px solid rgba(125,211,252,0.35);text-transform:uppercase;letter-spacing:0.32em;font-size:10px;color:#bae6fd;">
+                        Password Reset
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:8px 28px 0;">
+                      <h1 style="margin:0;font-size:28px;line-height:1.2;color:#f8fafc;">Reset your password</h1>
+                      <p style="margin:12px 0 0;font-size:15px;color:#cbd5f5;">
+                        Hey ${user.username}, we received a request to reset your ForgeRealm password. Click below to set a new one.
+                      </p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:24px 28px;">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(120deg,rgba(59,130,246,0.18),rgba(16,185,129,0.12));border-radius:22px;border:1px solid rgba(148,163,184,0.18);">
+                        <tr>
+                          <td style="padding:22px;text-align:center;">
+                            <a href="${resetUrl}" style="display:inline-block;background:#2563eb;color:#ffffff;padding:14px 24px;border-radius:999px;text-decoration:none;font-weight:700;letter-spacing:0.18em;font-size:12px;text-transform:uppercase;box-shadow:0 12px 30px rgba(37,99,235,0.45);">
+                              Reset Password
+                            </a>
+                            <p style="margin:14px 0 0;font-size:12px;color:#c7d2fe;">This link expires in 1 hour.</p>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:0 28px 24px;">
+                      <div style="padding:16px 18px;border-radius:18px;background:rgba(15,23,42,0.7);border:1px solid rgba(148,163,184,0.2);font-size:12px;color:#cbd5f5;">
+                        <p style="margin:0 0 8px;">Button not working? Paste this link:</p>
+                        <p style="margin:0;word-break:break-all;color:#93c5fd;">${resetUrl}</p>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:0 28px 28px;">
+                      <div style="border-top:1px solid rgba(148,163,184,0.2);padding-top:16px;font-size:12px;color:#94a3b8;">
+                        If you didn't request this, you can safely ignore this email.
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </div>
+      `,
+    });
+  } catch (err) {
+    console.error('Failed to send password reset email:', err.message);
+  }
+
+  respond();
+});
+
+const resetPassword = asyncHandler(async (req, res) => {
+  const { token, newPassword } = req.body;
+  if (!token || !newPassword) {
+    throw new ApiError(400, 'Token and new password are required');
+  }
+  if (newPassword.length < 8) {
+    throw new ApiError(400, 'Password must be at least 8 characters');
+  }
+
+  const tokenHash = hashToken(token);
+  const [rows] = await pool.query(
+    'SELECT id, password_reset_sent_at FROM users WHERE password_reset_token_hash = ? LIMIT 1',
+    [tokenHash]
+  );
+  const user = rows[0];
+  if (!user) {
+    throw new ApiError(400, 'Invalid or expired reset link');
+  }
+
+  // Check 1 hour expiry
+  if (user.password_reset_sent_at) {
+    const sentAt = new Date(user.password_reset_sent_at);
+    const hoursElapsed = (Date.now() - sentAt.getTime()) / (1000 * 60 * 60);
+    if (hoursElapsed > 1) {
+      await pool.query(
+        'UPDATE users SET password_reset_token_hash = NULL, password_reset_sent_at = NULL WHERE id = ?',
+        [user.id]
+      );
+      throw new ApiError(400, 'Reset link has expired. Please request a new one.');
+    }
+  }
+
+  const newHash = await bcrypt.hash(newPassword, BCRYPT_ROUNDS);
+  await pool.query(
+    "UPDATE users SET password_hash = ?, salt = '', password_reset_token_hash = NULL, password_reset_sent_at = NULL WHERE id = ?",
+    [newHash, user.id]
+  );
+
+  res.json({ success: true });
+});
+
+module.exports = {
+  login, register, me, logout, verifyEmail,
+  verifyPassword, rehashIfNeeded,
+  updatePassword, requestPasswordReset, resetPassword,
+};

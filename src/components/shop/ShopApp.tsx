@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { products, CATEGORIES, CATEGORY_STYLES, type Product, type Category } from '../../data/products';
+import { products, type Product } from '../../data/products';
 
 /* ═══════════════════════════ Cart Context ═══════════════════════════ */
 
@@ -20,7 +20,7 @@ const useCart = () => useContext(CartContext)!;
 
 function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>(() => {
-    try { const s = localStorage.getItem('fr_cart'); return s ? JSON.parse(s) : []; } catch { return []; }
+    try { return typeof window !== 'undefined' && localStorage.getItem('fr_cart') ? JSON.parse(localStorage.getItem('fr_cart')!) : []; } catch { return []; }
   });
   useEffect(() => { localStorage.setItem('fr_cart', JSON.stringify(items)); }, [items]);
 
@@ -41,6 +41,135 @@ function CartProvider({ children }: { children: React.ReactNode }) {
   const count = items.reduce((s, i) => s + i.qty, 0);
 
   return <CartContext.Provider value={{ items, add, remove, update, clear, total, count }}>{children}</CartContext.Provider>;
+}
+
+/* ═══════════════════════════ Toast System ═══════════════════════════ */
+
+type ToastType = 'success' | 'error' | 'warning' | 'info';
+interface Toast { id: string; type: ToastType; message: string }
+interface ToastCtx { success: (m: string) => void; error: (m: string) => void; warning: (m: string) => void; info: (m: string) => void }
+const ToastContext = createContext<ToastCtx | null>(null);
+const useToast = () => useContext(ToastContext)!;
+
+function ToastProvider({ children }: { children: React.ReactNode }) {
+  const [toasts, setToasts] = useState<Toast[]>([]);
+
+  const add = useCallback((type: ToastType, message: string) => {
+    const id = Math.random().toString(36).slice(2);
+    setToasts((prev) => [...prev, { id, type, message }]);
+    setTimeout(() => setToasts((prev) => prev.filter((t) => t.id !== id)), 4500);
+  }, []);
+
+  const ctx = {
+    success: useCallback((m: string) => add('success', m), [add]),
+    error: useCallback((m: string) => add('error', m), [add]),
+    warning: useCallback((m: string) => add('warning', m), [add]),
+    info: useCallback((m: string) => add('info', m), [add]),
+  };
+
+  const colors: Record<ToastType, string> = {
+    success: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300',
+    error: 'border-red-500/30 bg-red-500/10 text-red-300',
+    warning: 'border-amber-500/30 bg-amber-500/10 text-amber-300',
+    info: 'border-blue-500/30 bg-blue-500/10 text-blue-300',
+  };
+
+  const icons: Record<ToastType, string> = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
+
+  return (
+    <ToastContext.Provider value={ctx}>
+      {children}
+      <div className="fixed bottom-4 right-4 z-[200] flex flex-col gap-2 pointer-events-none">
+        <AnimatePresence>
+          {toasts.map((t) => (
+            <motion.div
+              key={t.id}
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 40 }}
+              className={`pointer-events-auto flex items-center gap-3 rounded-xl border px-4 py-3 text-sm font-medium shadow-2xl shadow-black/30 backdrop-blur-xl ${colors[t.type]}`}
+            >
+              <span className="text-base">{icons[t.type]}</span>
+              {t.message}
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+    </ToastContext.Provider>
+  );
+}
+
+/* ═══════════════════════════ Order Success Overlay ═══════════════════════════ */
+
+function OrderSuccessOverlay({ onClose }: { onClose: () => void }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[150] flex items-center justify-center bg-black/80 backdrop-blur-xl p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.85, y: 30 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ type: 'spring', damping: 20, stiffness: 250 }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-md text-center"
+      >
+        <div className="rounded-3xl border border-white/10 bg-[#0c1220] p-8 shadow-2xl shadow-blue-500/10 sm:p-10">
+          {/* Animated checkmark */}
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: 'spring', delay: 0.2, damping: 12 }}
+            className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 border border-emerald-500/20"
+          >
+            <motion.svg
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+              className="h-10 w-10 text-emerald-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <motion.path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+            </motion.svg>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+            <h2 className="text-2xl font-extrabold text-white">Order Confirmed!</h2>
+            <p className="mt-3 text-sm text-slate-400 leading-relaxed">
+              Thank you for your order. We've sent a confirmation email with your order details. Your prints will be hand-finished and shipped within 3-5 business days.
+            </p>
+
+            <div className="mt-6 rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
+              <div className="flex items-center justify-center gap-3 text-sm text-slate-400">
+                <svg className="h-5 w-5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg>
+                Check your inbox for order details
+              </div>
+            </div>
+
+            <div className="mt-8 space-y-3">
+              <a
+                href="/shop/orders"
+                className="block w-full rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 py-3.5 text-sm font-bold uppercase tracking-wider text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30"
+              >
+                View Orders
+              </a>
+              <button
+                onClick={onClose}
+                className="w-full rounded-xl border border-white/10 bg-white/5 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
+              >
+                Continue Shopping
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
 }
 
 /* ═══════════════════════════ CSS Injection ═══════════════════════════ */
@@ -127,24 +256,24 @@ function MarqueeBanner() {
   const items = [
     { icon: '🌱', text: 'Plant-based PLA' },
     { icon: '🇬🇧', text: 'Made in Leeds' },
-    { icon: '📦', text: 'Plastic-free packaging' },
+    { icon: '📦', text: 'Carefully packaged' },
     { icon: '✋', text: 'Hand-finished' },
     { icon: '🚚', text: 'Free UK shipping £15+' },
     { icon: '♻️', text: 'Biodegradable materials' },
-    { icon: '⭐', text: '183+ prints sold' },
+    { icon: '⭐', text: '239+ prints sold' },
     { icon: '🎨', text: 'Custom orders welcome' },
   ];
 
   const doubled = [...items, ...items];
 
   return (
-    <div className="relative overflow-hidden border-y border-white/5 bg-gradient-to-r from-blue-950/30 via-[#0a0f1a] to-blue-950/30 py-3">
+    <div className="relative overflow-hidden border-y border-white/[0.04] bg-[#0a0f1a] py-3">
       <div className="marquee-track">
         {doubled.map((item, i) => (
-          <span key={i} className="mx-6 inline-flex items-center gap-2 text-sm text-slate-400 whitespace-nowrap sm:mx-8">
-            <span className="text-base">{item.icon}</span>
+          <span key={i} className="mx-6 inline-flex items-center gap-2 text-[12px] text-slate-500 whitespace-nowrap sm:mx-8">
+            <span className="text-sm opacity-60">{item.icon}</span>
             {item.text}
-            <span className="ml-6 text-slate-700 sm:ml-8">·</span>
+            <span className="ml-6 text-slate-800 sm:ml-8">&middot;</span>
           </span>
         ))}
       </div>
@@ -167,7 +296,7 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
   }, []);
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-500 ${scrolled ? 'border-b border-white/10 bg-[#0a0f1a]/90 backdrop-blur-2xl shadow-2xl shadow-black/20' : 'bg-transparent'}`}>
+    <header className={`sticky top-0 z-50 transition-all duration-500 ${scrolled ? 'border-b border-white/[0.06] bg-[#0a0f1a]/80 backdrop-blur-3xl shadow-2xl shadow-black/30' : 'bg-transparent'}`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         {/* Logo */}
         <a href="/" className="group flex items-center gap-2.5">
@@ -267,76 +396,55 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
 /* ═══════════════════════════ Hero ═══════════════════════════ */
 
 function HeroBanner() {
-  const counter = useCountUp(183, 2200);
+  const counter = useCountUp(239, 2200);
   return (
     <section className="relative overflow-hidden bg-[#0a0f1a]">
-      {/* Animated ambient background */}
+      {/* Ambient background - subtle and refined */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-40 -top-40 h-[600px] w-[600px] rounded-full bg-blue-600/25 blur-[200px] glow-breathe" />
-        <div className="absolute -right-40 top-10 h-[500px] w-[500px] rounded-full bg-purple-600/20 blur-[180px] glow-breathe" style={{ animationDelay: '1s' }} />
-        <div className="absolute bottom-0 left-1/3 h-[400px] w-[400px] rounded-full bg-cyan-500/15 blur-[160px] glow-breathe" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/3 right-1/4 h-[300px] w-[300px] rounded-full bg-emerald-500/10 blur-[140px] glow-breathe" style={{ animationDelay: '3s' }} />
-
-        {/* Grid pattern */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
-
-        {/* Floating orbs */}
-        {[...Array(6)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full bg-blue-400/20 blur-sm float-slow"
-            style={{
-              width: 4 + Math.random() * 6,
-              height: 4 + Math.random() * 6,
-              left: `${15 + Math.random() * 70}%`,
-              top: `${10 + Math.random() * 80}%`,
-              animationDelay: `${i * 0.8}s`,
-              animationDuration: `${5 + Math.random() * 4}s`,
-            }}
-          />
-        ))}
+        <div className="absolute -left-40 -top-40 h-[600px] w-[600px] rounded-full bg-blue-600/15 blur-[250px] glow-breathe" />
+        <div className="absolute -right-40 top-10 h-[500px] w-[500px] rounded-full bg-indigo-600/10 blur-[220px] glow-breathe" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-0 left-1/3 h-[400px] w-[400px] rounded-full bg-cyan-500/8 blur-[200px] glow-breathe" style={{ animationDelay: '2s' }} />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-12 py-16 sm:py-24 lg:grid-cols-2 lg:py-32">
+        <div className="grid items-center gap-8 py-10 sm:gap-12 sm:py-24 lg:grid-cols-2 lg:py-32">
           {/* Left text */}
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <div className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-blue-300 backdrop-blur-sm">
-              <span className="relative flex h-2 w-2">
+            <div className="mb-4 sm:mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 sm:px-4 sm:py-1.5 text-[8px] sm:text-[10px] font-medium uppercase tracking-[0.25em] text-slate-400 backdrop-blur-xl">
+              <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
               </span>
-              Shop now open - Leeds, UK
+              Now open &middot; Leeds, UK
             </div>
-            <h1 className="text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
+            <h1 className="text-2xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-4xl lg:text-[3.5rem]">
               Eco 3D prints,{' '}
               <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-400 bg-clip-text text-transparent gradient-text-flow">
                 crafted by hand.
               </span>
             </h1>
-            <p className="mt-6 max-w-lg text-lg leading-relaxed text-slate-400">
-              Plant-based PLA, hand-finished detail, and plastic-free packaging. From articulated dragons to ambient lamps, every piece is made in Leeds with care.
+            <p className="mt-3 sm:mt-5 max-w-md text-sm sm:text-base leading-relaxed text-slate-400/90">
+              Plant-based PLA and hand-finished detail. From articulated dragons to voronoi sculptures, every piece is made in Leeds with care.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-5 sm:mt-8 flex flex-wrap gap-2.5 sm:gap-3">
               <a
                 href="#products"
-                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-400 px-7 py-3.5 text-sm font-semibold text-white shadow-xl shadow-blue-500/25 transition-all hover:shadow-blue-500/40 hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 sm:px-7 sm:py-3 text-xs sm:text-sm font-semibold text-slate-900 transition-all hover:bg-white/90 hover:-translate-y-0.5 shadow-lg shadow-white/10"
               >
-                <span className="relative z-10">Browse all prints</span>
-                <svg className="relative z-10 h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-400 to-blue-500 opacity-0 transition-opacity group-hover:opacity-100" />
+                Browse prints
+                <svg className="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
               </a>
               <a
-                href="/#contact"
-                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur transition-all hover:border-white/25 hover:bg-white/10"
+                href="/custom-order"
+                className="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.03] px-5 py-2.5 sm:px-7 sm:py-3 text-xs sm:text-sm font-medium text-white/80 backdrop-blur-xl transition-all hover:border-white/20 hover:bg-white/[0.06] hover:text-white"
               >
                 Custom order
               </a>
             </div>
-            <div className="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-500">
+            <div className="mt-5 sm:mt-8 flex flex-wrap gap-x-4 sm:gap-x-5 gap-y-1.5 text-[11px] sm:text-[12px] text-slate-300 sm:text-slate-500">
               {['Eco-friendly PLA', 'Free UK shipping £15+', 'Handmade in Leeds'].map((t) => (
-                <span key={t} className="inline-flex items-center gap-2">
-                  <svg className="h-4 w-4 text-emerald-500/80" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+                <span key={t} className="inline-flex items-center gap-1.5">
+                  <svg className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-emerald-500/60" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
                   {t}
                 </span>
               ))}
@@ -347,13 +455,12 @@ function HeroBanner() {
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 0.2 }} className="relative hidden lg:block">
             <div className="relative mx-auto w-[420px]">
               {/* Glow rings */}
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-500/20 via-transparent to-cyan-500/20 blur-3xl" />
-              <div className="absolute -inset-4 rounded-[2rem] border border-white/[0.06]" />
-              <div className="absolute -inset-8 rounded-[2.5rem] border border-white/[0.03]" />
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-500/10 via-transparent to-cyan-500/10 blur-3xl" />
+              <div className="absolute -inset-4 rounded-[2rem] border border-white/[0.04]" />
 
               {/* Main card */}
-              <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-8 backdrop-blur-xl">
-                <div className="absolute inset-0 shimmer-bg" />
+              <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.03] p-8 backdrop-blur-2xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] to-transparent" />
 
                 <div className="relative flex flex-col items-center gap-6">
                   <div className="relative">
@@ -363,13 +470,14 @@ function HeroBanner() {
                   <div className="text-center" ref={counter.ref}>
                     <p className="text-5xl font-extrabold text-white tabular-nums">{counter.count}<span className="text-2xl text-blue-400">+</span></p>
                     <p className="mt-1 text-xs tracking-[0.2em] uppercase text-slate-400">Eco prints sold</p>
+                    <p className="mt-2 text-[11px] text-emerald-400/80 italic">One print closer to a greener planet</p>
                   </div>
 
                   {/* Mini stats */}
                   <div className="grid w-full grid-cols-3 gap-3">
                     {[
-                      { n: products.length.toString(), l: 'Designs' },
-                      { n: new Set(products.map(p => p.category)).size.toString(), l: 'Collections' },
+                      { n: '30+', l: 'Designs' },
+                      { n: '12', l: 'Collections' },
                       { n: '100%', l: 'Eco PLA' },
                     ].map((s) => (
                       <div key={s.l} className="rounded-xl border border-white/5 bg-white/[0.03] px-3 py-2.5 text-center">
@@ -393,47 +501,44 @@ function HeroBanner() {
 
 /* ═══════════════════════════ Featured Row ═══════════════════════════ */
 
-const SHOWCASE_ITEMS = [
-  { name: 'Aurora Bloom', price: '£14.99', category: '3D Printed Lamp', badge: 'Warm glow', image: '/ablamp-nbg.webp', description: 'Gradient lamp shade with a soft spiral that diffuses light into a warm glow.' },
-  { name: 'Leeds Owl', price: '£5.99', category: 'Display Model', badge: 'Leeds made', image: '/owl-nbg.webp', description: 'Leeds-inspired owl with a warm gradient from amber to blush.' },
-  { name: 'Forest Dragon', price: '£4.99', category: 'Display Model', badge: 'Layered scales', image: '/dragon-nbg.webp', description: 'Articulated dragon with layered scales and a balanced pose.' },
-  { name: 'Dice Guardian', price: '£5.99', category: 'Fidget Toy', badge: 'Tabletop ready', image: '/dice-dragon-nbg.webp', description: 'Dragon head designed to cradle a full set of D&D dice.' },
-];
-
 function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
+  const featured = products.filter((p) => p.featured);
+
   return (
     <section className="relative border-b border-white/5 bg-gradient-to-b from-transparent via-blue-950/20 to-transparent">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="mb-8 flex items-end justify-between">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-blue-400/80">Highlights</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-blue-400/80">This week</p>
             <h2 className="mt-1 text-2xl font-bold text-white">Featured prints</h2>
           </div>
           <a href="#products" className="text-sm text-slate-400 transition hover:text-white">View all &rarr;</a>
         </div>
 
         <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
-          {SHOWCASE_ITEMS.map((item) => (
+          {featured.map((item) => (
             <motion.div
-              key={item.name}
+              key={item.id}
               whileHover={{ y: -6 }}
+              onClick={() => onQuickView(item)}
               className="card-shine glow-border card-tilt group cursor-pointer rounded-2xl border border-white/[0.08] bg-white/[0.03] hover:shadow-2xl hover:shadow-blue-500/15"
             >
-              <div className="relative aspect-square overflow-hidden rounded-t-2xl bg-slate-900">
-                <img src={item.image} alt={item.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
+              <div className="relative aspect-square overflow-hidden rounded-t-2xl bg-[#0c1220]">
+                {item.image && (
+                  <img src={item.image} alt={item.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                 <div className="absolute left-3 top-3 rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-sm">
-                  {item.badge}
+                  Featured
                 </div>
               </div>
               <div className="p-3">
-                <p className="text-[9px] font-medium uppercase tracking-wider text-slate-500">{item.category}</p>
                 <div className="mt-0.5 flex items-center justify-between">
                   <h3 className="text-xs font-semibold text-white sm:text-sm">{item.name}</h3>
-                  <span className="text-xs font-bold text-white sm:text-sm">{item.price}</span>
-                  </div>
+                  <span className="text-xs font-bold text-white sm:text-sm">{item.displayPrice}</span>
                 </div>
-              </motion.div>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -441,44 +546,25 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
   );
 }
 
-/* ═══════════════════════════ Category Filter ═══════════════════════════ */
-
-function CategoryFilter({ active, onChange }: { active: Category; onChange: (c: Category) => void }) {
-  return (
-    <div className="flex gap-2 scrollbar-hide">
-      {CATEGORIES.map((cat) => {
-        const isActive = cat === active;
-        const style = cat !== 'All' ? CATEGORY_STYLES[cat] : null;
-        return (
-          <button
-            key={cat}
-            onClick={() => onChange(cat)}
-            className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
-              isActive
-                ? 'bg-gradient-to-r from-blue-500 to-cyan-400 text-white shadow-lg shadow-blue-500/20'
-                : 'border border-white/[0.08] bg-white/[0.03] text-slate-400 hover:border-white/15 hover:bg-white/[0.06] hover:text-white'
-            }`}
-          >
-            {style && <span className="text-xs">{style.icon}</span>}
-            {cat}
-            {isActive && cat !== 'All' && (
-              <span className="ml-0.5 text-[10px] opacity-70">
-                ({products.filter(p => p.category === cat).length})
-              </span>
-            )}
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
 /* ═══════════════════════════ Product Card ═══════════════════════════ */
+
+const DEFAULT_STYLE = { gradient: 'from-slate-700 via-slate-800 to-slate-900', icon: '✨' };
 
 function ProductCard({ product, onQuickView, index }: { product: Product; onQuickView: (p: Product) => void; index: number }) {
   const { add } = useCart();
-  const style = CATEGORY_STYLES[product.category] || CATEGORY_STYLES['Other'];
+  const style = DEFAULT_STYLE;
   const [added, setAdded] = useState(false);
+  const [imgIdx, setImgIdx] = useState(0);
+  const hasMultiple = product.images && product.images.length > 1;
+
+  // Auto-carousel when card is in viewport
+  useEffect(() => {
+    if (!hasMultiple) return;
+    const interval = setInterval(() => {
+      setImgIdx((prev) => (prev + 1) % product.images!.length);
+    }, 3500);
+    return () => clearInterval(interval);
+  }, [hasMultiple, product.images]);
 
   const handleAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -500,31 +586,59 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.4, delay: index * 0.03 }}
       onClick={() => onQuickView(product)}
-      className="card-shine glow-border card-tilt group cursor-pointer rounded-2xl border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.05] hover:shadow-2xl hover:shadow-blue-500/10"
+      className="group cursor-pointer rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm transition-all duration-500 hover:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-2xl hover:shadow-blue-500/[0.08] hover:-translate-y-1"
     >
       {/* Image */}
-      <div className={`relative aspect-square overflow-hidden rounded-t-2xl bg-gradient-to-br ${style.gradient}`}>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_80%,rgba(255,255,255,0.15),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(0,0,0,0.15),transparent_50%)]" />
-        {/* Background large emoji for depth */}
-        <div className="absolute -right-4 -top-4 text-[120px] opacity-[0.07] select-none blur-[1px]">{style.icon}</div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-7xl opacity-30 transition-all duration-700 group-hover:scale-125 group-hover:opacity-50 group-hover:rotate-12 select-none drop-shadow-lg">
-            {style.icon}
-          </span>
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+      <div className={`relative aspect-square overflow-hidden rounded-t-2xl ${product.image ? 'bg-[#080d18]' : `bg-gradient-to-br ${style.gradient}`}`}>
+        {product.image ? (
+          <>
+            {hasMultiple ? (
+              product.images!.map((src, i) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt={`${product.name} ${i + 1}`}
+                  className={`absolute inset-0 h-full w-full object-cover transition-all duration-1000 ${i === imgIdx ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
+                  loading="lazy"
+                />
+              ))
+            ) : (
+              <img
+                src={product.image}
+                alt={product.name}
+                className="h-full w-full object-cover transition-all duration-700 group-hover:scale-105"
+                loading="lazy"
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1a] via-transparent to-transparent opacity-60" />
+            {/* Glossy shine overlay */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(255,255,255,0.08),transparent_60%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            {/* Carousel dots */}
+            {hasMultiple && (
+              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                {product.images!.map((_, i) => (
+                  <span key={i} className={`h-1 rounded-full transition-all duration-500 ${i === imgIdx ? 'w-4 bg-white/80' : 'w-1 bg-white/30'}`} />
+                ))}
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_80%,rgba(255,255,255,0.15),transparent_60%)]" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-7xl opacity-20 select-none">{style.icon}</span>
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1a] via-transparent to-transparent opacity-60" />
+          </>
+        )}
 
         {/* Badge */}
         {product.badge && (
-          <div className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider shadow-lg backdrop-blur-sm ${
-            product.badge === 'Coming Soon' ? 'bg-slate-900/80 text-slate-400 border border-white/10' :
-            product.badge === 'Popular' ? 'bg-blue-500/90 text-white' :
-            product.badge === 'Best Seller' ? 'bg-emerald-500/90 text-white' :
-            product.badge === 'Limited' ? 'bg-amber-500/90 text-white' :
-            product.badge === 'Premium' ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white' :
-            product.badge === 'Low Stock' ? 'bg-red-500/90 text-white' :
-            'bg-white/20 text-white'
+          <div className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.15em] shadow-lg ${
+            product.badge === 'Coming Soon' ? 'bg-slate-900/90 text-slate-300 border border-slate-700/50' :
+            product.badge === 'Low Stock' ? 'bg-slate-900/90 text-red-400 border border-red-500/30' :
+            product.badge === 'Limited' ? 'bg-slate-900/90 text-amber-400 border border-amber-500/30' :
+            'bg-slate-900/90 text-white/90 border border-white/10'
           }`}>
             {product.badge}
           </div>
@@ -532,23 +646,23 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
 
         {/* Stock */}
         {product.stock !== null && !isComingSoon && (
-          <div className={`absolute right-3 top-3 rounded-full px-2.5 py-1 text-[10px] font-medium backdrop-blur-sm ${isLow ? 'bg-amber-500/20 text-amber-300 border border-amber-400/20' : 'bg-black/40 text-slate-300'}`}>
+          <div className={`absolute right-3 top-3 rounded-full px-2.5 py-1 text-[10px] font-medium shadow-lg ${isLow ? 'bg-slate-900/90 text-amber-400 border border-amber-500/30' : 'bg-slate-900/90 text-slate-300 border border-white/10'}`}>
             {isSoldOut ? 'Sold out' : `${product.stock} left`}
           </div>
         )}
 
         {/* Add overlay */}
         {!isComingSoon && !isSoldOut && (
-          <div className="absolute inset-x-3 bottom-3 translate-y-3 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+          <div className="absolute inset-x-3 bottom-3 translate-y-2 opacity-0 transition-all duration-400 group-hover:translate-y-0 group-hover:opacity-100">
             <button
               onClick={handleAdd}
-              className={`w-full rounded-xl py-2.5 text-xs font-bold uppercase tracking-wider shadow-xl transition-all ${
+              className={`w-full rounded-xl py-2.5 text-[11px] font-semibold uppercase tracking-[0.1em] transition-all backdrop-blur-xl ${
                 added
-                  ? 'bg-emerald-500 text-white scale-95'
-                  : 'bg-white/95 text-slate-900 hover:bg-white backdrop-blur'
+                  ? 'bg-emerald-500/90 text-white scale-[0.97]'
+                  : 'bg-white/90 text-slate-900 hover:bg-white shadow-lg shadow-black/20'
               }`}
             >
-              {added ? '✓ Added!' : 'Add to Basket'}
+              {added ? '✓ Added' : 'Add to Basket'}
             </button>
           </div>
         )}
@@ -557,17 +671,14 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
       {/* Info */}
       <div className="p-4">
         <div className="flex items-start justify-between gap-2">
-          <div className="min-w-0">
-            <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">{product.category}</p>
-            <h3 className="mt-0.5 truncate text-sm font-semibold text-white group-hover:text-blue-200 transition-colors">{product.name}</h3>
-          </div>
-          <span className="shrink-0 rounded-lg bg-white/5 px-2 py-1 text-sm font-bold text-white">{product.displayPrice}</span>
+          <h3 className="min-w-0 truncate text-[13px] font-medium text-white/90 group-hover:text-white transition-colors">{product.name}</h3>
+          <span className="shrink-0 text-[13px] font-semibold text-white/70">{product.displayPrice}</span>
         </div>
-        <p className="mt-2 line-clamp-2 text-[12px] leading-relaxed text-slate-500">{product.description}</p>
+        <p className="mt-1.5 line-clamp-2 text-[11px] leading-relaxed text-slate-500/80">{product.description}</p>
         {isLow && (
-          <div className="mt-2.5 flex items-center gap-1.5">
+          <div className="mt-2 flex items-center gap-1.5">
             <span className="relative flex h-1.5 w-1.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" /><span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-400" /></span>
-            <p className="text-[11px] font-medium text-amber-400/90">Only {product.stock} left</p>
+            <p className="text-[10px] font-medium text-amber-400/80">Only {product.stock} left</p>
           </div>
         )}
       </div>
@@ -820,16 +931,14 @@ function FilterSidebar({ filters, onChange, total, onMobileClose, mobileOpen }: 
 
 /* ═══════════════════════════ Product Grid ═══════════════════════════ */
 
-function ProductGrid({ category, search, filters, onQuickView, onFilterMobileOpen }: {
-  category: Category;
+function ProductGrid({ search, filters, onQuickView, onFilterMobileOpen }: {
   search: string;
   filters: Filters;
   onQuickView: (p: Product) => void;
   onFilterMobileOpen: () => void;
 }) {
   const filtered = products.filter((p) => {
-    if (category !== 'All' && p.category !== category) return false;
-    if (search && !p.name.toLowerCase().includes(search.toLowerCase()) && !p.category.toLowerCase().includes(search.toLowerCase())) return false;
+    if (search && !p.name.toLowerCase().includes(search.toLowerCase())) return false;
     if (p.price < filters.priceRange[0] || p.price > filters.priceRange[1]) return false;
     if (filters.inStock && (p.stock === 0 || p.badge === 'Coming Soon')) return false;
     if (filters.badges.length > 0 && (!p.badge || !filters.badges.includes(p.badge))) return false;
@@ -855,7 +964,7 @@ function ProductGrid({ category, search, filters, onQuickView, onFilterMobileOpe
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-blue-400/80">Collection</p>
           <h2 className="mt-1 text-2xl font-bold text-white">
-            {category === 'All' ? 'All Prints' : category}
+            All Prints
             <span className="ml-2 text-base font-normal text-slate-500">({sorted.length})</span>
           </h2>
         </div>
@@ -907,7 +1016,7 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
   }, [onClose]);
 
   if (!product) return null;
-  const style = CATEGORY_STYLES[product.category] || CATEGORY_STYLES['Other'];
+  const style = DEFAULT_STYLE;
   const isComingSoon = product.badge === 'Coming Soon';
   const isSoldOut = product.stock === 0;
 
@@ -934,11 +1043,17 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
           </button>
 
           <div className="grid md:grid-cols-2">
-            <div className={`relative aspect-square bg-gradient-to-br ${style.gradient}`}>
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_70%,rgba(255,255,255,0.18),transparent_60%)]" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-[100px] opacity-40 select-none float-slow">{style.icon}</span>
-              </div>
+            <div className={`relative min-h-[300px] md:min-h-0 ${product.image ? 'bg-[#0c1220]' : `bg-gradient-to-br ${style.gradient}`}`}>
+              {product.image ? (
+                <img src={product.image} alt={product.name} className="absolute inset-0 h-full w-full object-cover" />
+              ) : (
+                <>
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_70%,rgba(255,255,255,0.18),transparent_60%)]" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-[100px] opacity-40 select-none float-slow">{style.icon}</span>
+                  </div>
+                </>
+              )}
               {product.badge && (
                 <div className={`absolute left-4 top-4 rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-wider backdrop-blur-sm ${
                   product.badge === 'Coming Soon' ? 'bg-slate-900/80 text-slate-400' :
@@ -956,13 +1071,12 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
 
             <div className="flex flex-col justify-between p-6 sm:p-8">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-blue-400/70">{product.category}</p>
-                <h2 className="mt-1 text-2xl font-bold text-white">{product.name}</h2>
+                <h2 className="text-2xl font-bold text-white">{product.name}</h2>
                 <p className="mt-1 text-3xl font-extrabold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">{product.displayPrice}</p>
                 <p className="mt-4 text-sm leading-relaxed text-slate-400">{product.description}</p>
 
                 <div className="mt-6 space-y-2.5">
-                  {['Eco-friendly PLA material', 'Hand-finished in Leeds', 'Plastic-free packaging'].map((f) => (
+                  {['Eco-friendly PLA material', 'Hand-finished in Leeds', 'Carefully packaged'].map((f) => (
                     <div key={f} className="flex items-center gap-3 text-sm text-slate-400">
                       <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10">
                         <svg className="h-3 w-3 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
@@ -1007,6 +1121,19 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
 
 function CartDrawer({ open, onClose, onCheckout }: { open: boolean; onClose: () => void; onCheckout: () => void }) {
   const { items, update, remove, clear, total, count } = useCart();
+  const toast = useToast();
+
+  const handleCheckout = () => {
+    const token = localStorage.getItem('forgerealm_admin_token');
+    if (!token) {
+      toast.info('Sign in to complete your purchase');
+      onClose();
+      setTimeout(() => { window.location.href = '/shop/sign-in'; }, 600);
+      return;
+    }
+    onClose();
+    onCheckout();
+  };
 
   useEffect(() => {
     if (open) document.body.style.overflow = 'hidden';
@@ -1054,7 +1181,7 @@ function CartDrawer({ open, onClose, onCheckout }: { open: boolean; onClose: () 
                 <div className="space-y-3">
                   <AnimatePresence>
                     {items.map((item) => {
-                      const st = CATEGORY_STYLES[item.product.category] || CATEGORY_STYLES['Other'];
+                      const st = DEFAULT_STYLE;
                       return (
                         <motion.div
                           key={item.product.id}
@@ -1064,10 +1191,14 @@ function CartDrawer({ open, onClose, onCheckout }: { open: boolean; onClose: () 
                           exit={{ opacity: 0, x: -30, height: 0 }}
                           className="flex gap-3.5 rounded-xl border border-white/[0.06] bg-white/[0.03] p-3"
                         >
-                          <div className={`h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br ${st.gradient}`}>
-                            <div className="flex h-full w-full items-center justify-center">
-                              <span className="text-2xl opacity-40 select-none">{st.icon}</span>
-                            </div>
+                          <div className={`h-16 w-16 shrink-0 overflow-hidden rounded-lg ${item.product.image ? 'bg-[#0c1220]' : `bg-gradient-to-br ${st.gradient}`}`}>
+                            {item.product.image ? (
+                              <img src={item.product.image} alt={item.product.name} className="h-full w-full object-cover" />
+                            ) : (
+                              <div className="flex h-full w-full items-center justify-center">
+                                <span className="text-2xl opacity-40 select-none">{st.icon}</span>
+                              </div>
+                            )}
                           </div>
                           <div className="flex flex-1 flex-col justify-between">
                             <div className="flex items-start justify-between">
@@ -1108,7 +1239,7 @@ function CartDrawer({ open, onClose, onCheckout }: { open: boolean; onClose: () 
                   <span className="text-2xl font-extrabold text-white">£{(total / 100).toFixed(2)}</span>
                 </div>
                 <button
-                  onClick={() => { onClose(); onCheckout(); }}
+                  onClick={handleCheckout}
                   className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-400 py-4 text-sm font-bold uppercase tracking-wider text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30"
                 >
                   <span className="relative z-10">Proceed to Checkout</span>
@@ -1145,10 +1276,11 @@ const STORAGE_KEY = 'fr_customer';
 
 function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { items, total, count, clear } = useCart();
+  const toast = useToast();
   const [customer, setCustomer] = useState<CustomerDetails>(() => {
-    try { const s = localStorage.getItem(STORAGE_KEY); return s ? JSON.parse(s) : EMPTY_CUSTOMER; } catch { return EMPTY_CUSTOMER; }
+    try { return typeof window !== 'undefined' && localStorage.getItem(STORAGE_KEY) ? JSON.parse(localStorage.getItem(STORAGE_KEY)!) : EMPTY_CUSTOMER; } catch { return EMPTY_CUSTOMER; }
   });
-  const [saveDetails, setSaveDetails] = useState(() => !!localStorage.getItem(STORAGE_KEY));
+  const [saveDetails, setSaveDetails] = useState(() => typeof window !== 'undefined' && !!localStorage.getItem(STORAGE_KEY));
   const [submitting, setSubmitting] = useState(false);
   const [step, setStep] = useState<'form' | 'review'>('form');
 
@@ -1183,8 +1315,8 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
-      else alert(data.error || 'Checkout unavailable. Configure Stripe keys.');
-    } catch { alert('Checkout unavailable. Configure Stripe keys.'); }
+      else toast.error(data.error || 'Checkout is currently unavailable. Please try again later.');
+    } catch { toast.error('Checkout is currently unavailable. Please try again later.'); }
     finally { setSubmitting(false); }
   };
 
@@ -1296,7 +1428,7 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
                       <h3 className="text-sm font-bold text-white mb-4">Order Summary</h3>
                       <div className="space-y-3 max-h-[300px] overflow-y-auto scrollbar-hide">
                         {items.map((item) => {
-                          const st = CATEGORY_STYLES[item.product.category] || CATEGORY_STYLES['Other'];
+                          const st = DEFAULT_STYLE;
                           return (
                             <div key={item.product.id} className="flex items-center gap-3">
                               <div className={`h-10 w-10 shrink-0 rounded-lg bg-gradient-to-br ${st.gradient} flex items-center justify-center`}>
@@ -1365,7 +1497,7 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
                       <h3 className="text-sm font-bold text-white mt-6 mb-4">Order Items</h3>
                       <div className="space-y-2">
                         {items.map((item) => {
-                          const st = CATEGORY_STYLES[item.product.category] || CATEGORY_STYLES['Other'];
+                          const st = DEFAULT_STYLE;
                           return (
                             <div key={item.product.id} className="flex items-center gap-3 rounded-lg border border-white/[0.04] bg-white/[0.02] px-3 py-2">
                               <div className={`h-8 w-8 shrink-0 rounded-md bg-gradient-to-br ${st.gradient} flex items-center justify-center`}>
@@ -1508,113 +1640,16 @@ function ShopFooter() {
 /* ═══════════════════════════ Auth Gate ═══════════════════════════ */
 
 export default function ShopGate() {
-  const [auth, setAuth] = useState<'loading' | 'denied' | 'granted'>('loading');
-
-  useEffect(() => {
-    const check = async () => {
-      try {
-        const token = localStorage.getItem('forgerealm_admin_token');
-        if (!token) { setAuth('denied'); return; }
-
-        const apiBase = (window.location.origin.startsWith('http://localhost')
-          ? (import.meta.env?.PUBLIC_API_URL_LOCAL || import.meta.env?.PUBLIC_API_URL || '')
-          : (import.meta.env?.PUBLIC_API_URL || '')
-        ).replace(/\/$/, '');
-
-        if (!apiBase) { setAuth('denied'); return; }
-
-        const res = await fetch(`${apiBase}/api/auth/me`, {
-          credentials: 'include',
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        if (!res.ok) { setAuth('denied'); return; }
-        const data = await res.json();
-
-        if (data?.user?.role === 'admin') {
-          setAuth('granted');
-        } else {
-          setAuth('denied');
-        }
-      } catch {
-        setAuth('denied');
-      }
-    };
-    check();
-    window.addEventListener('forgerealm-admin-token-changed', check);
-    return () => window.removeEventListener('forgerealm-admin-token-changed', check);
-  }, []);
-
-  if (auth === 'loading') {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-[#0a0f1a]">
-        <div className="text-center">
-          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-white/10 border-t-blue-500" />
-          <p className="mt-4 text-sm text-slate-400">Checking access...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (auth === 'denied') {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-[#0a0f1a] px-4">
-        <InjectStyles />
-        <div className="noise-overlay" />
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-40 -top-40 h-[500px] w-[500px] rounded-full bg-blue-600/20 blur-[180px] glow-breathe" />
-          <div className="absolute -right-40 bottom-0 h-[400px] w-[400px] rounded-full bg-purple-600/15 blur-[160px] glow-breathe" style={{ animationDelay: '1s' }} />
-        </div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative w-full max-w-md text-center"
-        >
-          <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-xl sm:p-10">
-            <div className="mx-auto mb-6">
-              <img src="/frlogorv.png" alt="ForgeRealm" width={80} height={80} className="mx-auto rounded-2xl" />
-            </div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.3em] text-blue-300">
-              <span className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
-              Preview mode
-            </div>
-            <h1 className="text-2xl font-extrabold text-white sm:text-3xl">
-              Shop is <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">coming soon</span>
-            </h1>
-            <p className="mt-3 text-sm text-slate-400">
-              The ForgeRealm shop is currently in preview. Admin access is required to view the store.
-            </p>
-            <div className="mt-8 space-y-3">
-              <a
-                href="/shop/sign-in"
-                className="block w-full rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition hover:shadow-blue-500/30"
-              >
-                Admin Sign In
-              </a>
-              <a
-                href="/"
-                className="block w-full rounded-xl border border-white/10 bg-white/5 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
-              >
-                Back to Home
-              </a>
-            </div>
-          </div>
-          <p className="mt-6 text-xs text-slate-600">Follow our socials for launch updates</p>
-        </motion.div>
-      </div>
-    );
-  }
-
   return <ShopContent />;
 }
 
 function ShopContent() {
-  const [category, setCategory] = useState<Category>('All');
   const [search, setSearch] = useState('');
   const [cartOpen, setCartOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [modalProduct, setModalProduct] = useState<Product | null>(null);
   const [filterMobileOpen, setFilterMobileOpen] = useState(false);
+  const [showOrderSuccess, setShowOrderSuccess] = useState(false);
   const [filters, setFilters] = useState<Filters>({
     priceRange: [MIN_PRICE, MAX_PRICE],
     inStock: false,
@@ -1622,10 +1657,22 @@ function ShopContent() {
     badges: [],
   });
 
+  // Post-checkout URL parameter handling
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('success') === 'true') {
+      setShowOrderSuccess(true);
+      // Clear cart after successful checkout
+      try { localStorage.removeItem('fr_cart'); } catch {}
+      window.history.replaceState({}, '', '/shop');
+    } else if (params.get('cancelled') === 'true') {
+      window.history.replaceState({}, '', '/shop');
+    }
+  }, []);
+
   // Count filtered products for sidebar display
   const filteredCount = products.filter((p) => {
-    if (category !== 'All' && p.category !== category) return false;
-    if (search && !p.name.toLowerCase().includes(search.toLowerCase()) && !p.category.toLowerCase().includes(search.toLowerCase())) return false;
+    if (search && !p.name.toLowerCase().includes(search.toLowerCase())) return false;
     if (p.price < filters.priceRange[0] || p.price > filters.priceRange[1]) return false;
     if (filters.inStock && (p.stock === 0 || p.badge === 'Coming Soon')) return false;
     if (filters.badges.length > 0 && (!p.badge || !filters.badges.includes(p.badge))) return false;
@@ -1634,6 +1681,7 @@ function ShopContent() {
 
   return (
     <CartProvider>
+      <ToastProvider>
       <InjectStyles />
       <div className="min-h-screen bg-[#0a0f1a] text-white">
         {/* Noise texture overlay */}
@@ -1652,19 +1700,17 @@ function ShopContent() {
         <MarqueeBanner />
         <FeaturedRow onQuickView={setModalProduct} />
 
-        {/* Sticky filter bar */}
-        <div className="sticky top-[57px] z-40 border-b border-white/5 bg-[#0a0f1a]/80 backdrop-blur-2xl">
-          <div className="mx-auto max-w-7xl overflow-x-auto px-4 py-3 sm:px-6 lg:px-8 scrollbar-hide">
-            <CategoryFilter active={category} onChange={setCategory} />
-          </div>
-        </div>
-
         {/* Sidebar + Grid layout */}
         <div id="products" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+          <nav className="flex items-center gap-2 text-xs text-slate-500 mb-6">
+            <a href="/" className="hover:text-white transition">Home</a>
+            <span>/</span>
+            <span className="text-slate-300">Shop</span>
+          </nav>
           <div className="flex gap-8">
             <FilterSidebar filters={filters} onChange={setFilters} total={filteredCount} mobileOpen={filterMobileOpen} onMobileClose={() => setFilterMobileOpen(false)} />
             <div className="flex-1 min-w-0">
-              <ProductGrid category={category} search={search} filters={filters} onQuickView={setModalProduct} onFilterMobileOpen={() => setFilterMobileOpen(true)} />
+              <ProductGrid search={search} filters={filters} onQuickView={setModalProduct} onFilterMobileOpen={() => setFilterMobileOpen(true)} />
             </div>
           </div>
         </div>
@@ -1684,7 +1730,7 @@ function ShopContent() {
               We take custom orders. Tell us your idea and we'll bring it to life with eco-friendly materials.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <a href="/#contact" className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-8 py-3.5 text-sm font-semibold text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30 hover:-translate-y-0.5">
+              <a href="/custom-order" className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-8 py-3.5 text-sm font-semibold text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30 hover:-translate-y-0.5">
                 <span className="relative z-10">Get a custom quote</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 transition-opacity group-hover:opacity-100" />
               </a>
@@ -1700,7 +1746,12 @@ function ShopContent() {
         <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} onCheckout={() => setCheckoutOpen(true)} />
         <CheckoutForm open={checkoutOpen} onClose={() => setCheckoutOpen(false)} />
         <ProductModal product={modalProduct} onClose={() => setModalProduct(null)} />
+
+        <AnimatePresence>
+          {showOrderSuccess && <OrderSuccessOverlay onClose={() => setShowOrderSuccess(false)} />}
+        </AnimatePresence>
       </div>
+      </ToastProvider>
     </CartProvider>
   );
 }

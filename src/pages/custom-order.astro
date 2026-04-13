@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CustomOrder from '../components/CustomOrder';
+---
+
+<BaseLayout title="Custom Order | ForgeRealm" description="Request a custom 3D print from ForgeRealm. Tell us your idea and we'll bring it to life.">
+  <main class="relative isolate min-h-[100svh] bg-[#0a0f1a] text-white overflow-x-hidden">
+    <CustomOrder client:load />
+  </main>
+</BaseLayout>

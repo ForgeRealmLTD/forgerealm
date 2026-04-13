@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
+    "dev:all": "npx concurrently -n frontend,backend -c cyan,yellow \"astro dev\" \"cd backend && npm run dev\"",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",

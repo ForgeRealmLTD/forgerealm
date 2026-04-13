@@ -1,6 +1,6 @@
 const express = require('express');
 const passport = require('passport');
-const { login, register, me, logout, verifyEmail } = require('../controllers/auth.controller');
+const { login, register, me, logout, verifyEmail, updatePassword, requestPasswordReset, resetPassword } = require('../controllers/auth.controller');
 const { requireAdmin, requireAuth } = require('../middleware/auth.middleware');
 
 const router = express.Router();
@@ -54,5 +54,20 @@ router.post(
 
 router.get('/me', requireAuth, me);
 router.post('/logout', requireAuth, logout);
+router.put('/password', requireAuth, updatePassword);
+
+// Password reset (rate limited)
+const resetLimiter = require('express-rate-limit')({
+  windowMs: 60 * 1000,
+  max: 3,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) =>
+    req.headers['cf-connecting-ip'] ||
+    (req.headers['x-forwarded-for'] && req.headers['x-forwarded-for'].split(',')[0].trim()) ||
+    req.ip,
+});
+router.post('/forgot-password', resetLimiter, requestPasswordReset);
+router.post('/reset-password', resetLimiter, resetPassword);
 
 module.exports = router;

@@ -89,12 +89,12 @@ const featuredProducts = [
 ];
 
 const quickLinks = [
-  { label: 'My Account', icon: FiUser, href: '#account', description: 'Profile & preferences' },
-  { label: 'Wishlist', icon: FiHeart, href: '#wishlist', description: 'Saved items' },
-  { label: 'Orders', icon: FiTruck, href: '#orders', description: 'Track your prints' },
-  { label: 'Rewards', icon: FiAward, href: '#rewards', description: 'Points & perks' },
-  { label: 'Messages', icon: FiMessageCircle, href: '#messages', description: 'Notifications' },
-  { label: 'Settings', icon: FiSettings, href: '#settings', description: 'App settings' },
+  { label: 'My Account', icon: FiUser, href: '/shop/account', description: 'Profile & preferences' },
+  { label: 'Wishlist', icon: FiHeart, href: '#wishlist', description: 'Coming soon', coming: true },
+  { label: 'Orders', icon: FiTruck, href: '/shop/orders', description: 'Track your prints' },
+  { label: 'Rewards', icon: FiAward, href: '#rewards', description: 'Coming soon', coming: true },
+  { label: 'Messages', icon: FiMessageCircle, href: '#messages', description: 'Coming soon', coming: true },
+  { label: 'Settings', icon: FiSettings, href: '/shop/account', description: 'App settings' },
 ];
 
 const exploreLinks = [

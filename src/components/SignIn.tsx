@@ -169,6 +169,12 @@ const SignIn = () => {
               </span>
             </button>
             <a
+              href="/shop/forgot-password"
+              className="text-sm text-slate-400 transition hover:text-blue-300 underline underline-offset-2 decoration-slate-600 hover:decoration-blue-400"
+            >
+              Forgot password?
+            </a>
+            <a
               href="/shop/register"
               className="relative overflow-hidden rounded-full p-[2px] focus:outline-none group"
             >

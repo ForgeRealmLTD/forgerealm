@@ -37,6 +37,7 @@
 # environment files
 .env*
 /backend/.env
+/backend/.env.*
 
 # uploads and generated assets
 /backend/uploads

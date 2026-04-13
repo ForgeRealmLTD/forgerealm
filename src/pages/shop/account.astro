@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AccountSettings from '../../components/AccountSettings';
+---
+
+<BaseLayout title="Account Settings | ForgeRealm" description="Manage your ForgeRealm account, update your profile, and change your password.">
+  <main class="relative isolate min-h-[100svh] bg-[#0a0f1a] text-white overflow-x-hidden pt-16 sm:pt-20">
+    <AccountSettings client:load />
+  </main>
+</BaseLayout>
+
+<script is:inline>
+  (() => {
+    const token = localStorage.getItem('forgerealm_admin_token');
+    if (!token) {
+      window.location.href = '/shop/sign-in';
+    }
+  })();
+</script>
