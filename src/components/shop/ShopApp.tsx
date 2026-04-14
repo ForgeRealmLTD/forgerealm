@@ -1811,17 +1811,16 @@ function ShopContent() {
         <Reveal>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-4">
             <div className="relative overflow-hidden rounded-2xl cursor-pointer group" style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
-              {/* Mobile: image bg with overlay text pinned to bottom */}
+              {/* Mobile: image bg with single-line overlay at bottom */}
               <div className="sm:hidden relative min-h-[200px]">
-                <img src="/shop-products/bundle1.png" alt="Voronoi Cat Family Bundle" className="absolute inset-0 w-full h-full object-cover object-right" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-                <div className="relative p-4 flex flex-col justify-end h-full min-h-[200px]">
-                  <h3 className="text-lg font-bold text-white leading-[1]" style={{ fontFamily: "'Cinzel', serif" }}>
+                <img src="/shop-products/bundle1.png" alt="Voronoi Cat Family Bundle" className="absolute inset-0 w-full h-full object-cover object-center" />
+                <div className="absolute bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm px-4 py-3 flex items-center justify-between">
+                  <h3 className="text-[13px] font-bold text-white" style={{ fontFamily: "'Cinzel', serif" }}>
                     Voronoi Cat <span className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontStyle: 'italic' }}>Family</span>
                   </h3>
-                  <div className="flex items-baseline gap-3 mt-1.5">
-                    <span className="text-xl font-bold text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>&pound;10</span>
-                    <span className="text-[11px] text-white/50" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>4-piece bundle</span>
+                  <div className="flex items-baseline gap-2 shrink-0">
+                    <span className="text-lg font-bold text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>&pound;10</span>
+                    <span className="text-[10px] text-white/40" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>4-piece</span>
                   </div>
                 </div>
               </div>
