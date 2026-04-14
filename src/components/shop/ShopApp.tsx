@@ -600,26 +600,25 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
 
   return (
     <section className="section-glow relative bg-gradient-to-b from-transparent via-blue-950/10 to-transparent">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="mb-8 flex items-end justify-between">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:py-14 sm:px-6 lg:px-8">
+        <div className="mb-5 sm:mb-8 flex items-end justify-between">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-blue-400/80">This week</p>
-            <h2 className="mt-1 text-2xl font-bold text-white">Featured prints</h2>
+            <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.3em] text-blue-400/80">This week</p>
+            <h2 className="mt-1 text-lg sm:text-2xl font-bold text-white">Featured prints</h2>
           </div>
-          <a href="#products" className="text-sm text-slate-400 transition hover:text-white">View all &rarr;</a>
+          <a href="#products" className="text-xs sm:text-sm text-slate-400 transition hover:text-white">View all &rarr;</a>
         </div>
 
-        <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
+        <div className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory sm:grid sm:grid-cols-2 sm:overflow-visible lg:grid-cols-4">
           {featured.map((item) => (
-            <motion.div
+            <div
               key={item.id}
-              whileHover={{ y: -6 }}
               onClick={() => onQuickView(item)}
-              className="gradient-border group cursor-pointer overflow-hidden rounded-2xl glass glass-hover"
+              className="gradient-border group cursor-pointer overflow-hidden rounded-2xl glass glass-hover shrink-0 w-[70vw] snap-start sm:w-auto sm:shrink"
             >
               <div className="relative aspect-square bg-[#e8e8e8]">
                 {item.image && (
-                  <img src={item.image} alt={item.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                  <img src={item.image} alt={item.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="eager" />
                 )}
                 <div className="absolute left-3 top-3 rounded-full bg-slate-900/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-blue-300 border border-blue-500/20 shadow-lg hidden sm:block">
                   Featured
@@ -631,7 +630,7 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
                   <span className="text-xs font-bold text-white sm:text-sm">{item.displayPrice}</span>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
@@ -672,12 +671,7 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
   const isLow = product.stock !== null && product.stock <= 3 && product.stock > 0;
 
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.4, delay: index * 0.03 }}
+    <div
       onClick={() => onQuickView(product)}
       className="gradient-border group cursor-pointer overflow-hidden rounded-2xl glass glass-hover"
     >
@@ -760,20 +754,20 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
       </div>
 
       {/* Info */}
-      <div className="p-4">
+      <div className="p-3 sm:p-4">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="min-w-0 truncate text-[13px] font-medium text-white/90 group-hover:text-white transition-colors">{product.name}</h3>
-          <span className="shrink-0 text-[13px] font-semibold text-white/70">{product.displayPrice}</span>
+          <h3 className="min-w-0 truncate text-[12px] sm:text-[13px] font-medium text-white/90 group-hover:text-white transition-colors">{product.name}</h3>
+          <span className="shrink-0 text-[12px] sm:text-[13px] font-semibold text-white/70">{product.displayPrice}</span>
         </div>
-        <p className="mt-1.5 line-clamp-2 text-[11px] leading-relaxed text-slate-500/80">{product.description}</p>
+        <p className="mt-1 sm:mt-1.5 line-clamp-2 text-[10px] sm:text-[11px] leading-relaxed text-slate-500/80 hidden sm:block">{product.description}</p>
         {isLow && (
-          <div className="mt-2 flex items-center gap-1.5">
+          <div className="mt-1.5 sm:mt-2 flex items-center gap-1.5">
             <span className="relative flex h-1.5 w-1.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" /><span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-400" /></span>
             <p className="text-[10px] font-medium text-amber-400/80">Only {product.stock} left</p>
           </div>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -1076,13 +1070,11 @@ function ProductGrid({ search, filters, onQuickView, onFilterMobileOpen }: {
           <p className="mt-1 text-sm text-slate-500">Try adjusting your filters</p>
         </div>
       ) : (
-        <motion.div layout className="grid gap-5 grid-cols-2 lg:grid-cols-3">
-          <AnimatePresence mode="popLayout">
+        <div className="grid gap-2.5 sm:gap-4 grid-cols-2 lg:grid-cols-3">
             {sorted.map((p, i) => (
               <ProductCard key={p.id} product={p} onQuickView={onQuickView} index={i} />
             ))}
-          </AnimatePresence>
-        </motion.div>
+        </div>
       )}
     </div>
   );
@@ -1789,7 +1781,7 @@ function ShopContent() {
         </Reveal>
 
         {/* Sidebar + Grid layout */}
-        <div id="products" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+        <div id="products" className="mx-auto max-w-7xl px-4 py-8 sm:py-14 sm:px-6 lg:px-8">
           <Reveal>
             <nav className="flex items-center gap-2 text-xs text-slate-500 mb-6">
               <a href="/" className="hover:text-white transition">Home</a>
