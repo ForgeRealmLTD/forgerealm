@@ -219,7 +219,7 @@ const CUSTOM_CSS = `
 /* ── Glass card ── */
 .glass { background: rgba(255,255,255,0.02); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.06); }
 .glass-hover { transition: all 0.5s cubic-bezier(0.16,1,0.3,1); }
-.glass-hover:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); box-shadow: 0 20px 60px -15px rgba(0,0,0,0.3), 0 0 40px -10px rgba(59,130,246,0.1); }
+.glass-hover:hover { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.1); box-shadow: 0 20px 60px -15px rgba(0,0,0,0.4), 0 0 40px -10px rgba(59,130,246,0.08); transform: translateY(-4px); }
 
 /* ── Shimmer text (for special headings) ── */
 .shimmer-text { background: linear-gradient(110deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.9) 40%, rgba(147,197,253,1) 50%, rgba(255,255,255,0.9) 60%, rgba(255,255,255,0.9) 100%); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: text-shimmer 4s ease-in-out infinite; }
@@ -707,7 +707,7 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
               />
             )}
             {/* Edge vignette to blend white photo bg into dark card */}
-            <div className="absolute inset-0 shadow-[inset_0_0_30px_rgba(10,15,26,0.5)]" />
+            <div className="absolute inset-0 shadow-[inset_0_0_40px_rgba(10,15,26,0.7)]" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1a] via-transparent to-transparent opacity-70" />
             {/* Carousel dots */}
             {hasMultiple && (
