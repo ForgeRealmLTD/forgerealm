@@ -590,7 +590,7 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
       className="group cursor-pointer overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm transition-all duration-500 hover:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-2xl hover:shadow-blue-500/[0.08] hover:-translate-y-1"
     >
       {/* Image */}
-      <div className={`relative aspect-square ${product.image ? 'bg-[#080d18]' : `bg-gradient-to-br ${style.gradient}`}`}>
+      <div className={`relative aspect-square ${product.image ? 'bg-[#e8e8e8]' : `bg-gradient-to-br ${style.gradient}`}`}>
         {product.image ? (
           <>
             {hasMultiple ? (
@@ -599,7 +599,8 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
                   key={src}
                   src={src}
                   alt={`${product.name} ${i + 1}`}
-                  className={`absolute inset-0 h-full w-full object-cover transition-all duration-1000 ${i === imgIdx ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
+                  className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000"
+                  style={{ opacity: i === imgIdx ? 1 : 0, zIndex: i === imgIdx ? 2 : 1 }}
                   loading="lazy"
                 />
               ))
