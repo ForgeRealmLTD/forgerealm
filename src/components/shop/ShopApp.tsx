@@ -617,12 +617,10 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
               onClick={() => onQuickView(item)}
               className="gradient-border group cursor-pointer overflow-hidden rounded-2xl glass glass-hover"
             >
-              <div className="relative aspect-square bg-[#0c1220]">
+              <div className="relative aspect-square bg-[#e8e8e8]">
                 {item.image && (
-                  <img src={item.image} alt={item.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
+                  <img src={item.image} alt={item.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
                 )}
-                <div className="absolute inset-0 shadow-[inset_0_0_30px_rgba(10,15,26,0.5)]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1a] via-[#0a0f1a]/30 to-transparent" />
                 <div className="absolute left-3 top-3 rounded-full bg-slate-900/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-blue-300 border border-blue-500/20 shadow-lg hidden sm:block">
                   Featured
                 </div>
@@ -706,14 +704,11 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
                 loading="lazy"
               />
             )}
-            {/* Edge vignette to blend white photo bg into dark card */}
-            <div className="absolute inset-0 shadow-[inset_0_0_40px_rgba(10,15,26,0.7)]" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1a] via-[#0a0f1a]/30 to-transparent" />
             {/* Carousel dots */}
             {hasMultiple && (
               <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
                 {product.images!.map((_, i) => (
-                  <span key={i} className={`h-1 rounded-full transition-all duration-500 ${i === imgIdx ? 'w-4 bg-white/80' : 'w-1 bg-white/30'}`} />
+                  <span key={i} className={`h-1 rounded-full transition-all duration-500 ${i === imgIdx ? 'w-4 bg-slate-900/60' : 'w-1 bg-slate-900/20'}`} />
                 ))}
               </div>
             )}
@@ -1139,7 +1134,7 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
           </button>
 
           <div className="grid md:grid-cols-2">
-            <div className={`relative min-h-[300px] md:min-h-0 ${product.image ? 'bg-[#0c1220]' : `bg-gradient-to-br ${style.gradient}`}`}>
+            <div className={`relative min-h-[300px] md:min-h-0 ${product.image ? 'bg-[#e8e8e8]' : `bg-gradient-to-br ${style.gradient}`}`}>
               {product.image ? (
                 <img src={product.image} alt={product.name} className="absolute inset-0 h-full w-full object-cover" />
               ) : (
