@@ -349,8 +349,8 @@ function MarqueeBanner() {
   const doubled = [...items, ...items];
 
   return (
-    <div className="relative overflow-hidden border-y border-white/[0.04] bg-[#0a0f1a] py-3">
-      <div className="marquee-track">
+    <div className="relative overflow-hidden border-y border-white/[0.04] bg-[#0a0f1a] py-3" style={{ maxHeight: '44px' }}>
+      <div className="marquee-track" style={{ display: 'flex', whiteSpace: 'nowrap' }}>
         {doubled.map((item, i) => (
           <span key={i} className="mx-6 inline-flex items-center gap-2 text-[12px] text-slate-500 whitespace-nowrap sm:mx-8">
             <span className="text-sm opacity-60">{item.icon}</span>
@@ -1779,16 +1779,10 @@ function ShopContent() {
         {/* Cursor glow - desktop only */}
         <CursorGlow />
 
+        <ShopHeader onCartOpen={() => setCartOpen(true)} onSearch={setSearch} />
+        <HeroBanner />
+        <MarqueeBanner />
         <div className="enter enter-d1">
-          <ShopHeader onCartOpen={() => setCartOpen(true)} onSearch={setSearch} />
-        </div>
-        <div className="enter enter-d2">
-          <HeroBanner />
-        </div>
-        <div className="enter enter-d3">
-          <MarqueeBanner />
-        </div>
-        <div className="enter enter-d4">
           <FeaturedRow onQuickView={setModalProduct} />
         </div>
 
