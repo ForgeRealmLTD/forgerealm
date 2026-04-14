@@ -1722,19 +1722,19 @@ function ShopContent() {
             <div className="absolute left-1/4 top-0 h-[300px] w-[300px] rounded-full bg-blue-500/10 blur-[120px]" />
             <div className="absolute right-1/4 bottom-0 h-[300px] w-[300px] rounded-full bg-cyan-500/10 blur-[120px]" />
           </div>
-          <div className="relative mx-auto max-w-3xl px-4 py-20 text-center sm:px-6">
-            <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
+          <div className="relative mx-auto max-w-3xl px-4 py-12 sm:py-20 text-center sm:px-6">
+            <h2 className="text-xl font-extrabold text-white sm:text-3xl lg:text-4xl">
               Can't find what you're looking for?
             </h2>
-            <p className="mt-4 text-lg text-slate-400">
+            <p className="mt-3 sm:mt-4 text-sm sm:text-lg text-slate-400">
               We take custom orders. Tell us your idea and we'll bring it to life with eco-friendly materials.
             </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <a href="/custom-order" className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-8 py-3.5 text-sm font-semibold text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30 hover:-translate-y-0.5">
+            <div className="mt-5 sm:mt-8 flex flex-wrap justify-center gap-3 sm:gap-4">
+              <a href="/custom-order" className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-5 py-2.5 sm:px-8 sm:py-3.5 text-xs sm:text-sm font-semibold text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30 hover:-translate-y-0.5">
                 <span className="relative z-10">Get a custom quote</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 transition-opacity group-hover:opacity-100" />
               </a>
-              <a href="/" className="rounded-full border border-white/15 bg-white/5 px-8 py-3.5 text-sm font-semibold text-white transition-all hover:border-white/25 hover:bg-white/10">
+              <a href="/" className="rounded-full border border-white/15 bg-white/5 px-5 py-2.5 sm:px-8 sm:py-3.5 text-xs sm:text-sm font-semibold text-white transition-all hover:border-white/25 hover:bg-white/10">
                 Back to home
               </a>
             </div>
