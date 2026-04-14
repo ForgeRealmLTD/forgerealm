@@ -521,9 +521,9 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
               key={item.id}
               whileHover={{ y: -6 }}
               onClick={() => onQuickView(item)}
-              className="card-shine glow-border card-tilt group cursor-pointer rounded-2xl border border-white/[0.08] bg-white/[0.03] hover:shadow-2xl hover:shadow-blue-500/15"
+              className="group cursor-pointer overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] transition-all duration-500 hover:border-white/[0.12] hover:shadow-2xl hover:shadow-blue-500/[0.08] hover:-translate-y-1"
             >
-              <div className="relative aspect-square overflow-hidden rounded-t-2xl bg-[#0c1220]">
+              <div className="relative aspect-square bg-[#0c1220]">
                 {item.image && (
                   <img src={item.image} alt={item.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
                 )}
@@ -586,10 +586,10 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.4, delay: index * 0.03 }}
       onClick={() => onQuickView(product)}
-      className="group cursor-pointer rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm transition-all duration-500 hover:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-2xl hover:shadow-blue-500/[0.08] hover:-translate-y-1"
+      className="group cursor-pointer overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm transition-all duration-500 hover:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-2xl hover:shadow-blue-500/[0.08] hover:-translate-y-1"
     >
       {/* Image */}
-      <div className={`relative aspect-square overflow-hidden rounded-t-2xl ${product.image ? 'bg-[#080d18]' : `bg-gradient-to-br ${style.gradient}`}`}>
+      <div className={`relative aspect-square ${product.image ? 'bg-[#080d18]' : `bg-gradient-to-br ${style.gradient}`}`}>
         {product.image ? (
           <>
             {hasMultiple ? (
