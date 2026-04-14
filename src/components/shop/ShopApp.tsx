@@ -71,7 +71,7 @@ function ToastProvider({ children }: { children: React.ReactNode }) {
     success: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300',
     error: 'border-red-500/30 bg-red-500/10 text-red-300',
     warning: 'border-amber-500/30 bg-amber-500/10 text-amber-300',
-    info: 'border-blue-500/30 bg-blue-500/10 text-blue-300',
+    info: 'border-amber-500/30 bg-amber-500/8 text-amber-300',
   };
 
   const icons: Record<ToastType, string> = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
@@ -117,7 +117,7 @@ function OrderSuccessOverlay({ onClose }: { onClose: () => void }) {
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-md text-center"
       >
-        <div className="rounded-3xl border border-white/10 bg-[#0c1220] p-8 shadow-2xl shadow-blue-500/10 sm:p-10">
+        <div className="rounded-3xl border border-white/10 bg-[#111111] p-8 shadow-2xl shadow-blue-500/10 sm:p-10">
           {/* Animated checkmark */}
           <motion.div
             initial={{ scale: 0 }}
@@ -140,12 +140,12 @@ function OrderSuccessOverlay({ onClose }: { onClose: () => void }) {
 
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
             <h2 className="text-2xl font-extrabold text-white">Order Confirmed!</h2>
-            <p className="mt-3 text-sm text-slate-400 leading-relaxed">
+            <p className="mt-3 text-sm text-stone-400 leading-relaxed">
               Thank you for your order. We've sent a confirmation email with your order details. Your prints will be hand-finished and shipped within 3-5 business days.
             </p>
 
             <div className="mt-6 rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
-              <div className="flex items-center justify-center gap-3 text-sm text-slate-400">
+              <div className="flex items-center justify-center gap-3 text-sm text-stone-400">
                 <svg className="h-5 w-5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg>
                 Check your inbox for order details
               </div>
@@ -154,13 +154,13 @@ function OrderSuccessOverlay({ onClose }: { onClose: () => void }) {
             <div className="mt-8 space-y-3">
               <a
                 href="/shop/orders"
-                className="block w-full rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 py-3.5 text-sm font-bold uppercase tracking-wider text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30"
+                className="block w-full rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 py-3.5 text-sm font-bold uppercase tracking-wider text-white shadow-xl shadow-amber-500/20 transition-all hover:shadow-amber-500/30"
               >
                 View Orders
               </a>
               <button
                 onClick={onClose}
-                className="w-full rounded-xl border border-white/10 bg-white/5 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
+                className="w-full rounded-xl border border-white/10 bg-white/5 py-3 text-sm font-medium text-stone-300 transition hover:bg-white/10 hover:text-white"
               >
                 Continue Shopping
               </button>
@@ -216,27 +216,34 @@ const CUSTOM_CSS = `
 .reveal-delay-3 { transition-delay: 0.3s; }
 
 /* ── Aurora gradient background ── */
-.aurora-bg { background: linear-gradient(135deg, rgba(59,130,246,0.08) 0%, rgba(6,182,212,0.05) 25%, rgba(16,185,129,0.04) 50%, rgba(99,102,241,0.06) 75%, rgba(59,130,246,0.08) 100%); background-size: 400% 400%; animation: aurora 15s ease infinite; }
+.aurora-bg { background: linear-gradient(135deg, rgba(212,144,26,0.08) 0%, rgba(240,184,74,0.05) 25%, rgba(247,217,138,0.04) 50%, rgba(180,120,20,0.06) 75%, rgba(212,144,26,0.08) 100%); background-size: 400% 400%; animation: aurora 15s ease infinite; }
 
 /* ── Animated gradient border on hover ── */
 .gradient-border { position: relative; }
-.gradient-border::before { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: conic-gradient(from var(--angle, 0deg), transparent 40%, rgba(59,130,246,0.3) 55%, rgba(6,182,212,0.3) 65%, rgba(16,185,129,0.2) 75%, transparent 90%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.6s ease; pointer-events: none; animation: border-glow-spin 4s linear infinite; z-index: 10; }
+.gradient-border::before { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: conic-gradient(from var(--angle, 0deg), transparent 40%, rgba(212,144,26,0.3) 55%, rgba(240,184,74,0.3) 65%, rgba(247,217,138,0.2) 75%, transparent 90%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.6s ease; pointer-events: none; animation: border-glow-spin 4s linear infinite; z-index: 10; }
 .gradient-border:hover::before { opacity: 1; }
 
 /* ── Glass card ── */
 .glass { background: rgba(255,255,255,0.02); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.06); }
 .glass-hover { transition: all 0.5s cubic-bezier(0.16,1,0.3,1); }
-.glass-hover:hover { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.1); box-shadow: 0 20px 60px -15px rgba(0,0,0,0.4), 0 0 40px -10px rgba(59,130,246,0.08); transform: translateY(-4px); }
+.glass-hover:hover { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.1); box-shadow: 0 20px 60px -15px rgba(0,0,0,0.4), 0 0 40px -10px rgba(212,144,26,0.08); transform: translateY(-4px); }
 
 /* ── Shimmer text (for special headings) ── */
-.shimmer-text { background: linear-gradient(110deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.9) 40%, rgba(147,197,253,1) 50%, rgba(255,255,255,0.9) 60%, rgba(255,255,255,0.9) 100%); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: text-shimmer 4s ease-in-out infinite; }
+.shimmer-text { background: linear-gradient(110deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.9) 40%, rgba(212,144,26,0.8) 50%, rgba(255,255,255,0.9) 60%, rgba(255,255,255,0.9) 100%); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: text-shimmer 4s ease-in-out infinite; }
+
+/* ── Newspaper editorial ── */
+.newspaper-rule { height: 1px; background: linear-gradient(to right, transparent, rgba(212,144,26,0.25), transparent); }
+.newspaper-rule-v { width: 1px; background: linear-gradient(to bottom, transparent, rgba(212,144,26,0.2), transparent); }
+.editorial-drop::first-letter { font-family: 'Cinzel', serif; font-size: 3.2em; float: left; line-height: 0.8; margin: 0.05em 0.12em 0 0; color: #F0B84A; }
+.col-rule { border-right: 1px solid rgba(212,144,26,0.12); }
+@media(max-width:767px) { .col-rule { border-right: none; border-bottom: 1px solid rgba(212,144,26,0.12); padding-bottom: 16px; } }
 
 /* ── Cursor glow (applied via JS) ── */
-.cursor-glow { position: fixed; width: 400px; height: 400px; border-radius: 50%; pointer-events: none; z-index: 1; background: radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%); transform: translate(-50%, -50%); transition: opacity 0.3s ease; }
+.cursor-glow { position: fixed; width: 400px; height: 400px; border-radius: 50%; pointer-events: none; z-index: 1; background: radial-gradient(circle, rgba(212,144,26,0.06) 0%, transparent 70%); transform: translate(-50%, -50%); transition: opacity 0.3s ease; }
 
 /* ── Smooth section divider ── */
 .section-glow { position: relative; }
-.section-glow::before { content: ''; position: absolute; top: 0; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, rgba(59,130,246,0.2), rgba(6,182,212,0.15), transparent); }
+.section-glow::before { content: ''; position: absolute; top: 0; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, rgba(212,144,26,0.2), rgba(240,184,74,0.15), transparent); }
 
 /* ── Button hover shine ── */
 .btn-shine { position: relative; overflow: hidden; }
@@ -247,11 +254,17 @@ const CUSTOM_CSS = `
 function InjectStyles() {
   useEffect(() => {
     if (document.getElementById('fr-shop-css')) return;
+    // Load medieval fonts
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap';
+    document.head.appendChild(link);
+
     const el = document.createElement('style');
     el.id = 'fr-shop-css';
     el.textContent = CUSTOM_CSS;
     document.head.appendChild(el);
-    return () => { el.remove(); };
+    return () => { el.remove(); link.remove(); };
   }, []);
   return null;
 }
@@ -349,13 +362,12 @@ function MarqueeBanner() {
   const doubled = [...items, ...items];
 
   return (
-    <div className="relative overflow-hidden border-y border-white/[0.04] bg-[#0a0f1a] py-3" style={{ maxHeight: '44px' }}>
+    <div className="relative overflow-hidden border-y border-amber-500/[0.18] bg-amber-500/[0.03] py-3" style={{ maxHeight: '44px' }}>
       <div className="marquee-track" style={{ display: 'flex', whiteSpace: 'nowrap' }}>
         {doubled.map((item, i) => (
-          <span key={i} className="mx-6 inline-flex items-center gap-2 text-[12px] text-slate-500 whitespace-nowrap sm:mx-8">
-            <span className="text-sm opacity-60">{item.icon}</span>
+          <span key={i} className="mx-6 inline-flex items-center gap-3 text-[10px] text-amber-400/80 whitespace-nowrap tracking-[0.22em] uppercase sm:mx-8" style={{ fontFamily: "'Cinzel', serif" }}>
             {item.text}
-            <span className="ml-6 text-slate-800 sm:ml-8">&middot;</span>
+            <span className="w-[3px] h-[3px] rounded-full bg-amber-500/30 ml-3" />
           </span>
         ))}
       </div>
@@ -378,7 +390,7 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
   }, []);
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-500 ${scrolled ? 'border-b border-white/[0.06] bg-[#0a0f1a]/80 backdrop-blur-3xl shadow-2xl shadow-black/30' : 'bg-transparent'}`}>
+    <header className={`sticky top-0 z-50 transition-all duration-500 ${scrolled ? 'border-b border-amber-500/[0.14] bg-[#0a0a0a]/96 backdrop-blur-xl' : 'bg-transparent'}`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         {/* Logo */}
         <a href="/" className="group flex items-center gap-2.5">
@@ -386,8 +398,8 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
             <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-500/50 to-cyan-400/50 blur-md opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             <img src="/headfrlogorv.png" alt="ForgeRealm" width={36} height={36} className="relative h-9 w-9 rounded-full ring-1 ring-white/20 transition-all duration-300 group-hover:ring-blue-400/50" loading="eager" />
           </div>
-          <span className="font-extrabold tracking-[0.15em] text-sm uppercase text-white">
-            Forge<span className="text-blue-300">Realm</span>
+          <span className="font-semibold tracking-[0.1em] text-sm text-amber-300" style={{ fontFamily: "'Cinzel', serif" }}>
+            ForgeRealm
           </span>
         </a>
 
@@ -396,7 +408,7 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
           <div className="relative w-full group">
             <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-400/20 opacity-0 blur transition-opacity group-focus-within:opacity-100" />
             <div className="relative flex items-center">
-              <svg className="absolute left-3.5 h-4 w-4 text-slate-500 transition-colors group-focus-within:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="absolute left-3.5 h-4 w-4 text-stone-500 transition-colors group-focus-within:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               <input
@@ -404,7 +416,7 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
                 placeholder="Search prints..."
                 value={query}
                 onChange={(e) => { setQuery(e.target.value); onSearch(e.target.value); }}
-                className="w-full rounded-full border border-white/10 bg-white/[0.04] py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-500 outline-none transition-all focus:border-blue-500/40 focus:bg-white/[0.08]"
+                className="w-full rounded-full border border-white/10 bg-white/[0.04] py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-500 outline-none transition-all focus:border-amber-500/40 focus:bg-white/[0.08]"
               />
             </div>
           </div>
@@ -412,13 +424,13 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1">
-          <a href="/" className="rounded-lg px-3 py-2 text-sm text-slate-400 transition-all hover:bg-white/5 hover:text-white">Home</a>
-          <a href="#products" className="rounded-lg px-3 py-2 text-sm text-slate-400 transition-all hover:bg-white/5 hover:text-white">Shop</a>
-          <a href="/shop/dashboard" className="rounded-lg px-3 py-2 text-sm text-slate-400 transition-all hover:bg-white/5 hover:text-white">Profile</a>
+          <a href="/" className="rounded-lg px-3 py-2 text-sm text-stone-400 transition-all hover:bg-white/5 hover:text-white">Home</a>
+          <a href="#products" className="rounded-lg px-3 py-2 text-sm text-stone-400 transition-all hover:bg-white/5 hover:text-white">Shop</a>
+          <a href="/shop/dashboard" className="rounded-lg px-3 py-2 text-sm text-stone-400 transition-all hover:bg-white/5 hover:text-white">Profile</a>
           <div className="ml-2 h-5 w-px bg-white/10" />
           <button
             onClick={onCartOpen}
-            className="group relative ml-2 flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-medium text-white transition-all hover:border-blue-500/30 hover:bg-white/10 hover:shadow-lg hover:shadow-blue-500/10"
+            className="group relative ml-2 flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-medium text-white transition-all hover:border-amber-500/30 hover:bg-white/10 hover:shadow-lg hover:shadow-blue-500/10"
           >
             <svg className="h-4 w-4 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -430,7 +442,7 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
                   initial={{ scale: 0, rotate: -180 }}
                   animate={{ scale: 1, rotate: 0 }}
                   exit={{ scale: 0 }}
-                  className="absolute -right-2 -top-2 flex h-5.5 w-5.5 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 text-[11px] font-bold text-white shadow-lg shadow-blue-500/30"
+                  className="absolute -right-2 -top-2 flex h-5.5 w-5.5 items-center justify-center rounded-full bg-gradient-to-r from-amber-500 to-amber-400 text-[11px] font-bold text-white shadow-lg shadow-amber-500/30"
                   style={{ width: 22, height: 22 }}
                 >
                   {count}
@@ -444,7 +456,7 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
         <div className="flex items-center gap-2 md:hidden">
           <button onClick={onCartOpen} className="relative rounded-full bg-white/5 p-2.5 text-white transition hover:bg-white/10">
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
-            {count > 0 && <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-[10px] font-bold text-white">{count}</span>}
+            {count > 0 && <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-[10px] font-bold text-white">{count}</span>}
           </button>
           <button onClick={() => setMobileOpen(!mobileOpen)} className="rounded-full bg-white/5 p-2.5 text-white transition hover:bg-white/10">
             {mobileOpen ? (
@@ -461,12 +473,12 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden border-t border-white/5 md:hidden">
             <div className="space-y-3 px-4 py-4">
               <div className="relative">
-                <svg className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                <svg className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                 <input type="text" placeholder="Search prints..." value={query} onChange={(e) => { setQuery(e.target.value); onSearch(e.target.value); }} className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-500 outline-none" />
               </div>
-              <a href="/" className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white">Home</a>
-              <a href="#products" onClick={() => setMobileOpen(false)} className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white">Shop</a>
-              <a href="/shop/dashboard" className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white">Profile</a>
+              <a href="/" className="block rounded-lg px-3 py-2 text-sm text-stone-300 hover:bg-white/5 hover:text-white">Home</a>
+              <a href="#products" onClick={() => setMobileOpen(false)} className="block rounded-lg px-3 py-2 text-sm text-stone-300 hover:bg-white/5 hover:text-white">Shop</a>
+              <a href="/shop/dashboard" className="block rounded-lg px-3 py-2 text-sm text-stone-300 hover:bg-white/5 hover:text-white">Profile</a>
             </div>
           </motion.div>
         )}
@@ -480,122 +492,108 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
 function HeroBanner() {
   const counter = useCountUp(239, 2200);
   return (
-    <section className="relative overflow-hidden bg-[#0a0f1a]">
-      {/* Ambient background - subtle and refined */}
+    <section className="relative overflow-hidden bg-[#0a0a0a]">
+      {/* Subtle radial warmth */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-40 -top-40 h-[600px] w-[600px] rounded-full bg-blue-600/15 blur-[250px] glow-breathe" />
-        <div className="absolute -right-40 top-10 h-[500px] w-[500px] rounded-full bg-indigo-600/10 blur-[220px] glow-breathe" style={{ animationDelay: '1s' }} />
-        <div className="absolute bottom-0 left-1/3 h-[400px] w-[400px] rounded-full bg-cyan-500/8 blur-[200px] glow-breathe" style={{ animationDelay: '2s' }} />
-
-        {/* Grid pattern */}
-        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
-
-        {/* Floating particles */}
-        {[...Array(8)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full bg-blue-400/30 blur-[1px] float-slow"
-            style={{
-              width: 2 + Math.random() * 4,
-              height: 2 + Math.random() * 4,
-              left: `${10 + Math.random() * 80}%`,
-              top: `${5 + Math.random() * 90}%`,
-              animationDelay: `${i * 0.7}s`,
-              animationDuration: `${5 + Math.random() * 5}s`,
-            }}
-          />
-        ))}
+        <div className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full bg-amber-500/[0.04] blur-[200px]" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-8 py-10 sm:gap-12 sm:py-24 lg:grid-cols-2 lg:py-32">
-          {/* Left text */}
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <div className="mb-4 sm:mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 sm:px-4 sm:py-1.5 text-[8px] sm:text-[10px] font-medium uppercase tracking-[0.25em] text-slate-400 backdrop-blur-xl">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        {/* Masthead */}
+        <div className="pt-20 sm:pt-28 pb-6 sm:pb-8 text-center border-b border-amber-500/20">
+          <p className="text-[8px] sm:text-[9px] font-medium uppercase tracking-[0.4em] text-amber-400/60 mb-3" style={{ fontFamily: "'Jost', sans-serif" }}>
+            Est. 2024 &middot; Leeds, United Kingdom
+          </p>
+          <h1 className="text-4xl sm:text-6xl lg:text-[5.5rem] font-bold leading-[0.9] text-white" style={{ fontFamily: "'Cinzel', serif" }}>
+            <span className="shimmer-text">ForgeRealm</span>
+          </h1>
+          <p className="mt-3 sm:mt-4 text-amber-300/70 text-sm sm:text-base" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', letterSpacing: '0.04em' }}>
+            Artisan Fantasy Miniatures &amp; Collector Pieces
+          </p>
+        </div>
+
+        {/* Editorial columns */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 py-6 sm:py-10">
+          {/* Column 1 - Main story */}
+          <div className="col-rule pr-0 md:pr-8 pb-4 md:pb-0">
+            <div className="mb-3 inline-flex items-center gap-3">
+              <div className="w-6 h-px bg-amber-500" />
+              <span className="text-[8px] font-medium uppercase tracking-[0.28em] text-amber-400" style={{ fontFamily: "'Jost', sans-serif" }}>
+                The Forge
               </span>
-              Now open &middot; Leeds, UK
             </div>
-            <h1 className="text-2xl font-extrabold leading-[1.08] tracking-tight sm:text-4xl lg:text-[3.5rem]">
-              <span className="shimmer-text">Eco 3D prints,</span>{' '}
-              <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-400 bg-clip-text text-transparent gradient-text-flow">
-                crafted by hand.
-              </span>
-            </h1>
-            <p className="mt-3 sm:mt-5 max-w-md text-sm sm:text-base leading-relaxed text-slate-400/90">
-              Plant-based PLA and hand-finished detail. From articulated dragons to voronoi sculptures, every piece is made in Leeds with care.
+            <h2 className="text-2xl sm:text-3xl font-normal text-white leading-[1.15] mb-4" style={{ fontFamily: "'Cinzel', serif" }}>
+              Hand-Finished<br />
+              <em className="text-amber-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Fantasy Prints</em>
+            </h2>
+            <p className="editorial-drop text-[16px] leading-[1.85] text-stone-400" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Every piece begins as a digital sculpture and ends as a hand-finished artefact. Printed in plant-based PLA, each dragon, miniature, and collector piece is crafted with care in our Leeds workshop.
             </p>
-            <div className="mt-5 sm:mt-8 flex flex-wrap gap-2.5 sm:gap-3">
+            <div className="mt-6 flex gap-3">
               <a
                 href="#products"
-                className="btn-shine inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 sm:px-7 sm:py-3 text-xs sm:text-sm font-semibold text-slate-900 transition-all hover:bg-white/90 hover:-translate-y-0.5 shadow-lg shadow-white/10"
+                className="btn-shine inline-flex items-center px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0a0a0a] transition-all hover:-translate-y-0.5 shadow-lg shadow-amber-500/25"
+                style={{ fontFamily: "'Cinzel', serif", background: 'linear-gradient(135deg, #D4901A, #F0B84A)' }}
               >
-                Browse prints
-                <svg className="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                Shop Collection
               </a>
               <a
                 href="/custom-order"
-                className="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.03] px-5 py-2.5 sm:px-7 sm:py-3 text-xs sm:text-sm font-medium text-white/80 backdrop-blur-xl transition-all hover:border-white/20 hover:bg-white/[0.06] hover:text-white"
+                className="inline-flex items-center px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/70 transition-all hover:text-amber-300"
+                style={{ fontFamily: "'Cinzel', serif", border: '1px solid rgba(212,144,26,0.3)' }}
               >
-                Custom order
+                Commissions
               </a>
             </div>
-            <div className="mt-5 sm:mt-8 flex flex-wrap gap-x-4 sm:gap-x-5 gap-y-1.5 text-[11px] sm:text-[12px] text-slate-300 sm:text-slate-500">
-              {['Eco-friendly PLA', 'Free UK shipping £15+', 'Handmade in Leeds'].map((t) => (
-                <span key={t} className="inline-flex items-center gap-1.5">
-                  <svg className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-emerald-500/60" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
-                  {t}
-                </span>
+          </div>
+
+          {/* Column 2 - Stats */}
+          <div className="col-rule px-0 md:px-8 py-4 md:py-0">
+            <div className="flex flex-row md:flex-col gap-6 md:gap-8">
+              <div ref={counter.ref}>
+                <p className="text-4xl sm:text-5xl font-bold text-white tabular-nums" style={{ fontFamily: "'Cinzel', serif" }}>{counter.count}<span className="text-lg text-amber-400">+</span></p>
+                <p className="text-[9px] uppercase tracking-[0.2em] text-stone-500 mt-1" style={{ fontFamily: "'Jost', sans-serif" }}>Prints Sold</p>
+                <p className="text-[11px] text-emerald-400/70 mt-1" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>One print closer to a greener planet</p>
+              </div>
+              <div className="newspaper-rule hidden md:block" />
+              {[
+                { n: '30+', l: 'Designs' },
+                { n: '12', l: 'Collections' },
+                { n: '100%', l: 'Eco PLA' },
+              ].map((s) => (
+                <div key={s.l}>
+                  <p className="text-2xl font-bold text-white" style={{ fontFamily: "'Cinzel', serif" }}>{s.n}</p>
+                  <p className="text-[8px] uppercase tracking-[0.18em] text-stone-500" style={{ fontFamily: "'Jost', sans-serif" }}>{s.l}</p>
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
-          {/* Right - featured logo showcase */}
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 0.2 }} className="relative hidden lg:block">
-            <div className="relative mx-auto w-[420px]">
-              {/* Glow rings */}
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-500/10 via-transparent to-cyan-500/10 blur-3xl" />
-              <div className="absolute -inset-4 rounded-[2rem] border border-white/[0.04]" />
-
-              {/* Main card */}
-              <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.03] p-8 backdrop-blur-2xl">
-                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] to-transparent" />
-
-                <div className="relative flex flex-col items-center gap-6">
-                  <div className="relative">
-                    <div className="absolute -inset-6 rounded-full bg-gradient-to-r from-blue-500/30 to-cyan-400/30 blur-2xl glow-breathe" />
-                    <img src="/frlogorv.png" alt="ForgeRealm" width={140} height={140} className="relative rounded-2xl float-slow" />
-                  </div>
-                  <div className="text-center" ref={counter.ref}>
-                    <p className="text-5xl font-extrabold text-white tabular-nums">{counter.count}<span className="text-2xl text-blue-400">+</span></p>
-                    <p className="mt-1 text-xs tracking-[0.2em] uppercase text-slate-400">Eco prints sold</p>
-                    <p className="mt-2 text-[11px] text-emerald-400/80 italic">One print closer to a greener planet</p>
-                  </div>
-
-                  {/* Mini stats */}
-                  <div className="grid w-full grid-cols-3 gap-3">
-                    {[
-                      { n: '30+', l: 'Designs' },
-                      { n: '12', l: 'Collections' },
-                      { n: '100%', l: 'Eco PLA' },
-                    ].map((s) => (
-                      <div key={s.l} className="rounded-xl border border-white/5 bg-white/[0.03] px-3 py-2.5 text-center">
-                        <p className="text-lg font-bold text-white">{s.n}</p>
-                        <p className="text-[10px] uppercase tracking-wider text-slate-500">{s.l}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+          {/* Column 3 - Dispatch notes */}
+          <div className="pl-0 md:pl-8 pt-4 md:pt-0">
+            <div className="mb-3 inline-flex items-center gap-3">
+              <div className="w-6 h-px bg-amber-500" />
+              <span className="text-[8px] font-medium uppercase tracking-[0.28em] text-amber-400" style={{ fontFamily: "'Jost', sans-serif" }}>
+                Dispatch
+              </span>
             </div>
-          </motion.div>
+            <div className="space-y-4">
+              {['Eco-friendly PLA', 'Free UK shipping £15+', 'Handmade in Leeds', 'Carefully packaged', 'Custom orders welcome'].map((t) => (
+                <div key={t} className="flex items-center gap-3">
+                  <div className="w-[5px] h-[5px] rotate-45 border border-amber-500/40 shrink-0" />
+                  <span className="text-[14px] text-stone-400" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{t}</span>
+                </div>
+              ))}
+            </div>
+            <div className="mt-6">
+              <img src="/frlogorv.png" alt="ForgeRealm" width={80} height={80} className="rounded-xl opacity-50" />
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0f1a] to-transparent" />
+      {/* Bottom rule */}
+      <div className="newspaper-rule" />
     </section>
   );
 }
@@ -610,10 +608,10 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
       <div className="mx-auto max-w-7xl px-4 py-8 sm:py-14 sm:px-6 lg:px-8">
         <div className="mb-5 sm:mb-8 flex items-end justify-between">
           <div>
-            <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.3em] text-blue-400/80">This week</p>
-            <h2 className="mt-1 text-lg sm:text-2xl font-bold text-white">Featured prints</h2>
+            <p className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.28em] text-amber-400" style={{ fontFamily: "'Jost', sans-serif" }}>This week</p>
+            <h2 className="mt-1 text-xl sm:text-2xl font-normal text-white" style={{ fontFamily: "'Cinzel', serif" }}>The <em className="text-amber-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Forge</em> Collection</h2>
           </div>
-          <a href="#products" className="text-xs sm:text-sm text-slate-400 transition hover:text-white">View all &rarr;</a>
+          <a href="#products" className="text-sm text-stone-400 transition hover:text-amber-300">View all &rarr;</a>
         </div>
 
         <div className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory sm:grid sm:grid-cols-2 sm:overflow-visible lg:grid-cols-4">
@@ -627,14 +625,14 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
                 {item.image && (
                   <img src={item.image} alt={item.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="eager" />
                 )}
-                <div className="absolute left-3 top-3 rounded-full bg-slate-900/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-blue-300 border border-blue-500/20 shadow-lg hidden sm:block">
+                <div className="absolute left-3 top-3 rounded-full bg-black/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-300 border border-amber-500/25 shadow-lg hidden sm:block">
                   Featured
                 </div>
               </div>
               <div className="p-3">
                 <div className="mt-0.5 flex items-center justify-between">
-                  <h3 className="text-xs font-semibold text-white sm:text-sm">{item.name}</h3>
-                  <span className="text-xs font-bold text-white sm:text-sm">{item.displayPrice}</span>
+                  <h3 className="text-sm font-normal text-white sm:text-base" style={{ fontFamily: "'Cinzel', serif" }}>{item.name}</h3>
+                  <span className="text-base font-semibold text-amber-300/80 sm:text-lg" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{item.displayPrice}</span>
                 </div>
               </div>
             </div>
@@ -709,7 +707,7 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
             {hasMultiple && (
               <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
                 {product.images!.map((_, i) => (
-                  <span key={i} className={`h-1 rounded-full transition-all duration-500 ${i === imgIdx ? 'w-4 bg-slate-900/60' : 'w-1 bg-slate-900/20'}`} />
+                  <span key={i} className={`h-1 rounded-full transition-all duration-500 ${i === imgIdx ? 'w-4 bg-black/60' : 'w-1 bg-black/20'}`} />
                 ))}
               </div>
             )}
@@ -727,10 +725,10 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
         {/* Badge */}
         {product.badge && (
           <div className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.15em] shadow-lg ${
-            product.badge === 'Coming Soon' ? 'bg-slate-900/90 text-slate-300 border border-slate-700/50' :
-            product.badge === 'Low Stock' ? 'bg-slate-900/90 text-red-400 border border-red-500/30' :
-            product.badge === 'Limited' ? 'bg-slate-900/90 text-amber-400 border border-amber-500/30' :
-            'bg-slate-900/90 text-white/90 border border-white/10'
+            product.badge === 'Coming Soon' ? 'bg-black/90 text-stone-300 border border-slate-700/50' :
+            product.badge === 'Low Stock' ? 'bg-black/90 text-red-400 border border-red-500/30' :
+            product.badge === 'Limited' ? 'bg-black/90 text-amber-400 border border-amber-500/30' :
+            'bg-black/90 text-white/90 border border-white/10'
           }`}>
             {product.badge}
           </div>
@@ -738,7 +736,7 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
 
         {/* Stock */}
         {product.stock !== null && !isComingSoon && (
-          <div className={`absolute right-3 top-3 rounded-full px-2.5 py-1 text-[10px] font-medium shadow-lg ${isLow ? 'bg-slate-900/90 text-amber-400 border border-amber-500/30' : 'bg-slate-900/90 text-slate-300 border border-white/10'}`}>
+          <div className={`absolute right-3 top-3 rounded-full px-2.5 py-1 text-[10px] font-medium shadow-lg ${isLow ? 'bg-black/90 text-amber-400 border border-amber-500/30' : 'bg-black/90 text-stone-300 border border-white/10'}`}>
             {isSoldOut ? 'Sold out' : `${product.stock} left`}
           </div>
         )}
@@ -763,10 +761,10 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
       {/* Info */}
       <div className="p-3 sm:p-4">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="min-w-0 truncate text-[12px] sm:text-[13px] font-medium text-white/90 group-hover:text-white transition-colors">{product.name}</h3>
-          <span className="shrink-0 text-[12px] sm:text-[13px] font-semibold text-white/70">{product.displayPrice}</span>
+          <h3 className="min-w-0 truncate text-[13px] sm:text-[15px] font-normal text-white/90 group-hover:text-white transition-colors" style={{ fontFamily: "'Cinzel', serif" }}>{product.name}</h3>
+          <span className="shrink-0 text-[16px] sm:text-[20px] font-semibold text-amber-300/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{product.displayPrice}</span>
         </div>
-        <p className="mt-1 sm:mt-1.5 line-clamp-2 text-[10px] sm:text-[11px] leading-relaxed text-slate-500/80 hidden sm:block">{product.description}</p>
+        <p className="mt-1 sm:mt-1.5 line-clamp-2 text-[10px] sm:text-[11px] leading-relaxed text-stone-500/80 hidden sm:block">{product.description}</p>
         {isLow && (
           <div className="mt-1.5 sm:mt-2 flex items-center gap-1.5">
             <span className="relative flex h-1.5 w-1.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" /><span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-400" /></span>
@@ -851,7 +849,7 @@ function PriceRangeSlider({ value, onChange }: { value: [number, number]; onChan
     <div className="space-y-3">
       <div className="flex items-center justify-between text-sm">
         <span className="font-semibold text-white">£{(value[0] / 100).toFixed(2)}</span>
-        <span className="text-slate-500">-</span>
+        <span className="text-stone-500">-</span>
         <span className="font-semibold text-white">£{(value[1] / 100).toFixed(2)}</span>
       </div>
       <div ref={trackRef} className="relative h-6 flex items-center cursor-pointer select-none" onMouseDown={(e) => {
@@ -869,17 +867,17 @@ function PriceRangeSlider({ value, onChange }: { value: [number, number]; onChan
         <div className="absolute left-0 right-0 h-1.5 rounded-full bg-white/10" />
         {/* Active range */}
         <div
-          className="absolute h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400"
+          className="absolute h-1.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-400"
           style={{ left: `${pct(value[0])}%`, right: `${100 - pct(value[1])}%` }}
         />
         {/* Min thumb */}
         <div
-          className={`absolute h-5 w-5 -translate-x-1/2 rounded-full border-2 border-blue-400 bg-[#0c1220] shadow-lg shadow-blue-500/20 transition-transform ${dragging === 'min' ? 'scale-125 border-cyan-400' : 'hover:scale-110'}`}
+          className={`absolute h-5 w-5 -translate-x-1/2 rounded-full border-2 border-amber-400 bg-[#111111] shadow-lg shadow-amber-500/20 transition-transform ${dragging === 'min' ? 'scale-125 border-cyan-400' : 'hover:scale-110'}`}
           style={{ left: `${pct(value[0])}%` }}
         />
         {/* Max thumb */}
         <div
-          className={`absolute h-5 w-5 -translate-x-1/2 rounded-full border-2 border-blue-400 bg-[#0c1220] shadow-lg shadow-blue-500/20 transition-transform ${dragging === 'max' ? 'scale-125 border-cyan-400' : 'hover:scale-110'}`}
+          className={`absolute h-5 w-5 -translate-x-1/2 rounded-full border-2 border-amber-400 bg-[#111111] shadow-lg shadow-amber-500/20 transition-transform ${dragging === 'max' ? 'scale-125 border-cyan-400' : 'hover:scale-110'}`}
           style={{ left: `${pct(value[1])}%` }}
         />
       </div>
@@ -900,13 +898,13 @@ function FilterSidebar({ filters, onChange, total, onMobileClose, mobileOpen }: 
     <div className="space-y-7">
       {/* Price range */}
       <div>
-        <h3 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">Price Range</h3>
+        <h3 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-400">Price Range</h3>
         <PriceRangeSlider value={filters.priceRange} onChange={(v) => onChange({ ...filters, priceRange: v })} />
       </div>
 
       {/* Sort */}
       <div>
-        <h3 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">Sort By</h3>
+        <h3 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-400">Sort By</h3>
         <div className="space-y-1.5">
           {SORT_OPTIONS.map((opt) => (
             <button
@@ -914,8 +912,8 @@ function FilterSidebar({ filters, onChange, total, onMobileClose, mobileOpen }: 
               onClick={() => onChange({ ...filters, sort: opt.value })}
               className={`w-full rounded-lg px-3 py-2 text-left text-sm transition-all ${
                 filters.sort === opt.value
-                  ? 'bg-blue-500/15 text-blue-300 font-medium'
-                  : 'text-slate-400 hover:bg-white/5 hover:text-white'
+                  ? 'bg-amber-500/12 text-amber-300 font-medium'
+                  : 'text-stone-400 hover:bg-white/5 hover:text-white'
               }`}
             >
               {opt.label}
@@ -926,12 +924,12 @@ function FilterSidebar({ filters, onChange, total, onMobileClose, mobileOpen }: 
 
       {/* Availability */}
       <div>
-        <h3 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">Availability</h3>
+        <h3 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-400">Availability</h3>
         <button
           onClick={() => onChange({ ...filters, inStock: !filters.inStock })}
           className="flex w-full items-center justify-between rounded-lg border border-white/[0.06] bg-white/[0.03] px-3 py-2.5 text-sm transition hover:bg-white/[0.06]"
         >
-          <span className={filters.inStock ? 'text-white' : 'text-slate-400'}>In stock only</span>
+          <span className={filters.inStock ? 'text-white' : 'text-stone-400'}>In stock only</span>
           <div className={`flex h-5 w-9 items-center rounded-full transition-colors ${filters.inStock ? 'bg-blue-500' : 'bg-white/10'}`}>
             <div className={`h-4 w-4 rounded-full bg-white shadow-sm transition-transform ${filters.inStock ? 'translate-x-4' : 'translate-x-0.5'}`} />
           </div>
@@ -940,7 +938,7 @@ function FilterSidebar({ filters, onChange, total, onMobileClose, mobileOpen }: 
 
       {/* Badges */}
       <div>
-        <h3 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">Tags</h3>
+        <h3 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-400">Tags</h3>
         <div className="flex flex-wrap gap-2">
           {BADGE_OPTIONS.map((badge) => {
             const active = filters.badges.includes(badge);
@@ -953,8 +951,8 @@ function FilterSidebar({ filters, onChange, total, onMobileClose, mobileOpen }: 
                 }}
                 className={`rounded-full px-3 py-1.5 text-xs font-medium transition-all ${
                   active
-                    ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-                    : 'border border-white/[0.08] text-slate-500 hover:border-white/15 hover:text-slate-300'
+                    ? 'bg-amber-500/15 text-amber-300 border border-amber-500/30'
+                    : 'border border-white/[0.08] text-stone-500 hover:border-white/15 hover:text-stone-300'
                 }`}
               >
                 {badge}
@@ -967,12 +965,12 @@ function FilterSidebar({ filters, onChange, total, onMobileClose, mobileOpen }: 
       {/* Reset */}
       <button
         onClick={() => onChange({ priceRange: [MIN_PRICE, MAX_PRICE], inStock: false, sort: 'default', badges: [] })}
-        className="w-full rounded-lg border border-white/[0.06] bg-white/[0.03] py-2.5 text-xs font-medium uppercase tracking-wider text-slate-500 transition hover:bg-white/[0.06] hover:text-white"
+        className="w-full rounded-lg border border-white/[0.06] bg-white/[0.03] py-2.5 text-xs font-medium uppercase tracking-wider text-stone-500 transition hover:bg-white/[0.06] hover:text-white"
       >
         Reset all filters
       </button>
 
-      <p className="text-center text-xs text-slate-600">{total} product{total !== 1 ? 's' : ''} found</p>
+      <p className="text-center text-xs text-stone-600">{total} product{total !== 1 ? 's' : ''} found</p>
     </div>
   );
 
@@ -982,7 +980,7 @@ function FilterSidebar({ filters, onChange, total, onMobileClose, mobileOpen }: 
       <aside className="hidden lg:block w-64 shrink-0">
         <div className="sticky top-[110px] rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 backdrop-blur-sm">
           <h2 className="mb-5 text-sm font-bold text-white flex items-center gap-2">
-            <svg className="h-4 w-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" /></svg>
+            <svg className="h-4 w-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" /></svg>
             Filters
           </h2>
           {content}
@@ -999,14 +997,14 @@ function FilterSidebar({ filters, onChange, total, onMobileClose, mobileOpen }: 
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed bottom-0 left-0 top-0 z-[80] w-full max-w-xs border-r border-white/10 bg-[#0a0f1a]/95 backdrop-blur-xl lg:hidden"
+              className="fixed bottom-0 left-0 top-0 z-[80] w-full max-w-xs border-r border-white/10 bg-[#0a0a0a]/95 backdrop-blur-xl lg:hidden"
             >
               <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4">
                 <h2 className="text-sm font-bold text-white flex items-center gap-2">
-                  <svg className="h-4 w-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" /></svg>
+                  <svg className="h-4 w-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" /></svg>
                   Filters
                 </h2>
-                <button onClick={onMobileClose} className="rounded-full bg-white/5 p-2 text-slate-400 transition hover:bg-white/10 hover:text-white">
+                <button onClick={onMobileClose} className="rounded-full bg-white/5 p-2 text-stone-400 transition hover:bg-white/10 hover:text-white">
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
               </div>
@@ -1054,16 +1052,16 @@ function ProductGrid({ search, filters, onQuickView, onFilterMobileOpen }: {
     <div>
       <div className="mb-6 flex items-end justify-between">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-blue-400/80">Collection</p>
-          <h2 className="mt-1 text-2xl font-bold text-white">
-            All Prints
-            <span className="ml-2 text-base font-normal text-slate-500">({sorted.length})</span>
+          <p className="text-[10px] font-medium uppercase tracking-[0.25em] text-amber-400" style={{ fontFamily: "'Jost', sans-serif" }}>Browse</p>
+          <h2 className="mt-1 text-2xl font-normal text-white" style={{ fontFamily: "'Cinzel', serif" }}>
+            The <em className="text-amber-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Realm</em>
+            <span className="ml-2 text-base font-normal text-stone-500">({sorted.length})</span>
           </h2>
         </div>
         {/* Mobile filter button */}
         <button
           onClick={onFilterMobileOpen}
-          className="flex items-center gap-2 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-xs font-medium text-slate-400 transition hover:bg-white/[0.06] hover:text-white lg:hidden"
+          className="flex items-center gap-2 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-xs font-medium text-stone-400 transition hover:bg-white/[0.06] hover:text-white lg:hidden"
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" /></svg>
           Filters
@@ -1073,8 +1071,8 @@ function ProductGrid({ search, filters, onQuickView, onFilterMobileOpen }: {
       {sorted.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-3xl border border-white/5 bg-white/[0.02] py-24 text-center">
           <span className="text-6xl">🔍</span>
-          <p className="mt-5 text-lg font-semibold text-slate-300">No prints found</p>
-          <p className="mt-1 text-sm text-slate-500">Try adjusting your filters</p>
+          <p className="mt-5 text-lg font-semibold text-stone-300">No prints found</p>
+          <p className="mt-1 text-sm text-stone-500">Try adjusting your filters</p>
         </div>
       ) : (
         <div className="grid gap-2.5 sm:gap-4 grid-cols-2 lg:grid-cols-3">
@@ -1126,7 +1124,7 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
           exit={{ opacity: 0, scale: 0.92, y: 30 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-white/10 bg-[#0c1220] shadow-2xl shadow-black/50"
+          className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-white/10 bg-[#111111] shadow-2xl shadow-black/50"
         >
           <button onClick={onClose} className="absolute right-4 top-4 z-10 rounded-full bg-black/50 p-2 text-white/60 backdrop-blur-sm transition hover:bg-black/70 hover:text-white">
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
@@ -1146,8 +1144,8 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
               )}
               {product.badge && (
                 <div className={`absolute left-4 top-4 rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-wider backdrop-blur-sm ${
-                  product.badge === 'Coming Soon' ? 'bg-slate-900/80 text-slate-400' :
-                  product.badge === 'Popular' ? 'bg-blue-500/90 text-white' :
+                  product.badge === 'Coming Soon' ? 'bg-black/80 text-stone-400' :
+                  product.badge === 'Popular' ? 'bg-amber-500/90 text-white' :
                   product.badge === 'Best Seller' ? 'bg-emerald-500/90 text-white' :
                   product.badge === 'Limited' ? 'bg-amber-500/90 text-white' :
                   product.badge === 'Premium' ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white' :
@@ -1163,11 +1161,11 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
               <div>
                 <h2 className="text-2xl font-bold text-white">{product.name}</h2>
                 <p className="mt-1 text-3xl font-extrabold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">{product.displayPrice}</p>
-                <p className="mt-4 text-sm leading-relaxed text-slate-400">{product.description}</p>
+                <p className="mt-4 text-sm leading-relaxed text-stone-400">{product.description}</p>
 
                 <div className="mt-6 space-y-2.5">
                   {['Eco-friendly PLA material', 'Hand-finished in Leeds', 'Carefully packaged'].map((f) => (
-                    <div key={f} className="flex items-center gap-3 text-sm text-slate-400">
+                    <div key={f} className="flex items-center gap-3 text-sm text-stone-400">
                       <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10">
                         <svg className="h-3 w-3 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
                       </div>
@@ -1179,7 +1177,7 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
                       <div className={`flex h-5 w-5 items-center justify-center rounded-full ${product.stock <= 3 ? 'bg-amber-500/10' : 'bg-emerald-500/10'}`}>
                         <span className={`h-2 w-2 rounded-full ${product.stock <= 3 ? 'bg-amber-400' : 'bg-emerald-400'}`} />
                       </div>
-                      <span className={product.stock <= 3 ? 'text-amber-400' : 'text-slate-400'}>
+                      <span className={product.stock <= 3 ? 'text-amber-400' : 'text-stone-400'}>
                         {isSoldOut ? 'Out of stock' : `${product.stock} in stock`}
                       </span>
                     </div>
@@ -1192,9 +1190,9 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
                 disabled={isComingSoon || isSoldOut}
                 className={`mt-8 w-full rounded-xl py-3.5 text-sm font-bold uppercase tracking-wider transition-all ${
                   added ? 'bg-emerald-500 text-white scale-[0.98]' :
-                  isComingSoon ? 'bg-slate-800 text-slate-500 cursor-not-allowed' :
-                  isSoldOut ? 'bg-slate-800 text-slate-500 cursor-not-allowed' :
-                  'bg-gradient-to-r from-blue-500 to-cyan-400 text-white shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-[1.02]'
+                  isComingSoon ? 'bg-slate-800 text-stone-500 cursor-not-allowed' :
+                  isSoldOut ? 'bg-slate-800 text-stone-500 cursor-not-allowed' :
+                  'bg-gradient-to-r from-amber-500 to-amber-400 text-white shadow-xl shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-[1.02]'
                 }`}
               >
                 {added ? '✓ Added to Basket' : isComingSoon ? 'Coming Soon' : isSoldOut ? 'Out of Stock' : 'Add to Basket'}
@@ -1241,15 +1239,15 @@ function CartDrawer({ open, onClose, onCheckout }: { open: boolean; onClose: () 
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed bottom-0 right-0 top-0 z-[80] flex w-full max-w-md flex-col border-l border-white/10 bg-[#0a0f1a]/95 backdrop-blur-xl"
+            className="fixed bottom-0 right-0 top-0 z-[80] flex w-full max-w-md flex-col border-l border-white/10 bg-[#0a0a0a]/95 backdrop-blur-xl"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/[0.08] px-6 py-5">
               <div>
                 <h2 className="text-lg font-bold text-white">Your Basket</h2>
-                {count > 0 && <p className="text-xs text-slate-500">{count} item{count !== 1 ? 's' : ''}</p>}
+                {count > 0 && <p className="text-xs text-stone-500">{count} item{count !== 1 ? 's' : ''}</p>}
               </div>
-              <button onClick={onClose} className="rounded-full bg-white/5 p-2 text-slate-400 transition hover:bg-white/10 hover:text-white">
+              <button onClick={onClose} className="rounded-full bg-white/5 p-2 text-stone-400 transition hover:bg-white/10 hover:text-white">
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
@@ -1259,10 +1257,10 @@ function CartDrawer({ open, onClose, onCheckout }: { open: boolean; onClose: () 
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-20 text-center">
                   <div className="rounded-full bg-white/5 p-6">
-                    <svg className="h-12 w-12 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                    <svg className="h-12 w-12 text-stone-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
                   </div>
-                  <p className="mt-5 text-base font-semibold text-slate-300">Your basket is empty</p>
-                  <p className="mt-1 text-sm text-slate-500">Add some prints to get started</p>
+                  <p className="mt-5 text-base font-semibold text-stone-300">Your basket is empty</p>
+                  <p className="mt-1 text-sm text-stone-500">Add some prints to get started</p>
                   <button onClick={onClose} className="mt-6 rounded-full border border-white/10 bg-white/5 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-white/10">
                     Continue Shopping
                   </button>
@@ -1281,7 +1279,7 @@ function CartDrawer({ open, onClose, onCheckout }: { open: boolean; onClose: () 
                           exit={{ opacity: 0, x: -30, height: 0 }}
                           className="flex gap-3.5 rounded-xl border border-white/[0.06] bg-white/[0.03] p-3"
                         >
-                          <div className={`h-16 w-16 shrink-0 overflow-hidden rounded-lg ${item.product.image ? 'bg-[#0c1220]' : `bg-gradient-to-br ${st.gradient}`}`}>
+                          <div className={`h-16 w-16 shrink-0 overflow-hidden rounded-lg ${item.product.image ? 'bg-[#111111]' : `bg-gradient-to-br ${st.gradient}`}`}>
                             {item.product.image ? (
                               <img src={item.product.image} alt={item.product.name} className="h-full w-full object-cover" />
                             ) : (
@@ -1294,9 +1292,9 @@ function CartDrawer({ open, onClose, onCheckout }: { open: boolean; onClose: () 
                             <div className="flex items-start justify-between">
                               <div>
                                 <p className="text-sm font-semibold text-white">{item.product.name}</p>
-                                <p className="text-[11px] text-slate-500">{item.product.displayPrice} each</p>
+                                <p className="text-[11px] text-stone-500">{item.product.displayPrice} each</p>
                               </div>
-                              <button onClick={() => remove(item.product.id)} className="rounded-full p-1 text-slate-600 transition hover:bg-red-500/10 hover:text-red-400">
+                              <button onClick={() => remove(item.product.id)} className="rounded-full p-1 text-stone-600 transition hover:bg-red-500/10 hover:text-red-400">
                                 <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                               </button>
                             </div>
@@ -1311,7 +1309,7 @@ function CartDrawer({ open, onClose, onCheckout }: { open: boolean; onClose: () 
                       );
                     })}
                   </AnimatePresence>
-                  <button onClick={clear} className="mt-1 text-[11px] text-slate-600 transition hover:text-red-400">Clear basket</button>
+                  <button onClick={clear} className="mt-1 text-[11px] text-stone-600 transition hover:text-red-400">Clear basket</button>
                 </div>
               )}
             </div>
@@ -1325,17 +1323,17 @@ function CartDrawer({ open, onClose, onCheckout }: { open: boolean; onClose: () 
                   </div>
                 )}
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-slate-400">Subtotal</span>
+                  <span className="text-sm text-stone-400">Subtotal</span>
                   <span className="text-2xl font-extrabold text-white">£{(total / 100).toFixed(2)}</span>
                 </div>
                 <button
                   onClick={handleCheckout}
-                  className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-400 py-4 text-sm font-bold uppercase tracking-wider text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30"
+                  className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 py-4 text-sm font-bold uppercase tracking-wider text-white shadow-xl shadow-amber-500/20 transition-all hover:shadow-amber-500/30"
                 >
                   <span className="relative z-10">Proceed to Checkout</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-400 to-blue-500 opacity-0 transition-opacity group-hover:opacity-100" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 via-amber-400 to-amber-500 opacity-0 transition-opacity group-hover:opacity-100" />
                 </button>
-                <div className="flex items-center justify-center gap-2 text-[11px] text-slate-600">
+                <div className="flex items-center justify-center gap-2 text-[11px] text-stone-600">
                   <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" /></svg>
                   Secured by Stripe. We never see your card
                 </div>
@@ -1410,8 +1408,8 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
     finally { setSubmitting(false); }
   };
 
-  const inputClass = 'w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition focus:border-blue-500/40 focus:bg-white/[0.08]';
-  const labelClass = 'block text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400 mb-1.5';
+  const inputClass = 'w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition focus:border-amber-500/40 focus:bg-white/[0.08]';
+  const labelClass = 'block text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-400 mb-1.5';
 
   return (
     <AnimatePresence>
@@ -1425,24 +1423,24 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             className="fixed inset-4 z-[100] flex items-start justify-center overflow-y-auto sm:inset-8 md:inset-12"
           >
-            <div className="w-full max-w-3xl rounded-3xl border border-white/10 bg-[#0c1220] shadow-2xl shadow-black/50">
+            <div className="w-full max-w-3xl rounded-3xl border border-white/10 bg-[#111111] shadow-2xl shadow-black/50">
               {/* Header */}
               <div className="flex items-center justify-between border-b border-white/[0.08] px-6 py-5 sm:px-8">
                 <div className="flex items-center gap-3">
                   <img src="/headfrlogorv.png" alt="ForgeRealm" width={28} height={28} className="rounded-full" />
                   <div>
                     <h2 className="text-lg font-bold text-white">Checkout</h2>
-                    <p className="text-xs text-slate-500">{count} item{count !== 1 ? 's'  : ''} - £{(total / 100).toFixed(2)}</p>
+                    <p className="text-xs text-stone-500">{count} item{count !== 1 ? 's'  : ''} - £{(total / 100).toFixed(2)}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   {/* Step indicator */}
                   <div className="hidden sm:flex items-center gap-2 text-xs">
-                    <span className={`rounded-full px-2.5 py-1 font-medium ${step === 'form' ? 'bg-blue-500/20 text-blue-300' : 'bg-white/5 text-slate-500'}`}>1. Details</span>
-                    <svg className="h-3 w-3 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                    <span className={`rounded-full px-2.5 py-1 font-medium ${step === 'review' ? 'bg-blue-500/20 text-blue-300' : 'bg-white/5 text-slate-500'}`}>2. Review & Pay</span>
+                    <span className={`rounded-full px-2.5 py-1 font-medium ${step === 'form' ? 'bg-amber-500/15 text-amber-300' : 'bg-white/5 text-stone-500'}`}>1. Details</span>
+                    <svg className="h-3 w-3 text-stone-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                    <span className={`rounded-full px-2.5 py-1 font-medium ${step === 'review' ? 'bg-amber-500/15 text-amber-300' : 'bg-white/5 text-stone-500'}`}>2. Review & Pay</span>
                   </div>
-                  <button onClick={onClose} className="rounded-full bg-white/5 p-2 text-slate-400 transition hover:bg-white/10 hover:text-white">
+                  <button onClick={onClose} className="rounded-full bg-white/5 p-2 text-stone-400 transition hover:bg-white/10 hover:text-white">
                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                   </button>
                 </div>
@@ -1504,8 +1502,8 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
                         className="flex w-full items-center justify-between rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3 text-sm transition hover:bg-white/[0.06]"
                       >
                         <div>
-                          <span className={saveDetails ? 'text-white' : 'text-slate-400'}>Save details for next time</span>
-                          <p className="text-[11px] text-slate-600 mt-0.5">Stored locally on this device only</p>
+                          <span className={saveDetails ? 'text-white' : 'text-stone-400'}>Save details for next time</span>
+                          <p className="text-[11px] text-stone-600 mt-0.5">Stored locally on this device only</p>
                         </div>
                         <div className={`flex h-5 w-9 items-center rounded-full transition-colors ${saveDetails ? 'bg-blue-500' : 'bg-white/10'}`}>
                           <div className={`h-4 w-4 rounded-full bg-white shadow-sm transition-transform ${saveDetails ? 'translate-x-4' : 'translate-x-0.5'}`} />
@@ -1526,7 +1524,7 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
                               </div>
                               <div className="flex-1 min-w-0">
                                 <p className="text-xs font-medium text-white truncate">{item.product.name}</p>
-                                <p className="text-[11px] text-slate-500">x{item.qty}</p>
+                                <p className="text-[11px] text-stone-500">x{item.qty}</p>
                               </div>
                               <span className="text-xs font-semibold text-white">£{((item.product.price * item.qty) / 100).toFixed(2)}</span>
                             </div>
@@ -1534,11 +1532,11 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
                         })}
                       </div>
                       <div className="mt-4 border-t border-white/[0.06] pt-4 space-y-2">
-                        <div className="flex justify-between text-xs text-slate-400">
+                        <div className="flex justify-between text-xs text-stone-400">
                           <span>Subtotal</span>
                           <span>£{(total / 100).toFixed(2)}</span>
                         </div>
-                        <div className="flex justify-between text-xs text-slate-400">
+                        <div className="flex justify-between text-xs text-stone-400">
                           <span>Shipping</span>
                           <span className={total >= 1500 ? 'text-emerald-400' : ''}>{total >= 1500 ? 'Free' : '£3.50'}</span>
                         </div>
@@ -1552,16 +1550,16 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
 
                   {/* Continue button */}
                   <div className="mt-8 flex items-center justify-between gap-4">
-                    <button onClick={onClose} className="rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+                    <button onClick={onClose} className="rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-stone-300 transition hover:bg-white/10 hover:text-white">
                       Back to basket
                     </button>
                     <button
                       onClick={() => { if (isValid) setStep('review'); }}
                       disabled={!isValid}
-                      className="group relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition-all hover:shadow-blue-500/30 disabled:opacity-40 disabled:cursor-not-allowed"
+                      className="group relative overflow-hidden rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-amber-500/20 transition-all hover:shadow-amber-500/30 disabled:opacity-40 disabled:cursor-not-allowed"
                     >
                       <span className="relative z-10">Review Order</span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 transition-opacity group-hover:opacity-100" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-amber-500 opacity-0 transition-opacity group-hover:opacity-100" />
                     </button>
                   </div>
                 </div>
@@ -1573,15 +1571,15 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
                     <div>
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="text-sm font-bold text-white">Shipping To</h3>
-                        <button onClick={() => setStep('form')} className="text-xs text-blue-400 transition hover:text-blue-300">Edit</button>
+                        <button onClick={() => setStep('form')} className="text-xs text-amber-400 transition hover:text-amber-300">Edit</button>
                       </div>
-                      <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 text-sm text-slate-300 space-y-1">
+                      <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 text-sm text-stone-300 space-y-1">
                         <p className="font-semibold text-white">{customer.firstName} {customer.lastName}</p>
                         <p>{customer.address1}</p>
                         {customer.address2 && <p>{customer.address2}</p>}
                         <p>{customer.city}, {customer.postcode}</p>
-                        <p className="text-slate-500">{customer.email}</p>
-                        {customer.phone && <p className="text-slate-500">{customer.phone}</p>}
+                        <p className="text-stone-500">{customer.email}</p>
+                        {customer.phone && <p className="text-stone-500">{customer.phone}</p>}
                       </div>
 
                       <h3 className="text-sm font-bold text-white mt-6 mb-4">Order Items</h3>
@@ -1596,7 +1594,7 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
                               <div className="flex-1 min-w-0">
                                 <p className="text-xs font-medium text-white truncate">{item.product.name}</p>
                               </div>
-                              <span className="text-[11px] text-slate-500">x{item.qty}</span>
+                              <span className="text-[11px] text-stone-500">x{item.qty}</span>
                               <span className="text-xs font-semibold text-white">£{((item.product.price * item.qty) / 100).toFixed(2)}</span>
                             </div>
                           );
@@ -1608,11 +1606,11 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
                     <div>
                       <h3 className="text-sm font-bold text-white mb-4">Payment Summary</h3>
                       <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-5 space-y-3">
-                        <div className="flex justify-between text-sm text-slate-400">
+                        <div className="flex justify-between text-sm text-stone-400">
                           <span>Subtotal ({count} item{count !== 1 ? 's' : ''})</span>
                           <span className="text-white">£{(total / 100).toFixed(2)}</span>
                         </div>
-                        <div className="flex justify-between text-sm text-slate-400">
+                        <div className="flex justify-between text-sm text-stone-400">
                           <span>Shipping</span>
                           <span className={total >= 1500 ? 'text-emerald-400 font-medium' : 'text-white'}>{total >= 1500 ? 'Free' : '£3.50'}</span>
                         </div>
@@ -1623,11 +1621,11 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
                       </div>
 
                       <div className="mt-6 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
-                        <div className="flex items-center gap-3 text-sm text-slate-400">
-                          <svg className="h-5 w-5 text-blue-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                        <div className="flex items-center gap-3 text-sm text-stone-400">
+                          <svg className="h-5 w-5 text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
                           <div>
                             <p className="text-white text-xs font-medium">Secure payment via Stripe</p>
-                            <p className="text-[11px] text-slate-500">You'll be redirected to Stripe to complete payment. We never see your card details.</p>
+                            <p className="text-[11px] text-stone-500">You'll be redirected to Stripe to complete payment. We never see your card details.</p>
                           </div>
                         </div>
                       </div>
@@ -1636,7 +1634,7 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
                         <button
                           onClick={handleSubmit}
                           disabled={submitting}
-                          className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-400 py-4 text-sm font-bold uppercase tracking-wider text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30 disabled:opacity-50"
+                          className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 py-4 text-sm font-bold uppercase tracking-wider text-white shadow-xl shadow-amber-500/20 transition-all hover:shadow-amber-500/30 disabled:opacity-50"
                         >
                           <span className="relative z-10 flex items-center justify-center gap-2">
                             {submitting ? (
@@ -1651,9 +1649,9 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
                               </>
                             )}
                           </span>
-                          <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-400 to-blue-500 opacity-0 transition-opacity group-hover:opacity-100" />
+                          <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 via-amber-400 to-amber-500 opacity-0 transition-opacity group-hover:opacity-100" />
                         </button>
-                        <button onClick={() => setStep('form')} className="w-full rounded-xl border border-white/10 bg-white/5 py-3 text-sm font-medium text-slate-400 transition hover:bg-white/10 hover:text-white">
+                        <button onClick={() => setStep('form')} className="w-full rounded-xl border border-white/10 bg-white/5 py-3 text-sm font-medium text-stone-400 transition hover:bg-white/10 hover:text-white">
                           Back to Details
                         </button>
                       </div>
@@ -1673,54 +1671,82 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
 
 function ShopFooter() {
   return (
-    <footer className="border-t border-white/5 bg-[#070b14]">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-          <div>
+    <footer className="border-t border-amber-500/[0.12] bg-[#080808]">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
+        <div className="grid gap-10 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Brand */}
+          <div className="col-span-2 sm:col-span-2 lg:col-span-1">
             <a href="/" className="group inline-flex items-center gap-2.5">
-              <img src="/headfrlogorv.png" alt="ForgeRealm" width={32} height={32} className="h-8 w-8 rounded-full ring-1 ring-white/10" loading="lazy" />
-              <span className="font-extrabold tracking-[0.15em] text-sm uppercase text-white">
-                Forge<span className="text-blue-300">Realm</span>
-              </span>
+              <img src="/headfrlogorv.png" alt="ForgeRealm" width={28} height={28} className="h-7 w-7 rounded-full" loading="lazy" />
+              <span className="text-[15px] font-semibold tracking-[0.1em] text-amber-300" style={{ fontFamily: "'Cinzel', serif" }}>ForgeRealm</span>
             </a>
-            <p className="mt-4 text-sm leading-relaxed text-slate-500">Eco-friendly 3D printing studio in Leeds. Every piece is hand-finished with plant-based materials.</p>
+            <p className="mt-3 text-[13px] leading-[1.8] text-stone-500" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>
+              Artisan Fantasy Miniatures.<br />Leeds, United Kingdom.
+            </p>
+            <p className="mt-3 text-[12px] leading-relaxed text-stone-600" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Every piece printed, finished, and packed with care.
+            </p>
           </div>
+
+          {/* Shop */}
           <div>
-            <h4 className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">Shop</h4>
-            <ul className="mt-4 space-y-2.5">
-              {['All Products', 'Articulated', 'Keychains', 'Tealights', 'Voronoi'].map((l) => (
-                <li key={l}><a href="#products" className="text-sm text-slate-500 transition hover:text-white">{l}</a></li>
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-300 mb-4" style={{ fontFamily: "'Cinzel', serif" }}>Shop</h4>
+            <ul className="space-y-3">
+              {[
+                { label: 'All Products', href: '#products' },
+                { label: 'Dragons', href: '#products' },
+                { label: 'Voronoi', href: '#products' },
+                { label: 'Fidgets', href: '#products' },
+                { label: 'Keychains', href: '#products' },
+              ].map((l) => (
+                <li key={l.label}><a href={l.href} className="text-[13px] text-stone-500 transition hover:text-amber-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{l.label}</a></li>
               ))}
             </ul>
           </div>
+
+          {/* Info */}
           <div>
-            <h4 className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">Company</h4>
-            <ul className="mt-4 space-y-2.5">
-              {[{ label: 'Home', href: '/' }, { label: 'About', href: '/#about' }, { label: 'Contact', href: '/#contact' }].map((l) => (
-                <li key={l.label}><a href={l.href} className="text-sm text-slate-500 transition hover:text-white">{l.label}</a></li>
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-300 mb-4" style={{ fontFamily: "'Cinzel', serif" }}>Info</h4>
+            <ul className="space-y-3">
+              {[
+                { label: 'Our Story', href: '/#about' },
+                { label: 'Custom Orders', href: '/custom-order' },
+                { label: 'Contact', href: '/#contact' },
+                { label: 'Track Order', href: '/shop/orders' },
+              ].map((l) => (
+                <li key={l.label}><a href={l.href} className="text-[13px] text-stone-500 transition hover:text-amber-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{l.label}</a></li>
               ))}
             </ul>
           </div>
+
+          {/* Delivery */}
           <div>
-            <h4 className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">Trust & Contact</h4>
-            <ul className="mt-4 space-y-3 text-sm text-slate-500">
-              <li className="flex items-center gap-2.5">
-                <svg className="h-4 w-4 text-emerald-500/60" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" /></svg>
-                Secure Stripe checkout
-              </li>
-              <li className="flex items-center gap-2.5">
-                <svg className="h-4 w-4 text-emerald-500/60" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg>
-                forgerealmltd@gmail.com
-              </li>
-              <li className="flex items-center gap-2.5">
-                <svg className="h-4 w-4 text-emerald-500/60" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" /></svg>
-                Leeds, United Kingdom
-              </li>
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-300 mb-4" style={{ fontFamily: "'Cinzel', serif" }}>Delivery</h4>
+            <ul className="space-y-3">
+              {['UK Shipping', 'International', 'Returns', 'Secure Checkout'].map((l) => (
+                <li key={l} className="text-[13px] text-stone-500" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{l}</li>
+              ))}
             </ul>
           </div>
         </div>
-        <div className="mt-12 border-t border-white/5 pt-6 text-center text-xs text-slate-600">
-          &copy; {new Date().getFullYear()} ForgeRealm Ltd. All rights reserved.
+
+        {/* Divider */}
+        <div className="flex items-center gap-4 my-8">
+          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-amber-500/20 to-transparent" />
+          <div className="w-[6px] h-[6px] rotate-45 bg-amber-500/30" />
+          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-amber-500/20 to-transparent" />
+        </div>
+
+        {/* Bottom */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <span className="text-[10px] text-stone-600 tracking-[0.04em]" style={{ fontFamily: "'Jost', sans-serif" }}>
+            &copy; {new Date().getFullYear()} ForgeRealm. Leeds, UK.
+          </span>
+          <div className="flex gap-2">
+            {['Instagram', 'YouTube', 'GitHub'].map((s) => (
+              <span key={s} className="px-3 py-1.5 text-[9px] uppercase tracking-[0.12em] text-stone-500 border border-amber-500/15 cursor-pointer transition hover:border-amber-500/40 hover:text-amber-300" style={{ fontFamily: "'Jost', sans-serif" }}>{s}</span>
+            ))}
+          </div>
         </div>
       </div>
     </footer>
@@ -1773,7 +1799,7 @@ function ShopContent() {
     <CartProvider>
       <ToastProvider>
       <InjectStyles />
-      <div className="min-h-screen bg-[#0a0f1a] text-white aurora-bg">
+      <div className="min-h-screen bg-[#0a0a0a] text-white aurora-bg">
         {/* Noise texture overlay */}
         <div className="noise-overlay" />
         {/* Cursor glow - desktop only */}
@@ -1789,10 +1815,10 @@ function ShopContent() {
         {/* Sidebar + Grid layout */}
         <div id="products" className="mx-auto max-w-7xl px-4 py-8 sm:py-14 sm:px-6 lg:px-8">
           <Reveal>
-            <nav className="flex items-center gap-2 text-xs text-slate-500 mb-6">
+            <nav className="flex items-center gap-2 text-xs text-stone-500 mb-6">
               <a href="/" className="hover:text-white transition">Home</a>
               <span>/</span>
-              <span className="text-slate-300">Shop</span>
+              <span className="text-stone-300">Shop</span>
             </nav>
           </Reveal>
           <div className="flex gap-8">
@@ -1805,23 +1831,22 @@ function ShopContent() {
 
         {/* Bottom CTA */}
         <Reveal>
-        <section className="section-glow relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-950/40 via-[#0a0f1a] to-blue-950/40" />
+        <section className="relative overflow-hidden border-t border-amber-500/[0.12]">
+          <div className="absolute inset-0 bg-[#080808]" />
           <div className="absolute inset-0">
-            <div className="absolute left-1/4 top-0 h-[300px] w-[300px] rounded-full bg-blue-500/10 blur-[120px]" />
-            <div className="absolute right-1/4 bottom-0 h-[300px] w-[300px] rounded-full bg-cyan-500/10 blur-[120px]" />
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-amber-500/[0.04] blur-[180px]" />
           </div>
           <div className="relative mx-auto max-w-3xl px-4 py-12 sm:py-20 text-center sm:px-6">
-            <h2 className="text-xl font-extrabold text-white sm:text-3xl lg:text-4xl">
-              Can't find what you're looking for?
+            <h2 className="text-2xl font-normal text-white sm:text-4xl lg:text-5xl" style={{ fontFamily: "'Cinzel', serif" }}>
+              Commission a <em className="text-amber-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Custom Piece</em>
             </h2>
-            <p className="mt-3 sm:mt-4 text-sm sm:text-lg text-slate-400">
-              We take custom orders. Tell us your idea and we'll bring it to life with eco-friendly materials.
+            <p className="mt-3 sm:mt-4 text-sm sm:text-lg text-stone-400" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>
+              Tell us your vision and we'll forge it into reality. Every custom order is hand-finished in Leeds.
             </p>
             <div className="mt-5 sm:mt-8 flex flex-wrap justify-center gap-3 sm:gap-4">
-              <a href="/custom-order" className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-5 py-2.5 sm:px-8 sm:py-3.5 text-xs sm:text-sm font-semibold text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30 hover:-translate-y-0.5">
+              <a href="/custom-order" className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-amber-500 to-amber-400 px-5 py-2.5 sm:px-8 sm:py-3.5 text-xs sm:text-sm font-semibold text-white shadow-xl shadow-amber-500/20 transition-all hover:shadow-amber-500/30 hover:-translate-y-0.5">
                 <span className="relative z-10">Get a custom quote</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 transition-opacity group-hover:opacity-100" />
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-amber-500 opacity-0 transition-opacity group-hover:opacity-100" />
               </a>
               <a href="/" className="rounded-full border border-white/15 bg-white/5 px-5 py-2.5 sm:px-8 sm:py-3.5 text-xs sm:text-sm font-semibold text-white transition-all hover:border-white/25 hover:bg-white/10">
                 Back to home
