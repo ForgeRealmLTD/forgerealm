@@ -1811,20 +1811,18 @@ function ShopContent() {
         <Reveal>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-4">
             <div className="relative overflow-hidden rounded-2xl cursor-pointer group" style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
-              {/* Mobile: image bg with overlay text */}
-              <div className="sm:hidden relative min-h-[220px]">
-                <img src="/shop-products/bundle1.png" alt="Voronoi Cat Family Bundle" className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
-                <div className="relative p-5 flex flex-col justify-center h-full">
-                  <span className="text-[9px] font-medium uppercase tracking-[0.25em] text-blue-300/70 mb-1" style={{ fontFamily: "'Jost', sans-serif" }}>ForgeRealm &middot; Leeds</span>
-                  <h3 className="text-2xl font-bold text-white leading-[0.95]" style={{ fontFamily: "'Cinzel', serif" }}>
-                    Voronoi Cat <span className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontStyle: 'italic' }}>Family.</span>
+              {/* Mobile: image bg with overlay text pinned to bottom */}
+              <div className="sm:hidden relative min-h-[200px]">
+                <img src="/shop-products/bundle1.png" alt="Voronoi Cat Family Bundle" className="absolute inset-0 w-full h-full object-cover object-right" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                <div className="relative p-4 flex flex-col justify-end h-full min-h-[200px]">
+                  <h3 className="text-lg font-bold text-white leading-[1]" style={{ fontFamily: "'Cinzel', serif" }}>
+                    Voronoi Cat <span className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontStyle: 'italic' }}>Family</span>
                   </h3>
-                  <div className="flex items-baseline gap-2 mt-2">
-                    <span className="text-[12px] text-white/50" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>only</span>
-                    <span className="text-2xl font-bold text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>&pound;10</span>
+                  <div className="flex items-baseline gap-3 mt-1.5">
+                    <span className="text-xl font-bold text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>&pound;10</span>
+                    <span className="text-[11px] text-white/50" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>4-piece bundle</span>
                   </div>
-                  <p className="text-[11px] text-white/40 mt-1" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>4-piece bundle &middot; matte black &amp; white</p>
                 </div>
               </div>
 
