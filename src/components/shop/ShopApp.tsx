@@ -224,7 +224,7 @@ const CUSTOM_CSS = `
 .gradient-border:hover::before { opacity: 1; }
 
 /* ── Glass card ── */
-.glass { background: rgba(255,255,255,0.02); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.06); }
+.glass { background: rgba(255,255,255,0.02); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.14); }
 .glass-hover { transition: all 0.5s cubic-bezier(0.16,1,0.3,1); }
 .glass-hover:hover { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.1); box-shadow: 0 20px 60px -15px rgba(0,0,0,0.4), 0 0 40px -10px rgba(59,130,246,0.08); transform: translateY(-4px); }
 
@@ -247,11 +247,17 @@ const CUSTOM_CSS = `
 function InjectStyles() {
   useEffect(() => {
     if (document.getElementById('fr-shop-css')) return;
+    // Load medieval fonts
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap';
+    document.head.appendChild(link);
+
     const el = document.createElement('style');
     el.id = 'fr-shop-css';
     el.textContent = CUSTOM_CSS;
     document.head.appendChild(el);
-    return () => { el.remove(); };
+    return () => { el.remove(); link.remove(); };
   }, []);
   return null;
 }
@@ -349,13 +355,13 @@ function MarqueeBanner() {
   const doubled = [...items, ...items];
 
   return (
-    <div className="relative overflow-hidden border-y border-white/[0.04] bg-[#0a0f1a] py-3" style={{ maxHeight: '44px' }}>
+    <div className="relative overflow-hidden border-y border-white/[0.04] bg-[#0a0f1a] py-4" style={{ maxHeight: '52px' }}>
       <div className="marquee-track" style={{ display: 'flex', whiteSpace: 'nowrap' }}>
         {doubled.map((item, i) => (
-          <span key={i} className="mx-6 inline-flex items-center gap-2 text-[12px] text-slate-500 whitespace-nowrap sm:mx-8">
-            <span className="text-sm opacity-60">{item.icon}</span>
+          <span key={i} className="mx-6 inline-flex items-center gap-2.5 text-[14px] sm:text-[15px] text-slate-400 whitespace-nowrap sm:mx-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <span className="text-base">{item.icon}</span>
             {item.text}
-            <span className="ml-6 text-slate-800 sm:ml-8">&middot;</span>
+            <span className="ml-6 text-slate-700 sm:ml-8">&middot;</span>
           </span>
         ))}
       </div>
@@ -386,8 +392,8 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
             <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-500/50 to-cyan-400/50 blur-md opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             <img src="/headfrlogorv.png" alt="ForgeRealm" width={36} height={36} className="relative h-9 w-9 rounded-full ring-1 ring-white/20 transition-all duration-300 group-hover:ring-blue-400/50" loading="eager" />
           </div>
-          <span className="font-extrabold tracking-[0.15em] text-sm uppercase text-white">
-            Forge<span className="text-blue-300">Realm</span>
+          <span className="font-semibold tracking-[0.1em] text-sm text-blue-300" style={{ fontFamily: "'Cinzel', serif" }}>
+            ForgeRealm
           </span>
         </a>
 
@@ -430,7 +436,7 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
                   initial={{ scale: 0, rotate: -180 }}
                   animate={{ scale: 1, rotate: 0 }}
                   exit={{ scale: 0 }}
-                  className="absolute -right-2 -top-2 flex h-5.5 w-5.5 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 text-[11px] font-bold text-white shadow-lg shadow-blue-500/30"
+                  className="absolute -right-2 -top-2 flex h-5.5 w-5.5 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 text-[13px] font-bold text-white shadow-lg shadow-blue-500/30"
                   style={{ width: 22, height: 22 }}
                 >
                   {count}
@@ -444,7 +450,7 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
         <div className="flex items-center gap-2 md:hidden">
           <button onClick={onCartOpen} className="relative rounded-full bg-white/5 p-2.5 text-white transition hover:bg-white/10">
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
-            {count > 0 && <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-[10px] font-bold text-white">{count}</span>}
+            {count > 0 && <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-[12px] font-bold text-white">{count}</span>}
           </button>
           <button onClick={() => setMobileOpen(!mobileOpen)} className="rounded-full bg-white/5 p-2.5 text-white transition hover:bg-white/10">
             {mobileOpen ? (
@@ -511,38 +517,38 @@ function HeroBanner() {
         <div className="grid items-center gap-8 py-10 sm:gap-12 sm:py-24 lg:grid-cols-2 lg:py-32">
           {/* Left text */}
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <div className="mb-4 sm:mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 sm:px-4 sm:py-1.5 text-[8px] sm:text-[10px] font-medium uppercase tracking-[0.25em] text-slate-400 backdrop-blur-xl">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            <div className="mb-4 sm:mb-5 inline-flex items-center gap-3">
+              <div className="w-8 h-px bg-blue-400/50" />
+              <span className="text-[13px] sm:text-[15px] font-medium uppercase tracking-[0.28em] text-blue-300/70" style={{ fontFamily: "'Jost', sans-serif" }}>
+                Leeds Artisan 3D Printing
               </span>
-              Now open &middot; Leeds, UK
             </div>
-            <h1 className="text-2xl font-extrabold leading-[1.08] tracking-tight sm:text-4xl lg:text-[3.5rem]">
-              <span className="shimmer-text">Eco 3D prints,</span>{' '}
-              <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-400 bg-clip-text text-transparent gradient-text-flow">
-                crafted by hand.
+            <h1 className="text-3xl font-bold leading-[0.95] tracking-tight sm:text-5xl lg:text-[4rem]" style={{ fontFamily: "'Cinzel', serif" }}>
+              <span className="shimmer-text">Welcome to</span><br />
+              <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-400 bg-clip-text text-transparent gradient-text-flow" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300, fontSize: '1.1em' }}>
+                the Realm
               </span>
             </h1>
-            <p className="mt-3 sm:mt-5 max-w-md text-sm sm:text-base leading-relaxed text-slate-400/90">
-              Plant-based PLA and hand-finished detail. From articulated dragons to voronoi sculptures, every piece is made in Leeds with care.
+            <p className="mt-3 sm:mt-5 max-w-md leading-relaxed text-slate-400/90" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: 'clamp(16px,4vw,20px)', lineHeight: 1.7 }}>
+              Hand-finished fantasy miniatures, articulated dragons &amp; collector pieces. Crafted in Leeds with plant-based PLA.
             </p>
             <div className="mt-5 sm:mt-8 flex flex-wrap gap-2.5 sm:gap-3">
               <a
                 href="#products"
-                className="btn-shine inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 sm:px-7 sm:py-3 text-xs sm:text-sm font-semibold text-slate-900 transition-all hover:bg-white/90 hover:-translate-y-0.5 shadow-lg shadow-white/10"
+                className="btn-shine inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-6 py-2.5 sm:px-7 sm:py-3 text-[12px] sm:text-[15px] font-semibold uppercase tracking-[0.14em] text-white transition-all hover:-translate-y-0.5 shadow-lg shadow-blue-500/25"
+                style={{ fontFamily: "'Cinzel', serif" }}
               >
-                Browse prints
-                <svg className="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                Shop Collection
               </a>
               <a
                 href="/custom-order"
-                className="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.03] px-5 py-2.5 sm:px-7 sm:py-3 text-xs sm:text-sm font-medium text-white/80 backdrop-blur-xl transition-all hover:border-white/20 hover:bg-white/[0.06] hover:text-white"
+                className="inline-flex items-center gap-2 rounded-full border border-white/[0.12] bg-white/[0.03] px-6 py-2.5 sm:px-7 sm:py-3 text-[12px] sm:text-[15px] font-semibold uppercase tracking-[0.14em] text-white/70 backdrop-blur-xl transition-all hover:border-blue-400/30 hover:text-white"
+                style={{ fontFamily: "'Cinzel', serif" }}
               >
-                Custom order
+                Custom Print
               </a>
             </div>
-            <div className="mt-5 sm:mt-8 flex flex-wrap gap-x-4 sm:gap-x-5 gap-y-1.5 text-[11px] sm:text-[12px] text-slate-300 sm:text-slate-500">
+            <div className="mt-5 sm:mt-8 flex flex-wrap gap-x-4 sm:gap-x-5 gap-y-1.5 text-[13px] sm:text-[15px] text-slate-300 sm:text-slate-500">
               {['Eco-friendly PLA', 'Free UK shipping £15+', 'Handmade in Leeds'].map((t) => (
                 <span key={t} className="inline-flex items-center gap-1.5">
                   <svg className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-emerald-500/60" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
@@ -571,7 +577,7 @@ function HeroBanner() {
                   <div className="text-center" ref={counter.ref}>
                     <p className="text-5xl font-extrabold text-white tabular-nums">{counter.count}<span className="text-2xl text-blue-400">+</span></p>
                     <p className="mt-1 text-xs tracking-[0.2em] uppercase text-slate-400">Eco prints sold</p>
-                    <p className="mt-2 text-[11px] text-emerald-400/80 italic">One print closer to a greener planet</p>
+                    <p className="mt-2 text-[13px] text-emerald-400/80 italic">One print closer to a greener planet</p>
                   </div>
 
                   {/* Mini stats */}
@@ -583,7 +589,7 @@ function HeroBanner() {
                     ].map((s) => (
                       <div key={s.l} className="rounded-xl border border-white/5 bg-white/[0.03] px-3 py-2.5 text-center">
                         <p className="text-lg font-bold text-white">{s.n}</p>
-                        <p className="text-[10px] uppercase tracking-wider text-slate-500">{s.l}</p>
+                        <p className="text-[12px] uppercase tracking-wider text-slate-500">{s.l}</p>
                       </div>
                     ))}
                   </div>
@@ -610,8 +616,8 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
       <div className="mx-auto max-w-7xl px-4 py-8 sm:py-14 sm:px-6 lg:px-8">
         <div className="mb-5 sm:mb-8 flex items-end justify-between">
           <div>
-            <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.3em] text-blue-400/80">This week</p>
-            <h2 className="mt-1 text-lg sm:text-2xl font-bold text-white">Featured prints</h2>
+            <p className="text-[12px] sm:text-[15px] font-medium uppercase tracking-[0.28em] text-blue-300/70" style={{ fontFamily: "'Jost', sans-serif" }}>This week</p>
+            <h2 className="mt-1 text-xl sm:text-2xl font-normal text-white" style={{ fontFamily: "'Cinzel', serif" }}>The <em className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Forge</em> Collection</h2>
           </div>
           <a href="#products" className="text-xs sm:text-sm text-slate-400 transition hover:text-white">View all &rarr;</a>
         </div>
@@ -622,19 +628,20 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
               key={item.id}
               onClick={() => onQuickView(item)}
               className="gradient-border group cursor-pointer overflow-hidden rounded-2xl glass glass-hover shrink-0 w-[70vw] snap-start sm:w-auto sm:shrink"
+              style={{ borderColor: 'rgba(255,255,255,0.12)' }}
             >
-              <div className="relative aspect-square bg-[#e8e8e8]">
+              <div className="relative aspect-[3/4] bg-white">
                 {item.image && (
                   <img src={item.image} alt={item.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="eager" />
                 )}
-                <div className="absolute left-3 top-3 rounded-full bg-slate-900/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-blue-300 border border-blue-500/20 shadow-lg hidden sm:block">
+                <div className="absolute left-3 top-3 rounded-full bg-slate-900/90 px-2.5 py-1 text-[12px] font-semibold uppercase tracking-wider text-blue-300 border border-blue-500/20 shadow-lg hidden sm:block">
                   Featured
                 </div>
               </div>
               <div className="p-3">
                 <div className="mt-0.5 flex items-center justify-between">
-                  <h3 className="text-xs font-semibold text-white sm:text-sm">{item.name}</h3>
-                  <span className="text-xs font-bold text-white sm:text-sm">{item.displayPrice}</span>
+                  <h3 className="text-sm font-normal text-white sm:text-base" style={{ fontFamily: "'Cinzel', serif" }}>{item.name}</h3>
+                  <span className="text-base font-semibold text-cyan-300/80 sm:text-lg" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{item.displayPrice}</span>
                 </div>
               </div>
             </div>
@@ -680,10 +687,11 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
   return (
     <div
       onClick={() => onQuickView(product)}
-      className="gradient-border group cursor-pointer overflow-hidden rounded-2xl glass glass-hover"
+      className="gradient-border group cursor-pointer overflow-hidden rounded-2xl glass glass-hover flex flex-col"
+      style={{ borderColor: 'rgba(255,255,255,0.12)' }}
     >
       {/* Image */}
-      <div className={`relative aspect-square ${product.image ? 'bg-[#e8e8e8]' : `bg-gradient-to-br ${style.gradient}`}`}>
+      <div className={`relative aspect-[3/4] ${product.image ? 'bg-white' : `bg-gradient-to-br ${style.gradient}`}`}>
         {product.image ? (
           <>
             {hasMultiple ? (
@@ -726,7 +734,7 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
 
         {/* Badge */}
         {product.badge && (
-          <div className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.15em] shadow-lg ${
+          <div className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[13px] font-semibold uppercase tracking-[0.15em] shadow-lg ${
             product.badge === 'Coming Soon' ? 'bg-slate-900/90 text-slate-300 border border-slate-700/50' :
             product.badge === 'Low Stock' ? 'bg-slate-900/90 text-red-400 border border-red-500/30' :
             product.badge === 'Limited' ? 'bg-slate-900/90 text-amber-400 border border-amber-500/30' :
@@ -738,20 +746,20 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
 
         {/* Stock */}
         {product.stock !== null && !isComingSoon && (
-          <div className={`absolute right-3 top-3 rounded-full px-2.5 py-1 text-[10px] font-medium shadow-lg ${isLow ? 'bg-slate-900/90 text-amber-400 border border-amber-500/30' : 'bg-slate-900/90 text-slate-300 border border-white/10'}`}>
+          <div className={`absolute right-3 top-3 rounded-full px-2.5 py-1 text-[12px] font-medium shadow-lg ${isLow ? 'bg-slate-900/90 text-amber-400 border border-amber-500/30' : 'bg-slate-900/90 text-slate-300 border border-white/10'}`}>
             {isSoldOut ? 'Sold out' : `${product.stock} left`}
           </div>
         )}
 
-        {/* Add overlay */}
+        {/* Add to basket overlay */}
         {!isComingSoon && !isSoldOut && (
-          <div className="absolute inset-x-3 bottom-3 translate-y-2 opacity-0 transition-all duration-400 group-hover:translate-y-0 group-hover:opacity-100">
+          <div className="absolute inset-x-3 bottom-3 translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
             <button
               onClick={handleAdd}
-              className={`w-full rounded-xl py-2.5 text-[11px] font-semibold uppercase tracking-[0.1em] transition-all backdrop-blur-xl ${
+              className={`w-full rounded-xl py-2.5 text-[13px] font-semibold uppercase tracking-[0.1em] transition-all backdrop-blur-xl ${
                 added
                   ? 'bg-emerald-500/90 text-white scale-[0.97]'
-                  : 'bg-white/90 text-slate-900 hover:bg-white shadow-lg shadow-black/20'
+                  : 'bg-gradient-to-r from-amber-400 to-amber-500 text-black hover:from-amber-300 hover:to-amber-400 shadow-lg shadow-amber-500/20'
               }`}
             >
               {added ? '✓ Added' : 'Add to Basket'}
@@ -761,16 +769,38 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
       </div>
 
       {/* Info */}
-      <div className="p-3 sm:p-4">
+      <div className="p-3 sm:p-4 flex flex-col flex-1">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="min-w-0 truncate text-[12px] sm:text-[13px] font-medium text-white/90 group-hover:text-white transition-colors">{product.name}</h3>
-          <span className="shrink-0 text-[12px] sm:text-[13px] font-semibold text-white/70">{product.displayPrice}</span>
+          <div className="min-w-0 flex-1">
+            <h3 className="truncate text-[13px] sm:text-[15px] font-normal text-white/90 group-hover:text-white transition-colors" style={{ fontFamily: "'Cinzel', serif" }}>{product.name}</h3>
+          </div>
+          <span className="shrink-0 text-[17px] sm:text-[20px] font-semibold text-cyan-300/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{product.displayPrice}</span>
         </div>
-        <p className="mt-1 sm:mt-1.5 line-clamp-2 text-[10px] sm:text-[11px] leading-relaxed text-slate-500/80 hidden sm:block">{product.description}</p>
+        <p className="mt-1 sm:mt-1.5 line-clamp-2 text-[13px] sm:text-[15px] leading-relaxed text-slate-400 hidden sm:block" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{product.description}</p>
         {isLow && (
-          <div className="mt-1.5 sm:mt-2 flex items-center gap-1.5">
+          <div className="mt-1.5 flex items-center gap-1.5">
             <span className="relative flex h-1.5 w-1.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" /><span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-400" /></span>
-            <p className="text-[10px] font-medium text-amber-400/80">Only {product.stock} left</p>
+            <p className="text-[12px] font-medium text-amber-400/80">Only {product.stock} left</p>
+          </div>
+        )}
+        {/* Cart button pinned to bottom */}
+        <div className="flex-1" />
+        {!isComingSoon && !isSoldOut && (
+          <div className="flex justify-end mt-2">
+            <button
+              onClick={handleAdd}
+              className={`flex items-center justify-center w-8 h-8 rounded-lg transition-all shrink-0 ${
+                added
+                  ? 'bg-emerald-500 scale-90'
+                  : 'bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 shadow shadow-amber-500/20 hover:scale-110'
+              }`}
+            >
+              {added ? (
+                <svg className="h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+              ) : (
+                <svg className="h-3.5 w-3.5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" /></svg>
+              )}
+            </button>
           </div>
         )}
       </div>
@@ -900,13 +930,13 @@ function FilterSidebar({ filters, onChange, total, onMobileClose, mobileOpen }: 
     <div className="space-y-7">
       {/* Price range */}
       <div>
-        <h3 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">Price Range</h3>
+        <h3 className="mb-3 text-[13px] font-semibold uppercase tracking-[0.25em] text-slate-400">Price Range</h3>
         <PriceRangeSlider value={filters.priceRange} onChange={(v) => onChange({ ...filters, priceRange: v })} />
       </div>
 
       {/* Sort */}
       <div>
-        <h3 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">Sort By</h3>
+        <h3 className="mb-3 text-[13px] font-semibold uppercase tracking-[0.25em] text-slate-400">Sort By</h3>
         <div className="space-y-1.5">
           {SORT_OPTIONS.map((opt) => (
             <button
@@ -926,7 +956,7 @@ function FilterSidebar({ filters, onChange, total, onMobileClose, mobileOpen }: 
 
       {/* Availability */}
       <div>
-        <h3 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">Availability</h3>
+        <h3 className="mb-3 text-[13px] font-semibold uppercase tracking-[0.25em] text-slate-400">Availability</h3>
         <button
           onClick={() => onChange({ ...filters, inStock: !filters.inStock })}
           className="flex w-full items-center justify-between rounded-lg border border-white/[0.06] bg-white/[0.03] px-3 py-2.5 text-sm transition hover:bg-white/[0.06]"
@@ -940,7 +970,7 @@ function FilterSidebar({ filters, onChange, total, onMobileClose, mobileOpen }: 
 
       {/* Badges */}
       <div>
-        <h3 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">Tags</h3>
+        <h3 className="mb-3 text-[13px] font-semibold uppercase tracking-[0.25em] text-slate-400">Tags</h3>
         <div className="flex flex-wrap gap-2">
           {BADGE_OPTIONS.map((badge) => {
             const active = filters.badges.includes(badge);
@@ -1054,9 +1084,9 @@ function ProductGrid({ search, filters, onQuickView, onFilterMobileOpen }: {
     <div>
       <div className="mb-6 flex items-end justify-between">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-blue-400/80">Collection</p>
-          <h2 className="mt-1 text-2xl font-bold text-white">
-            All Prints
+          <p className="text-[12px] font-medium uppercase tracking-[0.28em] text-blue-300/70" style={{ fontFamily: "'Jost', sans-serif" }}>Browse</p>
+          <h2 className="mt-1 text-2xl font-normal text-white" style={{ fontFamily: "'Cinzel', serif" }}>
+            The <em className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Realm</em>
             <span className="ml-2 text-base font-normal text-slate-500">({sorted.length})</span>
           </h2>
         </div>
@@ -1133,7 +1163,7 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
           </button>
 
           <div className="grid md:grid-cols-2">
-            <div className={`relative min-h-[300px] md:min-h-0 ${product.image ? 'bg-[#e8e8e8]' : `bg-gradient-to-br ${style.gradient}`}`}>
+            <div className={`relative min-h-[300px] md:min-h-0 ${product.image ? 'bg-white' : `bg-gradient-to-br ${style.gradient}`}`}>
               {product.image ? (
                 <img src={product.image} alt={product.name} className="absolute inset-0 h-full w-full object-cover" />
               ) : (
@@ -1194,7 +1224,7 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
                   added ? 'bg-emerald-500 text-white scale-[0.98]' :
                   isComingSoon ? 'bg-slate-800 text-slate-500 cursor-not-allowed' :
                   isSoldOut ? 'bg-slate-800 text-slate-500 cursor-not-allowed' :
-                  'bg-gradient-to-r from-blue-500 to-cyan-400 text-white shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-[1.02]'
+                  'bg-gradient-to-r from-amber-400 to-amber-500 text-black shadow-xl shadow-amber-500/25 hover:from-amber-300 hover:to-amber-400 hover:scale-[1.02]'
                 }`}
               >
                 {added ? '✓ Added to Basket' : isComingSoon ? 'Coming Soon' : isSoldOut ? 'Out of Stock' : 'Add to Basket'}
@@ -1294,7 +1324,7 @@ function CartDrawer({ open, onClose, onCheckout }: { open: boolean; onClose: () 
                             <div className="flex items-start justify-between">
                               <div>
                                 <p className="text-sm font-semibold text-white">{item.product.name}</p>
-                                <p className="text-[11px] text-slate-500">{item.product.displayPrice} each</p>
+                                <p className="text-[13px] text-slate-500">{item.product.displayPrice} each</p>
                               </div>
                               <button onClick={() => remove(item.product.id)} className="rounded-full p-1 text-slate-600 transition hover:bg-red-500/10 hover:text-red-400">
                                 <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
@@ -1311,7 +1341,7 @@ function CartDrawer({ open, onClose, onCheckout }: { open: boolean; onClose: () 
                       );
                     })}
                   </AnimatePresence>
-                  <button onClick={clear} className="mt-1 text-[11px] text-slate-600 transition hover:text-red-400">Clear basket</button>
+                  <button onClick={clear} className="mt-1 text-[13px] text-slate-600 transition hover:text-red-400">Clear basket</button>
                 </div>
               )}
             </div>
@@ -1335,7 +1365,7 @@ function CartDrawer({ open, onClose, onCheckout }: { open: boolean; onClose: () 
                   <span className="relative z-10">Proceed to Checkout</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-400 to-blue-500 opacity-0 transition-opacity group-hover:opacity-100" />
                 </button>
-                <div className="flex items-center justify-center gap-2 text-[11px] text-slate-600">
+                <div className="flex items-center justify-center gap-2 text-[13px] text-slate-600">
                   <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" /></svg>
                   Secured by Stripe. We never see your card
                 </div>
@@ -1411,7 +1441,7 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
   };
 
   const inputClass = 'w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition focus:border-blue-500/40 focus:bg-white/[0.08]';
-  const labelClass = 'block text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400 mb-1.5';
+  const labelClass = 'block text-[13px] font-semibold uppercase tracking-[0.2em] text-slate-400 mb-1.5';
 
   return (
     <AnimatePresence>
@@ -1505,7 +1535,7 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
                       >
                         <div>
                           <span className={saveDetails ? 'text-white' : 'text-slate-400'}>Save details for next time</span>
-                          <p className="text-[11px] text-slate-600 mt-0.5">Stored locally on this device only</p>
+                          <p className="text-[13px] text-slate-600 mt-0.5">Stored locally on this device only</p>
                         </div>
                         <div className={`flex h-5 w-9 items-center rounded-full transition-colors ${saveDetails ? 'bg-blue-500' : 'bg-white/10'}`}>
                           <div className={`h-4 w-4 rounded-full bg-white shadow-sm transition-transform ${saveDetails ? 'translate-x-4' : 'translate-x-0.5'}`} />
@@ -1526,7 +1556,7 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
                               </div>
                               <div className="flex-1 min-w-0">
                                 <p className="text-xs font-medium text-white truncate">{item.product.name}</p>
-                                <p className="text-[11px] text-slate-500">x{item.qty}</p>
+                                <p className="text-[13px] text-slate-500">x{item.qty}</p>
                               </div>
                               <span className="text-xs font-semibold text-white">£{((item.product.price * item.qty) / 100).toFixed(2)}</span>
                             </div>
@@ -1596,7 +1626,7 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
                               <div className="flex-1 min-w-0">
                                 <p className="text-xs font-medium text-white truncate">{item.product.name}</p>
                               </div>
-                              <span className="text-[11px] text-slate-500">x{item.qty}</span>
+                              <span className="text-[13px] text-slate-500">x{item.qty}</span>
                               <span className="text-xs font-semibold text-white">£{((item.product.price * item.qty) / 100).toFixed(2)}</span>
                             </div>
                           );
@@ -1627,7 +1657,7 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
                           <svg className="h-5 w-5 text-blue-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
                           <div>
                             <p className="text-white text-xs font-medium">Secure payment via Stripe</p>
-                            <p className="text-[11px] text-slate-500">You'll be redirected to Stripe to complete payment. We never see your card details.</p>
+                            <p className="text-[13px] text-slate-500">You'll be redirected to Stripe to complete payment. We never see your card details.</p>
                           </div>
                         </div>
                       </div>
@@ -1679,48 +1709,39 @@ function ShopFooter() {
           <div>
             <a href="/" className="group inline-flex items-center gap-2.5">
               <img src="/headfrlogorv.png" alt="ForgeRealm" width={32} height={32} className="h-8 w-8 rounded-full ring-1 ring-white/10" loading="lazy" />
-              <span className="font-extrabold tracking-[0.15em] text-sm uppercase text-white">
-                Forge<span className="text-blue-300">Realm</span>
+              <span className="font-semibold tracking-[0.1em] text-sm text-blue-300" style={{ fontFamily: "'Cinzel', serif" }}>
+                ForgeRealm
               </span>
             </a>
-            <p className="mt-4 text-sm leading-relaxed text-slate-500">Eco-friendly 3D printing studio in Leeds. Every piece is hand-finished with plant-based materials.</p>
+            <p className="mt-4 text-[15px] leading-relaxed text-slate-400" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>Artisan Fantasy Miniatures. Every piece printed, finished, and packed with care in Leeds.</p>
           </div>
           <div>
-            <h4 className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">Shop</h4>
-            <ul className="mt-4 space-y-2.5">
-              {['All Products', 'Articulated', 'Keychains', 'Tealights', 'Voronoi'].map((l) => (
-                <li key={l}><a href="#products" className="text-sm text-slate-500 transition hover:text-white">{l}</a></li>
+            <h4 className="text-[13px] font-semibold uppercase tracking-[0.14em] text-slate-300 mb-4" style={{ fontFamily: "'Cinzel', serif" }}>Shop</h4>
+            <ul className="mt-4 space-y-3">
+              {['All Products', 'Dragons', 'Voronoi', 'Fidgets', 'Keychains'].map((l) => (
+                <li key={l}><a href="#products" className="text-[15px] text-slate-400 transition hover:text-blue-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{l}</a></li>
               ))}
             </ul>
           </div>
           <div>
-            <h4 className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">Company</h4>
-            <ul className="mt-4 space-y-2.5">
-              {[{ label: 'Home', href: '/' }, { label: 'About', href: '/#about' }, { label: 'Contact', href: '/#contact' }].map((l) => (
-                <li key={l.label}><a href={l.href} className="text-sm text-slate-500 transition hover:text-white">{l.label}</a></li>
+            <h4 className="text-[13px] font-semibold uppercase tracking-[0.14em] text-slate-300 mb-4" style={{ fontFamily: "'Cinzel', serif" }}>Info</h4>
+            <ul className="mt-4 space-y-3">
+              {[{ label: 'Our Story', href: '/#about' }, { label: 'Custom Orders', href: '/custom-order' }, { label: 'Contact', href: '/#contact' }, { label: 'Track Order', href: '/shop/orders' }].map((l) => (
+                <li key={l.label}><a href={l.href} className="text-[15px] text-slate-400 transition hover:text-blue-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{l.label}</a></li>
               ))}
             </ul>
           </div>
           <div>
-            <h4 className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">Trust & Contact</h4>
-            <ul className="mt-4 space-y-3 text-sm text-slate-500">
-              <li className="flex items-center gap-2.5">
-                <svg className="h-4 w-4 text-emerald-500/60" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" /></svg>
-                Secure Stripe checkout
-              </li>
-              <li className="flex items-center gap-2.5">
-                <svg className="h-4 w-4 text-emerald-500/60" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg>
-                forgerealmltd@gmail.com
-              </li>
-              <li className="flex items-center gap-2.5">
-                <svg className="h-4 w-4 text-emerald-500/60" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" /></svg>
-                Leeds, United Kingdom
-              </li>
+            <h4 className="text-[13px] font-semibold uppercase tracking-[0.14em] text-slate-300 mb-4" style={{ fontFamily: "'Cinzel', serif" }}>Delivery</h4>
+            <ul className="mt-4 space-y-3">
+              {['UK Shipping', 'Secure Checkout', 'Returns'].map((l) => (
+                <li key={l} className="text-[15px] text-slate-400" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{l}</li>
+              ))}
             </ul>
           </div>
         </div>
-        <div className="mt-12 border-t border-white/5 pt-6 text-center text-xs text-slate-600">
-          &copy; {new Date().getFullYear()} ForgeRealm Ltd. All rights reserved.
+        <div className="mt-12 border-t border-white/5 pt-6 text-center text-[13px] text-slate-500 tracking-wide" style={{ fontFamily: "'Jost', sans-serif" }}>
+          &copy; {new Date().getFullYear()} ForgeRealm Ltd. Leeds, UK.
         </div>
       </div>
     </footer>
@@ -1786,6 +1807,45 @@ function ShopContent() {
           <FeaturedRow onQuickView={setModalProduct} />
         </div>
 
+        {/* Bundle Banner */}
+        <Reveal>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-4">
+            <div className="relative overflow-hidden rounded-2xl cursor-pointer group" style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 min-h-[280px] sm:min-h-[340px]">
+                {/* Left - Dark text panel */}
+                <div className="relative bg-[#0e0e0e] p-6 sm:p-8 lg:p-10 flex flex-col justify-center z-10">
+                  <span className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.25em] text-blue-300/70 mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
+                    ForgeRealm &middot; Leeds
+                  </span>
+                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-[0.95]" style={{ fontFamily: "'Cinzel', serif" }}>
+                    Voronoi<br />Cat<br />
+                    <span className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontStyle: 'italic', fontSize: '1.1em' }}>Family.</span>
+                  </h3>
+                  <div className="mt-4 border-t border-blue-400/30 pt-3 inline-block">
+                    <span className="text-[13px] text-white/50 mr-2" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>only</span>
+                    <span className="text-3xl sm:text-4xl font-bold text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>&pound;10</span>
+                  </div>
+                  <p className="text-[12px] sm:text-[13px] text-white/40 mt-2" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>
+                    4-piece bundle &middot; matte black &amp; white
+                  </p>
+                  <p className="text-[10px] text-white/20 mt-4" style={{ fontFamily: "'Jost', sans-serif" }}>forgerealm.co.uk</p>
+                </div>
+                {/* Right - Image with diagonal gold accent */}
+                <div className="relative bg-white overflow-hidden">
+                  {/* Diagonal accent slash */}
+                  <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(155deg, #3b82f6 0%, #22d3ee 2%, transparent 2.5%)' }} />
+                  <img
+                    src="/shop-products/bundle1.png"
+                    alt="Voronoi Cat Family Bundle"
+                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 shadow-[inset_0_0_50px_rgba(0,0,0,0.15)]" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
         {/* Sidebar + Grid layout */}
         <div id="products" className="mx-auto max-w-7xl px-4 py-8 sm:py-14 sm:px-6 lg:px-8">
           <Reveal>
@@ -1812,11 +1872,11 @@ function ShopContent() {
             <div className="absolute right-1/4 bottom-0 h-[300px] w-[300px] rounded-full bg-cyan-500/10 blur-[120px]" />
           </div>
           <div className="relative mx-auto max-w-3xl px-4 py-12 sm:py-20 text-center sm:px-6">
-            <h2 className="text-xl font-extrabold text-white sm:text-3xl lg:text-4xl">
-              Can't find what you're looking for?
+            <h2 className="text-2xl font-normal text-white sm:text-4xl lg:text-5xl" style={{ fontFamily: "'Cinzel', serif" }}>
+              Commission a <em className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Custom Piece</em>
             </h2>
-            <p className="mt-3 sm:mt-4 text-sm sm:text-lg text-slate-400">
-              We take custom orders. Tell us your idea and we'll bring it to life with eco-friendly materials.
+            <p className="mt-3 sm:mt-4 text-sm sm:text-lg text-slate-400" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>
+              Tell us your vision and we'll forge it into reality. Every custom order is hand-finished in Leeds.
             </p>
             <div className="mt-5 sm:mt-8 flex flex-wrap justify-center gap-3 sm:gap-4">
               <a href="/custom-order" className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-5 py-2.5 sm:px-8 sm:py-3.5 text-xs sm:text-sm font-semibold text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30 hover:-translate-y-0.5">
