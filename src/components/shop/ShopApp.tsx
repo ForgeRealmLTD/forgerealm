@@ -175,36 +175,66 @@ function OrderSuccessOverlay({ onClose }: { onClose: () => void }) {
 /* ═══════════════════════════ CSS Injection ═══════════════════════════ */
 
 const CUSTOM_CSS = `
+/* ── Core keyframes ── */
 @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 @keyframes float { 0%,100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-20px) rotate(3deg); } }
 @keyframes glow-pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 0.8; } }
 @keyframes gradient-flow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-@keyframes border-dance { 0% { border-color: rgba(59,130,246,0.3); } 33% { border-color: rgba(6,182,212,0.3); } 66% { border-color: rgba(16,185,129,0.3); } 100% { border-color: rgba(59,130,246,0.3); } }
-.shimmer-bg { background: linear-gradient(110deg, transparent 33%, rgba(255,255,255,0.08) 50%, transparent 67%); background-size: 200% 100%; animation: shimmer 3s infinite; }
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes border-glow-spin { 0% { --angle: 0deg; } 100% { --angle: 360deg; } }
+@keyframes noise-scroll { 0% { transform: translate(0,0); } 10% { transform: translate(-5%,-5%); } 20% { transform: translate(-10%,5%); } 30% { transform: translate(5%,-10%); } 40% { transform: translate(-5%,15%); } 50% { transform: translate(-10%,5%); } 60% { transform: translate(15%,0); } 70% { transform: translate(0,10%); } 80% { transform: translate(-15%,0); } 90% { transform: translate(10%,5%); } 100% { transform: translate(5%,0); } }
+@keyframes aurora { 0% { background-position: 0% 50%; } 25% { background-position: 50% 100%; } 50% { background-position: 100% 50%; } 75% { background-position: 50% 0%; } 100% { background-position: 0% 50%; } }
+@keyframes reveal-up { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes reveal-scale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+@keyframes pulse-ring { 0% { transform: scale(1); opacity: 0.4; } 100% { transform: scale(2.5); opacity: 0; } }
+@keyframes text-shimmer { 0% { background-position: -100% 0; } 100% { background-position: 200% 0; } }
+
+/* ── Utilities ── */
 .float-slow { animation: float 6s ease-in-out infinite; }
-.float-slower { animation: float 8s ease-in-out infinite; animation-delay: 1s; }
 .glow-breathe { animation: glow-pulse 4s ease-in-out infinite; }
 .gradient-text-flow { background-size: 200% auto; animation: gradient-flow 4s ease infinite; }
-.border-dance { animation: border-dance 4s ease infinite; }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-.card-shine { position: relative; overflow: hidden; }
-.card-shine::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.06) 45%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.06) 55%, transparent 60%); transform: translateX(-100%); transition: transform 0.7s cubic-bezier(0.4,0,0.2,1); pointer-events: none; }
-.card-shine:hover::after { transform: translateX(100%); }
-@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 .marquee-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
 .marquee-track:hover { animation-play-state: paused; }
-@keyframes tilt-glow { 0%,100% { box-shadow: 0 0 20px rgba(59,130,246,0.0); } 50% { box-shadow: 0 0 30px rgba(59,130,246,0.15); } }
-.card-tilt { transition: transform 0.4s cubic-bezier(0.03,0.98,0.52,0.99); perspective: 800px; }
-.card-tilt:hover { transform: translateY(-8px) rotateX(2deg) rotateY(-1deg) scale(1.02); }
-@keyframes count-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.count-reveal { animation: count-up 0.6s ease-out forwards; }
-@keyframes noise-scroll { 0% { transform: translate(0,0); } 10% { transform: translate(-5%,-5%); } 20% { transform: translate(-10%,5%); } 30% { transform: translate(5%,-10%); } 40% { transform: translate(-5%,15%); } 50% { transform: translate(-10%,5%); } 60% { transform: translate(15%,0); } 70% { transform: translate(0,10%); } 80% { transform: translate(-15%,0); } 90% { transform: translate(10%,5%); } 100% { transform: translate(5%,0); } }
-.noise-overlay { position: fixed; inset: -50%; z-index: 9999; pointer-events: none; opacity: 0.015; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); animation: noise-scroll 8s steps(10) infinite; }
-@keyframes border-glow-rotate { 0% { --angle: 0deg; } 100% { --angle: 360deg; } }
-.glow-border { position: relative; }
-.glow-border::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: conic-gradient(from var(--angle, 0deg), transparent 60%, rgba(59,130,246,0.4) 75%, rgba(6,182,212,0.4) 85%, transparent 95%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.5s ease; pointer-events: none; animation: border-glow-rotate 4s linear infinite; }
-.glow-border:hover::before { opacity: 1; }
+
+/* ── Noise texture ── */
+.noise-overlay { position: fixed; inset: -50%; z-index: 9999; pointer-events: none; opacity: 0.012; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); animation: noise-scroll 8s steps(10) infinite; }
+
+/* ── Scroll reveal ── */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal.revealed { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* ── Aurora gradient background ── */
+.aurora-bg { background: linear-gradient(135deg, rgba(59,130,246,0.08) 0%, rgba(6,182,212,0.05) 25%, rgba(16,185,129,0.04) 50%, rgba(99,102,241,0.06) 75%, rgba(59,130,246,0.08) 100%); background-size: 400% 400%; animation: aurora 15s ease infinite; }
+
+/* ── Animated gradient border on hover ── */
+.gradient-border { position: relative; }
+.gradient-border::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: conic-gradient(from var(--angle, 0deg), transparent 40%, rgba(59,130,246,0.5) 55%, rgba(6,182,212,0.5) 65%, rgba(16,185,129,0.4) 75%, transparent 90%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.6s ease; pointer-events: none; animation: border-glow-spin 4s linear infinite; }
+.gradient-border:hover::before { opacity: 1; }
+
+/* ── Glass card ── */
+.glass { background: rgba(255,255,255,0.02); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.06); }
+.glass-hover { transition: all 0.5s cubic-bezier(0.16,1,0.3,1); }
+.glass-hover:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); box-shadow: 0 20px 60px -15px rgba(0,0,0,0.3), 0 0 40px -10px rgba(59,130,246,0.1); }
+
+/* ── Shimmer text (for special headings) ── */
+.shimmer-text { background: linear-gradient(110deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.9) 40%, rgba(147,197,253,1) 50%, rgba(255,255,255,0.9) 60%, rgba(255,255,255,0.9) 100%); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: text-shimmer 4s ease-in-out infinite; }
+
+/* ── Cursor glow (applied via JS) ── */
+.cursor-glow { position: fixed; width: 400px; height: 400px; border-radius: 50%; pointer-events: none; z-index: 1; background: radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%); transform: translate(-50%, -50%); transition: opacity 0.3s ease; }
+
+/* ── Smooth section divider ── */
+.section-glow { position: relative; }
+.section-glow::before { content: ''; position: absolute; top: 0; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, rgba(59,130,246,0.2), rgba(6,182,212,0.15), transparent); }
+
+/* ── Button hover shine ── */
+.btn-shine { position: relative; overflow: hidden; }
+.btn-shine::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(transparent, rgba(255,255,255,0.08), transparent); transform: rotate(45deg) translateY(-100%); transition: transform 0.6s ease; pointer-events: none; }
+.btn-shine:hover::after { transform: rotate(45deg) translateY(0%); }
 `;
 
 function InjectStyles() {
@@ -217,6 +247,51 @@ function InjectStyles() {
     return () => { el.remove(); };
   }, []);
   return null;
+}
+
+/* ═══════════════════════════ Cursor Glow ═══════════════════════════ */
+
+function CursorGlow() {
+  const glowRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = glowRef.current;
+    if (!el || window.innerWidth < 768) return; // skip on mobile
+    const move = (e: MouseEvent) => {
+      el.style.left = e.clientX + 'px';
+      el.style.top = e.clientY + 'px';
+      el.style.opacity = '1';
+    };
+    const leave = () => { el.style.opacity = '0'; };
+    window.addEventListener('mousemove', move);
+    document.addEventListener('mouseleave', leave);
+    return () => { window.removeEventListener('mousemove', move); document.removeEventListener('mouseleave', leave); };
+  }, []);
+
+  return <div ref={glowRef} className="cursor-glow" style={{ opacity: 0 }} />;
+}
+
+/* ═══════════════════════════ Scroll Reveal ═══════════════════════════ */
+
+function useReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { el.classList.add('revealed'); obs.disconnect(); } },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return ref;
+}
+
+function Reveal({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const ref = useReveal();
+  const delayClass = delay === 1 ? 'reveal-delay-1' : delay === 2 ? 'reveal-delay-2' : delay === 3 ? 'reveal-delay-3' : '';
+  return <div ref={ref} className={`reveal ${delayClass} ${className}`}>{children}</div>;
 }
 
 /* ═══════════════════════════ Hooks ═══════════════════════════ */
@@ -404,6 +479,25 @@ function HeroBanner() {
         <div className="absolute -left-40 -top-40 h-[600px] w-[600px] rounded-full bg-blue-600/15 blur-[250px] glow-breathe" />
         <div className="absolute -right-40 top-10 h-[500px] w-[500px] rounded-full bg-indigo-600/10 blur-[220px] glow-breathe" style={{ animationDelay: '1s' }} />
         <div className="absolute bottom-0 left-1/3 h-[400px] w-[400px] rounded-full bg-cyan-500/8 blur-[200px] glow-breathe" style={{ animationDelay: '2s' }} />
+
+        {/* Grid pattern */}
+        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
+
+        {/* Floating particles */}
+        {[...Array(8)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full bg-blue-400/30 blur-[1px] float-slow"
+            style={{
+              width: 2 + Math.random() * 4,
+              height: 2 + Math.random() * 4,
+              left: `${10 + Math.random() * 80}%`,
+              top: `${5 + Math.random() * 90}%`,
+              animationDelay: `${i * 0.7}s`,
+              animationDuration: `${5 + Math.random() * 5}s`,
+            }}
+          />
+        ))}
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -417,8 +511,8 @@ function HeroBanner() {
               </span>
               Now open &middot; Leeds, UK
             </div>
-            <h1 className="text-2xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-4xl lg:text-[3.5rem]">
-              Eco 3D prints,{' '}
+            <h1 className="text-2xl font-extrabold leading-[1.08] tracking-tight sm:text-4xl lg:text-[3.5rem]">
+              <span className="shimmer-text">Eco 3D prints,</span>{' '}
               <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-400 bg-clip-text text-transparent gradient-text-flow">
                 crafted by hand.
               </span>
@@ -429,7 +523,7 @@ function HeroBanner() {
             <div className="mt-5 sm:mt-8 flex flex-wrap gap-2.5 sm:gap-3">
               <a
                 href="#products"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 sm:px-7 sm:py-3 text-xs sm:text-sm font-semibold text-slate-900 transition-all hover:bg-white/90 hover:-translate-y-0.5 shadow-lg shadow-white/10"
+                className="btn-shine inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 sm:px-7 sm:py-3 text-xs sm:text-sm font-semibold text-slate-900 transition-all hover:bg-white/90 hover:-translate-y-0.5 shadow-lg shadow-white/10"
               >
                 Browse prints
                 <svg className="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
@@ -505,7 +599,7 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
   const featured = products.filter((p) => p.featured);
 
   return (
-    <section className="relative border-b border-white/5 bg-gradient-to-b from-transparent via-blue-950/20 to-transparent">
+    <section className="section-glow relative bg-gradient-to-b from-transparent via-blue-950/10 to-transparent">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="mb-8 flex items-end justify-between">
           <div>
@@ -521,7 +615,7 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
               key={item.id}
               whileHover={{ y: -6 }}
               onClick={() => onQuickView(item)}
-              className="group cursor-pointer overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] transition-all duration-500 hover:border-white/[0.12] hover:shadow-2xl hover:shadow-blue-500/[0.08] hover:-translate-y-1"
+              className="gradient-border group cursor-pointer overflow-hidden rounded-2xl glass glass-hover"
             >
               <div className="relative aspect-square bg-[#0c1220]">
                 {item.image && (
@@ -587,7 +681,7 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.4, delay: index * 0.03 }}
       onClick={() => onQuickView(product)}
-      className="group cursor-pointer overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm transition-all duration-500 hover:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-2xl hover:shadow-blue-500/[0.08] hover:-translate-y-1"
+      className="gradient-border group cursor-pointer overflow-hidden rounded-2xl glass glass-hover"
     >
       {/* Image */}
       <div className={`relative aspect-square ${product.image ? 'bg-[#e8e8e8]' : `bg-gradient-to-br ${style.gradient}`}`}>
@@ -1685,30 +1779,29 @@ function ShopContent() {
     <CartProvider>
       <ToastProvider>
       <InjectStyles />
-      <div className="min-h-screen bg-[#0a0f1a] text-white">
+      <div className="min-h-screen bg-[#0a0f1a] text-white aurora-bg">
         {/* Noise texture overlay */}
         <div className="noise-overlay" />
-
-        {/* Promo banner */}
-        {/* <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 text-center">
-          <div className="absolute inset-0 shimmer-bg opacity-30" />
-          <p className="relative py-2 text-xs font-semibold tracking-wider text-white sm:text-sm">
-            🌱 Free UK shipping on orders over £15. <span className="underline decoration-white/40 underline-offset-2">100% eco-friendly</span>
-          </p>
-        </div> */}
+        {/* Cursor glow - desktop only */}
+        <CursorGlow />
 
         <ShopHeader onCartOpen={() => setCartOpen(true)} onSearch={setSearch} />
         <HeroBanner />
         <MarqueeBanner />
-        <FeaturedRow onQuickView={setModalProduct} />
+
+        <Reveal>
+          <FeaturedRow onQuickView={setModalProduct} />
+        </Reveal>
 
         {/* Sidebar + Grid layout */}
         <div id="products" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-          <nav className="flex items-center gap-2 text-xs text-slate-500 mb-6">
-            <a href="/" className="hover:text-white transition">Home</a>
-            <span>/</span>
-            <span className="text-slate-300">Shop</span>
-          </nav>
+          <Reveal>
+            <nav className="flex items-center gap-2 text-xs text-slate-500 mb-6">
+              <a href="/" className="hover:text-white transition">Home</a>
+              <span>/</span>
+              <span className="text-slate-300">Shop</span>
+            </nav>
+          </Reveal>
           <div className="flex gap-8">
             <FilterSidebar filters={filters} onChange={setFilters} total={filteredCount} mobileOpen={filterMobileOpen} onMobileClose={() => setFilterMobileOpen(false)} />
             <div className="flex-1 min-w-0">
@@ -1718,7 +1811,8 @@ function ShopContent() {
         </div>
 
         {/* Bottom CTA */}
-        <section className="relative overflow-hidden border-t border-white/5">
+        <Reveal>
+        <section className="section-glow relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-950/40 via-[#0a0f1a] to-blue-950/40" />
           <div className="absolute inset-0">
             <div className="absolute left-1/4 top-0 h-[300px] w-[300px] rounded-full bg-blue-500/10 blur-[120px]" />
@@ -1742,6 +1836,7 @@ function ShopContent() {
             </div>
           </div>
         </section>
+        </Reveal>
 
         <ShopFooter />
 
