@@ -186,6 +186,13 @@ const CUSTOM_CSS = `
 @keyframes aurora { 0% { background-position: 0% 50%; } 25% { background-position: 50% 100%; } 50% { background-position: 100% 50%; } 75% { background-position: 50% 0%; } 100% { background-position: 0% 50%; } }
 @keyframes reveal-up { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes reveal-scale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+@keyframes entrance { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.enter { animation: entrance 0.7s cubic-bezier(0.16,1,0.3,1) both; }
+.enter-d1 { animation-delay: 0.1s; }
+.enter-d2 { animation-delay: 0.25s; }
+.enter-d3 { animation-delay: 0.4s; }
+.enter-d4 { animation-delay: 0.55s; }
+.enter-d5 { animation-delay: 0.7s; }
 @keyframes pulse-ring { 0% { transform: scale(1); opacity: 0.4; } 100% { transform: scale(2.5); opacity: 0; } }
 @keyframes text-shimmer { 0% { background-position: -100% 0; } 100% { background-position: 200% 0; } }
 
@@ -1772,13 +1779,18 @@ function ShopContent() {
         {/* Cursor glow - desktop only */}
         <CursorGlow />
 
-        <ShopHeader onCartOpen={() => setCartOpen(true)} onSearch={setSearch} />
-        <HeroBanner />
-        <MarqueeBanner />
-
-        <Reveal>
+        <div className="enter enter-d1">
+          <ShopHeader onCartOpen={() => setCartOpen(true)} onSearch={setSearch} />
+        </div>
+        <div className="enter enter-d2">
+          <HeroBanner />
+        </div>
+        <div className="enter enter-d3">
+          <MarqueeBanner />
+        </div>
+        <div className="enter enter-d4">
           <FeaturedRow onQuickView={setModalProduct} />
-        </Reveal>
+        </div>
 
         {/* Sidebar + Grid layout */}
         <div id="products" className="mx-auto max-w-7xl px-4 py-8 sm:py-14 sm:px-6 lg:px-8">
@@ -1825,7 +1837,9 @@ function ShopContent() {
         </section>
         </Reveal>
 
-        <ShopFooter />
+        <Reveal>
+          <ShopFooter />
+        </Reveal>
 
         <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} onCheckout={() => setCheckoutOpen(true)} />
         <CheckoutForm open={checkoutOpen} onClose={() => setCheckoutOpen(false)} />
