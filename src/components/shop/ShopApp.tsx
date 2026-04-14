@@ -1811,28 +1811,13 @@ function ShopContent() {
         <Reveal>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-4">
             <div className="relative overflow-hidden rounded-2xl cursor-pointer group" style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
-              {/* Mobile: image bg with single-line overlay at bottom */}
-              <div className="sm:hidden relative min-h-[200px]">
-                <img src="/shop-products/bundle1.png" alt="Voronoi Cat Family Bundle" className="absolute inset-0 w-full h-full object-cover object-center" />
-                <div className="absolute bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm px-4 py-3 flex items-center justify-between">
-                  <h3 className="text-[13px] font-bold text-white" style={{ fontFamily: "'Cinzel', serif" }}>
-                    Voronoi Cat <span className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontStyle: 'italic' }}>Family</span>
-                  </h3>
-                  <div className="flex items-baseline gap-2 shrink-0">
-                    <span className="text-lg font-bold text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>&pound;10</span>
-                    <span className="text-[10px] text-white/40" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>4-piece</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Desktop: split layout */}
-              <div className="hidden sm:grid sm:grid-cols-2 min-h-[340px]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 min-h-[280px] sm:min-h-[340px]">
                 {/* Left - Dark text panel */}
-                <div className="relative bg-[#0e0e0e] p-8 lg:p-10 flex flex-col justify-center z-10">
-                  <span className="text-[11px] font-medium uppercase tracking-[0.25em] text-blue-300/70 mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
+                <div className="relative bg-[#0e0e0e] p-6 sm:p-8 lg:p-10 flex flex-col justify-center z-10">
+                  <span className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.25em] text-blue-300/70 mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
                     ForgeRealm &middot; Leeds
                   </span>
-                  <h3 className="text-4xl lg:text-5xl font-bold text-white leading-[0.95]" style={{ fontFamily: "'Cinzel', serif" }}>
+                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-[0.95]" style={{ fontFamily: "'Cinzel', serif" }}>
                     Voronoi<br />Cat<br />
                     <span className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontStyle: 'italic', fontSize: '1.1em' }}>Family.</span>
                   </h3>
