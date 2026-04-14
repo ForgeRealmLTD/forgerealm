@@ -213,7 +213,7 @@ const CUSTOM_CSS = `
 
 /* ── Animated gradient border on hover ── */
 .gradient-border { position: relative; }
-.gradient-border::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: conic-gradient(from var(--angle, 0deg), transparent 40%, rgba(59,130,246,0.5) 55%, rgba(6,182,212,0.5) 65%, rgba(16,185,129,0.4) 75%, transparent 90%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.6s ease; pointer-events: none; animation: border-glow-spin 4s linear infinite; }
+.gradient-border::before { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: conic-gradient(from var(--angle, 0deg), transparent 40%, rgba(59,130,246,0.3) 55%, rgba(6,182,212,0.3) 65%, rgba(16,185,129,0.2) 75%, transparent 90%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.6s ease; pointer-events: none; animation: border-glow-spin 4s linear infinite; z-index: 10; }
 .gradient-border:hover::before { opacity: 1; }
 
 /* ── Glass card ── */
