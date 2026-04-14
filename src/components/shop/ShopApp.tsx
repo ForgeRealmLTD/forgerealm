@@ -1811,28 +1811,45 @@ function ShopContent() {
         <Reveal>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-4">
             <div className="relative overflow-hidden rounded-2xl cursor-pointer group" style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 min-h-[280px] sm:min-h-[340px]">
+              {/* Mobile: image bg with overlay text */}
+              <div className="sm:hidden relative min-h-[220px]">
+                <img src="/shop-products/bundle1.png" alt="Voronoi Cat Family Bundle" className="absolute inset-0 w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
+                <div className="relative p-5 flex flex-col justify-center h-full">
+                  <span className="text-[9px] font-medium uppercase tracking-[0.25em] text-blue-300/70 mb-1" style={{ fontFamily: "'Jost', sans-serif" }}>ForgeRealm &middot; Leeds</span>
+                  <h3 className="text-2xl font-bold text-white leading-[0.95]" style={{ fontFamily: "'Cinzel', serif" }}>
+                    Voronoi Cat <span className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontStyle: 'italic' }}>Family.</span>
+                  </h3>
+                  <div className="flex items-baseline gap-2 mt-2">
+                    <span className="text-[12px] text-white/50" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>only</span>
+                    <span className="text-2xl font-bold text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>&pound;10</span>
+                  </div>
+                  <p className="text-[11px] text-white/40 mt-1" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>4-piece bundle &middot; matte black &amp; white</p>
+                </div>
+              </div>
+
+              {/* Desktop: split layout */}
+              <div className="hidden sm:grid sm:grid-cols-2 min-h-[340px]">
                 {/* Left - Dark text panel */}
-                <div className="relative bg-[#0e0e0e] p-6 sm:p-8 lg:p-10 flex flex-col justify-center z-10">
-                  <span className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.25em] text-blue-300/70 mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
+                <div className="relative bg-[#0e0e0e] p-8 lg:p-10 flex flex-col justify-center z-10">
+                  <span className="text-[11px] font-medium uppercase tracking-[0.25em] text-blue-300/70 mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
                     ForgeRealm &middot; Leeds
                   </span>
-                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-[0.95]" style={{ fontFamily: "'Cinzel', serif" }}>
+                  <h3 className="text-4xl lg:text-5xl font-bold text-white leading-[0.95]" style={{ fontFamily: "'Cinzel', serif" }}>
                     Voronoi<br />Cat<br />
                     <span className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontStyle: 'italic', fontSize: '1.1em' }}>Family.</span>
                   </h3>
                   <div className="mt-4 border-t border-blue-400/30 pt-3 inline-block">
                     <span className="text-[13px] text-white/50 mr-2" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>only</span>
-                    <span className="text-3xl sm:text-4xl font-bold text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>&pound;10</span>
+                    <span className="text-4xl font-bold text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>&pound;10</span>
                   </div>
-                  <p className="text-[12px] sm:text-[13px] text-white/40 mt-2" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>
+                  <p className="text-[13px] text-white/40 mt-2" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>
                     4-piece bundle &middot; matte black &amp; white
                   </p>
                   <p className="text-[10px] text-white/20 mt-4" style={{ fontFamily: "'Jost', sans-serif" }}>forgerealm.co.uk</p>
                 </div>
-                {/* Right - Image with diagonal gold accent */}
+                {/* Right - Image */}
                 <div className="relative bg-white overflow-hidden">
-                  {/* Diagonal accent slash */}
                   <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(155deg, #3b82f6 0%, #22d3ee 2%, transparent 2.5%)' }} />
                   <img
                     src="/shop-products/bundle1.png"
