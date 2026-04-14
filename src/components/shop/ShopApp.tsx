@@ -622,7 +622,7 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
                   <img src={item.image} alt={item.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
                 )}
                 <div className="absolute inset-0 shadow-[inset_0_0_30px_rgba(10,15,26,0.5)]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1a] via-transparent to-transparent opacity-70" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1a] via-[#0a0f1a]/30 to-transparent" />
                 <div className="absolute left-3 top-3 rounded-full bg-slate-900/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-blue-300 border border-blue-500/20 shadow-lg hidden sm:block">
                   Featured
                 </div>
@@ -708,7 +708,7 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
             )}
             {/* Edge vignette to blend white photo bg into dark card */}
             <div className="absolute inset-0 shadow-[inset_0_0_40px_rgba(10,15,26,0.7)]" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1a] via-transparent to-transparent opacity-70" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1a] via-[#0a0f1a]/30 to-transparent" />
             {/* Carousel dots */}
             {hasMultiple && (
               <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
