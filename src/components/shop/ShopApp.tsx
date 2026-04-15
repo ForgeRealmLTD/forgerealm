@@ -251,7 +251,7 @@ function InjectStyles() {
     // Load medieval fonts
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap';
+    link.href = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&family=Inter:wght@300;400;500&display=swap';
     document.head.appendChild(link);
 
     const el = document.createElement('style');
@@ -349,7 +349,7 @@ function MarqueeBanner() {
     { icon: '✋', text: 'Hand-finished' },
     { icon: '🚚', text: 'Free UK shipping £15+' },
     { icon: '♻️', text: 'Biodegradable materials' },
-    { icon: '⭐', text: '239+ prints sold' },
+    { icon: '⭐', text: '238+ prints sold' },
     { icon: '🎨', text: 'Custom orders welcome' },
   ];
 
@@ -359,7 +359,7 @@ function MarqueeBanner() {
     <div className="relative overflow-hidden border-y border-white/[0.04] bg-[#0a0f1a] py-4" style={{ maxHeight: '52px' }}>
       <div className="marquee-track" style={{ display: 'flex', whiteSpace: 'nowrap' }}>
         {doubled.map((item, i) => (
-          <span key={i} className="mx-6 inline-flex items-center gap-2.5 text-[14px] sm:text-[15px] text-slate-400 whitespace-nowrap sm:mx-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          <span key={i} className="mx-6 inline-flex items-center gap-2.5 text-[14px] sm:text-[15px] text-slate-400 whitespace-nowrap sm:mx-8" style={{ fontFamily: "'Inter', sans-serif" }}>
             <span className="text-base">{item.icon}</span>
             {item.text}
             <span className="ml-6 text-slate-700 sm:ml-8">&middot;</span>
@@ -486,7 +486,7 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
 /* ═══════════════════════════ Hero ═══════════════════════════ */
 
 function HeroBanner() {
-  const counter = useCountUp(239, 2200);
+  const counter = useCountUp(238, 2200);
   return (
     <section className="relative overflow-hidden bg-[#0a0f1a]">
       {/* Ambient background - subtle and refined */}
@@ -531,7 +531,7 @@ function HeroBanner() {
                 the Realm
               </span>
             </h1>
-            <p className="mt-3 sm:mt-5 max-w-md leading-relaxed text-slate-400/90" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: 'clamp(16px,4vw,20px)', lineHeight: 1.7 }}>
+            <p className="mt-3 sm:mt-5 max-w-md leading-relaxed text-slate-400/90" style={{ fontFamily: "'Inter', sans-serif", fontSize: 'clamp(16px,4vw,20px)', lineHeight: 1.7 }}>
               Hand-finished fantasy miniatures, articulated dragons &amp; collector pieces. Crafted in Leeds with plant-based PLA.
             </p>
             <div className="mt-5 sm:mt-8 flex flex-wrap gap-2.5 sm:gap-3">
@@ -544,8 +544,8 @@ function HeroBanner() {
               </a>
               <a
                 href="/custom-order"
-                className="inline-flex items-center gap-2 rounded-full border border-white/[0.12] bg-white/[0.03] px-6 py-2.5 sm:px-7 sm:py-3 text-[12px] sm:text-[15px] font-semibold uppercase tracking-[0.14em] text-white/70 backdrop-blur-xl transition-all hover:border-blue-400/30 hover:text-white"
-                style={{ fontFamily: "'Cinzel', serif" }}
+                className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 sm:px-7 sm:py-3 text-[12px] sm:text-[15px] font-semibold uppercase tracking-[0.14em] text-black transition-all hover:-translate-y-0.5 shadow-lg shadow-amber-500/20"
+                style={{ fontFamily: "'Cinzel', serif", background: 'linear-gradient(to top, #F59E0B, #FADE6A)' }}
               >
                 Custom Print
               </a>
@@ -614,12 +614,12 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
   const featured = products.filter((p) => p.featured);
 
   return (
-    <section className="section-glow relative bg-gradient-to-b from-transparent via-blue-950/10 to-transparent">
+    <section className="relative">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:py-14 sm:px-6 lg:px-8">
         <div className="mb-5 sm:mb-8 flex items-end justify-between">
           <div>
             <p className="text-[12px] sm:text-[15px] font-medium uppercase tracking-[0.28em] text-blue-300/70" style={{ fontFamily: "'Jost', sans-serif" }}>This week</p>
-            <h2 className="mt-1 text-xl sm:text-2xl font-normal text-white" style={{ fontFamily: "'Cinzel', serif" }}>The <em className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Forge</em> Collection</h2>
+            <h2 className="mt-1 text-xl sm:text-2xl font-normal text-white" style={{ fontFamily: "'Cinzel', serif" }}>The <em className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300 }}>Forge</em> Collection</h2>
           </div>
           <a href="#products" className="text-xs sm:text-sm text-slate-400 transition hover:text-white">View all &rarr;</a>
         </div>
@@ -649,7 +649,7 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
                   </div>
                   <h3 className="text-base sm:text-lg font-bold text-white leading-tight mb-1.5 group-hover:text-cyan-100 transition-colors" style={{ fontFamily: "'Cinzel', serif" }}>{item.name}</h3>
                   <div className="flex items-baseline justify-between">
-                    <span className="text-xl sm:text-2xl font-semibold text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{item.displayPrice}</span>
+                    <span className="text-xl sm:text-2xl font-semibold text-cyan-300" style={{ fontFamily: "'Inter', sans-serif" }}>{item.displayPrice}</span>
                     <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0">
                       <span className="text-[9px] uppercase tracking-wider text-white/50" style={{ fontFamily: "'Jost', sans-serif" }}>View</span>
                       <svg className="h-3 w-3 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
@@ -794,7 +794,7 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
           </div>
           <span className="shrink-0 text-[17px] sm:text-[20px] font-semibold text-cyan-300/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{product.displayPrice}</span>
         </div>
-        <p className="mt-1 sm:mt-1.5 line-clamp-2 text-[13px] sm:text-[15px] leading-relaxed text-slate-400 hidden sm:block" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{product.description}</p>
+        <p className="mt-1 sm:mt-1.5 line-clamp-2 text-[13px] sm:text-[15px] leading-relaxed text-slate-400 hidden sm:block" style={{ fontFamily: "'Inter', sans-serif" }}>{product.description}</p>
         {isLow && (
           <div className="mt-1.5 flex items-center gap-1.5">
             <span className="relative flex h-1.5 w-1.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" /><span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-400" /></span>
@@ -1125,11 +1125,11 @@ function LampBanner({ onQuickView }: { onQuickView: (p: Product) => void }) {
                 Lamp
               </span>
             </h3>
-            <p className="text-[13px] sm:text-[16px] text-white/50 max-w-sm leading-relaxed mb-4 hidden sm:block" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>
+            <p className="text-[13px] sm:text-[16px] text-white/50 max-w-sm leading-relaxed mb-4 hidden sm:block" style={{ fontFamily: "'Inter', sans-serif" }}>
               Stand, bulb &amp; shade included. Black or brushed silver finish.
             </p>
             <div className="flex items-baseline gap-3 mb-3 sm:mb-4">
-              <span className="text-2xl sm:text-4xl font-bold text-amber-200" style={{ fontFamily: "'Cormorant Garamond', serif" }}>&pound;20</span>
+              <span className="text-2xl sm:text-4xl font-bold text-amber-200" style={{ fontFamily: "'Inter', sans-serif" }}>&pound;20</span>
               <span className="text-[11px] text-white/30 uppercase tracking-wider" style={{ fontFamily: "'Jost', sans-serif" }}>per lamp</span>
             </div>
             <div className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80 border border-white/20 rounded-full transition-all group-hover:border-amber-300/40 group-hover:text-amber-200" style={{ fontFamily: "'Cinzel', serif" }}>
@@ -1181,7 +1181,7 @@ function ProductGrid({ search, filters, onQuickView, onFilterMobileOpen }: {
         <div>
           <p className="text-[12px] font-medium uppercase tracking-[0.28em] text-blue-300/70" style={{ fontFamily: "'Jost', sans-serif" }}>Browse</p>
           <h2 className="mt-1 text-2xl font-normal text-white" style={{ fontFamily: "'Cinzel', serif" }}>
-            The <em className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Realm</em>
+            The <em className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300 }}>Realm</em>
             <span className="ml-2 text-base font-normal text-slate-500">({sorted.length})</span>
           </h2>
         </div>
@@ -1846,13 +1846,13 @@ function ShopFooter() {
                 ForgeRealm
               </span>
             </a>
-            <p className="mt-4 text-[15px] leading-relaxed text-slate-400" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>Artisan Fantasy Miniatures. Every piece printed, finished, and packed with care in Leeds.</p>
+            <p className="mt-4 text-[15px] leading-relaxed text-slate-400" style={{ fontFamily: "'Inter', sans-serif" }}>Artisan Fantasy Miniatures. Every piece printed, finished, and packed with care in Leeds.</p>
           </div>
           <div>
             <h4 className="text-[13px] font-semibold uppercase tracking-[0.14em] text-slate-300 mb-4" style={{ fontFamily: "'Cinzel', serif" }}>Shop</h4>
             <ul className="mt-4 space-y-3">
               {['All Products', 'Dragons', 'Voronoi', 'Fidgets', 'Keychains'].map((l) => (
-                <li key={l}><a href="#products" className="text-[15px] text-slate-400 transition hover:text-blue-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{l}</a></li>
+                <li key={l}><a href="#products" className="text-[15px] text-slate-400 transition hover:text-blue-300" style={{ fontFamily: "'Inter', sans-serif" }}>{l}</a></li>
               ))}
             </ul>
           </div>
@@ -1860,7 +1860,7 @@ function ShopFooter() {
             <h4 className="text-[13px] font-semibold uppercase tracking-[0.14em] text-slate-300 mb-4" style={{ fontFamily: "'Cinzel', serif" }}>Info</h4>
             <ul className="mt-4 space-y-3">
               {[{ label: 'Our Story', href: '/#about' }, { label: 'Custom Orders', href: '/custom-order' }, { label: 'Contact', href: '/#contact' }, { label: 'Track Order', href: '/shop/orders' }].map((l) => (
-                <li key={l.label}><a href={l.href} className="text-[15px] text-slate-400 transition hover:text-blue-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{l.label}</a></li>
+                <li key={l.label}><a href={l.href} className="text-[15px] text-slate-400 transition hover:text-blue-300" style={{ fontFamily: "'Inter', sans-serif" }}>{l.label}</a></li>
               ))}
             </ul>
           </div>
@@ -1868,7 +1868,7 @@ function ShopFooter() {
             <h4 className="text-[13px] font-semibold uppercase tracking-[0.14em] text-slate-300 mb-4" style={{ fontFamily: "'Cinzel', serif" }}>Delivery</h4>
             <ul className="mt-4 space-y-3">
               {['UK Shipping', 'Secure Checkout', 'Returns'].map((l) => (
-                <li key={l} className="text-[15px] text-slate-400" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{l}</li>
+                <li key={l} className="text-[15px] text-slate-400" style={{ fontFamily: "'Inter', sans-serif" }}>{l}</li>
               ))}
             </ul>
           </div>
@@ -1935,7 +1935,7 @@ function ShopContent() {
     <CartProvider>
       <ToastProvider>
       <InjectStyles />
-      <div className="min-h-screen bg-[#0a0f1a] text-white aurora-bg">
+      <div className="min-h-screen bg-[#0a0f1a] text-white">
         {/* Noise texture overlay */}
         <div className="noise-overlay" />
         {/* Cursor glow - desktop only */}
@@ -1952,12 +1952,12 @@ function ShopContent() {
         
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-4">
             <div className="relative overflow-hidden rounded-2xl cursor-pointer group" style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
-              <div className="relative h-[260px] sm:h-[340px] lg:h-[400px]">
+              <div className="relative h-[260px] sm:h-[340px] lg:h-[480px]">
                 <img
                   src="/shop-products/bundle1.png"
                   alt="Voronoi Cat Family Bundle"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                  style={{ objectPosition: '50% 45%' }}
+                  style={{ objectPosition: '50% 35%' }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/15" />
@@ -1975,11 +1975,11 @@ function ShopContent() {
                         Family
                       </span>
                     </h3>
-                    <p className="text-[13px] sm:text-[15px] text-white/50 max-w-sm leading-relaxed mb-3 hidden sm:block" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>
+                    <p className="text-[13px] sm:text-[15px] text-white/50 max-w-sm leading-relaxed mb-3 hidden sm:block" style={{ fontFamily: "'Inter', sans-serif" }}>
                       4-piece set in matte black &amp; white. Two sizes, one price.
                     </p>
                     <div className="flex items-baseline gap-3 mb-3 sm:mb-4">
-                      <span className="text-2xl sm:text-4xl font-bold text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>&pound;10</span>
+                      <span className="text-2xl sm:text-4xl font-bold text-cyan-300" style={{ fontFamily: "'Inter', sans-serif" }}>&pound;10</span>
                       <span className="text-[11px] text-white/30 uppercase tracking-wider" style={{ fontFamily: "'Jost', sans-serif" }}>4-piece set</span>
                     </div>
                     <div className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80 border border-white/20 rounded-full transition-all group-hover:border-cyan-300/40 group-hover:text-cyan-200" style={{ fontFamily: "'Cinzel', serif" }}>
@@ -1990,7 +1990,7 @@ function ShopContent() {
                 </div>
               </div>
             </div>
-          </div>
+          </div>
 
         {/* Sidebar + Grid layout */}
         <div id="products" className="mx-auto max-w-7xl px-4 py-8 sm:py-14 sm:px-6 lg:px-8">
@@ -1999,7 +1999,7 @@ function ShopContent() {
               <a href="/" className="hover:text-white transition">Home</a>
               <span>/</span>
               <span className="text-slate-300">Shop</span>
-            </nav>
+            </nav>
           <div className="flex gap-8">
             <FilterSidebar filters={filters} onChange={setFilters} total={filteredCount} mobileOpen={filterMobileOpen} onMobileClose={() => setFilterMobileOpen(false)} />
             <div className="flex-1 min-w-0">
@@ -2018,9 +2018,9 @@ function ShopContent() {
           </div>
           <div className="relative mx-auto max-w-3xl px-4 py-12 sm:py-20 text-center sm:px-6">
             <h2 className="text-2xl font-normal text-white sm:text-4xl lg:text-5xl" style={{ fontFamily: "'Cinzel', serif" }}>
-              Commission a <em className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Custom Piece</em>
+              Commission a <em className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300 }}>Custom Piece</em>
             </h2>
-            <p className="mt-3 sm:mt-4 text-sm sm:text-lg text-slate-400" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>
+            <p className="mt-3 sm:mt-4 text-sm sm:text-lg text-slate-400" style={{ fontFamily: "'Inter', sans-serif" }}>
               Tell us your vision and we'll forge it into reality. Every custom order is hand-finished in Leeds.
             </p>
             <div className="mt-5 sm:mt-8 flex flex-wrap justify-center gap-3 sm:gap-4">
@@ -2033,10 +2033,10 @@ function ShopContent() {
               </a>
             </div>
           </div>
-        </section>
+        </section>
 
         
-          <ShopFooter />
+          <ShopFooter />
 
         <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} onCheckout={() => setCheckoutOpen(true)} />
         <CheckoutForm open={checkoutOpen} onClose={() => setCheckoutOpen(false)} />
