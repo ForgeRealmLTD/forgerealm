@@ -624,7 +624,7 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
           <a href="#products" className="text-xs sm:text-sm text-slate-400 transition hover:text-white">View all &rarr;</a>
         </div>
 
-        <div className="flex gap-3 overflow-x-auto scrollbar-hide sm:grid sm:grid-cols-2 sm:overflow-visible lg:grid-cols-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+        <div className="flex gap-3 overflow-x-auto scrollbar-hide [touch-action:pan-x] sm:grid sm:grid-cols-2 sm:overflow-visible sm:[touch-action:auto] lg:grid-cols-4" style={{ WebkitOverflowScrolling: 'touch' }}>
           {featured.map((item) => (
             <div
               key={item.id}
@@ -1944,12 +1944,12 @@ function ShopContent() {
         <ShopHeader onCartOpen={() => setCartOpen(true)} onSearch={setSearch} />
         <HeroBanner />
         <MarqueeBanner />
-        <div className="enter enter-d1">
+        <div >
           <FeaturedRow onQuickView={setModalProduct} />
         </div>
 
         {/* Bundle Banner - cinematic full-bleed */}
-        <Reveal>
+        
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-4">
             <div className="relative overflow-hidden rounded-2xl cursor-pointer group" style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
               <div className="relative h-[260px] sm:h-[340px] lg:h-[400px]">
@@ -1990,18 +1990,16 @@ function ShopContent() {
                 </div>
               </div>
             </div>
-          </div>
-        </Reveal>
+          </div>
 
         {/* Sidebar + Grid layout */}
         <div id="products" className="mx-auto max-w-7xl px-4 py-8 sm:py-14 sm:px-6 lg:px-8">
-          <Reveal>
+          
             <nav className="flex items-center gap-2 text-xs text-slate-500 mb-6">
               <a href="/" className="hover:text-white transition">Home</a>
               <span>/</span>
               <span className="text-slate-300">Shop</span>
-            </nav>
-          </Reveal>
+            </nav>
           <div className="flex gap-8">
             <FilterSidebar filters={filters} onChange={setFilters} total={filteredCount} mobileOpen={filterMobileOpen} onMobileClose={() => setFilterMobileOpen(false)} />
             <div className="flex-1 min-w-0">
@@ -2011,7 +2009,7 @@ function ShopContent() {
         </div>
 
         {/* Bottom CTA */}
-        <Reveal>
+        
         <section className="section-glow relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-950/40 via-[#0a0f1a] to-blue-950/40" />
           <div className="absolute inset-0">
@@ -2035,12 +2033,10 @@ function ShopContent() {
               </a>
             </div>
           </div>
-        </section>
-        </Reveal>
+        </section>
 
-        <Reveal>
-          <ShopFooter />
-        </Reveal>
+        
+          <ShopFooter />
 
         <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} onCheckout={() => setCheckoutOpen(true)} />
         <CheckoutForm open={checkoutOpen} onClose={() => setCheckoutOpen(false)} />
