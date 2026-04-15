@@ -379,6 +379,7 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20);
+    fn();
     window.addEventListener('scroll', fn, { passive: true });
     return () => window.removeEventListener('scroll', fn);
   }, []);
@@ -1237,9 +1238,9 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
   useEffect(() => { setModalImgIdx(0); }, [product?.id]);
 
   useEffect(() => {
-    if (product) { document.body.style.overflow = 'hidden'; document.body.style.touchAction = 'none'; }
-    else { document.body.style.overflow = ''; document.body.style.touchAction = ''; }
-    return () => { document.body.style.overflow = ''; document.body.style.touchAction = ''; };
+    if (product) { document.body.style.overflow = 'hidden'; }
+    else { document.body.style.overflow = ''; }
+    return () => { document.body.style.overflow = ''; };
   }, [product]);
 
   useEffect(() => {
@@ -1387,9 +1388,9 @@ function CartDrawer({ open, onClose, onCheckout }: { open: boolean; onClose: () 
   };
 
   useEffect(() => {
-    if (open) { document.body.style.overflow = 'hidden'; document.body.style.touchAction = 'none'; }
-    else { document.body.style.overflow = ''; document.body.style.touchAction = ''; }
-    return () => { document.body.style.overflow = ''; document.body.style.touchAction = ''; };
+    if (open) { document.body.style.overflow = 'hidden'; }
+    else { document.body.style.overflow = ''; }
+    return () => { document.body.style.overflow = ''; };
   }, [open]);
 
   return (
@@ -1536,9 +1537,9 @@ function CheckoutForm({ open, onClose }: { open: boolean; onClose: () => void })
   const [step, setStep] = useState<'form' | 'review'>('form');
 
   useEffect(() => {
-    if (open) { document.body.style.overflow = 'hidden'; document.body.style.touchAction = 'none'; setStep('form'); }
-    else document.body.style.overflow = ''; document.body.style.touchAction = '';
-    return () => { document.body.style.overflow = ''; document.body.style.touchAction = ''; };
+    if (open) { document.body.style.overflow = 'hidden'; setStep('form'); }
+    else document.body.style.overflow = '';
+    return () => { document.body.style.overflow = ''; };
   }, [open]);
 
   const update = (field: keyof CustomerDetails, value: string) => setCustomer((prev) => ({ ...prev, [field]: value }));
@@ -1902,7 +1903,7 @@ function ShopContent() {
   // Safety net: ensure scroll is always restored when no modals are open
   useEffect(() => {
     if (!cartOpen && !checkoutOpen && !modalProduct && !showOrderSuccess) {
-      document.body.style.overflow = ''; document.body.style.touchAction = '';
+      document.body.style.overflow = '';
     }
   }, [cartOpen, checkoutOpen, modalProduct, showOrderSuccess]);
 
