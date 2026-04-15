@@ -27,27 +27,28 @@ export default function Navbar() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4">
         <div className={`flex items-center justify-between transition-all duration-500 rounded-2xl border ${scrolled ? 'py-2 px-4 bg-[#080c16]/95 backdrop-blur-2xl border-white/[0.06] shadow-xl shadow-black/30' : 'py-3 border-transparent'}`}>
 
-          {/* Left: Logo + brand in a pill */}
+          {/* Left: Logo */}
           <a href="/" className="inline-flex items-center gap-3 group">
-            <div className={`relative rounded-full p-1.5 transition-all duration-500 border ${scrolled ? 'bg-black/60 backdrop-blur-xl border-white/10' : 'border-transparent'}`}>
+            <div className={`relative rounded-full p-1.5 transition-all duration-500 border ${scrolled ? 'bg-black/60 backdrop-blur-xl border-[#FADE6A]/30 sm:border-white/10' : 'border-transparent'}`}>
               <div className="relative">
                 <div className="absolute -inset-2 rounded-full bg-blue-400/0 group-hover:bg-blue-400/20 blur-xl transition-all duration-500" />
                 <img src="/headfrlogorv.png" alt="ForgeRealm" width={36} height={36} className="relative h-9 w-9 rounded-full transition-transform duration-300 group-hover:rotate-12 group-hover:drop-shadow-[0_0_12px_rgba(59,130,246,0.5)]" loading="eager" />
               </div>
             </div>
-            <div className={`transition-all duration-500 overflow-hidden ${scrolled ? 'w-auto opacity-100 ml-0' : 'sm:w-auto sm:opacity-100 w-0 opacity-0'} hidden sm:block`} style={{ transitionProperty: 'width, opacity' }}>
+            <div className="hidden sm:block">
               <span className="text-[15px] font-semibold text-white block leading-tight whitespace-nowrap" style={{ fontFamily: "'Cinzel', serif" }}>
                 ForgeRealm
               </span>
               <span className="text-[8px] uppercase tracking-[0.3em] text-blue-300/50 whitespace-nowrap" style={{ fontFamily: "'Jost', sans-serif" }}>Leeds, UK</span>
             </div>
-            {/* Mobile: brand text slides in when scrolled */}
-            <div className={`sm:hidden transition-all duration-500 overflow-hidden ${scrolled ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}>
-              <span className="text-[13px] font-semibold text-white whitespace-nowrap" style={{ fontFamily: "'Cinzel', serif" }}>
-                ForgeRealm
-              </span>
-            </div>
           </a>
+
+          {/* Mobile centre: brand text slides in when scrolled */}
+          <div className={`sm:hidden absolute left-1/2 -translate-x-1/2 transition-all duration-500 ${scrolled ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}`}>
+            <span className="text-[14px] font-semibold whitespace-nowrap" style={{ fontFamily: "'Cinzel', serif", color: '#FADE6A' }}>
+              ForgeRealm
+            </span>
+          </div>
 
           {/* Centre: Nav links in a floating glass bar */}
           <nav className={`hidden md:flex items-center gap-1 rounded-full px-2 py-1.5 transition-all duration-500 ${scrolled ? 'bg-black/50 backdrop-blur-xl border border-white/[0.08]' : 'bg-white/[0.04] backdrop-blur-sm border border-white/[0.06]'}`}>
@@ -83,10 +84,10 @@ export default function Navbar() {
             {/* Mobile hamburger */}
             <button
               onClick={() => setOpen(true)}
-              className={`md:hidden rounded-full p-2.5 transition-all ${scrolled ? 'bg-black/50 backdrop-blur-xl border border-white/10' : 'bg-white/[0.06] border border-white/[0.08]'}`}
+              className={`md:hidden rounded-full p-2.5 transition-all ${scrolled ? 'bg-black/50 backdrop-blur-xl border border-[#FADE6A]/30' : 'bg-white/[0.06] border border-white/[0.08]'}`}
               aria-label="Open menu"
             >
-              <HiOutlineMenu className="h-5 w-5 text-white" />
+              <HiOutlineMenu className={`h-5 w-5 transition-colors duration-500 ${scrolled ? 'text-[#FADE6A]' : 'text-white'}`} />
             </button>
           </div>
         </div>
