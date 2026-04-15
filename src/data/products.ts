@@ -268,7 +268,7 @@ export const products: Product[] = [
     price: 2000,
     displayPrice: '£20.00',
     category: '',
-    description: 'Layered petal lamp with warm ambient glow. Includes stand, bulb and shade. Available in matte black or brushed silver.',
+    description: 'Layered petal lamp with warm ambient glow. 3D printed shade, hand-assembled in Leeds.',
     stock: 4,
     badge: 'Premium',
     image: '/shop-products/lamps1.webp',

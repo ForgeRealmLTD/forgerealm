@@ -1192,6 +1192,11 @@ function ProductGrid({ search, filters, onQuickView, onFilterMobileOpen }: {
 function ProductModal({ product, onClose }: { product: Product | null; onClose: () => void }) {
   const { add } = useCart();
   const [added, setAdded] = useState(false);
+  const [modalImgIdx, setModalImgIdx] = useState(0);
+  const modalImages = product?.images && product.images.length > 1 ? product.images : null;
+
+  // Reset image index when product changes
+  useEffect(() => { setModalImgIdx(0); }, [product?.id]);
 
   useEffect(() => {
     if (product) document.body.style.overflow = 'hidden';
@@ -1235,7 +1240,22 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
           <div className="grid md:grid-cols-2">
             <div className={`relative min-h-[300px] md:min-h-0 ${product.image ? 'bg-white' : `bg-gradient-to-br ${style.gradient}`}`}>
               {product.image ? (
-                <img src={product.image} alt={product.name} className="absolute inset-0 h-full w-full object-cover" />
+                <>
+                  {modalImages ? (
+                    <>
+                      {modalImages.map((src, i) => (
+                        <img key={src} src={src} alt={`${product.name} ${i + 1}`} className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500" style={{ opacity: i === modalImgIdx ? 1 : 0, zIndex: i === modalImgIdx ? 2 : 1 }} />
+                      ))}
+                      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                        {modalImages.map((_, i) => (
+                          <button key={i} onClick={(e) => { e.stopPropagation(); setModalImgIdx(i); }} className={`h-2 rounded-full transition-all duration-300 ${i === modalImgIdx ? 'w-6 bg-white/80' : 'w-2 bg-white/30 hover:bg-white/50'}`} />
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <img src={product.image} alt={product.name} className="absolute inset-0 h-full w-full object-cover" />
+                  )}
+                </>
               ) : (
                 <>
                   <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_70%,rgba(255,255,255,0.18),transparent_60%)]" />
@@ -1266,7 +1286,10 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
                 <p className="mt-4 text-sm leading-relaxed text-slate-400">{product.description}</p>
 
                 <div className="mt-6 space-y-2.5">
-                  {['Eco-friendly PLA material', 'Hand-finished in Leeds', 'Carefully packaged'].map((f) => (
+                  {(product.id === 'artichoke-lamp'
+                    ? ['Includes bulb', 'Includes lamp stand', 'Black or brushed silver']
+                    : ['Eco-friendly PLA material', 'Hand-finished in Leeds', 'Carefully packaged']
+                  ).map((f) => (
                     <div key={f} className="flex items-center gap-3 text-sm text-slate-400">
                       <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10">
                         <svg className="h-3 w-3 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
@@ -1878,38 +1901,45 @@ function ShopContent() {
           <FeaturedRow onQuickView={setModalProduct} />
         </div>
 
-        {/* Bundle Banner */}
+        {/* Bundle Banner - cinematic full-bleed */}
         <Reveal>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-4">
             <div className="relative overflow-hidden rounded-2xl cursor-pointer group" style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 min-h-[280px] sm:min-h-[340px]">
-                {/* Left - Dark text panel */}
-                <div className="relative bg-[#0e0e0e] p-6 sm:p-8 lg:p-10 flex flex-col justify-center z-10">
-                  <span className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.25em] text-blue-300/70 mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
-                    ForgeRealm &middot; Leeds
-                  </span>
-                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-[0.95]" style={{ fontFamily: "'Cinzel', serif" }}>
-                    Voronoi<br />Cat<br />
-                    <span className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontStyle: 'italic', fontSize: '1.1em' }}>Family.</span>
-                  </h3>
-                  <div className="mt-4 border-t border-blue-400/30 pt-3 inline-block">
-                    <span className="text-[13px] text-white/50 mr-2" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>only</span>
-                    <span className="text-4xl font-bold text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>&pound;10</span>
+              <div className="relative h-[260px] sm:h-[340px] lg:h-[400px]">
+                <img
+                  src="/shop-products/bundle1.png"
+                  alt="Voronoi Cat Family Bundle"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                  style={{ objectPosition: '50% 45%' }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/15" />
+
+                <div className="absolute inset-0 flex items-end sm:items-center">
+                  <div className="max-w-xl p-5 sm:p-10 lg:p-14">
+                    <div className="inline-flex items-center gap-2 mb-3">
+                      <div className="w-10 h-px bg-cyan-400/60" />
+                      <span className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.3em] text-cyan-300/70" style={{ fontFamily: "'Jost', sans-serif" }}>Bundle</span>
+                    </div>
+                    <h3 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white leading-[0.95] mb-3" style={{ fontFamily: "'Cinzel', serif" }}>
+                      Voronoi Cat
+                      <br />
+                      <span className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontStyle: 'italic', fontSize: '1.1em' }}>
+                        Family
+                      </span>
+                    </h3>
+                    <p className="text-[13px] sm:text-[15px] text-white/50 max-w-sm leading-relaxed mb-3 hidden sm:block" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>
+                      4-piece set in matte black &amp; white. Two sizes, one price.
+                    </p>
+                    <div className="flex items-baseline gap-3 mb-3 sm:mb-4">
+                      <span className="text-2xl sm:text-4xl font-bold text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>&pound;10</span>
+                      <span className="text-[11px] text-white/30 uppercase tracking-wider" style={{ fontFamily: "'Jost', sans-serif" }}>4-piece set</span>
+                    </div>
+                    <div className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80 border border-white/20 rounded-full transition-all group-hover:border-cyan-300/40 group-hover:text-cyan-200" style={{ fontFamily: "'Cinzel', serif" }}>
+                      View Bundle
+                      <svg className="h-3 w-3 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                    </div>
                   </div>
-                  <p className="text-[13px] text-white/40 mt-2" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>
-                    4-piece bundle &middot; matte black &amp; white
-                  </p>
-                  <p className="text-[10px] text-white/20 mt-4" style={{ fontFamily: "'Jost', sans-serif" }}>forgerealm.co.uk</p>
-                </div>
-                {/* Right - Image */}
-                <div className="relative bg-white overflow-hidden">
-                  <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(155deg, #3b82f6 0%, #22d3ee 2%, transparent 2.5%)' }} />
-                  <img
-                    src="/shop-products/bundle1.png"
-                    alt="Voronoi Cat Family Bundle"
-                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 shadow-[inset_0_0_50px_rgba(0,0,0,0.15)]" />
                 </div>
               </div>
             </div>
