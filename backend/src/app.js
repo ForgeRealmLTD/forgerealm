@@ -192,43 +192,9 @@ const ensureUsersColumns = async () => {
   }
 };
 
-const ensureOrdersTable = async () => {
-  try {
-    await pool.query(
-      `
-      CREATE TABLE IF NOT EXISTS orders (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        user_id INT NULL,
-        stripe_session_id VARCHAR(255) UNIQUE NOT NULL,
-        stripe_payment_intent VARCHAR(255) NULL,
-        status ENUM('pending','paid','shipped','delivered','cancelled','refunded') NOT NULL DEFAULT 'pending',
-        customer_name VARCHAR(255) NOT NULL,
-        customer_email VARCHAR(255) NOT NULL,
-        customer_phone VARCHAR(64) NULL,
-        shipping_address TEXT NULL,
-        items_json JSON NOT NULL,
-        subtotal_pence INT NOT NULL,
-        shipping_pence INT NOT NULL DEFAULT 0,
-        total_pence INT NOT NULL,
-        currency VARCHAR(10) NOT NULL DEFAULT 'gbp',
-        paid_at DATETIME NULL,
-        shipped_at DATETIME NULL,
-        tracking_number VARCHAR(255) NULL,
-        notes TEXT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        INDEX idx_user (user_id),
-        INDEX idx_email (customer_email),
-        INDEX idx_status (status)
-      )
-      `
-    );
-  } catch (err) {
-    console.error('Orders table check failed:', err.message || err);
-  }
-};
+// Orders table managed by Tobi's schema - no auto-create needed
 
-ensureUsersTable().then(ensureUsersColumns).then(ensureOrdersTable);
+ensureUsersTable().then(ensureUsersColumns);
 
 // Health endpoints for load balancers
 app.get('/', (req, res) => res.json({ status: 'ok' }));

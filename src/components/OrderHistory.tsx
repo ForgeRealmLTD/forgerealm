@@ -23,27 +23,28 @@ interface OrderItem {
 
 interface Order {
   id: number;
+  order_id: string;
   status: string;
-  customer_name: string;
-  customer_email: string;
+  email: string;
   shipping_address: string;
   items: OrderItem[];
-  subtotal_pence: number;
-  shipping_pence: number;
-  total_pence: number;
-  tracking_number: string | null;
+  total_amount: number;
+  notes: string | null;
+  refund_amount: number | null;
   created_at: string;
-  paid_at: string | null;
-  shipped_at: string | null;
+  updated_at: string | null;
 }
 
 const STATUS_CONFIG: Record<string, { color: string; bg: string; icon: typeof FiPackage }> = {
   pending: { color: 'text-amber-300', bg: 'bg-amber-500/15 border-amber-500/20', icon: FiPackage },
+  completed: { color: 'text-emerald-300', bg: 'bg-emerald-500/15 border-emerald-500/20', icon: FiCheck },
   paid: { color: 'text-blue-300', bg: 'bg-blue-500/15 border-blue-500/20', icon: FiPackage },
   shipped: { color: 'text-cyan-300', bg: 'bg-cyan-500/15 border-cyan-500/20', icon: FiTruck },
   delivered: { color: 'text-emerald-300', bg: 'bg-emerald-500/15 border-emerald-500/20', icon: FiCheck },
+  expired: { color: 'text-stone-400', bg: 'bg-stone-500/15 border-stone-500/20', icon: FiX },
+  failed: { color: 'text-red-300', bg: 'bg-red-500/15 border-red-500/20', icon: FiX },
   cancelled: { color: 'text-slate-400', bg: 'bg-slate-500/15 border-slate-500/20', icon: FiX },
-  refunded: { color: 'text-red-300', bg: 'bg-red-500/15 border-red-500/20', icon: FiX },
+  refunded: { color: 'text-orange-300', bg: 'bg-orange-500/15 border-orange-500/20', icon: FiX },
 };
 
 function OrderCard({ order }: { order: Order }) {
@@ -71,7 +72,7 @@ function OrderCard({ order }: { order: Order }) {
             </span>
           </div>
           <p className="text-xs text-slate-500 mt-0.5">
-            {date} &middot; {order.items.length} item{order.items.length !== 1 ? 's' : ''} &middot; &pound;{(order.total_pence / 100).toFixed(2)}
+            {date} &middot; {order.items.length} item{order.items.length !== 1 ? 's' : ''} &middot; &pound;{Number(order.total_amount).toFixed(2)}
           </p>
         </div>
         {expanded ? <FiChevronUp className="text-slate-500 shrink-0" /> : <FiChevronDown className="text-slate-500 shrink-0" />}
@@ -99,34 +100,27 @@ function OrderCard({ order }: { order: Order }) {
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3 space-y-2">
               <h4 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Payment</h4>
-              <div className="flex justify-between text-xs text-slate-400">
-                <span>Subtotal</span>
-                <span className="text-white">&pound;{(order.subtotal_pence / 100).toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between text-xs text-slate-400">
-                <span>Shipping</span>
-                <span className={order.shipping_pence === 0 ? 'text-emerald-400' : 'text-white'}>
-                  {order.shipping_pence === 0 ? 'Free' : `\u00A3${(order.shipping_pence / 100).toFixed(2)}`}
-                </span>
-              </div>
               <div className="flex justify-between text-sm font-bold text-white pt-2 border-t border-white/[0.06]">
                 <span>Total</span>
-                <span>&pound;{(order.total_pence / 100).toFixed(2)}</span>
+                <span>&pound;{Number(order.total_amount).toFixed(2)}</span>
               </div>
+              {order.refund_amount && (
+                <div className="flex justify-between text-xs text-orange-400">
+                  <span>Refunded</span>
+                  <span>&pound;{Number(order.refund_amount).toFixed(2)}</span>
+                </div>
+              )}
             </div>
 
             <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3 space-y-2">
-              <h4 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Shipping</h4>
+              <h4 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Details</h4>
               {order.shipping_address ? (
                 <p className="text-xs text-slate-300 leading-relaxed">{order.shipping_address}</p>
               ) : (
                 <p className="text-xs text-slate-500 italic">No address on file</p>
               )}
-              {order.tracking_number && (
-                <div className="flex items-center gap-2 rounded-lg border border-cyan-500/20 bg-cyan-500/5 px-2.5 py-1.5 mt-2">
-                  <FiTruck className="text-cyan-400 text-xs" />
-                  <span className="text-xs font-medium text-cyan-300">Tracking: {order.tracking_number}</span>
-                </div>
+              {order.notes && (
+                <p className="text-xs text-slate-400 mt-1">{order.notes}</p>
               )}
             </div>
           </div>
