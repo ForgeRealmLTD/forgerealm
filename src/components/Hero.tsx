@@ -90,8 +90,8 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-[100vh] flex items-center overflow-hidden" style={{ background: 'linear-gradient(135deg, #080c14 0%, #0c1222 40%, #0e1428 70%, #080c14 100%)' }}>
-      {/* Multi-colour ambient glows */}
-      <div className="pointer-events-none absolute inset-0">
+      {/* Ambient glows - hidden on mobile for performance */}
+      <div className="pointer-events-none absolute inset-0 hidden sm:block">
         <div className="absolute left-[-10%] top-[15%] w-[500px] h-[500px] rounded-full bg-blue-600/[0.1] blur-[200px]" />
         <div className="absolute right-[-5%] top-[10%] w-[400px] h-[400px] rounded-full bg-purple-500/[0.08] blur-[180px]" />
         <div className="absolute right-[20%] bottom-[10%] w-[350px] h-[350px] rounded-full bg-cyan-500/[0.07] blur-[160px]" />
@@ -101,9 +101,15 @@ export default function Hero() {
       </div>
 
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
-        {/* Mobile: logo at top (no Lottie - too heavy for mobile) */}
+        {/* Mobile: Lottie at top */}
         <div className="lg:hidden flex flex-col items-center mb-6">
-          <img src="/frlogorv.png" alt="ForgeRealm" className="w-20 h-20 drop-shadow-[0_0_20px_rgba(59,130,246,0.3)]" />
+          {printAnim ? (
+            <div className="relative w-[180px] h-[180px] sm:w-[200px] sm:h-[200px] overflow-hidden rounded-2xl" style={{ background: 'linear-gradient(to top, #F59E0B 0%, #F5B731 40%, #FADE6A 100%)' }}>
+              <Lottie animationData={printAnim} loop className="relative w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] -mt-[40px] -ml-[40px] sm:-mt-[50px] sm:-ml-[50px]" />
+            </div>
+          ) : (
+            <img src="/frlogorv.png" alt="ForgeRealm" className="w-20 h-20 opacity-40" />
+          )}
         </div>
 
         <div className="grid lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-16 items-center">
