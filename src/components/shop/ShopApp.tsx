@@ -627,22 +627,36 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
             <div
               key={item.id}
               onClick={() => onQuickView(item)}
-              className="gradient-border group cursor-pointer overflow-hidden rounded-2xl glass glass-hover shrink-0 w-[70vw] snap-start sm:w-auto sm:shrink"
-              style={{ borderColor: 'rgba(255,255,255,0.12)' }}
+              className="group cursor-pointer overflow-hidden rounded-2xl shrink-0 w-[70vw] snap-start sm:w-auto sm:shrink relative"
             >
-              <div className="relative aspect-[3/4] bg-white">
+              {/* Full image background */}
+              <div className="relative aspect-[3/4]">
                 {item.image && (
-                  <img src={item.image} alt={item.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="eager" />
+                  <img src={item.image} alt={item.name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="eager" />
                 )}
-                <div className="absolute left-3 top-3 rounded-full bg-slate-900/90 px-2.5 py-1 text-[12px] font-semibold uppercase tracking-wider text-blue-300 border border-blue-500/20 shadow-lg hidden sm:block">
-                  Featured
+                {/* Gradient overlay - dark at bottom for text */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                {/* Hover glow */}
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                {/* Text overlay at bottom */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-5 h-px bg-cyan-400/50" />
+                    <span className="text-[8px] sm:text-[9px] font-medium uppercase tracking-[0.25em] text-cyan-300/60" style={{ fontFamily: "'Jost', sans-serif" }}>Featured</span>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-bold text-white leading-tight mb-1.5 group-hover:text-cyan-100 transition-colors" style={{ fontFamily: "'Cinzel', serif" }}>{item.name}</h3>
+                  <div className="flex items-baseline justify-between">
+                    <span className="text-xl sm:text-2xl font-semibold text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{item.displayPrice}</span>
+                    <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0">
+                      <span className="text-[9px] uppercase tracking-wider text-white/50" style={{ fontFamily: "'Jost', sans-serif" }}>View</span>
+                      <svg className="h-3 w-3 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="p-3">
-                <div className="mt-0.5 flex items-center justify-between">
-                  <h3 className="text-sm font-normal text-white sm:text-base" style={{ fontFamily: "'Cinzel', serif" }}>{item.name}</h3>
-                  <span className="text-base font-semibold text-cyan-300/80 sm:text-lg" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{item.displayPrice}</span>
-                </div>
+
+                {/* Subtle border that glows on hover */}
+                <div className="absolute inset-0 rounded-2xl border border-white/[0.08] group-hover:border-cyan-400/20 transition-colors duration-500" />
               </div>
             </div>
           ))}
