@@ -686,12 +686,14 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
 
   return (
     <div
-      onClick={() => onQuickView(product)}
-      className="gradient-border group cursor-pointer overflow-hidden rounded-2xl glass glass-hover flex flex-col"
+      className="gradient-border group overflow-hidden rounded-2xl glass glass-hover flex flex-col"
       style={{ borderColor: 'rgba(255,255,255,0.12)' }}
     >
-      {/* Image */}
-      <div className={`relative aspect-[3/4] ${product.image ? 'bg-white' : `bg-gradient-to-br ${style.gradient}`}`}>
+      {/* Image - tapping this opens the modal */}
+      <div
+        className={`relative aspect-[3/4] cursor-pointer ${product.image ? 'bg-white' : `bg-gradient-to-br ${style.gradient}`}`}
+        onClick={() => onQuickView(product)}
+      >
         {product.image ? (
           <>
             {hasMultiple ? (
@@ -732,24 +734,24 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
           </>
         )}
 
-        {/* Badge */}
-        {product.badge && (
-          <div className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[13px] font-semibold uppercase tracking-[0.15em] shadow-lg ${
-            product.badge === 'Coming Soon' ? 'bg-slate-900/90 text-slate-300 border border-slate-700/50' :
-            product.badge === 'Low Stock' ? 'bg-slate-900/90 text-red-400 border border-red-500/30' :
-            product.badge === 'Limited' ? 'bg-slate-900/90 text-amber-400 border border-amber-500/30' :
-            'bg-slate-900/90 text-white/90 border border-white/10'
-          }`}>
-            {product.badge}
-          </div>
-        )}
-
-        {/* Stock */}
-        {product.stock !== null && !isComingSoon && (
-          <div className={`absolute right-3 top-3 rounded-full px-2.5 py-1 text-[12px] font-medium shadow-lg ${isLow ? 'bg-slate-900/90 text-amber-400 border border-amber-500/30' : 'bg-slate-900/90 text-slate-300 border border-white/10'}`}>
-            {isSoldOut ? 'Sold out' : `${product.stock} left`}
-          </div>
-        )}
+        {/* Badges - stacked vertically to avoid overlap */}
+        <div className="absolute right-2 top-2 flex flex-col items-end gap-1.5 z-10">
+          {product.badge && (
+            <div className={`rounded-full px-2 py-0.5 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.1em] shadow-lg ${
+              product.badge === 'Coming Soon' ? 'bg-slate-900/90 text-slate-300 border border-slate-700/50' :
+              product.badge === 'Low Stock' ? 'bg-slate-900/90 text-red-400 border border-red-500/30' :
+              product.badge === 'Limited' ? 'bg-slate-900/90 text-amber-400 border border-amber-500/30' :
+              'bg-slate-900/90 text-white/90 border border-white/10'
+            }`}>
+              {product.badge}
+            </div>
+          )}
+          {product.stock !== null && !isComingSoon && (
+            <div className={`rounded-full px-2 py-0.5 text-[9px] sm:text-[10px] font-medium shadow-lg ${isLow ? 'bg-slate-900/90 text-amber-400 border border-amber-500/30' : 'bg-slate-900/90 text-slate-300 border border-white/10'}`}>
+              {isSoldOut ? 'Sold out' : `${product.stock} left`}
+            </div>
+          )}
+        </div>
 
         {/* Add to basket overlay */}
         {!isComingSoon && !isSoldOut && (
