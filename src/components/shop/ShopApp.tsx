@@ -1237,8 +1237,8 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
   useEffect(() => { setModalImgIdx(0); }, [product?.id]);
 
   useEffect(() => {
-    if (product) document.body.style.overflow = 'hidden'; document.body.style.touchAction = 'none';
-    else document.body.style.overflow = ''; document.body.style.touchAction = '';
+    if (product) { document.body.style.overflow = 'hidden'; document.body.style.touchAction = 'none'; }
+    else { document.body.style.overflow = ''; document.body.style.touchAction = ''; }
     return () => { document.body.style.overflow = ''; document.body.style.touchAction = ''; };
   }, [product]);
 
@@ -1387,8 +1387,8 @@ function CartDrawer({ open, onClose, onCheckout }: { open: boolean; onClose: () 
   };
 
   useEffect(() => {
-    if (open) document.body.style.overflow = 'hidden'; document.body.style.touchAction = 'none';
-    else document.body.style.overflow = ''; document.body.style.touchAction = '';
+    if (open) { document.body.style.overflow = 'hidden'; document.body.style.touchAction = 'none'; }
+    else { document.body.style.overflow = ''; document.body.style.touchAction = ''; }
     return () => { document.body.style.overflow = ''; document.body.style.touchAction = ''; };
   }, [open]);
 
