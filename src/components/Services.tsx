@@ -1,118 +1,81 @@
-"use client";
-import { useRef, useState, useEffect } from "react";
+'use client';
+
 import {
   FaShoppingCart,
   FaStore,
   FaInstagram,
   FaLinkedin,
+  FaLeaf,
 } from "react-icons/fa";
-import { FaLeaf } from "react-icons/fa";
 import { MdBrush } from "react-icons/md";
 import { FiBox, FiHeadphones, FiLayers, FiMapPin, FiShare2, FiUsers } from "react-icons/fi";
 import { TbLeaf } from "react-icons/tb";
 
 export default function Services() {
-  const ref = useRef(null);
-  const materialsRef = useRef(null);
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
-  const isLight = theme === "light";
-
-  useEffect(() => {
-    const getTheme = () => {
-      const attr =
-        typeof document !== "undefined"
-          ? (document.documentElement.getAttribute("data-theme") as "light" | "dark" | null)
-          : null;
-      if (attr) return attr;
-      try {
-        return (localStorage.getItem("fr-theme") as "light" | "dark" | null) || "dark";
-      } catch {
-        return "dark";
-      }
-    };
-
-    setTheme(getTheme());
-
-    if (typeof MutationObserver !== "undefined") {
-      const observer = new MutationObserver(() => setTheme(getTheme()));
-      observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-      return () => observer.disconnect();
-    }
-  }, []);
-
   return (
-    <>
-      <div className="theme-surface relative overflow-hidden border-b border-white/10">
-        {/* Shared background accent lights */}
-        <div className="absolute inset-0 -z-10">
-          <div className={`absolute left-1/5 top-1/3 h-80 w-80 rounded-full blur-[160px] animate-pulse ${isLight ? "bg-gradient-to-r from-blue-200/60 to-cyan-100/50" : "bg-blue-500/20 blur-[140px]"}`} />
-          <div className={`absolute right-1/6 bottom-1/4 h-96 w-96 rounded-full blur-[170px] animate-pulse ${isLight ? "bg-gradient-to-r from-emerald-200/55 to-teal-100/45" : "bg-emerald-500/15 blur-[150px]"}`} style={{ animationDelay: '1s' }} />
-          <div className={`absolute top-1/2 left-1/2 h-64 w-64 rounded-full blur-[130px] animate-pulse ${isLight ? "bg-gradient-to-r from-indigo-200/50 to-purple-100/40" : "bg-gradient-to-r from-indigo-300/30 to-purple-200/20"}`} style={{ animationDelay: '2s' }} />
-          <div className={`absolute inset-0 ${isLight ? "bg-[radial-gradient(circle_at_18%_12%,rgba(59,130,246,0.12),transparent_40%),radial-gradient(circle_at_78%_18%,rgba(16,185,129,0.08),transparent_32%),radial-gradient(circle_at_55%_80%,rgba(139,92,246,0.06),transparent_35%),radial-gradient(circle_at_30%_60%,rgba(245,158,11,0.04),transparent_30%)]" : "bg-[radial-gradient(circle_at_18%_12%,rgba(59,130,246,0.08),transparent_36%),radial-gradient(circle_at_78%_18%,rgba(94,234,212,0.07),transparent_28%),radial-gradient(circle_at_55%_80%,rgba(129,140,248,0.06),transparent_30%)]"}`} />
-
-          {/* Floating particles */}
-          <div className="absolute inset-0 overflow-hidden">
-            {Array.from({ length: 18 }, (_, i) => (
-              <div
-                key={i}
-                className={`absolute w-1 h-1 rounded-full animate-bounce ${isLight ? "bg-blue-300/70 shadow-[0_0_8px_rgba(59,130,246,0.6)]" : "bg-blue-400/40"}`}
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 4}s`,
-                  animationDuration: `${3 + Math.random() * 3}s`
-                }}
-              />
-            ))}
-          </div>
-        </div>
-
-        <section
-          id="services"
-          data-observe
-          className="reveal relative py-24 bg-transparent"
-        >
-
-        <div ref={ref} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-          {/* Header with icon */}
-          <div className="max-w-2xl flex items-center gap-4">
-            <div className="relative">
-              <h2 className={`font-display text-3xl sm:text-4xl font-extrabold ${isLight ? "text-slate-900" : "bg-gradient-to-r from-white via-blue-200 via-cyan-200 to-white text-gradient-animated drop-shadow-[0_0_20px_rgba(125,200,255,0.5)]"} flex items-center`}>
-                Our Services
-              </h2>
-              <div className={`absolute -inset-2 blur-xl rounded-lg -z-10 ${isLight ? "bg-gradient-to-r from-blue-200/40 to-cyan-100/30" : "bg-gradient-to-r from-blue-500/20 to-cyan-400/20"}`} />
+    <div className="relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #0a0e18 0%, #0c1020 50%, #0a0e18 100%)' }}>
+      {/* Vibrant ambient glows */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute right-[-5%] top-[20%] w-[400px] h-[400px] rounded-full bg-blue-500/[0.1] blur-[180px]" />
+        <div className="absolute left-[-5%] top-[40%] w-[350px] h-[350px] rounded-full bg-purple-500/[0.07] blur-[160px]" />
+        <div className="absolute left-[20%] bottom-[10%] w-[300px] h-[300px] rounded-full bg-emerald-500/[0.08] blur-[150px]" />
+        <div className="absolute right-[30%] bottom-[20%] w-[250px] h-[250px] rounded-full bg-cyan-500/[0.06] blur-[140px]" />
+      </div>
+      <section
+        id="services"
+        data-observe
+        className="reveal relative py-16 sm:py-24"
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
+          {/* Header */}
+          <div className="mb-2">
+            <div className="inline-flex items-center gap-3 mb-3">
+              <div className="w-8 h-px bg-gradient-to-r from-blue-400 to-cyan-400" />
+              <span className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.3em] text-blue-300/60" style={{ fontFamily: "'Jost', sans-serif" }}>What we offer</span>
             </div>
-            <div className={`drop-shadow-[0_0_24px_rgba(129,140,248,0.8)] animate-pulse ${isLight ? "text-blue-500" : "text-indigo-200"}`}>
-              <FiLayers className="w-8 h-8 sm:w-10 sm:h-10" aria-hidden />
-            </div>
+            <h2
+              className="text-2xl sm:text-3xl lg:text-4xl font-normal text-white"
+              style={{ fontFamily: "'Cinzel', serif" }}
+            >
+              Our <em className="text-cyan-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300 }}>Services</em>
+            </h2>
           </div>
 
-          <p className={`mt-3 max-w-2xl ${isLight ? "text-slate-700" : "text-slate-200/80"}`}>
+          <p
+            className="mt-3 max-w-2xl text-stone-400"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
             ForgeRealm is a UK-based business offering unique, customisable
             3D-printed products. You can order online, contact us for bespoke
             prints, or visit us at our pop-up stalls and booths around Leeds.
           </p>
 
+          {/* Feature grid */}
           <div className="mt-8 grid gap-4 lg:grid-cols-6 auto-rows-fr">
             {[
-              { title: "Eco Friendly", detail: "Biodegradable and low-impact materials.", icon: <FaLeaf className="text-emerald-300 text-lg" /> },
-              { title: "Material Options", detail: "PLA and PETG choices for each build.", icon: <FiBox className="text-blue-300 text-lg" /> },
-              { title: "Local Collection", detail: "Leeds pickup options when available.", icon: <FiMapPin className="text-blue-300 text-lg" /> },
-              { title: "Social Drops", detail: "New releases and stall dates posted weekly.", icon: <FiShare2 className="text-pink-300 text-lg" /> },
-              { title: "Support First", detail: "Real replies from the makers.", icon: <FiHeadphones className="text-blue-300 text-lg" /> },
-              { title: "Workshops Soon", detail: "Collaborations and events in the pipeline.", icon: <FiUsers className="text-sky-300 text-lg" /> },
+              { title: "Eco Friendly", detail: "Biodegradable and low-impact materials.", icon: <FaLeaf className="text-emerald-400 text-xl" /> },
+              { title: "Material Options", detail: "PLA and PETG choices for each build.", icon: <FiBox className="text-blue-400 text-xl" /> },
+              { title: "Local Collection", detail: "Leeds pickup options when available.", icon: <FiMapPin className="text-blue-400 text-xl" /> },
+              { title: "Social Drops", detail: "New releases and stall dates posted weekly.", icon: <FiShare2 className="text-cyan-300 text-xl" /> },
+              { title: "Support First", detail: "Real replies from the makers.", icon: <FiHeadphones className="text-blue-400 text-xl" /> },
+              { title: "Workshops Soon", detail: "Collaborations and events in the pipeline.", icon: <FiUsers className="text-cyan-300 text-xl" /> },
             ].map((item, idx) => (
               <div
                 key={item.title}
-                className={`hover-shine rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-2xl hover:border-blue-400/70 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] hover:shadow-lg transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 ${
-                  idx === 0 ? "lg:col-span-4" : idx === 1 ? "lg:col-span-2" : idx === 2 ? "lg:col-span-3" : "lg:col-span-3"
+                className={`rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4 backdrop-blur-sm hover:border-blue-400/30 hover:bg-white/[0.04] hover:shadow-xl hover:shadow-blue-500/[0.12] transition-all duration-500 hover:-translate-y-0.5 ${
+                  idx === 0 ? "lg:col-span-4" : idx === 1 ? "lg:col-span-2" : "lg:col-span-3"
                 }`}
               >
                 <div className="flex items-center gap-2 text-white font-semibold text-sm">
                   {item.icon}
-                  <span>{item.title}</span>
+                  <span style={{ fontFamily: "'Cinzel', serif" }}>{item.title}</span>
                 </div>
-                <p className="mt-2 text-xs text-slate-200/80">{item.detail}</p>
+                <p
+                  className="mt-2 text-xs text-stone-400"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {item.detail}
+                </p>
               </div>
             ))}
           </div>
@@ -138,129 +101,168 @@ export default function Services() {
             ].map((service, i) => (
               <article
                 key={i}
-                className="hover-shine rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-2xl hover:border-blue-400/70 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] hover:shadow-lg transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 flex flex-col"
+                className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 backdrop-blur-sm hover:border-blue-400/30 hover:bg-white/[0.04] hover:shadow-xl hover:shadow-blue-500/[0.12] transition-all duration-500 hover:-translate-y-1 flex flex-col"
               >
                 <div className="flex items-center gap-3 mb-2">
                   {service.icon}
-                  <h3 className="text-lg font-semibold text-white">{service.title}</h3>
+                  <h3
+                    className="text-lg font-semibold text-white"
+                    style={{ fontFamily: "'Cinzel', serif" }}
+                  >
+                    {service.title}
+                  </h3>
                 </div>
-                <p className="mt-2 text-sm text-slate-200/80">{service.text}</p>
+                <p
+                  className="mt-2 text-sm text-stone-400"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {service.text}
+                </p>
               </article>
             ))}
           </div>
 
           {/* Follow us capsule */}
-          <div className="max-w-2xl mt-16 rounded-lg border border-white/10 bg-white/5 backdrop-blur-2xl p-6 hover:border-blue-400/60 hover:shadow-blue-500/20 transition">
-            <p className="text-slate-200/80 text-sm mb-4">
+          <div className="max-w-2xl mt-16 rounded-lg border border-white/10 bg-white/[0.03] p-6 hover:border-blue-400/40 transition-colors duration-300">
+            <p
+              className="text-stone-400 text-sm mb-4"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
               Follow us on Instagram and other socials for the latest news, stall
               locations, and new product launches. More services, including
               workshops and collaborations, coming soon!
             </p>
 
-            <div className="flex items-center gap-4 text-slate-200/80 mt-2">
-              <a href="https://www.instagram.com/forgerealmltd/" aria-label="Instagram" className="hover:text-pink-400 transition">
+            <div className="flex items-center gap-4 text-stone-400 mt-2">
+              <a href="https://www.instagram.com/forgerealmltd/" aria-label="Instagram" className="hover:text-pink-400 transition-colors duration-300">
                 <FaInstagram className="text-lg" />
               </a>
-              <a href="https://www.linkedin.com/company/forgerealm" aria-label="LinkedIn" className="hover:text-sky-400 transition">
+              <a href="https://www.linkedin.com/company/forgerealm" aria-label="LinkedIn" className="hover:text-blue-400 transition-colors duration-300">
                 <FaLinkedin className="text-lg" />
               </a>
             </div>
           </div>
         </div>
-        </section>
+      </section>
 
-        <section
-          id="materials"
-          data-observe
-          className="reveal relative py-24 bg-transparent"
-        >
-          <div
-            ref={materialsRef}
-            className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative"
+      {/* Diamond divider */}
+      <div className="flex items-center gap-4 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="w-[6px] h-[6px] rotate-45 bg-emerald-400/30" />
+        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      </div>
+
+      {/* Materials section */}
+      <section
+        id="materials"
+        data-observe
+        className="reveal relative py-16 sm:py-24"
+      >
+        {/* Emerald ambient glow */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute left-1/3 top-1/2 w-[400px] h-[300px] rounded-full bg-emerald-500/[0.04] blur-[180px]" />
+        </div>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
+          <div className="mb-2">
+            <div className="inline-flex items-center gap-3 mb-3">
+              <div className="w-8 h-px bg-gradient-to-r from-emerald-400 to-teal-400" />
+              <span className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.3em] text-emerald-300/60" style={{ fontFamily: "'Jost', sans-serif" }}>Eco printing</span>
+            </div>
+            <h2
+              className="text-2xl sm:text-3xl lg:text-4xl font-normal text-white"
+              style={{ fontFamily: "'Cinzel', serif" }}
+            >
+              Our <em className="text-emerald-300" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300 }}>Materials</em>
+            </h2>
+          </div>
+
+          <p
+            className="mt-3 text-stone-400 max-w-xl"
+            style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            <div className="max-w-2xl flex items-center gap-3">
-              <div className="relative">
-                <h2 className={`font-display text-3xl sm:text-4xl font-extrabold whitespace-nowrap ${isLight ? "text-emerald-700" : "text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-green-300 to-lime-200 drop-shadow-[0_0_20px_rgba(110,231,183,0.55)]"}`}>
-                  Materials
-                </h2>
-                <div className={`absolute -inset-2 blur-xl rounded-lg -z-10 ${isLight ? "bg-gradient-to-r from-emerald-200/45 to-lime-100/35" : "bg-gradient-to-r from-emerald-400/25 to-green-300/20"}`} />
-              </div>
-              <div className="relative flex-shrink-0 flex items-center text-emerald-200 drop-shadow-[0_0_16px_rgba(110,231,183,0.55)]">
-                <TbLeaf className="w-8 h-8 sm:w-10 sm:h-10" aria-hidden />
-              </div>
-            </div>
+            We offer the following filaments for 3D printing:
+          </p>
 
-            <p className="mt-3 text-slate-200/80 max-w-xl">
-              We offer the following filaments for 3D printing:
-            </p>
-
-            <div className="mt-12 grid gap-8 sm:grid-cols-1 lg:grid-cols-2">
-              {[
-                {
-                  title: "PLA",
-                  label: "Eco-friendly",
-                  labelColor: "text-green-400 border-green-400/50 bg-green-400/10",
-                  points: [
-                    "Biodegradable and sustainable",
-                    "Renewable and low impact",
-                  ],
-                  colorDot: "bg-green-400",
-                  desc: "Biodegradable and made from renewable resources. Our main filament, eco-friendly, safe, and perfect for customisation.",
-                },
-                {
-                  title: "PETG",
-                  label: "Recyclable",
-                  labelColor: "text-blue-400 border-blue-400/50 bg-blue-400/10",
-                  points: [
-                    "Durable and flexible structure",
-                    "Ideal for high-stress parts",
-                  ],
-                  colorDot: "bg-blue-400",
-                  desc: "Recyclable and durable. A strong, flexible option for prints needing extra toughness.",
-                },
-              ].map((item, i) => (
-                <div
-                  key={i}
-                  className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-2xl transition-all hover:border-blue-400/70 hover:shadow-[0_0_35px_-8px_rgba(59,130,246,0.4)]"
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-[color:var(--fg)]">
-                      {item.title}
-                    </h3>
-                    <span
-                      className={`text-xs rounded-full border px-2 py-0.5 ${item.labelColor}`}
-                    >
-                      {item.label}
-                    </span>
-                  </div>
-                  <p className="text-sm text-slate-200/80 leading-relaxed">
-                    {item.desc}
-                  </p>
-
-                  <ul className="mt-5 space-y-2 text-sm text-slate-200/80">
-                    {item.points.map((p, idx) => (
-                      <li key={idx} className="flex items-center gap-3">
-                        <span
-                          className={`h-2 w-2 rounded-full ${item.colorDot} flex-shrink-0`}
-                        />
-                        <span className="leading-snug">{p}</span>
-                      </li>
-                    ))}
-                  </ul>
+          <div className="mt-12 grid gap-8 sm:grid-cols-1 lg:grid-cols-2">
+            {[
+              {
+                title: "PLA",
+                label: "Eco-friendly",
+                labelColor: "text-green-400 border-green-400/40 bg-green-400/10",
+                points: [
+                  "Biodegradable and sustainable",
+                  "Renewable and low impact",
+                ],
+                colorDot: "bg-green-400",
+                desc: "Biodegradable and made from renewable resources. Our main filament, eco-friendly, safe, and perfect for customisation.",
+              },
+              {
+                title: "PETG",
+                label: "Recyclable",
+                labelColor: "text-blue-400 border-blue-400/40 bg-blue-400/10",
+                points: [
+                  "Durable and flexible structure",
+                  "Ideal for high-stress parts",
+                ],
+                colorDot: "bg-blue-400",
+                desc: "Recyclable and durable. A strong, flexible option for prints needing extra toughness.",
+              },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-8 backdrop-blur-sm hover:border-emerald-400/30 hover:bg-white/[0.04] hover:shadow-xl hover:shadow-emerald-500/[0.12] transition-all duration-500"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <h3
+                    className="text-lg font-semibold text-white"
+                    style={{ fontFamily: "'Cinzel', serif" }}
+                  >
+                    {item.title}
+                  </h3>
+                  <span
+                    className={`text-xs rounded-full border px-2 py-0.5 ${item.labelColor}`}
+                    style={{ fontFamily: "'Jost', sans-serif" }}
+                  >
+                    {item.label}
+                  </span>
                 </div>
-              ))}
-            </div>
+                <p
+                  className="text-sm text-stone-400 leading-relaxed"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {item.desc}
+                </p>
 
-            <div className="max-w-2xl mt-12">
-              <div className="inline-block px-5 py-2 rounded-lg bg-gradient-to-r from-emerald-900 to-emerald-800 text-white text-sm font-semibold shadow-[0_0_20px_-5px_rgba(16,185,129,0.3)]">
-                We focus on sustainable materials. More filament types and resin
-                printing coming soon.
+                <ul className="mt-5 space-y-2 text-sm text-stone-400">
+                  {item.points.map((p, idx) => (
+                    <li key={idx} className="flex items-center gap-3">
+                      <span
+                        className={`h-2 w-2 rounded-full ${item.colorDot} flex-shrink-0`}
+                      />
+                      <span
+                        className="leading-snug"
+                        style={{ fontFamily: "'Inter', sans-serif" }}
+                      >
+                        {p}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               </div>
+            ))}
+          </div>
+
+          <div className="max-w-2xl mt-12">
+            <div
+              className="inline-block px-5 py-2 rounded-lg bg-emerald-900/60 border border-emerald-400/20 text-emerald-200 text-sm font-semibold"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              We focus on sustainable materials. More filament types and resin
+              printing coming soon.
             </div>
           </div>
-        </section>
-
-      </div>
-    </>
+        </div>
+      </section>
+    </div>
   );
 }

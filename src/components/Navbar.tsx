@@ -1,256 +1,150 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { HiOutlineMenu, HiX, HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
-import { FaShoppingBag } from "react-icons/fa";
-import { FiUser } from "react-icons/fi";
-
-const envBase =
-  typeof import.meta !== "undefined" && import.meta.env && typeof import.meta.env.PUBLIC_API_URL === "string"
-    ? import.meta.env.PUBLIC_API_URL.trim().replace(/\/$/, "")
-    : "";
-
-const envLocal =
-  typeof import.meta !== "undefined" && import.meta.env && typeof import.meta.env.PUBLIC_API_URL_LOCAL === "string"
-    ? import.meta.env.PUBLIC_API_URL_LOCAL.trim().replace(/\/$/, "")
-    : "";
-
-const API_BASE =
-  (typeof window !== "undefined" && window.location.origin.startsWith("http://localhost")
-    ? envLocal || ""
-    : envBase || "");
+import { HiOutlineMenu, HiX } from "react-icons/hi";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
-  const [hasAdminToken, setHasAdminToken] = useState(false);
-
-  const isLight = theme === "light";
+  const [scrolled, setScrolled] = useState(false);
 
   const navLinks = [
     ["Services", "#services"],
     ["Work", "#work"],
     ["FAQ", "#faq"],
     ["Contact", "#contact"],
+    ["Booths", "/subscribe"],
   ];
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem("fr-theme") as "light" | "dark" | null;
-      const initial = saved || "dark";
-      setTheme(initial);
-      document.documentElement.setAttribute("data-theme", initial);
-    } catch {}
+    const fn = () => setScrolled(window.scrollY > 20);
+    fn();
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
   }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const updateToken = () => {
-      const token = localStorage.getItem("forgerealm_admin_token");
-      if (!token) {
-        setHasAdminToken(false);
-        return;
-      }
-      fetch(`${API_BASE}/api/auth/me`, {
-        credentials: "include",
-        headers: { Authorization: `Bearer ${token}` },
-      })
-        .then((res) => setHasAdminToken(res.ok))
-        .catch(() => setHasAdminToken(false));
-    };
-
-    updateToken();
-    window.addEventListener("forgerealm-admin-token-changed", updateToken);
-
-    return () => {
-      window.removeEventListener("forgerealm-admin-token-changed", updateToken);
-    };
-  }, []);
-
-  const toggleTheme = () => {
-    const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    try {
-      localStorage.setItem("fr-theme", next);
-    } catch {}
-    document.documentElement.setAttribute("data-theme", next);
-  };
-
-  const handleLogout = () => {
-    if (typeof window === "undefined") return;
-    fetch(`${API_BASE}/api/auth/logout`, { method: "POST", credentials: "include" })
-      .catch(() => {})
-      .finally(() => {
-        localStorage.removeItem("forgerealm_admin_token");
-        window.dispatchEvent(new Event("forgerealm-admin-token-changed"));
-        setHasAdminToken(false);
-      });
-  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
-      <div className="mx-auto max-w-7xl w-full px-4 py-4">
-        <div className={`navbar-glow hover-shine flex items-center justify-between rounded-full border px-5 py-2 backdrop-blur-2xl shadow-lg transition-all duration-500 ${isLight ? 'border-slate-200/50 bg-white/85 shadow-[0_8px_32px_rgba(15,23,42,0.12)] hover:shadow-[0_16px_56px_rgba(15,23,42,0.18)] hover:bg-white/92' : 'border-white/15 bg-gradient-to-r from-blue-600/80 via-indigo-600/85 to-purple-600/80 shadow-[0_8px_40px_rgba(59,130,246,0.25)] hover:shadow-[0_16px_60px_rgba(99,102,241,0.4)] hover:border-white/25'}`}>
-          <a href="#homepage" className="inline-flex items-center gap-2" aria-label="ForgeRealm home">
-            <img
-              src="/headfrlogorv.png"
-              alt="ForgeRealm Logo"
-              width={32}
-              height={32}
-              className={`h-8 w-8 rounded-full ring-1 transition-all duration-300 ${isLight ? 'bg-black p-[2px] ring-slate-300' : 'ring-transparent'}`}
-              loading="eager"
-            />
-            <span className={`font-display font-extrabold tracking-[0.2em] text-xs uppercase drop-shadow-sm ${isLight ? 'text-slate-900' : 'text-white'}`}>
-              Forge<span className={isLight ? "text-blue-600" : "text-blue-100"}>REALM</span>
-            </span>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4">
+        <div className={`flex items-center justify-between transition-all duration-500 rounded-2xl border ${scrolled ? 'py-2 px-4 bg-[#080c16]/95 backdrop-blur-2xl border-white/[0.06] shadow-xl shadow-black/30' : 'py-3 border-transparent'}`}>
+
+          {/* Left: Logo + brand in a pill */}
+          <a href="/" className="inline-flex items-center gap-3 group">
+            <div className={`relative rounded-full p-1.5 transition-all duration-500 border ${scrolled ? 'bg-black/60 backdrop-blur-xl border-white/10' : 'border-transparent'}`}>
+              <div className="relative">
+                <div className="absolute -inset-2 rounded-full bg-blue-400/0 group-hover:bg-blue-400/20 blur-xl transition-all duration-500" />
+                <img src="/headfrlogorv.png" alt="ForgeRealm" width={36} height={36} className="relative h-9 w-9 rounded-full transition-transform duration-300 group-hover:rotate-12 group-hover:drop-shadow-[0_0_12px_rgba(59,130,246,0.5)]" loading="eager" />
+              </div>
+            </div>
+            <div className="hidden sm:block">
+              <span className="text-[15px] font-semibold text-white block leading-tight" style={{ fontFamily: "'Cinzel', serif" }}>
+                ForgeRealm
+              </span>
+              <span className="text-[8px] uppercase tracking-[0.3em] text-blue-300/50" style={{ fontFamily: "'Jost', sans-serif" }}>Leeds, UK</span>
+            </div>
           </a>
 
-          <nav className="hidden md:flex items-center gap-12 text-sm font-semibold uppercase tracking-wide">
+          {/* Centre: Nav links in a floating glass bar */}
+          <nav className={`hidden md:flex items-center gap-1 rounded-full px-2 py-1.5 transition-all duration-500 ${scrolled ? 'bg-black/50 backdrop-blur-xl border border-white/[0.08]' : 'bg-white/[0.04] backdrop-blur-sm border border-white/[0.06]'}`}>
             {navLinks.map(([label, href]) => (
               <a
                 key={label}
                 href={href}
-                className={`relative transition-all duration-300 px-2 py-1 rounded-md hover:shadow-lg ${isLight ? 'text-slate-700 hover:text-slate-900 hover:bg-slate-100/80 hover:shadow-[0_0_15px_rgba(15,23,42,0.1)]' : 'text-white/90 hover:text-white hover:bg-white/10 hover:shadow-[0_0_15px_rgba(59,130,246,0.3)]'}`}
+                className="px-4 py-2 rounded-full text-[10px] font-medium uppercase tracking-[0.18em] text-stone-400 transition-all duration-300 hover:text-white hover:bg-white/[0.08]"
+                style={{ fontFamily: "'Jost', sans-serif" }}
               >
-                <span className="relative z-10">{label}</span>
-                <div className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 h-[2px] w-0 transition-all duration-300 hover:w-full ${isLight ? 'bg-gradient-to-r from-blue-500 to-indigo-600' : 'bg-gradient-to-r from-blue-300 to-cyan-300'}`} />
+                {label}
               </a>
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center gap-3">
+          {/* Right: Actions */}
+          <div className="flex items-center gap-2">
             <a
               href="/shop"
-              className="inline-flex items-center gap-2 rounded-full bg-amber-400 text-slate-900 font-bold text-xs uppercase tracking-wide px-4 py-2 hover:bg-amber-300 transition-all duration-300 shadow-[0_4px_15px_rgba(251,169,58,0.3)] hover:shadow-[0_6px_20px_rgba(251,169,58,0.4)]"
+              className="hidden sm:inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-black transition-all hover:-translate-y-0.5 shadow-lg shadow-amber-500/20"
+              style={{ fontFamily: "'Cinzel', serif", background: 'linear-gradient(to top, #F59E0B, #FADE6A)' }}
             >
-              <FaShoppingBag className="text-blue-600" />
-              <span>Shop</span>
+              Shop
             </a>
-            {hasAdminToken ? (
-              <a
-                href="/shop/dashboard"
-                className={`inline-flex items-center gap-2 rounded-full font-bold text-xs uppercase tracking-wide px-4 py-2 transition-all duration-300 ${isLight ? 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)] shadow-[0_4px_15px_rgba(37,99,235,0.3)]' : 'bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-700 hover:shadow-[0_6px_20px_rgba(59,130,246,0.3)] shadow-[0_4px_15px_rgba(255,255,255,0.2)]'}`}
-              >
-                <FiUser className="text-sm" />
-                Profile
-              </a>
-            ) : (
-              <a
-                href="/shop/sign-in"
-                className={`rounded-full font-bold text-xs uppercase tracking-wide px-4 py-2 transition-all duration-300 ${isLight ? 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)] shadow-[0_4px_15px_rgba(37,99,235,0.3)]' : 'bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-700 hover:shadow-[0_6px_20px_rgba(59,130,246,0.3)] shadow-[0_4px_15px_rgba(255,255,255,0.2)]'}`}
-              >
-                Sign In
-              </a>
-            )}
-            <button
-              onClick={toggleTheme}
-              aria-label="Toggle theme"
-              title={theme === "dark" ? "Switch to light" : "Switch to dark"}
-              className={`rounded-full px-3 py-2 transition-all duration-300 hover:scale-105 border ${isLight ? 'bg-slate-100 text-slate-700 hover:bg-slate-200 hover:shadow-[0_0_20px_rgba(15,23,42,0.2)] border-slate-300/50 hover:border-slate-400/70' : 'bg-white/10 text-white hover:bg-white/20 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] border-white/10 hover:border-blue-300/50'}`}
+            <a
+              href="/shop/sign-in"
+              className={`hidden sm:inline-flex items-center rounded-full px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/70 transition-all hover:text-white border border-white/20 hover:border-white/40 ${scrolled ? 'bg-black/40 backdrop-blur-xl' : 'bg-white/[0.04]'}`}
+              style={{ fontFamily: "'Cinzel', serif" }}
             >
-              {theme === "dark" ? <HiOutlineSun className="text-yellow-500" /> : <HiOutlineMoon className="text-slate-600" />}
+              Sign In
+            </a>
+
+            {/* Mobile hamburger */}
+            <button
+              onClick={() => setOpen(true)}
+              className={`md:hidden rounded-full p-2.5 transition-all ${scrolled ? 'bg-black/50 backdrop-blur-xl border border-white/10' : 'bg-white/[0.06] border border-white/[0.08]'}`}
+              aria-label="Open menu"
+            >
+              <HiOutlineMenu className="h-5 w-5 text-white" />
             </button>
           </div>
-
-          <button
-            onClick={() => setOpen(true)}
-            className={`md:hidden text-2xl ${isLight ? 'text-slate-700' : 'text-white'}`}
-            aria-label="Open menu"
-          >
-            <HiOutlineMenu />
-          </button>
         </div>
       </div>
 
       {/* Mobile overlay */}
-      <div
-        className={`fixed inset-0 z-40 backdrop-blur transition-opacity ${
-          open ? 'opacity-100' : 'pointer-events-none opacity-0'
-        } ${isLight ? 'bg-slate-900/40' : 'bg-black/60'}`}
-        onClick={() => setOpen(false)}
-        aria-hidden={!open}
-      />
+      {open && (
+        <div className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm" onClick={() => setOpen(false)} />
+      )}
 
-      {/* Mobile drawer */}
-      <aside
-        className={`fixed right-0 top-0 bottom-0 z-50 w-64 backdrop-blur border-l p-6 transform transition-transform ${
-          open ? 'translate-x-0' : 'translate-x-full'
-        } ${isLight ? 'bg-white/95 border-slate-200/50 shadow-[0_0_50px_rgba(15,23,42,0.2)]' : 'bg-gradient-to-b from-blue-600 to-indigo-700 shadow-[0_0_50px_rgba(59,130,246,0.3)] border-white/10'}`}
-        aria-hidden={!open}
-        aria-label="Mobile menu"
+      {/* Mobile drawer - full screen takeover */}
+      <div
+        className={`fixed inset-0 z-50 flex flex-col transform transition-all duration-500 ${
+          open ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'
+        }`}
+        style={{ background: 'linear-gradient(180deg, #080c16 0%, #0c1222 50%, #080c16 100%)' }}
       >
-        <div className="flex items-center justify-between mb-6">
-          <span className={`font-semibold tracking-wide uppercase text-xs ${isLight ? 'text-slate-700' : 'text-white'}`}>Menu</span>
-          <button onClick={() => setOpen(false)} className={`text-2xl ${isLight ? 'text-slate-700' : 'text-white'}`} aria-label="Close menu">
-            <HiX />
+        {/* Close button */}
+        <div className="flex items-center justify-between p-6">
+          <div className="flex items-center gap-3">
+            <img src="/headfrlogorv.png" alt="" className="h-8 w-8 rounded-full" />
+            <span className="text-[13px] font-semibold text-white" style={{ fontFamily: "'Cinzel', serif" }}>ForgeRealm</span>
+          </div>
+          <button onClick={() => setOpen(false)} className="rounded-full bg-white/[0.06] border border-white/10 p-2.5 text-white/60 hover:text-white transition" aria-label="Close menu">
+            <HiX className="h-5 w-5" />
           </button>
         </div>
 
-        <nav className="flex flex-col gap-4 text-sm uppercase tracking-wide">
+        {/* Nav links - large, centred */}
+        <nav className="flex-1 flex flex-col items-center justify-center gap-2 px-8">
           {navLinks.map(([label, href]) => (
             <a
               key={label}
               href={href}
               onClick={() => setOpen(false)}
-              className={`rounded-lg px-3 py-2 transition ${isLight ? 'text-slate-700 hover:text-slate-900 hover:bg-slate-100/80' : 'text-white hover:text-blue-200 hover:bg-white/10'}`}
+              className="w-full text-center rounded-xl px-6 py-4 text-[18px] text-stone-300 transition hover:bg-blue-500/[0.08] hover:text-white"
+              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400 }}
             >
               {label}
             </a>
           ))}
         </nav>
 
-        <div className={`my-6 border-t ${isLight ? 'border-slate-200/50' : 'border-white/10'}`} />
-
-        <div className="flex flex-col gap-4">
+        {/* Bottom actions */}
+        <div className="p-6 space-y-3">
+          <div className="h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent mb-4" />
           <a
             href="/shop"
             onClick={() => setOpen(false)}
-            className="rounded-full bg-amber-400 px-6 py-3 text-sm font-bold uppercase tracking-wide text-slate-900 hover:bg-amber-300 transition text-center inline-flex items-center justify-center gap-2 shadow-[0_4px_15px_rgba(251,169,58,0.3)]"
+            className="block w-full rounded-full py-3.5 text-center text-[12px] font-semibold uppercase tracking-[0.14em] text-black shadow-lg shadow-amber-500/20"
+            style={{ fontFamily: "'Cinzel', serif", background: 'linear-gradient(to top, #F59E0B, #FADE6A)' }}
           >
-            <FaShoppingBag className="text-blue-600" /> Shop
+            Enter the Shop
           </a>
-          {hasAdminToken ? (
-            <>
-              <a
-                href="/shop/dashboard"
-                onClick={() => setOpen(false)}
-                className={`rounded-full px-6 py-3 text-sm font-bold uppercase tracking-wide transition text-center shadow-lg inline-flex items-center justify-center gap-2 ${isLight ? 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)]' : 'bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-700 hover:shadow-[0_6px_20px_rgba(59,130,246,0.3)]'}`}
-              >
-                <FiUser className="text-sm" /> Profile
-              </a>
-              <button
-                type="button"
-                onClick={() => {
-                  handleLogout();
-                  setOpen(false);
-                }}
-                className={`rounded-full px-6 py-3 text-sm font-bold uppercase tracking-wide transition text-center shadow-lg border ${isLight ? 'border-slate-300/50 bg-white text-slate-700 hover:bg-slate-50' : 'border-white/20 bg-white/10 text-white hover:bg-white/20'}`}
-              >
-                Log out
-              </button>
-            </>
-          ) : (
-            <a
-              href="/shop/sign-in"
-              onClick={() => setOpen(false)}
-              className={`rounded-full px-6 py-3 text-sm font-bold uppercase tracking-wide transition text-center shadow-lg ${isLight ? 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)]' : 'bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-700 hover:shadow-[0_6px_20px_rgba(59,130,246,0.3)]'}`}
-            >
-              Sign In
-            </a>
-          )}
-          <button
-            onClick={() => {
-              toggleTheme();
-              setOpen(false);
-            }}
-            className={`mt-2 rounded-full px-6 py-3 text-sm font-bold uppercase tracking-wide transition text-center shadow-lg ${isLight ? 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300/50' : 'bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-700'}`}
-            aria-label="Toggle theme"
+          <a
+            href="/shop/sign-in"
+            onClick={() => setOpen(false)}
+            className="block w-full rounded-full border border-white/20 py-3.5 text-center text-[12px] font-semibold uppercase tracking-[0.14em] text-white/70 transition hover:border-white/40 hover:text-white"
+            style={{ fontFamily: "'Cinzel', serif" }}
           >
-            {theme === "dark" ? "Light Mode" : "Dark Mode"}
-          </button>
+            Sign In
+          </a>
         </div>
-      </aside>
+      </div>
     </header>
   );
 }

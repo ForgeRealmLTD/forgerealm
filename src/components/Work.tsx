@@ -31,6 +31,8 @@ type Product = {
   detail: string;
   image: string;
   background: string;
+  textColor: string;
+  accentColor: string;
 };
 
 const products: Product[] = [
@@ -44,7 +46,9 @@ const products: Product[] = [
     detail:
       "The soft spiral diffuser creates beautiful ambient lighting effects, perfect for creating a cozy atmosphere in any space.",
     image: "/ablamp-nbg.webp",
-    background: "linear-gradient(140deg, #1a1b2d 0%, #1d2038 10%, #1e2142 20%, #202545 30%, #23274a 40%, #252a4a 50%, #282d52 60%, #2d2f5a 70%, #36305f 80%, #3a2a5a 90%, #4a3a6a 100%)",
+    background: "#0a0a0a",
+    textColor: "#FADE6A",
+    accentColor: "#F59E0B",
   },
   {
     id: "nebula-owl",
@@ -56,7 +60,9 @@ const products: Product[] = [
     detail:
       "The owl is a symbol woven through Leeds, appearing across the city and in the Leeds United crest, making this piece a small tribute to home.",
     image: "/owl-nbg.webp",
-    background: "linear-gradient(140deg, #3b1f2b 0%, #3f2330 10%, #412532 20%, #442833 30%, #472b36 40%, #4a2a2a 50%, #532e2e 60%, #5a3232 70%, #653737 80%, #6d3b3b 90%, #7a4a4a 100%)",
+    background: "#0a0a0a",
+    textColor: "#FADE6A",
+    accentColor: "#F59E0B",
   },
   {
     id: "forest-dragon",
@@ -68,7 +74,9 @@ const products: Product[] = [
     detail:
       "Layered scales and a balanced stance give it a lifelike posture, perfect for collectors who want a mythic centerpiece.",
     image: "/dragon-nbg.webp",
-    background: "linear-gradient(140deg, #0e2b1f 0%, #0f2d22 10%, #103024 20%, #113326 30%, #12352a 40%, #143a2a 50%, #163f2f 60%, #184234 70%, #1c5739 80%, #1f5a44 90%, #256a54 100%)",
+    background: "#0a0a0a",
+    textColor: "#FADE6A",
+    accentColor: "#F59E0B",
   },
   {
     id: "dice-guardian",
@@ -80,13 +88,14 @@ const products: Product[] = [
     detail:
       "The open jaw holds a full set of dice while the PETG build keeps it tough enough for regular game nights.",
     image: "/dice-dragon-nbg.webp",
-    background: "linear-gradient(140deg, #1b1f3a 0%, #1c2245 10%, #1e2352 20%, #202552 30%, #222755 40%, #232752 50%, #262c58 60%, #2a2f52 70%, #2f355e 80%, #333a6a 90%, #3b4a7a 100%)",
+    background: "#0a0a0a",
+    textColor: "#FADE6A",
+    accentColor: "#F59E0B",
   },
 ];
 
 export default function Work() {
-  const theme = useTheme();
-  const isLight = theme === "light";
+  const isLight = false;
   const [activeIndex, setActiveIndex] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -314,21 +323,25 @@ export default function Work() {
   return (
     <section
       id="work"
-      className={`work-force-white relative h-screen w-full overflow-hidden ${isLight ? "text-slate-900" : "text-white"}`}
+      className="relative h-screen w-full overflow-hidden text-white" style={{ background: 'linear-gradient(180deg, #080c14 0%, #0a0e18 50%, #080c14 100%)' }}
     >
-      <div className={`pointer-events-none absolute inset-0 -z-10 ${isLight ? "bg-gradient-to-br from-amber-50 via-orange-50/40 to-yellow-50/30" : "bg-gradient-to-r from-blue-500/10 via-emerald-400/10 to-indigo-500/10"}`} />
+      <div className="pointer-events-none absolute inset-0 -z-10" />
+      {/* Yellow gradient borders */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#FADE6A]/40 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#FADE6A]/40 to-transparent" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8 lg:pt-12">
         <div className="max-w-2xl">
           <div className="relative">
-            <h2 className="work-text-force mt-2 font-display text-3xl font-extrabold sm:text-4xl text-white drop-shadow-[0_0_25px_rgba(255,255,255,0.8)] tracking-wide">
-              <span className="relative inline-block">
-                Featured Prints
-                <div className={`absolute -inset-1 blur-lg rounded-lg -z-10 ${isLight ? "bg-gradient-to-r from-amber-300/30 via-orange-200/30 to-yellow-300/30" : "bg-gradient-to-r from-blue-400/20 via-cyan-300/20 to-blue-400/20"} animate-pulse`} />
-              </span>
+            <div className="inline-flex items-center gap-3 mb-3">
+              <div className="w-8 h-px bg-gradient-to-r from-blue-400 to-purple-400" />
+              <span className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.3em] text-blue-300/60" style={{ fontFamily: "'Jost', sans-serif" }}>Curated</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-normal text-white" style={{ fontFamily: "'Cinzel', serif" }}>
+              Featured <em style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, color: '#FADE6A' }}>Prints</em>
             </h2>
           </div>
-          <p className={`work-text-force mt-2 text-sm ${isLight ? "text-slate-700" : "text-slate-200/70"}`}>
-            ForgeRealm · Curated print drops
+          <p className="work-text-force mt-2 text-sm text-stone-400" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>
+            ForgeRealm originals, designed and printed in Leeds
           </p>
         </div>
       </div>
@@ -363,19 +376,20 @@ export default function Work() {
                 }}
                 className={`relative flex h-full shrink-0 ${
                   isCoarsePointer && isNarrowScreen ? "snap-center snap-always" : "snap-start"
-                } items-center justify-center overflow-hidden border border-white/10 transition-[width] duration-500 ease-out focus:outline-none hover:border-white/30`}
+                } items-center justify-center overflow-hidden border transition-[width] duration-500 ease-out focus:outline-none`}
                 style={{
                   width: getPanelWidth(index),
-                  backgroundImage: product.background,
+                  background: product.background,
+                  borderColor: '#FADE6A40',
                 }}
                 aria-label={`Open ${product.name}`}
               >
                 <span className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/30" aria-hidden />
                 <span className="absolute inset-0 opacity-0 transition duration-500 ease-out group-hover:opacity-100" aria-hidden />
-                <span className={`work-text-force absolute right-6 top-10 text-6xl font-semibold sm:text-7xl ${isLight ? "text-slate-900/20" : "text-white/20"}`}>
+                <span className="work-text-force absolute right-6 top-10 text-6xl font-semibold sm:text-7xl" style={{ fontFamily: "'Cinzel', serif", color: product.textColor, opacity: 0.15 }}>
                   {(index + 1).toString().padStart(2, "0")}
                 </span>
-                <span className={`work-text-force absolute left-6 top-8 rotate-180 text-[10px] uppercase tracking-[0.45em] [writing-mode:vertical-rl] sm:text-xs z-10 ${isLight ? "text-slate-900" : "text-white"}`}>
+                <span className="work-text-force absolute left-6 top-8 rotate-180 text-[10px] uppercase tracking-[0.45em] [writing-mode:vertical-rl] sm:text-xs z-10" style={{ fontFamily: "'Cinzel', serif", color: product.textColor }}>
                   {product.name}
                 </span>
                 <motion.img
@@ -398,7 +412,7 @@ export default function Work() {
       </div>
 
       <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2">
-        <div className={`rounded-lg px-3 py-2 text-[10px] uppercase tracking-[0.35em] ${isLight ? "bg-white/70 text-slate-800 shadow-[0_4px_12px_rgba(0,0,0,0.15)]" : "bg-black/40 text-white/80"}`}>
+        <div className="rounded-lg px-3 py-2 text-[10px] uppercase tracking-[0.35em] bg-black/50 text-white/60 backdrop-blur-sm" style={{ fontFamily: "'Jost', sans-serif" }}>
           Swipe to explore
         </div>
       </div>
@@ -407,7 +421,7 @@ export default function Work() {
         {isExpanded && (
           <motion.div
             className="fixed inset-0 z-[60] flex h-full w-full items-center justify-center"
-            style={{ backgroundImage: activeProduct.background }}
+            style={{ background: activeProduct.background }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -423,30 +437,30 @@ export default function Work() {
               const moveY = event.touches[0]?.clientY ?? touchStartYRef.current;
               const deltaX = Math.abs(moveX - touchStartXRef.current);
               const deltaY = Math.abs(moveY - touchStartYRef.current);
-              if (deltaY > deltaX) {
+              if (deltaX > 10 || deltaY > 10) {
                 touchMovedRef.current = true;
               }
             }}
             onTouchEnd={(event) => {
               if (touchStartXRef.current === null) return;
-              if (touchMovedRef.current) {
-                touchStartXRef.current = null;
-                touchStartYRef.current = null;
-                touchMovedRef.current = false;
-                return;
-              }
               const endX = event.changedTouches[0]?.clientX ?? touchStartXRef.current;
               const deltaX = endX - touchStartXRef.current;
+              const wasMoved = touchMovedRef.current;
               touchStartXRef.current = null;
               touchStartYRef.current = null;
-              if (Math.abs(deltaX) < 50) return;
-              if (deltaX < 0) {
-                setDirection(1);
-                handleNext();
-              } else {
-                setDirection(-1);
-                handlePrev();
+              touchMovedRef.current = false;
+              if (Math.abs(deltaX) > 50) {
+                event.stopPropagation();
+                if (deltaX < 0) {
+                  setDirection(1);
+                  handleNext();
+                } else {
+                  setDirection(-1);
+                  handlePrev();
+                }
+                return;
               }
+              if (wasMoved) return;
             }}
           >
             <motion.div
@@ -491,16 +505,16 @@ export default function Work() {
                       <p className={`work-text-force text-[10px] uppercase tracking-[0.35em] ${isLight ? "text-slate-700" : "text-white/80"}`}>
                         Featured print
                       </p>
-                      <h3 className={`work-text-force text-3xl font-semibold sm:text-4xl ${isLight ? "text-slate-900" : "text-white"}`}>
+                      <h3 className="work-text-force text-3xl font-bold sm:text-4xl" style={{ fontFamily: "'Cinzel', serif", color: activeProduct.textColor }}>
                         {activeProduct.name}
                       </h3>
-                      <p className={`work-text-force text-sm sm:text-base ${isLight ? "text-slate-700" : "text-white/90"}`}>
+                      <p className="work-text-force text-sm sm:text-base" style={{ fontFamily: "'Inter', sans-serif", color: activeProduct.textColor, opacity: 0.9 }}>
                         {activeProduct.description}
                       </p>
-                      <p className={`work-text-force text-sm sm:text-base ${isLight ? "text-slate-600" : "text-white/80"}`}>
+                      <p className="work-text-force text-sm sm:text-base" style={{ fontFamily: "'Inter', sans-serif", color: activeProduct.textColor, opacity: 0.7 }}>
                         {activeProduct.shopDescription}
                       </p>
-                      <p className={`work-text-force text-xs sm:text-sm ${isLight ? "text-slate-500" : "text-white/70"}`}>
+                      <p className="work-text-force text-xs sm:text-sm" style={{ fontFamily: "'Inter', sans-serif", color: activeProduct.textColor, opacity: 0.6 }}>
                         {activeProduct.detail}
                       </p>
                       <div className="flex flex-wrap items-center gap-3">
@@ -527,19 +541,19 @@ export default function Work() {
                       </div>
 
                       <div className="relative z-10 w-full max-w-md space-y-6 text-left lg:w-[45%] lg:ml-[6vw] lg:my-auto">
-                        <p className={`work-text-force text-[10px] uppercase tracking-[0.35em] ${isLight ? "text-slate-700" : "text-white/80"}`}>
+                        <p className="work-text-force text-[10px] uppercase tracking-[0.35em]" style={{ fontFamily: "'Jost', sans-serif", color: activeProduct.accentColor }}>
                           Featured print
                         </p>
-                        <h3 className={`work-text-force text-3xl font-semibold sm:text-4xl ${isLight ? "text-slate-900" : "text-white"}`}>
+                        <h3 className="work-text-force text-3xl font-bold sm:text-4xl" style={{ fontFamily: "'Cinzel', serif", color: activeProduct.textColor }}>
                           {activeProduct.name}
                         </h3>
-                        <p className={`work-text-force text-sm sm:text-base ${isLight ? "text-slate-700" : "text-white/90"}`}>
+                        <p className="work-text-force text-sm sm:text-base" style={{ fontFamily: "'Inter', sans-serif", color: activeProduct.textColor, opacity: 0.9 }}>
                           {activeProduct.description}
                         </p>
-                        <p className={`work-text-force text-sm sm:text-base ${isLight ? "text-slate-600" : "text-white/80"}`}>
+                        <p className="work-text-force text-sm sm:text-base" style={{ fontFamily: "'Inter', sans-serif", color: activeProduct.textColor, opacity: 0.7 }}>
                           {activeProduct.shopDescription}
                         </p>
-                        <p className={`work-text-force text-xs sm:text-sm ${isLight ? "text-slate-500" : "text-white/70"}`}>
+                        <p className="work-text-force text-xs sm:text-sm" style={{ fontFamily: "'Inter', sans-serif", color: activeProduct.textColor, opacity: 0.6 }}>
                           {activeProduct.detail}
                         </p>
                         <div className="flex flex-wrap items-center gap-3">
