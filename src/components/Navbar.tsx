@@ -137,8 +137,8 @@ export default function Navbar() {
           <a
             href="/shop"
             onClick={() => setOpen(false)}
-            className="block w-full rounded-full py-3.5 text-center text-[12px] font-semibold uppercase tracking-[0.14em] text-black shadow-lg shadow-amber-500/20"
-            style={{ fontFamily: "'Cinzel', serif", background: 'linear-gradient(to top, #F59E0B, #FADE6A)' }}
+            className="block w-full rounded-full py-3.5 text-center text-[12px] font-semibold uppercase tracking-[0.14em] text-white bg-gradient-to-r from-blue-500 to-cyan-400 shadow-lg shadow-blue-500/20"
+            style={{ fontFamily: "'Cinzel', serif" }}
           >
             Enter the Shop
           </a>
