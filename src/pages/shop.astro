@@ -9,3 +9,8 @@ import ShopApp from '../components/shop/ShopApp';
 >
   <ShopApp client:load />
 </BaseLayout>
+
+<script is:inline>
+  document.documentElement.setAttribute('data-theme', 'dark');
+  document.documentElement.classList.add('dark');
+</script>
