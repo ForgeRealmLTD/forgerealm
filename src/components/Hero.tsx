@@ -1,8 +1,46 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Lottie from "lottie-react";
-import Typewriter from "typewriter-effect";
+
+function useTypewriter(words: string[]) {
+  const [text, setText] = useState("");
+  const [wordIdx, setWordIdx] = useState(0);
+  const [phase, setPhase] = useState<"typing" | "pause" | "deleting">("typing");
+  const [charIdx, setCharIdx] = useState(0);
+
+  useEffect(() => {
+    const word = words[wordIdx];
+    let timer: ReturnType<typeof setTimeout>;
+
+    if (phase === "typing") {
+      if (charIdx < word.length) {
+        timer = setTimeout(() => {
+          setText(word.slice(0, charIdx + 1));
+          setCharIdx(charIdx + 1);
+        }, 80);
+      } else {
+        timer = setTimeout(() => setPhase("pause"), 100);
+      }
+    } else if (phase === "pause") {
+      timer = setTimeout(() => setPhase("deleting"), 2500);
+    } else if (phase === "deleting") {
+      if (charIdx > 0) {
+        timer = setTimeout(() => {
+          setText(word.slice(0, charIdx - 1));
+          setCharIdx(charIdx - 1);
+        }, 40);
+      } else {
+        setWordIdx((prev) => (prev + 1) % words.length);
+        setPhase("typing");
+      }
+    }
+
+    return () => clearTimeout(timer);
+  }, [charIdx, phase, wordIdx, words]);
+
+  return text;
+}
 
 function useCountUp(target: number, duration = 2000) {
   const [count, setCount] = useState(0);
@@ -33,8 +71,11 @@ function useCountUp(target: number, duration = 2000) {
   return { count, ref };
 }
 
+const WORDS = ['Imagination', 'Precision', 'Passion', 'Purpose', 'Detail', 'Heart', 'Vision', 'Soul'];
+
 export default function Hero() {
   const [printAnim, setPrintAnim] = useState<any>(null);
+  const typed = useTypewriter(WORDS);
   const printsSold = useCountUp(238, 2200);
   const designs = useCountUp(30, 1800);
 
@@ -92,19 +133,12 @@ export default function Hero() {
             <h1 className="text-4xl sm:text-6xl lg:text-[5rem] font-bold leading-[0.9] text-white" style={{ fontFamily: "'Cinzel', serif" }}>
               Crafted with
               <br />
-              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-300 bg-clip-text text-transparent inline-block" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300, fontSize: '1.1em' }}>
-                <Typewriter
-                  options={{
-                    strings: ['Imagination', 'Precision', 'Passion', 'Purpose', 'Detail', 'Heart', 'Vision', 'Soul'],
-                    autoStart: true,
-                    loop: true,
-                    delay: 80,
-                    deleteSpeed: 40,
-                    cursor: '|',
-                  }}
-                />
+              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-300 bg-clip-text text-transparent" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300, fontSize: '1.1em' }}>
+                {typed}
+                <span className="inline-block w-[2px] h-[0.85em] ml-1 align-middle bg-cyan-300/60" style={{ animation: 'blink 1s step-end infinite' }} />
               </span>
             </h1>
+            <style>{`@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }`}</style>
 
             <p className="mt-4 sm:mt-6 max-w-lg text-stone-400 leading-relaxed mx-auto lg:mx-0 text-[13px] sm:text-base lg:text-lg" style={{ fontFamily: "'Inter', sans-serif", lineHeight: 1.7 }}>
               From articulated dragons to ambient lamps, every piece is designed, printed, and hand-finished in our Leeds workshop. Eco-friendly PLA, no compromise on detail.
