@@ -11,6 +11,7 @@ export interface Product {
   image?: string;
   images?: string[]; // additional images for carousel
   featured?: boolean;
+  bannerOnly?: boolean; // don't show in product grid, only as banner
 }
 
 export const products: Product[] = [
@@ -267,11 +268,12 @@ export const products: Product[] = [
     price: 2000,
     displayPrice: '£20.00',
     category: '',
-    description: 'Layered petal lampshade with warm ambient glow. Available in black or brushed silver stand. 3D printed in eco PLA, hand-assembled.',
+    description: 'Layered petal lamp with warm ambient glow. Includes stand, bulb and shade. Available in matte black or brushed silver.',
     stock: 4,
     badge: 'Premium',
     image: '/shop-products/lamps1.webp',
     images: ['/shop-products/lamps1.webp', '/shop-products/lamps2.webp'],
+    bannerOnly: true,
   },
 
   // ── Home ──
