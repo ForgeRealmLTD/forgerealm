@@ -25,7 +25,7 @@ export default function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4">
-        <div className={`flex items-center justify-between transition-all duration-500 rounded-2xl border ${scrolled ? 'py-2 px-4 bg-[#080c16]/95 backdrop-blur-2xl border-white/[0.06] shadow-xl shadow-black/30' : 'py-3 border-transparent'}`}>
+        <div className={`flex items-center justify-between transition-all duration-300 rounded-2xl border ${scrolled ? 'py-2 px-4 bg-[#080c16] border-white/[0.06] shadow-xl shadow-black/30' : 'py-3 border-transparent'}`}>
 
           {/* Left: Logo */}
           <a href="/" className="inline-flex items-center gap-3 group">
