@@ -4,40 +4,42 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import Lottie from "lottie-react";
 
 function useTypewriter(words: string[]) {
-  const [text, setText] = useState("");
-  const [wordIdx, setWordIdx] = useState(0);
-  const [phase, setPhase] = useState<"typing" | "pause" | "deleting">("typing");
-  const [charIdx, setCharIdx] = useState(0);
+  const [text, setText] = useState(words[0]);
+  const stateRef = useRef({ wordIdx: 0, charIdx: words[0].length, phase: 'pause' as 'typing' | 'pause' | 'deleting' });
 
   useEffect(() => {
-    const word = words[wordIdx];
     let timer: ReturnType<typeof setTimeout>;
+    const tick = () => {
+      const s = stateRef.current;
+      const word = words[s.wordIdx];
 
-    if (phase === "typing") {
-      if (charIdx < word.length) {
-        timer = setTimeout(() => {
-          setText(word.slice(0, charIdx + 1));
-          setCharIdx(charIdx + 1);
-        }, 80);
+      if (s.phase === 'pause') {
+        timer = setTimeout(() => { s.phase = 'deleting'; tick(); }, 2500);
+      } else if (s.phase === 'deleting') {
+        if (s.charIdx > 0) {
+          s.charIdx--;
+          setText(word.slice(0, s.charIdx));
+          timer = setTimeout(tick, 40);
+        } else {
+          s.wordIdx = (s.wordIdx + 1) % words.length;
+          s.phase = 'typing';
+          tick();
+        }
       } else {
-        timer = setTimeout(() => setPhase("pause"), 100);
+        const target = words[s.wordIdx];
+        if (s.charIdx < target.length) {
+          s.charIdx++;
+          setText(target.slice(0, s.charIdx));
+          timer = setTimeout(tick, 80);
+        } else {
+          s.phase = 'pause';
+          timer = setTimeout(tick, 2500);
+        }
       }
-    } else if (phase === "pause") {
-      timer = setTimeout(() => setPhase("deleting"), 2500);
-    } else if (phase === "deleting") {
-      if (charIdx > 0) {
-        timer = setTimeout(() => {
-          setText(word.slice(0, charIdx - 1));
-          setCharIdx(charIdx - 1);
-        }, 40);
-      } else {
-        setWordIdx((prev) => (prev + 1) % words.length);
-        setPhase("typing");
-      }
-    }
-
+    };
+    timer = setTimeout(tick, 2500);
     return () => clearTimeout(timer);
-  }, [charIdx, phase, wordIdx, words]);
+  }, [words]);
 
   return text;
 }
@@ -99,16 +101,9 @@ export default function Hero() {
       </div>
 
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
-        {/* Mobile: Lottie at top, then content */}
-        <div className="lg:hidden flex flex-col items-center mb-8">
-          {printAnim ? (
-            <div className="relative w-[180px] h-[180px] sm:w-[200px] sm:h-[200px] overflow-hidden rounded-2xl" style={{ background: 'linear-gradient(to top, #F59E0B 0%, #F5B731 40%, #FADE6A 100%)' }}>
-              <div className="absolute inset-0" />
-              <Lottie animationData={printAnim} loop className="relative w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] -mt-[40px] -ml-[40px] sm:-mt-[50px] sm:-ml-[50px]" />
-            </div>
-          ) : (
-            <img src="/frlogorv.png" alt="ForgeRealm" className="w-24 h-24 opacity-40" />
-          )}
+        {/* Mobile: logo at top (no Lottie - too heavy for mobile) */}
+        <div className="lg:hidden flex flex-col items-center mb-6">
+          <img src="/frlogorv.png" alt="ForgeRealm" className="w-20 h-20 drop-shadow-[0_0_20px_rgba(59,130,246,0.3)]" />
         </div>
 
         <div className="grid lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-16 items-center">
