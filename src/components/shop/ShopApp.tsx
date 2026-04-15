@@ -1055,6 +1055,58 @@ function FilterSidebar({ filters, onChange, total, onMobileClose, mobileOpen }: 
 
 /* ═══════════════════════════ Product Grid ═══════════════════════════ */
 
+function LampBanner({ onQuickView }: { onQuickView: (p: Product) => void }) {
+  const lamp = products.find(p => p.id === 'artichoke-lamp');
+  if (!lamp) return null;
+
+  return (
+    <div className="relative overflow-hidden rounded-2xl cursor-pointer group" style={{ border: '1px solid rgba(255,255,255,0.12)' }} onClick={() => onQuickView(lamp)}>
+      <div className="relative h-[300px] sm:h-[400px] lg:h-[450px]">
+        <img
+          src="/shop-products/lamps1.webp"
+          alt="Artichoke Lamp"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+          style={{ objectPosition: '50% 30%' }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+        <div className="absolute inset-0 mix-blend-soft-light bg-gradient-to-br from-amber-900/20 to-transparent" />
+
+        <div className="absolute inset-0 flex items-end sm:items-center">
+          <div className="max-w-xl p-5 sm:p-10 lg:p-14">
+            <div className="inline-flex items-center gap-2 mb-3">
+              <div className="w-10 h-px bg-amber-400/60" />
+              <span className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.3em] text-amber-300/70" style={{ fontFamily: "'Jost', sans-serif" }}>New Arrival</span>
+            </div>
+            <h3 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white leading-[0.95] mb-3" style={{ fontFamily: "'Cinzel', serif" }}>
+              Artichoke
+              <br />
+              <span className="text-amber-200/90" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontStyle: 'italic', fontSize: '1.1em' }}>
+                Lamp
+              </span>
+            </h3>
+            <p className="text-[13px] sm:text-[16px] text-white/50 max-w-sm leading-relaxed mb-4 hidden sm:block" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>
+              Layered petal shade casting warm, ambient light. Hand-assembled. Two finishes available.
+            </p>
+            <div className="flex items-baseline gap-3 mb-3 sm:mb-4">
+              <span className="text-2xl sm:text-4xl font-bold text-amber-200" style={{ fontFamily: "'Cormorant Garamond', serif" }}>&pound;20</span>
+              <span className="text-[11px] text-white/30 uppercase tracking-wider" style={{ fontFamily: "'Jost', sans-serif" }}>per lamp</span>
+            </div>
+            <div className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80 border border-white/20 rounded-full transition-all group-hover:border-amber-300/40 group-hover:text-amber-200" style={{ fontFamily: "'Cinzel', serif" }}>
+              View Details
+              <svg className="h-3 w-3 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </div>
+          </div>
+        </div>
+
+        <div className="absolute top-4 right-4 px-3 py-1.5 bg-amber-500/20 border border-amber-400/30 rounded-full backdrop-blur-sm">
+          <span className="text-[9px] font-semibold uppercase tracking-[0.15em] text-amber-300" style={{ fontFamily: "'Jost', sans-serif" }}>Premium</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ProductGrid({ search, filters, onQuickView, onFilterMobileOpen }: {
   search: string;
   filters: Filters;
@@ -1109,10 +1161,25 @@ function ProductGrid({ search, filters, onQuickView, onFilterMobileOpen }: {
           <p className="mt-1 text-sm text-slate-500">Try adjusting your filters</p>
         </div>
       ) : (
-        <div className="grid gap-2.5 sm:gap-4 grid-cols-2 lg:grid-cols-3">
-            {sorted.map((p, i) => (
+        <div className="space-y-2.5 sm:space-y-4">
+          <div className="grid gap-2.5 sm:gap-4 grid-cols-2 lg:grid-cols-3">
+            {sorted.slice(0, 8).map((p, i) => (
               <ProductCard key={p.id} product={p} onQuickView={onQuickView} index={i} />
             ))}
+          </div>
+
+          {/* Lamp banner inline */}
+          {sorted.length > 6 && (
+            <LampBanner onQuickView={onQuickView} />
+          )}
+
+          {sorted.length > 8 && (
+            <div className="grid gap-2.5 sm:gap-4 grid-cols-2 lg:grid-cols-3">
+              {sorted.slice(8).map((p, i) => (
+                <ProductCard key={p.id} product={p} onQuickView={onQuickView} index={i + 8} />
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
