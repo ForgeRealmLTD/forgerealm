@@ -624,12 +624,12 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
           <a href="#products" className="text-xs sm:text-sm text-slate-400 transition hover:text-white">View all &rarr;</a>
         </div>
 
-        <div className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory sm:grid sm:grid-cols-2 sm:overflow-visible lg:grid-cols-4">
+        <div className="flex gap-3 overflow-x-auto scrollbar-hide sm:grid sm:grid-cols-2 sm:overflow-visible lg:grid-cols-4" style={{ WebkitOverflowScrolling: 'touch' }}>
           {featured.map((item) => (
             <div
               key={item.id}
               onClick={() => onQuickView(item)}
-              className="group cursor-pointer overflow-hidden rounded-2xl shrink-0 w-[70vw] snap-start sm:w-auto sm:shrink relative"
+              className="group cursor-pointer overflow-hidden rounded-2xl shrink-0 w-[70vw] sm:w-auto sm:shrink relative"
             >
               {/* Full image background */}
               <div className="relative aspect-[3/4]">
