@@ -799,25 +799,49 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
             <p className="text-[12px] font-medium text-amber-400/80">Only {product.stock} left</p>
           </div>
         )}
-        {/* Cart button pinned to bottom */}
+        {/* Bottom actions */}
         <div className="flex-1" />
         {!isComingSoon && !isSoldOut && (
-          <div className="flex justify-end mt-2">
-            <button
-              onClick={handleAdd}
-              className={`flex items-center justify-center w-8 h-8 rounded-lg transition-all shrink-0 ${
-                added
-                  ? 'bg-emerald-500 scale-90'
-                  : 'bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 shadow shadow-amber-500/20 hover:scale-110'
-              }`}
-            >
-              {added ? (
-                <svg className="h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              ) : (
-                <svg className="h-3.5 w-3.5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" /></svg>
-              )}
-            </button>
-          </div>
+          <>
+            {/* Mobile: text buttons */}
+            <div className="flex gap-2 mt-2 sm:hidden">
+              <button
+                onClick={(e) => { e.stopPropagation(); onQuickView(product); }}
+                className="flex-1 rounded-lg py-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/70 border border-white/15 transition-all hover:border-white/30 hover:text-white"
+                style={{ fontFamily: "'Cinzel', serif" }}
+              >
+                View
+              </button>
+              <button
+                onClick={handleAdd}
+                className={`flex-1 rounded-lg py-2 text-[10px] font-semibold uppercase tracking-[0.1em] transition-all ${
+                  added
+                    ? 'bg-emerald-500 text-white'
+                    : 'bg-gradient-to-r from-amber-400 to-amber-500 text-black'
+                }`}
+                style={{ fontFamily: "'Cinzel', serif" }}
+              >
+                {added ? '✓ Added' : 'Add to Basket'}
+              </button>
+            </div>
+            {/* Desktop: cart icon */}
+            <div className="hidden sm:flex justify-end mt-2">
+              <button
+                onClick={handleAdd}
+                className={`flex items-center justify-center w-8 h-8 rounded-lg transition-all shrink-0 ${
+                  added
+                    ? 'bg-emerald-500 scale-90'
+                    : 'bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 shadow shadow-amber-500/20 hover:scale-110'
+                }`}
+              >
+                {added ? (
+                  <svg className="h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                ) : (
+                  <svg className="h-3.5 w-3.5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" /></svg>
+                )}
+              </button>
+            </div>
+          </>
         )}
       </div>
     </div>
