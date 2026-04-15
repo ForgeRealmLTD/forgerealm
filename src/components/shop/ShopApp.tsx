@@ -1086,7 +1086,7 @@ function LampBanner({ onQuickView }: { onQuickView: (p: Product) => void }) {
               </span>
             </h3>
             <p className="text-[13px] sm:text-[16px] text-white/50 max-w-sm leading-relaxed mb-4 hidden sm:block" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>
-              Layered petal shade casting warm, ambient light. Hand-assembled. Two finishes available.
+              Stand, bulb &amp; shade included. Black or brushed silver finish.
             </p>
             <div className="flex items-baseline gap-3 mb-3 sm:mb-4">
               <span className="text-2xl sm:text-4xl font-bold text-amber-200" style={{ fontFamily: "'Cormorant Garamond', serif" }}>&pound;20</span>
@@ -1114,6 +1114,7 @@ function ProductGrid({ search, filters, onQuickView, onFilterMobileOpen }: {
   onFilterMobileOpen: () => void;
 }) {
   const filtered = products.filter((p) => {
+    if (p.bannerOnly) return false;
     if (search && !p.name.toLowerCase().includes(search.toLowerCase())) return false;
     if (p.price < filters.priceRange[0] || p.price > filters.priceRange[1]) return false;
     if (filters.inStock && (p.stock === 0 || p.badge === 'Coming Soon')) return false;
@@ -1852,6 +1853,7 @@ function ShopContent() {
 
   // Count filtered products for sidebar display
   const filteredCount = products.filter((p) => {
+    if (p.bannerOnly) return false;
     if (search && !p.name.toLowerCase().includes(search.toLowerCase())) return false;
     if (p.price < filters.priceRange[0] || p.price > filters.priceRange[1]) return false;
     if (filters.inStock && (p.stock === 0 || p.badge === 'Coming Soon')) return false;
