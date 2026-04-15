@@ -35,11 +35,17 @@ export default function Navbar() {
                 <img src="/headfrlogorv.png" alt="ForgeRealm" width={36} height={36} className="relative h-9 w-9 rounded-full transition-transform duration-300 group-hover:rotate-12 group-hover:drop-shadow-[0_0_12px_rgba(59,130,246,0.5)]" loading="eager" />
               </div>
             </div>
-            <div className="hidden sm:block">
-              <span className="text-[15px] font-semibold text-white block leading-tight" style={{ fontFamily: "'Cinzel', serif" }}>
+            <div className={`transition-all duration-500 overflow-hidden ${scrolled ? 'w-auto opacity-100 ml-0' : 'sm:w-auto sm:opacity-100 w-0 opacity-0'} hidden sm:block`} style={{ transitionProperty: 'width, opacity' }}>
+              <span className="text-[15px] font-semibold text-white block leading-tight whitespace-nowrap" style={{ fontFamily: "'Cinzel', serif" }}>
                 ForgeRealm
               </span>
-              <span className="text-[8px] uppercase tracking-[0.3em] text-blue-300/50" style={{ fontFamily: "'Jost', sans-serif" }}>Leeds, UK</span>
+              <span className="text-[8px] uppercase tracking-[0.3em] text-blue-300/50 whitespace-nowrap" style={{ fontFamily: "'Jost', sans-serif" }}>Leeds, UK</span>
+            </div>
+            {/* Mobile: brand text slides in when scrolled */}
+            <div className={`sm:hidden transition-all duration-500 overflow-hidden ${scrolled ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}>
+              <span className="text-[13px] font-semibold text-white whitespace-nowrap" style={{ fontFamily: "'Cinzel', serif" }}>
+                ForgeRealm
+              </span>
             </div>
           </a>
 
