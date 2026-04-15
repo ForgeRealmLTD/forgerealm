@@ -347,7 +347,7 @@ function MarqueeBanner() {
     { icon: '🇬🇧', text: 'Made in Leeds' },
     { icon: '📦', text: 'Carefully packaged' },
     { icon: '✋', text: 'Hand-finished' },
-    { icon: '🚚', text: 'Free UK shipping £15+' },
+    { icon: '🚚', text: 'Free delivery in Leeds' },
     { icon: '♻️', text: 'Biodegradable materials' },
     { icon: '⭐', text: '238+ prints sold' },
     { icon: '🎨', text: 'Custom orders welcome' },
@@ -551,7 +551,7 @@ function HeroBanner() {
               </a>
             </div>
             <div className="mt-5 sm:mt-8 flex flex-wrap gap-x-4 sm:gap-x-5 gap-y-1.5 text-[13px] sm:text-[15px] text-slate-300 sm:text-slate-500">
-              {['Eco-friendly PLA', 'Free UK shipping £15+', 'Handmade in Leeds'].map((t) => (
+              {['Eco-friendly PLA', 'Free delivery in Leeds', 'Handmade in Leeds'].map((t) => (
                 <span key={t} className="inline-flex items-center gap-1.5">
                   <svg className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-emerald-500/60" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
                   {t}
@@ -1484,7 +1484,7 @@ function CartDrawer({ open, onClose, onCheckout }: { open: boolean; onClose: () 
               <div className="border-t border-white/[0.08] px-6 py-5 space-y-4">
                 {total >= 1500 && (
                   <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-3 py-2 text-center text-xs font-medium text-emerald-400">
-                    Free UK shipping included!
+                    Free delivery in Leeds!
                   </div>
                 )}
                 <div className="flex items-center justify-between">

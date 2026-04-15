@@ -341,7 +341,7 @@ export default function Work() {
             </h2>
           </div>
           <p className="work-text-force mt-2 text-sm text-stone-400" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>
-            ForgeRealm originals, designed and printed in Leeds
+            Some of our most popular prints
           </p>
         </div>
       </div>
