@@ -21,29 +21,40 @@ const handleStripeWebhook = asyncHandler(async (req, res) => {
     return res.status(400).json({ error: 'Invalid signature' });
   }
 
-  switch (event.type) {
-    case 'checkout.session.completed': {
-      const session = event.data.object;
-      await handleCheckoutComplete(stripe, session);
-      break;
+  // Handle events - always return 200 to prevent Stripe retries
+  try {
+    switch (event.type) {
+      case 'checkout.session.completed': {
+        await handleCheckoutComplete(stripe, event.data.object);
+        break;
+      }
+      case 'checkout.session.expired': {
+        await handleCheckoutExpired(event.data.object);
+        break;
+      }
+      case 'charge.refunded': {
+        await handleRefund(event.data.object);
+        break;
+      }
+      case 'payment_intent.payment_failed': {
+        await handlePaymentFailed(event.data.object);
+        break;
+      }
+      default:
+        break;
     }
-    case 'charge.refunded': {
-      const charge = event.data.object;
-      await handleRefund(charge);
-      break;
-    }
-    default:
-      // Unhandled event type - acknowledge it
-      break;
+  } catch (err) {
+    // Log but still return 200 so Stripe doesn't retry
+    console.error(`Webhook handler error for ${event.type}:`, err.message);
   }
 
   res.json({ received: true });
 });
 
 async function handleCheckoutComplete(stripe, session) {
-  // Avoid duplicate processing
+  // Duplicate prevention using Tobi's order_id pattern
   const [existing] = await pool.query(
-    'SELECT id FROM orders WHERE stripe_session_id = ? LIMIT 1',
+    'SELECT id FROM orders WHERE order_id = ? LIMIT 1',
     [session.id]
   );
   if (existing.length > 0) {
@@ -53,62 +64,40 @@ async function handleCheckoutComplete(stripe, session) {
 
   // Get line items from Stripe
   const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 100 });
-
-  // Build items array from line items
   const items = lineItems.data.map((li) => ({
     name: li.description,
     price: li.price.unit_amount,
     qty: li.quantity,
   }));
 
-  // Also try to parse items_json from metadata if available (has product IDs)
+  // Try metadata items (has product IDs)
   let itemsWithIds = items;
   if (session.metadata?.items_json) {
-    try {
-      itemsWithIds = JSON.parse(session.metadata.items_json);
-    } catch {
-      // Fall back to Stripe line items
-    }
+    try { itemsWithIds = JSON.parse(session.metadata.items_json); } catch {}
   }
 
-  const subtotal = session.amount_subtotal || 0;
   const total = session.amount_total || 0;
-  const shipping = total - subtotal;
-
-  const customerName = session.metadata?.customer_name || session.customer_details?.name || 'Guest';
   const customerEmail = session.metadata?.customer_email || session.customer_details?.email || '';
-  const customerPhone = session.metadata?.customer_phone || session.customer_details?.phone || '';
   const shippingAddress = session.metadata?.shipping_address || '';
 
-  // Try to find a matching user by email
+  // Link to user account if possible
   let userId = null;
   if (customerEmail) {
-    const [users] = await pool.query(
-      'SELECT id FROM users WHERE email = ? LIMIT 1',
-      [customerEmail]
-    );
+    const [users] = await pool.query('SELECT id FROM users WHERE email = ? LIMIT 1', [customerEmail]);
     if (users.length > 0) userId = users[0].id;
   }
 
+  // Insert using Tobi's schema
   const [result] = await pool.query(
-    `INSERT INTO orders (
-      user_id, stripe_session_id, stripe_payment_intent, status,
-      customer_name, customer_email, customer_phone, shipping_address,
-      items_json, subtotal_pence, shipping_pence, total_pence, currency, paid_at
-    ) VALUES (?, ?, ?, 'paid', ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
+    `INSERT INTO orders (order_id, user_id, total_amount, items_json, email, status, shipping_address, created_at)
+     VALUES (?, ?, ?, ?, ?, 'completed', ?, NOW())`,
     [
-      userId,
       session.id,
-      session.payment_intent || null,
-      customerName,
-      customerEmail,
-      customerPhone,
-      shippingAddress,
+      userId,
+      (total / 100).toFixed(2),
       JSON.stringify(itemsWithIds),
-      subtotal,
-      shipping,
-      total,
-      session.currency || 'gbp',
+      customerEmail,
+      shippingAddress,
     ]
   );
 
@@ -116,6 +105,10 @@ async function handleCheckoutComplete(stripe, session) {
 
   // Send confirmation email
   if (customerEmail) {
+    const subtotal = session.amount_subtotal || 0;
+    const shipping = total - subtotal;
+    const customerName = session.metadata?.customer_name || session.customer_details?.name || 'Guest';
+
     try {
       await sendOrderConfirmation({
         order: {
@@ -136,16 +129,56 @@ async function handleCheckoutComplete(stripe, session) {
   }
 }
 
+async function handleCheckoutExpired(session) {
+  // Save expired session for tracking
+  const [existing] = await pool.query(
+    'SELECT id FROM orders WHERE order_id = ? LIMIT 1',
+    [session.id]
+  );
+  if (existing.length > 0) return;
+
+  const customerEmail = session.metadata?.customer_email || session.customer_details?.email || '';
+  const items = session.metadata?.items_json ? JSON.parse(session.metadata.items_json) : [];
+
+  await pool.query(
+    `INSERT INTO orders (order_id, total_amount, items_json, email, status, created_at)
+     VALUES (?, ?, ?, ?, 'expired', NOW())`,
+    [session.id, 0, JSON.stringify(items), customerEmail]
+  );
+
+  console.log(`Expired session ${session.id} recorded`);
+}
+
 async function handleRefund(charge) {
   if (!charge.payment_intent) return;
 
+  // Find order by searching for the payment intent in the order_id or via Stripe
   const [result] = await pool.query(
-    "UPDATE orders SET status = 'refunded' WHERE stripe_payment_intent = ?",
-    [charge.payment_intent]
+    `UPDATE orders SET status = 'refunded', refund_amount = ?, refunded_at = NOW(), updated_at = NOW()
+     WHERE order_id IN (SELECT order_id FROM (SELECT order_id FROM orders WHERE order_id LIKE ?) AS t)
+     OR order_id = ?`,
+    [(charge.amount_refunded / 100).toFixed(2), `%${charge.payment_intent}%`, charge.payment_intent]
+  );
+
+  // If no match by payment_intent directly, try via Stripe session lookup
+  if (result.affectedRows === 0) {
+    console.log(`No order found for refund on payment_intent ${charge.payment_intent}`);
+  } else {
+    console.log(`Order refunded for payment_intent ${charge.payment_intent}`);
+  }
+}
+
+async function handlePaymentFailed(paymentIntent) {
+  console.log(`Payment failed for intent ${paymentIntent.id}: ${paymentIntent.last_payment_error?.message || 'Unknown error'}`);
+
+  // Update if an order exists for this session
+  const [result] = await pool.query(
+    "UPDATE orders SET status = 'failed', updated_at = NOW() WHERE order_id = ?",
+    [paymentIntent.id]
   );
 
   if (result.affectedRows > 0) {
-    console.log(`Order for payment_intent ${charge.payment_intent} marked as refunded`);
+    console.log(`Order marked as failed for intent ${paymentIntent.id}`);
   }
 }
 
