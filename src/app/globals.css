@@ -426,7 +426,9 @@ code, pre {
   border-radius: 9999px;
   background: linear-gradient(90deg, rgba(59,130,246,0.4), rgba(139,92,246,0.3), rgba(6,182,212,0.4), rgba(59,130,246,0.4));
   background-size: 300% 300%;
-
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
 
 .navbar-glow:hover::before {
   opacity: 1;
@@ -458,9 +460,10 @@ code, pre {
 }
 
 .hover-shine:hover::after {
+  transform: translateX(100%);
+}
 
-
-/* Animations & custom utilities (unchanged) */
+/* Animations & custom utilities */
 @keyframes marquee {
   from {
     transform: translateX(0);
