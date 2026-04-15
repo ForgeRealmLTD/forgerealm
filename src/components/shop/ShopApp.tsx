@@ -767,9 +767,9 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
           )}
         </div>
 
-        {/* Add to basket overlay */}
+        {/* Add to basket overlay - desktop only (hidden on mobile to prevent accidental taps) */}
         {!isComingSoon && !isSoldOut && (
-          <div className="absolute inset-x-3 bottom-3 translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+          <div className="absolute inset-x-3 bottom-3 translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 hidden sm:block pointer-events-none sm:pointer-events-auto">
             <button
               onClick={handleAdd}
               className={`w-full rounded-xl py-2.5 text-[13px] font-semibold uppercase tracking-[0.1em] transition-all backdrop-blur-xl ${
