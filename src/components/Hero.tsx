@@ -41,6 +41,11 @@ export default function Hero() {
         <div className="grid lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-16 items-center">
           {/* Left - Content */}
           <div className="text-center lg:text-left">
+            {/* Mobile brand name */}
+            <div className="lg:hidden mb-4 text-center">
+              <span className="text-2xl font-bold text-white" style={{ fontFamily: "'Cinzel', serif" }}>ForgeRealm</span>
+            </div>
+
             {/* Emblem + eyebrow */}
             <div className="mb-6 flex items-center gap-4 justify-center lg:justify-start">
               <img src="/frlogorv.png" alt="ForgeRealm Emblem" className="h-12 w-12 sm:h-14 sm:w-14 drop-shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:drop-shadow-[0_0_25px_rgba(59,130,246,0.6)] transition-all duration-500 cursor-pointer" />
