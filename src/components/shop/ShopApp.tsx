@@ -224,7 +224,7 @@ const CUSTOM_CSS = `
 .gradient-border:hover::before { opacity: 1; }
 
 /* ── Glass card ── */
-.glass { background: rgba(255,255,255,0.02); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.14); }
+.glass { background: rgba(255,255,255,0.02); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.22); }
 .glass-hover { transition: all 0.5s cubic-bezier(0.16,1,0.3,1); }
 .glass-hover:hover { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.1); box-shadow: 0 20px 60px -15px rgba(0,0,0,0.4), 0 0 40px -10px rgba(59,130,246,0.08); transform: translateY(-4px); }
 
@@ -701,7 +701,7 @@ function ProductCard({ product, onQuickView, index }: { product: Product; onQuic
   return (
     <div
       className="gradient-border group overflow-hidden rounded-2xl glass glass-hover flex flex-col"
-      style={{ borderColor: 'rgba(255,255,255,0.12)' }}
+      style={{ borderColor: 'rgba(255,255,255,0.22)' }}
     >
       {/* Image - tapping this opens the modal */}
       <div
