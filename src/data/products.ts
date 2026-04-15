@@ -259,6 +259,21 @@ export const products: Product[] = [
     image: '/shop-products/Photoroom_20260413_15805_am.jpg',
   },
 
+  // ── Lamps ──
+  {
+    id: 'artichoke-lamp',
+    name: 'Artichoke Lamp',
+    slug: 'artichoke-lamp',
+    price: 2000,
+    displayPrice: '£20.00',
+    category: '',
+    description: 'Layered petal lampshade with warm ambient glow. Available in black or brushed silver stand. 3D printed in eco PLA, hand-assembled.',
+    stock: 4,
+    badge: 'Premium',
+    image: '/shop-products/lamps1.webp',
+    images: ['/shop-products/lamps1.webp', '/shop-products/lamps2.webp'],
+  },
+
   // ── Home ──
   {
     id: 'deer-keyring-holder',
