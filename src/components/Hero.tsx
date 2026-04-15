@@ -1,10 +1,42 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Lottie from "lottie-react";
+import Typewriter from "typewriter-effect";
+
+function useCountUp(target: number, duration = 2000) {
+  const [count, setCount] = useState(0);
+  const [started, setStarted] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setStarted(true); obs.disconnect(); } }, { threshold: 0.3 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!started) return;
+    let start = 0;
+    const step = (ts: number) => {
+      if (!start) start = ts;
+      const progress = Math.min((ts - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(eased * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [started, target, duration]);
+
+  return { count, ref };
+}
 
 export default function Hero() {
   const [printAnim, setPrintAnim] = useState<any>(null);
+  const printsSold = useCountUp(238, 2200);
+  const designs = useCountUp(30, 1800);
 
   useEffect(() => {
     fetch("/print.json")
@@ -60,8 +92,17 @@ export default function Hero() {
             <h1 className="text-4xl sm:text-6xl lg:text-[5rem] font-bold leading-[0.9] text-white" style={{ fontFamily: "'Cinzel', serif" }}>
               Crafted with
               <br />
-              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-300 bg-clip-text text-transparent" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300, fontSize: '1.1em' }}>
-                Imagination
+              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-300 bg-clip-text text-transparent inline-block" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300, fontSize: '1.1em' }}>
+                <Typewriter
+                  options={{
+                    strings: ['Imagination', 'Precision', 'Passion', 'Purpose', 'Detail', 'Heart', 'Vision', 'Soul'],
+                    autoStart: true,
+                    loop: true,
+                    delay: 80,
+                    deleteSpeed: 40,
+                    cursor: '|',
+                  }}
+                />
               </span>
             </h1>
 
@@ -87,17 +128,19 @@ export default function Hero() {
             </div>
 
             {/* Stats row */}
-            <div className="mt-10 flex flex-wrap gap-8 justify-center lg:justify-start">
-              {[
-                { value: '238+', label: 'Prints Sold' },
-                { value: '30+', label: 'Designs' },
-                { value: '100%', label: 'Eco PLA' },
-              ].map((s) => (
-                <div key={s.label}>
-                  <p className="text-2xl font-bold text-white" style={{ fontFamily: "'Cinzel', serif" }}>{s.value}</p>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-stone-500 mt-0.5" style={{ fontFamily: "'Jost', sans-serif" }}>{s.label}</p>
-                </div>
-              ))}
+            <div className="mt-10 flex flex-wrap gap-8 justify-center lg:justify-start" ref={printsSold.ref}>
+              <div>
+                <p className="text-2xl font-bold text-white tabular-nums" style={{ fontFamily: "'Cinzel', serif" }}>{printsSold.count}+</p>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-stone-500 mt-0.5" style={{ fontFamily: "'Jost', sans-serif" }}>Prints Sold</p>
+              </div>
+              <div ref={designs.ref}>
+                <p className="text-2xl font-bold text-white tabular-nums" style={{ fontFamily: "'Cinzel', serif" }}>{designs.count}+</p>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-stone-500 mt-0.5" style={{ fontFamily: "'Jost', sans-serif" }}>Designs</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-white" style={{ fontFamily: "'Cinzel', serif" }}>100%</p>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-stone-500 mt-0.5" style={{ fontFamily: "'Jost', sans-serif" }}>Eco PLA</p>
+              </div>
             </div>
           </div>
 
