@@ -82,10 +82,14 @@ export default function Hero() {
   const designs = useCountUp(30, 1800);
 
   useEffect(() => {
-    fetch("/print.json")
-      .then((res) => res.ok ? res.json() : null)
-      .then((data) => { if (data) setPrintAnim(data); })
-      .catch(() => {});
+    // Delay Lottie load to prioritise LCP content
+    const timer = setTimeout(() => {
+      fetch("/print.json")
+        .then((res) => res.ok ? res.json() : null)
+        .then((data) => { if (data) setPrintAnim(data); })
+        .catch(() => {});
+    }, 500);
+    return () => clearTimeout(timer);
   }, []);
 
   return (

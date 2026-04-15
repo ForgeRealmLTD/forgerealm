@@ -388,29 +388,9 @@ code, pre {
 }
 
 /* ── Floating drift for particles ── */
-@keyframes float-drift {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.4;
-  }
-  25% {
-    transform: translate(12px, -18px) scale(1.2);
-    opacity: 0.8;
-  }
-  50% {
-    transform: translate(-8px, -30px) scale(0.9);
-    opacity: 0.6;
-  }
-  75% {
-    transform: translate(15px, -12px) scale(1.1);
-    opacity: 0.9;
-  }
-}
 
-.animate-float-drift {
-  animation: float-drift var(--drift-duration, 6s) ease-in-out infinite;
-  animation-delay: var(--drift-delay, 0s);
-}
+
+
 
 /* ── Glow breathe for ambient orbs ── */
 @keyframes glow-breathe {
@@ -433,10 +413,7 @@ code, pre {
 }
 
 /* ── Navbar animated border ── */
-@keyframes border-flow {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
+
 
 .navbar-glow {
   position: relative;
@@ -449,39 +426,19 @@ code, pre {
   border-radius: 9999px;
   background: linear-gradient(90deg, rgba(59,130,246,0.4), rgba(139,92,246,0.3), rgba(6,182,212,0.4), rgba(59,130,246,0.4));
   background-size: 300% 300%;
-  animation: border-flow 4s ease-in-out infinite;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
+
 
 .navbar-glow:hover::before {
   opacity: 1;
 }
 
 /* ── Smooth scale-in for cards ── */
-@keyframes card-reveal {
-  from {
-    opacity: 0;
-    transform: translateY(30px) scale(0.96);
-    filter: blur(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
-}
 
-.animate-card-reveal {
-  animation: card-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
+
+
 
 /* ── Shine sweep on hover ── */
-@keyframes shine-sweep {
-  0% { left: -100%; }
-  100% { left: 200%; }
-}
+
 
 .hover-shine {
   position: relative;
@@ -501,8 +458,7 @@ code, pre {
 }
 
 .hover-shine:hover::after {
-  animation: shine-sweep 0.8s ease forwards;
-}
+
 
 /* Animations & custom utilities (unchanged) */
 @keyframes marquee {
@@ -541,31 +497,16 @@ code, pre {
 }
 
 /* Smooth spinning animation */
-@keyframes spin-smooth {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-.animate-spin-smooth {
-  animation: spin-smooth 2.2s linear infinite;
-}
+
+
 
 /* Soft pulse animation */
-@keyframes pulse-soft {
-  0%, 100% { opacity: 0.4; transform: scale(0.95); }
-  50% { opacity: 0.8; transform: scale(1); }
-}
-.animate-pulse-soft {
-  animation: pulse-soft 2.5s ease-in-out infinite;
-}
+
+
 
 /* Glowing fade animation */
-@keyframes fade-glow {
-  0%, 100% { opacity: 0.7; filter: drop-shadow(0 0 10px rgba(96,165,250,0.4)); }
-  50% { opacity: 1; filter: drop-shadow(0 0 18px rgba(96,165,250,0.6)); }
-}
-.animate-fade-glow {
-  animation: fade-glow 3s ease-in-out infinite;
-}
+
+
 
 /* Shimmer animation */
 @keyframes shimmer {
@@ -595,49 +536,27 @@ code, pre {
   object-fit: cover;
 }
 
-@keyframes pulse-slow {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.1); }
-}
 
-@keyframes pulse-slower {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.9; transform: scale(1.05); }
-}
 
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 
-@keyframes slide-up {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 
-@keyframes fade-in-delayed {
-  0%, 50% { opacity: 0; transform: translateY(10px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
 
-@keyframes fade-in-slow {
-  0%, 70% { opacity: 0; transform: translateY(10px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
 
-@keyframes gradient-move {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
 
-.animate-pulse-slow { animation: pulse-slow 8s ease-in-out infinite; }
-.animate-pulse-slower { animation: pulse-slower 14s ease-in-out infinite; }
+
+
+
+
+
+
+
+
+
 .animate-fade-in { animation: fade-in 1s ease-out forwards; }
 .animate-slide-up { animation: slide-up 1s ease-out forwards; }
-.animate-fade-in-delayed { animation: fade-in-delayed 1.5s ease-out forwards; }
-.animate-fade-in-slow { animation: fade-in-slow 2s ease-out forwards; }
-.animate-gradient-move { background-size: 200% 200%; animation: gradient-move 10s ease-in-out infinite; }
+
+
+
 
 /* Hide scrollbars for horizontal carousels */
 .scrollbar-hidden {
