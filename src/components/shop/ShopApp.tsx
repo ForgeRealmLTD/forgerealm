@@ -206,7 +206,8 @@ const CUSTOM_CSS = `
 .marquee-track:hover { animation-play-state: paused; }
 
 /* ── Noise texture ── */
-.noise-overlay { position: fixed; inset: -50%; z-index: 9999; pointer-events: none; opacity: 0.012; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); animation: noise-scroll 8s steps(10) infinite; }
+.noise-overlay { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.012; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+@media (max-width: 767px) { .noise-overlay { display: none; } }
 
 /* ── Scroll reveal ── */
 .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
@@ -281,7 +282,7 @@ function CursorGlow() {
     return () => { window.removeEventListener('mousemove', move); document.removeEventListener('mouseleave', leave); };
   }, []);
 
-  return <div ref={glowRef} className="cursor-glow" style={{ opacity: 0 }} />;
+  return <div ref={glowRef} className="cursor-glow hidden md:block" style={{ opacity: 0 }} />;
 }
 
 /* ═══════════════════════════ Scroll Reveal ═══════════════════════════ */
