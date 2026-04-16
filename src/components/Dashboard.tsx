@@ -95,6 +95,7 @@ const quickLinks = [
   { label: 'Rewards', icon: FiAward, href: '#rewards', description: 'Coming soon', coming: true },
   { label: 'Messages', icon: FiMessageCircle, href: '#messages', description: 'Coming soon', coming: true },
   { label: 'Settings', icon: FiSettings, href: '/shop/account', description: 'App settings' },
+  { label: 'Kiosk Mode', icon: FiZap, href: '/shop/kiosk', description: 'Stall display' },
 ];
 
 const exploreLinks = [
