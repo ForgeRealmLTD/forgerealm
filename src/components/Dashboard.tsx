@@ -90,12 +90,8 @@ const featuredProducts = [
 
 const quickLinks = [
   { label: 'My Account', icon: FiUser, href: '/shop/account', description: 'Profile & preferences' },
-  { label: 'Wishlist', icon: FiHeart, href: '#wishlist', description: 'Coming soon', coming: true },
   { label: 'Orders', icon: FiTruck, href: '/shop/orders', description: 'Track your prints' },
-  { label: 'Rewards', icon: FiAward, href: '#rewards', description: 'Coming soon', coming: true },
-  { label: 'Messages', icon: FiMessageCircle, href: '#messages', description: 'Coming soon', coming: true },
   { label: 'Settings', icon: FiSettings, href: '/shop/account', description: 'App settings' },
-  { label: 'Kiosk Mode', icon: FiZap, href: '/shop/kiosk', description: 'Stall display' },
 ];
 
 const exploreLinks = [
@@ -233,52 +229,39 @@ const Dashboard = () => {
           </div>
         </section>
 
-        {/* ── Shop CTA - Coming Soon ── */}
-        <section className="db-card-shine db-glow-border relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-br from-amber-950/30 via-white/[0.04] to-white/[0.02] backdrop-blur-xl">
+        {/* ── Kiosk Mode Banner ── */}
+        <section className="db-card-shine db-glow-border relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-br from-blue-950/30 via-white/[0.04] to-white/[0.02] backdrop-blur-xl">
           <div className="absolute inset-0 db-shimmer-bg" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_50%,rgba(251,169,58,0.08),transparent_60%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_50%,rgba(59,130,246,0.08),transparent_60%)] pointer-events-none" />
           <div className="relative p-5 sm:p-8">
             <div className="flex flex-col sm:flex-row sm:items-center gap-5">
               <div className="relative shrink-0">
-                <div className="absolute -inset-3 rounded-2xl bg-gradient-to-r from-amber-500/20 to-orange-400/20 blur-xl db-glow-breathe" />
+                <div className="absolute -inset-3 rounded-2xl bg-gradient-to-r from-blue-500/20 to-cyan-400/20 blur-xl db-glow-breathe" />
                 <div className="relative flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.03]">
-                  <FiShoppingBag className="text-2xl sm:text-3xl text-amber-400" />
+                  <FiZap className="text-2xl sm:text-3xl text-blue-400" />
                 </div>
               </div>
               <div className="flex-1 space-y-3">
                 <div className="flex flex-wrap items-center gap-3">
-                  <h2 className="text-xl font-bold text-white sm:text-2xl">ForgeRealm Shop</h2>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/20 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-amber-300 backdrop-blur-sm">
+                  <h2 className="text-xl font-bold text-white sm:text-2xl">Kiosk Mode</h2>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/20 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-blue-300 backdrop-blur-sm">
                     <span className="relative flex h-1.5 w-1.5">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" />
-                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-400" />
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
+                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-blue-400" />
                     </span>
-                    Coming Soon
+                    Stall Display
                   </span>
                 </div>
                 <p className="text-sm leading-relaxed text-slate-400 max-w-xl">
-                  We're putting the finishing touches on our shop experience — fine-tuning checkout, inventory, and the drop system.
-                  We'll be sure to let you know the moment it's ready. Stay in touch with us in the meantime!
+                  Turn any tablet into a product display for your market stall. Shows all items with prices in a fullscreen, touch-scrollable layout. Triple-tap to exit.
                 </p>
-                <div className="flex flex-wrap gap-3 pt-1">
-                  <a
-                    href="/subscribe"
-                    className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-orange-400 px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-xl shadow-amber-500/25 transition-all hover:shadow-amber-500/40 hover:-translate-y-0.5"
-                  >
-                    <span className="relative z-10 flex items-center gap-2">
-                      <FiMail className="text-sm" />
-                      Get Notified
-                    </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-orange-400 via-amber-400 to-amber-500 opacity-0 transition-opacity group-hover:opacity-100" />
-                  </a>
-                  <a
-                    href="/#contact"
-                    className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur transition-all hover:border-white/25 hover:bg-white/10"
-                  >
-                    <FiMessageCircle className="text-sm" />
-                    Stay in Touch
-                  </a>
-                </div>
+                <a
+                  href="/shop/kiosk"
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-t from-amber-500 to-yellow-300 px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-black shadow-lg shadow-amber-500/20 transition-all hover:-translate-y-0.5"
+                >
+                  <FiZap className="text-sm" />
+                  Launch Kiosk
+                </a>
               </div>
             </div>
           </div>

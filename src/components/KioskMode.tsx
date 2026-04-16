@@ -120,7 +120,6 @@ export default function KioskMode() {
 
 function KioskDisplay({ products: items, onExit }: { products: typeof products; onExit: () => void }) {
   const [tapCount, setTapCount] = useState(0);
-  const [scrollPos, setScrollPos] = useState(0);
 
   // Triple-tap to exit
   useEffect(() => {
@@ -130,14 +129,6 @@ function KioskDisplay({ products: items, onExit }: { products: typeof products; 
       return () => clearTimeout(timer);
     }
   }, [tapCount, onExit]);
-
-  // Auto-scroll
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setScrollPos((prev) => prev + 1);
-    }, 50);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div
@@ -165,14 +156,10 @@ function KioskDisplay({ products: items, onExit }: { products: typeof products; 
         </div>
       </div>
 
-      {/* Scrolling product grid */}
-      <div className="relative z-10 px-6 py-6 h-[calc(100vh-100px)] overflow-hidden">
-        <div
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 transition-transform duration-100"
-          style={{ transform: `translateY(-${scrollPos % (items.length * 60)}px)` }}
-        >
-          {/* Double the items for seamless scroll */}
-          {[...items, ...items].map((product, i) => (
+      {/* Product grid - touch scrollable */}
+      <div className="relative z-10 px-6 py-6 h-[calc(100vh-100px)] overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {items.map((product, i) => (
             <div
               key={`${product.id}-${i}`}
               className="rounded-2xl border border-white/[0.08] bg-white/[0.02] overflow-hidden"
