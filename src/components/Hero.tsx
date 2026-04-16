@@ -108,7 +108,7 @@ export default function Hero() {
         {/* Mobile: Lottie at top */}
         <div className="lg:hidden flex flex-col items-center mb-6">
           {printAnim ? (
-            <div className="relative w-[180px] h-[180px] sm:w-[200px] sm:h-[200px] overflow-hidden rounded-2xl" style={{ background: 'linear-gradient(to top, #F59E0B 0%, #F5B731 40%, #FADE6A 100%)' }}>
+            <div className="relative w-[180px] h-[180px] sm:w-[200px] sm:h-[200px] overflow-hidden rounded-2xl bg-gradient-to-t from-amber-500 via-amber-400 to-yellow-300">
               <Lottie animationData={printAnim} loop className="relative w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] -mt-[40px] -ml-[40px] sm:-mt-[50px] sm:-ml-[50px]" />
             </div>
           ) : (
@@ -194,7 +194,7 @@ export default function Hero() {
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-500/15 via-purple-500/8 to-cyan-500/12 blur-3xl scale-110" />
 
               {/* Lottie card container */}
-              <div className="relative overflow-hidden rounded-3xl border border-amber-300/30" style={{ background: 'linear-gradient(to top, #F59E0B 0%, #F5B731 40%, #FADE6A 100%)' }}>
+              <div className="relative overflow-hidden rounded-3xl border border-amber-300/30 bg-gradient-to-t from-amber-500 via-amber-400 to-yellow-300">
                 <div className="relative aspect-[4/5] flex items-center justify-center overflow-hidden">
                   {printAnim ? (
                     <Lottie animationData={printAnim} loop className="h-[120%] w-[120%]" />
