@@ -337,7 +337,7 @@ export default function Work() {
               <span className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.3em] text-blue-300/60" style={{ fontFamily: "'Jost', sans-serif" }}>Curated</span>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-normal text-white" style={{ fontFamily: "'Cinzel', serif" }}>
-              Featured <em style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, color: '#FADE6A' }}>Prints</em>
+              Featured <em className="text-[#FADE6A]" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Prints</em>
             </h2>
           </div>
           <p className="work-text-force mt-2 text-sm text-stone-400" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>
