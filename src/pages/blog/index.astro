@@ -1,0 +1,185 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import BlogHero from '~/components/blog/BlogHero';
+import StallsTimeline from '~/components/blog/StallsTimeline';
+---
+
+<BaseLayout title="Blog | ForgeRealm" description="The Stall Chronicles. Every ForgeRealm booth we've run so far, in order, with the wins, mistakes, and people we met along the way.">
+  <div class="relative min-h-screen overflow-hidden bg-[#0a0f1a] text-white">
+    <style>
+      @keyframes glow-pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 0.8; } }
+      @keyframes float { 0%,100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-20px) rotate(3deg); } }
+      @keyframes gradient-flow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+      @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+    </style>
+
+    <!-- Navbar spacer -->
+    <div class="h-16 sm:h-20" />
+
+    <BlogHero client:load />
+
+    <!-- Intro header -->
+    <section class="relative mx-auto max-w-7xl px-4 pt-4 pb-6 sm:px-6 sm:pt-8 sm:pb-8 lg:px-8">
+      <div class="pointer-events-none absolute inset-0">
+        <div class="absolute left-1/4 top-0 h-[300px] w-[300px] rounded-full bg-blue-600/8 blur-[200px]" />
+        <div class="absolute right-1/4 bottom-0 h-[250px] w-[250px] rounded-full bg-cyan-500/6 blur-[180px]" />
+      </div>
+
+      <div class="relative">
+        <div class="inline-flex items-center gap-3 mb-4">
+          <div class="w-5 h-px bg-cyan-400/50" />
+          <span class="text-[11px] sm:text-[12px] font-medium uppercase tracking-[0.28em] text-cyan-300/70" style="font-family: 'Jost', sans-serif;">
+            The Stall Chronicles
+          </span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl leading-[1.05] text-white" style="font-family: 'Cinzel', serif;">
+          Every booth, <em class="text-cyan-300" style="font-family: 'Cormorant Garamond', serif; font-weight: 300;">in order</em>
+        </h2>
+        <p class="mt-5 max-w-3xl text-base sm:text-lg text-slate-400" style="font-family: 'Cormorant Garamond', serif; font-style: italic; line-height: 1.7;">
+          From a rain-soaked Christmas debut in Albion Place to a wholesome residential experiment in Alwoodley, the full story of every ForgeRealm stall so far.
+        </p>
+      </div>
+    </section>
+
+    <!-- Why we're writing this (horizontal banner) -->
+    <section class="relative mx-auto max-w-7xl px-4 pb-8 sm:px-6 sm:pb-10 lg:px-8">
+      <div class="relative rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 sm:p-8 lg:p-10 backdrop-blur-xl overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/[0.05] via-transparent to-blue-500/[0.05] pointer-events-none" />
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.08),transparent_50%)] pointer-events-none" />
+        <div class="relative grid gap-6 lg:grid-cols-[0.35fr_0.65fr] lg:gap-10 lg:items-start">
+          <div>
+            <div class="inline-flex items-center gap-3 mb-3">
+              <div class="w-4 h-px bg-cyan-400/50" />
+              <p class="text-[11px] font-medium uppercase tracking-[0.28em] text-cyan-300/70" style="font-family: 'Jost', sans-serif;">
+                Why we're writing this
+              </p>
+            </div>
+            <h3 class="text-xl sm:text-2xl lg:text-[26px] leading-[1.25] text-white" style="font-family: 'Cinzel', serif;">
+              A blog built on <em class="text-cyan-300" style="font-family: 'Cormorant Garamond', serif; font-weight: 300;">full transparency</em>
+            </h3>
+          </div>
+          <div class="space-y-4" style="font-family: 'Inter', sans-serif;">
+            <p class="text-sm sm:text-[15px] text-slate-300 leading-[1.8]">
+              The whole point of this blog is to give you a real perspective on what it looks like to start a small business from the inside: the decisions, the mistakes, the surprises. Full transparency is something we care a lot about. Ishmam works in tech by day at <span class="text-cyan-200">Acudo</span>, where transparency is a core value, and we want ForgeRealm run the same way.
+            </p>
+            <p class="text-sm sm:text-[15px] text-slate-300 leading-[1.8]">
+              What started as a hobby (printing DnD props and tabletop terrain for ourselves) quietly turned into the thing we spent most of our evenings on. Both of us work from home most of the time, which means printers can run while we work and inventory quietly builds up. The ambition is to become <span class="text-white font-medium">the go-to 3D printing brand in Yorkshire</span> first, and take it from there.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="relative pb-8 sm:pb-12">
+      <StallsTimeline client:load />
+    </section>
+
+    <!-- What's next -->
+    <section class="relative mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+      <div class="relative overflow-hidden rounded-2xl border border-cyan-300/20 bg-gradient-to-br from-cyan-500/[0.08] via-blue-500/[0.05] to-transparent p-6 sm:p-8 lg:p-10 backdrop-blur-xl">
+        <div class="pointer-events-none absolute -top-20 -right-20 h-[300px] w-[300px] rounded-full bg-cyan-400/10 blur-[120px]" style="animation: glow-pulse 4s ease-in-out infinite;" />
+        <div class="pointer-events-none absolute -bottom-20 -left-20 h-[280px] w-[280px] rounded-full bg-blue-500/10 blur-[120px]" style="animation: glow-pulse 4s ease-in-out infinite 1.5s;" />
+        <div class="relative grid gap-6 lg:grid-cols-[0.55fr_0.45fr] lg:gap-10 lg:items-center">
+          <div>
+            <div class="inline-flex items-center gap-2.5 rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1.5 mb-5">
+              <span class="relative flex h-2 w-2">
+                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-300 opacity-75" />
+                <span class="relative inline-flex h-2 w-2 rounded-full bg-cyan-300" />
+              </span>
+              <span class="text-[11px] font-medium uppercase tracking-[0.24em] text-cyan-100" style="font-family: 'Jost', sans-serif;">
+                Next stall confirmed
+              </span>
+            </div>
+            <h3 class="text-2xl sm:text-3xl lg:text-4xl leading-[1.1] text-white" style="font-family: 'Cinzel', serif;">
+              We're heading <em class="text-cyan-300" style="font-family: 'Cormorant Garamond', serif; font-weight: 300;">back to Albion</em>
+            </h3>
+            <p class="mt-4 max-w-xl text-base sm:text-lg text-slate-300" style="font-family: 'Cormorant Garamond', serif; font-style: italic; line-height: 1.7;">
+              Friday 9 May 2026. Albion Place, Leeds. Back on our home turf with the branded front, a refined display, and more fresh stock than any stall we've run before.
+            </p>
+            <div class="mt-6 flex flex-wrap items-center gap-3">
+              <a
+                href="/subscribe"
+                class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-6 py-3 text-[13px] font-semibold uppercase tracking-[0.14em] text-white shadow-xl shadow-blue-500/25 transition-all hover:-translate-y-0.5 hover:shadow-blue-500/40"
+                style="font-family: 'Cinzel', serif;"
+              >
+                Get a reminder
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              </a>
+              <a
+                href="/shop"
+                class="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.04] px-6 py-3 text-[13px] font-semibold uppercase tracking-[0.14em] text-slate-200 backdrop-blur-xl transition hover:border-cyan-300/30 hover:text-cyan-100"
+                style="font-family: 'Jost', sans-serif;"
+              >
+                Browse the shop
+              </a>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-3 sm:gap-4">
+            <div class="rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 text-center backdrop-blur-xl">
+              <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70 mb-2" style="font-family: 'Jost', sans-serif;">Day</p>
+              <p class="text-2xl sm:text-3xl text-white" style="font-family: 'Cinzel', serif;">Fri</p>
+            </div>
+            <div class="rounded-xl border border-cyan-300/25 bg-cyan-300/[0.06] p-4 text-center backdrop-blur-xl">
+              <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-200 mb-2" style="font-family: 'Jost', sans-serif;">Date</p>
+              <p class="text-2xl sm:text-3xl text-white" style="font-family: 'Cinzel', serif;">09</p>
+            </div>
+            <div class="rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 text-center backdrop-blur-xl">
+              <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70 mb-2" style="font-family: 'Jost', sans-serif;">Month</p>
+              <p class="text-2xl sm:text-3xl text-white" style="font-family: 'Cinzel', serif;">May</p>
+            </div>
+            <div class="col-span-3 rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 text-center backdrop-blur-xl">
+              <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70 mb-1.5" style="font-family: 'Jost', sans-serif;">Where</p>
+              <p class="text-base sm:text-lg text-white" style="font-family: 'Cinzel', serif;">Albion Place, Leeds</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Closing note -->
+    <section class="relative mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+      <div class="h-px w-full bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
+      <p class="mt-8 max-w-3xl text-base sm:text-lg text-slate-400" style="font-family: 'Cormorant Garamond', serif; font-style: italic; line-height: 1.7;">
+        Thanks for reading all the way through. New entries land here as we run more stalls, make more mistakes, and meet more good people.
+      </p>
+      <p class="mt-4 text-[13px] uppercase tracking-[0.22em] text-slate-500" style="font-family: 'Jost', sans-serif;">
+        Ishmam &amp; Tobi · ForgeRealm · Leeds
+      </p>
+    </section>
+
+    <!-- Subscribe CTA -->
+    <section class="relative border-t border-white/[0.04] bg-[#0a0f1a]">
+      <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(6,182,212,0.06),transparent_50%)]" />
+      <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 text-center">
+        <div class="inline-flex items-center gap-3 mb-4">
+          <div class="w-8 h-px bg-cyan-400/50" />
+          <span class="text-[11px] font-medium uppercase tracking-[0.28em] text-cyan-300/60" style="font-family: 'Jost', sans-serif;">Stay Updated</span>
+          <div class="w-8 h-px bg-cyan-400/50" />
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-normal text-white" style="font-family: 'Cinzel', serif;">
+          Never miss a <em class="text-cyan-300" style="font-family: 'Cormorant Garamond', serif; font-weight: 300;">drop</em>
+        </h2>
+        <p class="mt-4 max-w-lg mx-auto text-sm sm:text-base text-slate-400" style="font-family: 'Cormorant Garamond', serif; font-style: italic; line-height: 1.7;">
+          Subscribe to get product launches, booth dates, and studio updates straight to your inbox.
+        </p>
+        <div class="mt-8">
+          <a
+            href="/subscribe"
+            class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-8 py-3.5 text-sm font-semibold uppercase tracking-[0.14em] text-white shadow-xl shadow-blue-500/25 transition-all hover:-translate-y-0.5 hover:shadow-blue-500/40"
+            style="font-family: 'Cinzel', serif;"
+          >
+            Subscribe
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  document.documentElement.setAttribute('data-theme', 'dark');
+  document.documentElement.classList.add('dark');
+</script>

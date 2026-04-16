@@ -1,0 +1,194 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('post', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const relatedPosts = (await getCollection('post', ({ data }) => !data.draft))
+  .filter((entry) => entry.id !== post.id)
+  .slice(0, 3);
+const formatDate = (date?: Date) =>
+  date ? date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+---
+
+<BaseLayout title={`${post.data.title} | ForgeRealm`} description={post.data.excerpt || 'ForgeRealm blog post'}>
+  <div class="relative min-h-screen overflow-hidden bg-[#0a0f1a] text-white">
+    <style>
+      @keyframes glow-pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 0.8; } }
+      @keyframes gradient-flow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    </style>
+
+    <!-- Ambient background -->
+    <div class="pointer-events-none fixed inset-0 -z-10">
+      <div class="absolute -left-40 -top-40 h-[500px] w-[500px] rounded-full bg-blue-600/10 blur-[250px]" style="animation: glow-pulse 4s ease-in-out infinite;" />
+      <div class="absolute -right-40 top-20 h-[400px] w-[400px] rounded-full bg-indigo-600/8 blur-[220px]" style="animation: glow-pulse 4s ease-in-out infinite 1.5s;" />
+      <div class="absolute inset-0 opacity-[0.02]" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 80px 80px;" />
+    </div>
+
+    <!-- Navbar spacer -->
+    <div class="h-16 sm:h-20" />
+
+    <!-- Header -->
+    <section class="relative mx-auto max-w-5xl px-4 pt-8 pb-6 sm:px-6 sm:pt-12 sm:pb-8 lg:px-8">
+      <a
+        href="/blog"
+        class="group inline-flex items-center gap-2.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[11px] font-medium uppercase tracking-[0.22em] text-slate-400 backdrop-blur-xl transition hover:border-cyan-400/20 hover:text-cyan-300"
+        style="font-family: 'Jost', sans-serif;"
+      >
+        <svg class="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Back to journal
+      </a>
+
+      <header class="mt-8 sm:mt-10">
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-cyan-200" style="font-family: 'Jost', sans-serif;">
+            {post.data.category || 'Update'}
+          </span>
+          {post.data.publishDate && (
+            <span class="text-[11px] uppercase tracking-[0.2em] text-slate-500" style="font-family: 'Jost', sans-serif;">
+              {formatDate(post.data.publishDate)}
+            </span>
+          )}
+          <span class="text-[11px] uppercase tracking-[0.2em] text-slate-500" style="font-family: 'Jost', sans-serif;">
+            {post.data.author || 'ForgeRealm'}
+          </span>
+        </div>
+
+        <h1 class="mt-6 max-w-4xl text-3xl sm:text-4xl lg:text-5xl leading-[1.05] text-white" style="font-family: 'Cinzel', serif;">
+          {post.data.title}
+        </h1>
+
+        {post.data.excerpt && (
+          <p class="mt-5 max-w-2xl text-base sm:text-lg text-slate-400" style="font-family: 'Cormorant Garamond', serif; font-style: italic; line-height: 1.7;">
+            {post.data.excerpt}
+          </p>
+        )}
+
+        <!-- Decorative line -->
+        <div class="mt-8 h-px w-full bg-gradient-to-r from-cyan-400/30 via-blue-500/20 to-transparent" />
+      </header>
+    </section>
+
+    <!-- Article content -->
+    <section class="relative mx-auto grid max-w-6xl gap-8 px-4 pb-16 sm:px-6 lg:grid-cols-[minmax(0,1fr)_16rem] lg:px-8">
+      <article class="relative rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 sm:p-8 lg:p-10 backdrop-blur-xl">
+        <div class="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent rounded-2xl pointer-events-none" />
+        <div
+          class="relative prose prose-lg prose-invert max-w-none
+            prose-headings:font-normal prose-headings:text-white
+            prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
+            prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+            prose-p:text-slate-300 prose-p:leading-[1.8]
+            prose-li:text-slate-300 prose-li:leading-[1.8]
+            prose-strong:text-white prose-strong:font-semibold
+            prose-a:text-cyan-300 prose-a:no-underline prose-a:border-b prose-a:border-cyan-300/30 hover:prose-a:border-cyan-300/60
+            prose-blockquote:border-cyan-300/30 prose-blockquote:text-slate-300 prose-blockquote:not-italic
+            prose-code:text-cyan-200 prose-code:bg-white/[0.06] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:text-sm
+            prose-pre:bg-[#0c1220] prose-pre:border prose-pre:border-white/[0.06] prose-pre:rounded-xl
+            prose-ul:marker:text-cyan-400/50
+            prose-hr:border-white/[0.06]"
+          style="font-family: 'Inter', sans-serif;"
+        >
+          <Content />
+        </div>
+      </article>
+
+      <!-- Sidebar -->
+      <aside class="space-y-5">
+        <!-- Entry details -->
+        <div class="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 backdrop-blur-xl">
+          <div class="inline-flex items-center gap-2 mb-4">
+            <div class="w-4 h-px bg-cyan-400/50" />
+            <p class="text-[10px] font-medium uppercase tracking-[0.28em] text-cyan-300/60" style="font-family: 'Jost', sans-serif;">Details</p>
+          </div>
+          <dl class="space-y-3.5 text-sm" style="font-family: 'Inter', sans-serif;">
+            <div>
+              <dt class="text-[10px] uppercase tracking-[0.2em] text-slate-600" style="font-family: 'Jost', sans-serif;">Author</dt>
+              <dd class="mt-1 text-white">{post.data.author || 'ForgeRealm'}</dd>
+            </div>
+            <div>
+              <dt class="text-[10px] uppercase tracking-[0.2em] text-slate-600" style="font-family: 'Jost', sans-serif;">Category</dt>
+              <dd class="mt-1 text-white">{post.data.category || 'Update'}</dd>
+            </div>
+            {post.data.publishDate && (
+              <div>
+                <dt class="text-[10px] uppercase tracking-[0.2em] text-slate-600" style="font-family: 'Jost', sans-serif;">Published</dt>
+                <dd class="mt-1 text-white">{formatDate(post.data.publishDate)}</dd>
+              </div>
+            )}
+          </dl>
+        </div>
+
+        <!-- Tags -->
+        {post.data.tags && post.data.tags.length > 0 && (
+          <div class="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 backdrop-blur-xl">
+            <div class="inline-flex items-center gap-2 mb-4">
+              <div class="w-4 h-px bg-cyan-400/50" />
+              <p class="text-[10px] font-medium uppercase tracking-[0.28em] text-cyan-300/60" style="font-family: 'Jost', sans-serif;">Tags</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              {post.data.tags.map((tag: string) => (
+                <span class="rounded-full border border-white/[0.06] bg-white/[0.03] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-slate-400" style="font-family: 'Jost', sans-serif;">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <!-- Related posts -->
+        {relatedPosts.length > 0 && (
+          <div class="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 backdrop-blur-xl">
+            <div class="inline-flex items-center gap-2 mb-4">
+              <div class="w-4 h-px bg-cyan-400/50" />
+              <p class="text-[10px] font-medium uppercase tracking-[0.28em] text-cyan-300/60" style="font-family: 'Jost', sans-serif;">More</p>
+            </div>
+            <div class="space-y-3">
+              {relatedPosts.map((entry) => (
+                <a
+                  href={`/blog/${entry.id}`}
+                  class="group block rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3.5 transition hover:border-cyan-400/20 hover:bg-white/[0.05]"
+                >
+                  <p class="text-[9px] uppercase tracking-[0.2em] text-slate-600" style="font-family: 'Jost', sans-serif;">
+                    {entry.data.category || 'Update'}
+                  </p>
+                  <p class="mt-1.5 text-sm leading-snug text-white group-hover:text-cyan-100 transition-colors" style="font-family: 'Cinzel', serif;">
+                    {entry.data.title}
+                  </p>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <!-- Subscribe mini CTA -->
+        <div class="rounded-2xl border border-white/[0.08] bg-gradient-to-br from-blue-950/30 to-white/[0.02] p-5 backdrop-blur-xl">
+          <p class="text-sm font-semibold text-white" style="font-family: 'Cinzel', serif;">Stay updated</p>
+          <p class="mt-2 text-[12px] text-slate-400" style="font-family: 'Cormorant Garamond', serif; font-style: italic; line-height: 1.6;">
+            Get drops, booth dates, and studio updates in your inbox.
+          </p>
+          <a
+            href="/subscribe"
+            class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-lg shadow-blue-500/20 transition hover:-translate-y-0.5"
+            style="font-family: 'Jost', sans-serif;"
+          >
+            Subscribe
+          </a>
+        </div>
+      </aside>
+    </section>
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  document.documentElement.setAttribute('data-theme', 'dark');
+  document.documentElement.classList.add('dark');
+</script>
