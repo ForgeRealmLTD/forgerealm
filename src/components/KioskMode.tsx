@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { products } from "../data/products";
 
 const envBase =
@@ -108,7 +108,7 @@ export default function KioskMode() {
           >
             Activate Kiosk
           </button>
-          <p className="mt-4 text-xs text-stone-600">Tap anywhere 3 times quickly to exit</p>
+          <p className="mt-4 text-xs text-stone-600">Triple-tap the header bar to reveal the exit button</p>
         </div>
       </div>
     );
@@ -119,30 +119,60 @@ export default function KioskMode() {
 }
 
 function KioskDisplay({ products: items, onExit }: { products: typeof products; onExit: () => void }) {
-  const [tapCount, setTapCount] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isAutoScrolling, setIsAutoScrolling] = useState(true);
+  const touchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [showExit, setShowExit] = useState(false);
+  const exitTapRef = useRef(0);
+  const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Triple-tap to exit
+  // Auto-scroll logic
   useEffect(() => {
-    if (tapCount >= 3) onExit();
-    if (tapCount > 0) {
-      const timer = setTimeout(() => setTapCount(0), 800);
-      return () => clearTimeout(timer);
+    if (!isAutoScrolling || !scrollRef.current) return;
+    const el = scrollRef.current;
+    const interval = setInterval(() => {
+      el.scrollTop += 1;
+      // Loop back to top when reaching bottom
+      if (el.scrollTop >= el.scrollHeight - el.clientHeight - 10) {
+        el.scrollTop = 0;
+      }
+    }, 30);
+    return () => clearInterval(interval);
+  }, [isAutoScrolling]);
+
+  // Touch/interaction pauses auto-scroll, resumes after 10s
+  const handleInteraction = () => {
+    setIsAutoScrolling(false);
+    if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current);
+    touchTimeoutRef.current = setTimeout(() => {
+      setIsAutoScrolling(true);
+    }, 10000);
+  };
+
+  // Triple-tap on header to show exit button
+  const handleExitTap = () => {
+    exitTapRef.current++;
+    if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
+    if (exitTapRef.current >= 3) {
+      setShowExit(true);
+      exitTapRef.current = 0;
+      // Auto-hide after 5 seconds
+      setTimeout(() => setShowExit(false), 5000);
+    } else {
+      exitTimerRef.current = setTimeout(() => { exitTapRef.current = 0; }, 800);
     }
-  }, [tapCount, onExit]);
+  };
 
   return (
-    <div
-      className="fixed inset-0 bg-[#0a0a0a] overflow-hidden select-none"
-      onClick={() => setTapCount((c) => c + 1)}
-    >
+    <div className="fixed inset-0 bg-[#0a0a0a] overflow-hidden select-none">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute left-[-10%] top-[20%] w-[500px] h-[500px] rounded-full bg-blue-600/[0.06] blur-[200px]" />
         <div className="absolute right-[-5%] bottom-[10%] w-[400px] h-[400px] rounded-full bg-amber-500/[0.04] blur-[180px]" />
       </div>
 
-      {/* Header */}
-      <div className="relative z-10 flex items-center justify-between px-8 py-6 border-b border-white/[0.06]">
+      {/* Header - triple-tap to reveal exit */}
+      <div className="relative z-10 flex items-center justify-between px-8 py-6 border-b border-white/[0.06]" onClick={handleExitTap}>
         <div className="flex items-center gap-4">
           <img src="/frlogorv.png" alt="" className="h-12 w-12" />
           <div>
@@ -150,14 +180,32 @@ function KioskDisplay({ products: items, onExit }: { products: typeof products; 
             <p className="text-[11px] uppercase tracking-[0.3em] text-blue-300/50" style={{ fontFamily: "'Jost', sans-serif" }}>Leeds Artisan 3D Printing</p>
           </div>
         </div>
-        <div className="text-right">
-          <p className="text-[10px] uppercase tracking-[0.25em] text-stone-500" style={{ fontFamily: "'Jost', sans-serif" }}>Free delivery in Leeds</p>
-          <p className="text-[10px] uppercase tracking-[0.25em] text-emerald-400/60 mt-1" style={{ fontFamily: "'Jost', sans-serif" }}>Eco-friendly PLA</p>
+        <div className="flex items-center gap-4">
+          {showExit && (
+            <button
+              onClick={(e) => { e.stopPropagation(); onExit(); }}
+              className="rounded-full bg-red-500/20 border border-red-500/30 px-4 py-2 text-[10px] font-semibold uppercase tracking-wider text-red-300 transition hover:bg-red-500/30"
+              style={{ fontFamily: "'Jost', sans-serif" }}
+            >
+              Exit Kiosk
+            </button>
+          )}
+          <div className="text-right">
+            <p className="text-[10px] uppercase tracking-[0.25em] text-stone-500" style={{ fontFamily: "'Jost', sans-serif" }}>Free delivery in Leeds</p>
+            <p className="text-[10px] uppercase tracking-[0.25em] text-emerald-400/60 mt-1" style={{ fontFamily: "'Jost', sans-serif" }}>Eco-friendly PLA</p>
+          </div>
         </div>
       </div>
 
-      {/* Product grid - touch scrollable */}
-      <div className="relative z-10 px-6 py-6 h-[calc(100vh-100px)] overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
+      {/* Product grid - auto-scrolls, touch pauses */}
+      <div
+        ref={scrollRef}
+        className="relative z-10 px-6 py-6 h-[calc(100vh-100px)] overflow-y-auto scrollbar-hide"
+        style={{ WebkitOverflowScrolling: 'touch' }}
+        onTouchStart={handleInteraction}
+        onMouseDown={handleInteraction}
+        onWheel={handleInteraction}
+      >
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {items.map((product, i) => (
             <div
