@@ -68,8 +68,8 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <a
               href="/shop"
-              className="hidden sm:inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-black transition-all hover:-translate-y-0.5 shadow-lg shadow-amber-500/20"
-              style={{ fontFamily: "'Cinzel', serif", background: 'linear-gradient(to top, #F59E0B, #FADE6A)' }}
+              className="hidden sm:inline-flex items-center gap-2 rounded-full bg-gradient-to-t from-amber-500 to-yellow-300 px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-black transition-all hover:-translate-y-0.5 shadow-lg shadow-amber-500/20"
+              style={{ fontFamily: "'Cinzel', serif" }}
             >
               Shop
             </a>
@@ -137,8 +137,8 @@ export default function Navbar() {
           <a
             href="/shop"
             onClick={() => setOpen(false)}
-            className="block w-full rounded-full py-3.5 text-center text-[12px] font-semibold uppercase tracking-[0.14em] text-black shadow-lg shadow-amber-500/20"
-            style={{ fontFamily: "'Cinzel', serif", background: 'linear-gradient(to top, #F59E0B, #FADE6A)' }}
+            className="block w-full rounded-full bg-gradient-to-t from-amber-500 to-yellow-300 py-3.5 text-center text-[12px] font-semibold uppercase tracking-[0.14em] text-black shadow-lg shadow-amber-500/20"
+            style={{ fontFamily: "'Cinzel', serif" }}
           >
             Enter the Shop
           </a>
