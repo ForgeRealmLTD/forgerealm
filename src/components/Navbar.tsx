@@ -11,6 +11,7 @@ export default function Navbar() {
     ["Services", "#services"],
     ["Work", "#work"],
     ["FAQ", "#faq"],
+    ["Blog", "/blog"],
     ["Contact", "#contact"],
     ["Booths", "/subscribe"],
   ];
