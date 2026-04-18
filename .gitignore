@@ -58,3 +58,6 @@ next-env.d.ts
 
 # vercel
 .vercel
+
+# claude code memory (local notes, not project artifacts)
+/memory

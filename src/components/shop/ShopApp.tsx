@@ -372,10 +372,9 @@ function MarqueeBanner() {
 
 /* ═══════════════════════════ Header ═══════════════════════════ */
 
-function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch: (q: string) => void }) {
+function ShopHeader({ onCartOpen }: { onCartOpen: () => void }) {
   const { count } = useCart();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [query, setQuery] = useState('');
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -398,25 +397,6 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
             ForgeRealm
           </span>
         </a>
-
-        {/* Desktop search */}
-        <div className="hidden md:flex flex-1 max-w-md mx-8">
-          <div className="relative w-full group">
-            <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-400/20 opacity-0 blur transition-opacity group-focus-within:opacity-100" />
-            <div className="relative flex items-center">
-              <svg className="absolute left-3.5 h-4 w-4 text-slate-500 transition-colors group-focus-within:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              <input
-                type="text"
-                placeholder="Search prints..."
-                value={query}
-                onChange={(e) => { setQuery(e.target.value); onSearch(e.target.value); }}
-                className="w-full rounded-full border border-white/10 bg-white/[0.04] py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-500 outline-none transition-all focus:border-blue-500/40 focus:bg-white/[0.08]"
-              />
-            </div>
-          </div>
-        </div>
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1">
@@ -468,10 +448,6 @@ function ShopHeader({ onCartOpen, onSearch }: { onCartOpen: () => void; onSearch
         {mobileOpen && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden border-t border-white/5 md:hidden">
             <div className="space-y-3 px-4 py-4">
-              <div className="relative">
-                <svg className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                <input type="text" placeholder="Search prints..." value={query} onChange={(e) => { setQuery(e.target.value); onSearch(e.target.value); }} className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-500 outline-none" />
-              </div>
               <a href="/" className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white">Home</a>
               <a href="#products" onClick={() => setMobileOpen(false)} className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white">Shop</a>
               <a href="/shop/dashboard" className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white">Profile</a>
@@ -1941,7 +1917,7 @@ function ShopContent() {
         {/* Cursor glow - desktop only */}
         <CursorGlow />
 
-        <ShopHeader onCartOpen={() => setCartOpen(true)} onSearch={setSearch} />
+        <ShopHeader onCartOpen={() => setCartOpen(true)} />
         <HeroBanner />
         <MarqueeBanner />
         <div >
@@ -1994,12 +1970,29 @@ function ShopContent() {
 
         {/* Sidebar + Grid layout */}
         <div id="products" className="mx-auto max-w-7xl px-4 py-8 sm:py-14 sm:px-6 lg:px-8">
-          
-            <nav className="flex items-center gap-2 text-xs text-slate-500 mb-6">
-              <a href="/" className="hover:text-white transition">Home</a>
-              <span>/</span>
-              <span className="text-slate-300">Shop</span>
-            </nav>
+          <nav className="flex items-center gap-2 text-xs text-slate-500 mb-6">
+            <a href="/" className="hover:text-white transition">Home</a>
+            <span>/</span>
+            <span className="text-slate-300">Shop</span>
+          </nav>
+
+          {/* Search */}
+          <div className="mb-6 group relative">
+            <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-400/20 opacity-0 blur transition-opacity group-focus-within:opacity-100 pointer-events-none" />
+            <div className="relative flex items-center">
+              <svg className="absolute left-4 h-4 w-4 text-slate-500 transition-colors group-focus-within:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              <input
+                type="text"
+                placeholder="Search prints..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full rounded-full border border-white/10 bg-white/[0.04] py-3 pl-11 pr-4 text-sm text-white placeholder-slate-500 outline-none transition-all focus:border-blue-500/40 focus:bg-white/[0.08]"
+              />
+            </div>
+          </div>
+
           <div className="flex gap-8">
             <FilterSidebar filters={filters} onChange={setFilters} total={filteredCount} mobileOpen={filterMobileOpen} onMobileClose={() => setFilterMobileOpen(false)} />
             <div className="flex-1 min-w-0">

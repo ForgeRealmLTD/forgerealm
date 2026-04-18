@@ -1,7 +1,16 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '~/layouts/BaseLayout.astro';
+import Navbar from '~/components/Navbar';
 import BlogHero from '~/components/blog/BlogHero';
 import StallsTimeline from '~/components/blog/StallsTimeline';
+
+const journalPosts = (await getCollection('post', ({ data }) => !data.draft))
+  .filter((p) => p.id !== 'placeholder')
+  .sort((a, b) => (b.data.publishDate?.getTime() ?? 0) - (a.data.publishDate?.getTime() ?? 0));
+
+const formatShortDate = (date?: Date) =>
+  date ? date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
 ---
 
 <BaseLayout title="Blog | ForgeRealm" description="The Stall Chronicles. Every ForgeRealm booth we've run so far, in order, with the wins, mistakes, and people we met along the way.">
@@ -13,10 +22,78 @@ import StallsTimeline from '~/components/blog/StallsTimeline';
       @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
     </style>
 
-    <!-- Navbar spacer -->
-    <div class="h-16 sm:h-20" />
+    <Navbar client:load />
 
     <BlogHero client:load />
+
+    <!-- Next stall (top of page so readers see it first) -->
+    <section class="relative mx-auto max-w-7xl px-4 pt-4 pb-8 sm:px-6 sm:pt-8 sm:pb-10 lg:px-8">
+      <div class="inline-flex items-center gap-3 mb-5">
+        <div class="w-5 h-px bg-cyan-400/50" />
+        <span class="text-[11px] sm:text-[12px] font-medium uppercase tracking-[0.28em] text-cyan-300/70" style="font-family: 'Jost', sans-serif;">
+          Where to find us next
+        </span>
+      </div>
+      <div class="relative overflow-hidden rounded-2xl border border-cyan-300/20 bg-gradient-to-br from-cyan-500/[0.08] via-blue-500/[0.05] to-transparent p-6 sm:p-8 lg:p-10 backdrop-blur-xl">
+        <div class="pointer-events-none absolute -top-20 -right-20 h-[300px] w-[300px] rounded-full bg-cyan-400/10 blur-[120px]" style="animation: glow-pulse 4s ease-in-out infinite;" />
+        <div class="pointer-events-none absolute -bottom-20 -left-20 h-[280px] w-[280px] rounded-full bg-blue-500/10 blur-[120px]" style="animation: glow-pulse 4s ease-in-out infinite 1.5s;" />
+        <div class="relative grid gap-6 lg:grid-cols-[0.55fr_0.45fr] lg:gap-10 lg:items-center">
+          <div>
+            <div class="inline-flex items-center gap-2.5 rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1.5 mb-5">
+              <span class="relative flex h-2 w-2">
+                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-300 opacity-75" />
+                <span class="relative inline-flex h-2 w-2 rounded-full bg-cyan-300" />
+              </span>
+              <span class="text-[11px] font-medium uppercase tracking-[0.24em] text-cyan-100" style="font-family: 'Jost', sans-serif;">
+                Next stall confirmed
+              </span>
+            </div>
+            <h3 class="text-2xl sm:text-3xl lg:text-4xl leading-[1.1] text-white" style="font-family: 'Cinzel', serif;">
+              We're heading <em class="text-cyan-300" style="font-family: 'Cormorant Garamond', serif; font-weight: 300;">back to Albion</em>
+            </h3>
+            <p class="mt-4 max-w-xl text-base sm:text-lg text-slate-300" style="font-family: 'Cormorant Garamond', serif; font-style: italic; line-height: 1.7;">
+              Saturday 9 May 2026. Albion Place, Leeds. Back on our home turf with the branded front, a refined display, and more fresh stock than any stall we've run before.
+            </p>
+            <div class="mt-6 flex flex-wrap items-center gap-3">
+              <a
+                href="/subscribe"
+                class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-6 py-3 text-[13px] font-semibold uppercase tracking-[0.14em] text-white shadow-xl shadow-blue-500/25 transition-all hover:-translate-y-0.5 hover:shadow-blue-500/40"
+                style="font-family: 'Cinzel', serif;"
+              >
+                Get a reminder
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              </a>
+              <a
+                href="/shop"
+                class="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.04] px-6 py-3 text-[13px] font-semibold uppercase tracking-[0.14em] text-slate-200 backdrop-blur-xl transition hover:border-cyan-300/30 hover:text-cyan-100"
+                style="font-family: 'Jost', sans-serif;"
+              >
+                Browse the shop
+              </a>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-3 sm:gap-4">
+            <div class="rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 text-center backdrop-blur-xl">
+              <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70 mb-2" style="font-family: 'Jost', sans-serif;">Day</p>
+              <p class="text-2xl sm:text-3xl text-white" style="font-family: 'Cinzel', serif;">Sat</p>
+            </div>
+            <div class="rounded-xl border border-cyan-300/25 bg-cyan-300/[0.06] p-4 text-center backdrop-blur-xl">
+              <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-200 mb-2" style="font-family: 'Jost', sans-serif;">Date</p>
+              <p class="text-2xl sm:text-3xl text-white" style="font-family: 'Cinzel', serif;">09</p>
+            </div>
+            <div class="rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 text-center backdrop-blur-xl">
+              <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70 mb-2" style="font-family: 'Jost', sans-serif;">Month</p>
+              <p class="text-2xl sm:text-3xl text-white" style="font-family: 'Cinzel', serif;">May</p>
+            </div>
+            <div class="col-span-3 rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 text-center backdrop-blur-xl">
+              <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70 mb-1.5" style="font-family: 'Jost', sans-serif;">Where</p>
+              <p class="text-base sm:text-lg text-white" style="font-family: 'Cinzel', serif;">Albion Place, Leeds</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Intro header -->
     <section class="relative mx-auto max-w-7xl px-4 pt-4 pb-6 sm:px-6 sm:pt-8 sm:pb-8 lg:px-8">
@@ -75,68 +152,44 @@ import StallsTimeline from '~/components/blog/StallsTimeline';
       <StallsTimeline client:load />
     </section>
 
-    <!-- What's next -->
-    <section class="relative mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
-      <div class="relative overflow-hidden rounded-2xl border border-cyan-300/20 bg-gradient-to-br from-cyan-500/[0.08] via-blue-500/[0.05] to-transparent p-6 sm:p-8 lg:p-10 backdrop-blur-xl">
-        <div class="pointer-events-none absolute -top-20 -right-20 h-[300px] w-[300px] rounded-full bg-cyan-400/10 blur-[120px]" style="animation: glow-pulse 4s ease-in-out infinite;" />
-        <div class="pointer-events-none absolute -bottom-20 -left-20 h-[280px] w-[280px] rounded-full bg-blue-500/10 blur-[120px]" style="animation: glow-pulse 4s ease-in-out infinite 1.5s;" />
-        <div class="relative grid gap-6 lg:grid-cols-[0.55fr_0.45fr] lg:gap-10 lg:items-center">
-          <div>
-            <div class="inline-flex items-center gap-2.5 rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1.5 mb-5">
-              <span class="relative flex h-2 w-2">
-                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-300 opacity-75" />
-                <span class="relative inline-flex h-2 w-2 rounded-full bg-cyan-300" />
-              </span>
-              <span class="text-[11px] font-medium uppercase tracking-[0.24em] text-cyan-100" style="font-family: 'Jost', sans-serif;">
-                Next stall confirmed
-              </span>
-            </div>
-            <h3 class="text-2xl sm:text-3xl lg:text-4xl leading-[1.1] text-white" style="font-family: 'Cinzel', serif;">
-              We're heading <em class="text-cyan-300" style="font-family: 'Cormorant Garamond', serif; font-weight: 300;">back to Albion</em>
-            </h3>
-            <p class="mt-4 max-w-xl text-base sm:text-lg text-slate-300" style="font-family: 'Cormorant Garamond', serif; font-style: italic; line-height: 1.7;">
-              Friday 9 May 2026. Albion Place, Leeds. Back on our home turf with the branded front, a refined display, and more fresh stock than any stall we've run before.
-            </p>
-            <div class="mt-6 flex flex-wrap items-center gap-3">
-              <a
-                href="/subscribe"
-                class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-6 py-3 text-[13px] font-semibold uppercase tracking-[0.14em] text-white shadow-xl shadow-blue-500/25 transition-all hover:-translate-y-0.5 hover:shadow-blue-500/40"
-                style="font-family: 'Cinzel', serif;"
-              >
-                Get a reminder
-                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-              </a>
-              <a
-                href="/shop"
-                class="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.04] px-6 py-3 text-[13px] font-semibold uppercase tracking-[0.14em] text-slate-200 backdrop-blur-xl transition hover:border-cyan-300/30 hover:text-cyan-100"
-                style="font-family: 'Jost', sans-serif;"
-              >
-                Browse the shop
-              </a>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-3 gap-3 sm:gap-4">
-            <div class="rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 text-center backdrop-blur-xl">
-              <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70 mb-2" style="font-family: 'Jost', sans-serif;">Day</p>
-              <p class="text-2xl sm:text-3xl text-white" style="font-family: 'Cinzel', serif;">Fri</p>
-            </div>
-            <div class="rounded-xl border border-cyan-300/25 bg-cyan-300/[0.06] p-4 text-center backdrop-blur-xl">
-              <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-200 mb-2" style="font-family: 'Jost', sans-serif;">Date</p>
-              <p class="text-2xl sm:text-3xl text-white" style="font-family: 'Cinzel', serif;">09</p>
-            </div>
-            <div class="rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 text-center backdrop-blur-xl">
-              <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70 mb-2" style="font-family: 'Jost', sans-serif;">Month</p>
-              <p class="text-2xl sm:text-3xl text-white" style="font-family: 'Cinzel', serif;">May</p>
-            </div>
-            <div class="col-span-3 rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 text-center backdrop-blur-xl">
-              <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70 mb-1.5" style="font-family: 'Jost', sans-serif;">Where</p>
-              <p class="text-base sm:text-lg text-white" style="font-family: 'Cinzel', serif;">Albion Place, Leeds</p>
-            </div>
-          </div>
+    <!-- Journal notes (MDX posts) -->
+    {journalPosts.length > 0 && (
+      <section class="relative mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+        <div class="inline-flex items-center gap-3 mb-6">
+          <div class="w-5 h-px bg-cyan-400/50" />
+          <span class="text-[11px] sm:text-[12px] font-medium uppercase tracking-[0.28em] text-cyan-300/70" style="font-family: 'Jost', sans-serif;">
+            Journal notes
+          </span>
         </div>
-      </div>
-    </section>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {journalPosts.map((post) => (
+            <a
+              href={`/blog/${post.id}`}
+              class="group relative block rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 backdrop-blur-xl transition hover:border-cyan-400/20 hover:bg-white/[0.05]"
+            >
+              <div class="flex flex-wrap items-center gap-2 mb-3">
+                <span class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70" style="font-family: 'Jost', sans-serif;">
+                  {post.data.category || 'Update'}
+                </span>
+                {post.data.publishDate && (
+                  <span class="text-[10px] uppercase tracking-[0.22em] text-slate-500" style="font-family: 'Jost', sans-serif;">
+                    · {formatShortDate(post.data.publishDate)}
+                  </span>
+                )}
+              </div>
+              <h4 class="text-lg leading-[1.25] text-white transition-colors group-hover:text-cyan-100" style="font-family: 'Cinzel', serif;">
+                {post.data.title}
+              </h4>
+              {post.data.excerpt && (
+                <p class="mt-3 text-sm text-slate-400 leading-[1.7]" style="font-family: 'Cormorant Garamond', serif; font-style: italic;">
+                  {post.data.excerpt}
+                </p>
+              )}
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
 
     <!-- Closing note -->
     <section class="relative mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">

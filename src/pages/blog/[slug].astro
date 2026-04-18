@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '~/layouts/BaseLayout.astro';
+import Navbar from '~/components/Navbar';
 
 export async function getStaticPaths() {
   const posts = await getCollection('post', ({ data }) => !data.draft);
@@ -33,11 +34,10 @@ const formatDate = (date?: Date) =>
       <div class="absolute inset-0 opacity-[0.02]" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 80px 80px;" />
     </div>
 
-    <!-- Navbar spacer -->
-    <div class="h-16 sm:h-20" />
+    <Navbar client:load />
 
     <!-- Header -->
-    <section class="relative mx-auto max-w-5xl px-4 pt-8 pb-6 sm:px-6 sm:pt-12 sm:pb-8 lg:px-8">
+    <section class="relative mx-auto max-w-5xl px-4 pt-24 pb-6 sm:px-6 sm:pt-32 sm:pb-8 lg:px-8">
       <a
         href="/blog"
         class="group inline-flex items-center gap-2.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[11px] font-medium uppercase tracking-[0.22em] text-slate-400 backdrop-blur-xl transition hover:border-cyan-400/20 hover:text-cyan-300"

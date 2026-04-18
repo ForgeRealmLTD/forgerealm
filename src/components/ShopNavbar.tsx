@@ -21,8 +21,7 @@ const API_BASE =
     : envBase || '');
 
 const baseLinks: Link[] = [
-  { label: 'Popular', href: '#products' },
-  { label: 'Collections', href: '#collections' }
+  { label: 'Shop', href: '/shop' }
 ];
 
 const ShopNavbar = () => {

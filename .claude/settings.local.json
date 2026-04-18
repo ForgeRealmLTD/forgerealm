@@ -16,7 +16,9 @@
       "Bash(curl -sI https://forgerealm.co.uk)",
       "Bash(curl -s https://forgerealm.co.uk)",
       "Bash(curl -sI \"https://forgerealm-git-master-forgerealms-projects.vercel.app\")",
-      "Bash(curl -s \"https://forgerealm-git-master-forgerealms-projects.vercel.app\")"
+      "Bash(curl -s \"https://forgerealm-git-master-forgerealms-projects.vercel.app\")",
+      "Bash(gh auth *)",
+      "Bash(gh api *)"
     ]
   }
 }
