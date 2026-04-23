@@ -61,3 +61,6 @@ next-env.d.ts
 
 # claude code memory (local notes, not project artifacts)
 /memory
+
+# third-party sample / reference projects (local only)
+/sample
