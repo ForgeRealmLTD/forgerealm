@@ -10,6 +10,7 @@ import {
 import { MdBrush } from "react-icons/md";
 import { FiBox, FiHeadphones, FiLayers, FiMapPin, FiShare2, FiUsers } from "react-icons/fi";
 import { TbLeaf } from "react-icons/tb";
+import MaterialsBook from "./MaterialsBook";
 
 export default function Services() {
   return (
@@ -180,86 +181,12 @@ export default function Services() {
             className="mt-3 text-stone-400 max-w-xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            We offer the following filaments for 3D printing:
+            We offer the following filaments for 3D printing. Flip through to see what each one is, where we use it, and the science behind the
+            claims.
           </p>
 
-          <div className="mt-12 grid gap-8 sm:grid-cols-1 lg:grid-cols-2">
-            {[
-              {
-                title: "PLA",
-                label: "Eco-friendly",
-                labelColor: "text-green-400 border-green-400/40 bg-green-400/10",
-                points: [
-                  "Biodegradable and sustainable",
-                  "Renewable and low impact",
-                ],
-                colorDot: "bg-green-400",
-                desc: "Biodegradable and made from renewable resources. Our main filament, eco-friendly, safe, and perfect for customisation.",
-              },
-              {
-                title: "PETG",
-                label: "Recyclable",
-                labelColor: "text-blue-400 border-blue-400/40 bg-blue-400/10",
-                points: [
-                  "Durable and flexible structure",
-                  "Ideal for high-stress parts",
-                ],
-                colorDot: "bg-blue-400",
-                desc: "Recyclable and durable. A strong, flexible option for prints needing extra toughness.",
-              },
-            ].map((item, i) => (
-              <div
-                key={i}
-                className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-8 backdrop-blur-sm hover:border-emerald-400/30 hover:bg-white/[0.04] hover:shadow-xl hover:shadow-emerald-500/[0.12] transition-all duration-500"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <h3
-                    className="text-lg font-semibold text-white"
-                    style={{ fontFamily: "'Cinzel', serif" }}
-                  >
-                    {item.title}
-                  </h3>
-                  <span
-                    className={`text-xs rounded-full border px-2 py-0.5 ${item.labelColor}`}
-                    style={{ fontFamily: "'Jost', sans-serif" }}
-                  >
-                    {item.label}
-                  </span>
-                </div>
-                <p
-                  className="text-sm text-stone-400 leading-relaxed"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
-                >
-                  {item.desc}
-                </p>
-
-                <ul className="mt-5 space-y-2 text-sm text-stone-400">
-                  {item.points.map((p, idx) => (
-                    <li key={idx} className="flex items-center gap-3">
-                      <span
-                        className={`h-2 w-2 rounded-full ${item.colorDot} flex-shrink-0`}
-                      />
-                      <span
-                        className="leading-snug"
-                        style={{ fontFamily: "'Inter', sans-serif" }}
-                      >
-                        {p}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          <div className="max-w-2xl mt-12">
-            <div
-              className="inline-block px-5 py-2 rounded-lg bg-emerald-900/60 border border-emerald-400/20 text-emerald-200 text-sm font-semibold"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
-              We focus on sustainable materials. More filament types and resin
-              printing coming soon.
-            </div>
+          <div className="mt-12 flex justify-center">
+            <MaterialsBook />
           </div>
         </div>
       </section>

@@ -95,6 +95,10 @@ export default defineConfig({
     server: {
       cors: true,
     },
+    optimizeDeps: {
+      // page-flip ships a UMD as its main entry; force Vite to pre-bundle both
+      include: ['react-pageflip', 'page-flip'],
+    },
   },
 
 });

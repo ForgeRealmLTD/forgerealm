@@ -46,7 +46,7 @@ export default function Navbar() {
 
           {/* Mobile centre: brand text slides in when scrolled */}
           <div className={`sm:hidden absolute left-1/2 -translate-x-1/2 transition-all duration-500 ${scrolled ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}`}>
-            <span className="text-[14px] font-semibold whitespace-nowrap" style={{ fontFamily: "'Cinzel', serif", color: '#FADE6A' }}>
+            <span className="text-[14px] font-semibold whitespace-nowrap text-[#FADE6A]" style={{ fontFamily: "'Cinzel', serif", color: '#FADE6A' }}>
               ForgeRealm
             </span>
           </div>

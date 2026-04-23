@@ -24,7 +24,7 @@ const stalls: Stall[] = [
       { src: '/blog/2albionStall1.jpg', alt: 'Close-up of the first stall\'s display table.' },
     ],
     paragraphs: [
-      'This was the one that turned "DnD prop hobby" into an actual side hustle. The company we booked through was running it as the Christmas market of Albion, which technically makes our debut a Christmas stall. It was also the priciest booking we\'ve made to date, and neither of us slept much the night before. Somehow, against all odds, we broke even and then some — we\'ve tried hard not to let that set a false baseline, but it was a generous start.',
+      'This was the one that turned "DnD prop hobby" into an actual side hustle. The company we booked through was running it as the Christmas market of Albion, which technically makes our debut a Christmas stall. It was also the priciest booking we\'ve made to date, and neither of us slept much the night before. Somehow, against all odds, we broke even and then some, and we\'ve tried hard not to let that set a false baseline, but it was a generous start.',
       'We will never forget our first customer ever. She goes by the pen name Michelle March, she\'d flown in from the US to support us, and she bought something from the table before we\'d even finished setting up. She\'s an artist with a real eye for design, which hit home for us because "artisan 3D printing" is exactly the identity we want: hand-finished, post-processed in-house, treated like craft. We also met someone building long-range secure routers who was looking for a manufacturer for the shells. Tempting, but a B2B commitment of that scale didn\'t make sense on our first stall. We said no and we still think that was the right call.',
       'Looking at the photos now, the display itself looked rough. We hadn\'t invested in anything. We just grabbed what we had lying around the house and made it work. You can also tell from the picture we had no tarpaulin behind the stall, which meant we spent the day fighting the wind and the rain while our neighbours stayed snug behind theirs. Painful, but we learned.',
     ],
@@ -89,7 +89,7 @@ const stalls: Stall[] = [
       { src: '/blog/2alwoodleyStall5.jpg', alt: 'The Avenue stall laid out in Dawn\'s style, our best-looking stall to date.' },
     ],
     paragraphs: [
-      'Stall 5 was a deliberate experiment: what happens when we set up outside the city centre, in a residential area? Commercially it wasn\'t our best, but we expected that going in. This was a test, not a peak. What it was, genuinely, was the most wholesome day we\'ve had — the other traders were kind, experienced, and quietly supportive of each other in a way you don\'t always see at bigger markets.',
+      'Stall 5 was a deliberate experiment: what happens when we set up outside the city centre, in a residential area? Commercially it wasn\'t our best, but we expected that going in. This was a test, not a peak. What it was, genuinely, was the most wholesome day we\'ve had. The other traders were kind, experienced, and quietly supportive of each other in a way you don\'t always see at bigger markets.',
       'This is also where we met our first real "competitor", and I use that word loosely, because he\'d been selling 3D prints for five-plus years and his range (action figures, bird houses) barely overlaps with ours (animals, mythical creatures, lamps, fidgets). He came over first, to support us. He gave us a stack of advice we\'re now weaving into the day-to-day, both for running a stall and for getting more out of a full print farm. We\'re still in touch with him, still learning.',
       'We also met Dawn, who was selling baby products. Her displays are beautiful, and she offered to help us tidy ours up. She basically set up our stall for us, in the layout you can see in the photos. It\'s the best ForgeRealm has ever looked. The plan going forward is to evolve from Dawn\'s base, not abandon it. Thank you, Dawn.',
     ],
@@ -106,7 +106,7 @@ function StallEntry({ stall, index }: { stall: Stall; index: number }) {
 
   return (
     <div ref={entryRef} className="relative flex flex-col md:flex-row md:gap-10 pb-16 sm:pb-24 pl-12 md:pl-0">
-      {/* Mobile dot — sits on the rail at left-9 */}
+      {/* Mobile dot, sits on the rail at left-9 */}
       <motion.div
         animate={dotPulse}
         transition={dotTransition}
@@ -226,7 +226,7 @@ export default function StallsTimeline() {
           style={{ height: heightTransform, opacity: opacityTransform }}
           className="absolute inset-x-0 top-0 w-px bg-gradient-to-b from-cyan-300 via-cyan-400 to-blue-500"
         >
-          {/* Pulsing tip — sits at the leading edge of the fill */}
+          {/* Pulsing tip (leading edge of the fill) */}
           <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 h-3 w-3">
             <span className="absolute inset-0 animate-ping rounded-full bg-cyan-300 opacity-60" />
             <span className="absolute inset-0 rounded-full bg-cyan-300 shadow-[0_0_10px_2px_rgba(103,232,249,0.7)]" />

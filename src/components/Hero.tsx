@@ -105,17 +105,6 @@ export default function Hero() {
       </div>
 
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
-        {/* Mobile: Lottie at top */}
-        <div className="lg:hidden flex flex-col items-center mb-6">
-          {printAnim ? (
-            <div className="relative w-[180px] h-[180px] sm:w-[200px] sm:h-[200px] overflow-hidden rounded-2xl bg-gradient-to-t from-amber-500 via-amber-400 to-yellow-300">
-              <Lottie animationData={printAnim} loop className="relative w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] -mt-[40px] -ml-[40px] sm:-mt-[50px] sm:-ml-[50px]" />
-            </div>
-          ) : (
-            <img src="/frlogorv.png" alt="ForgeRealm" className="w-20 h-20 opacity-40" />
-          )}
-        </div>
-
         <div className="grid lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-16 items-center">
           {/* Left - Content */}
           <div className="text-center lg:text-left">
@@ -164,6 +153,17 @@ export default function Hero() {
               >
                 See Our Work
               </a>
+            </div>
+
+            {/* Mobile: Lottie sits between CTAs and stats */}
+            <div className="lg:hidden flex flex-col items-center mt-8">
+              {printAnim ? (
+                <div className="relative w-[180px] h-[180px] sm:w-[200px] sm:h-[200px] overflow-hidden rounded-2xl bg-gradient-to-t from-amber-500 via-amber-400 to-yellow-300">
+                  <Lottie animationData={printAnim} loop className="relative w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] -mt-[40px] -ml-[40px] sm:-mt-[50px] sm:-ml-[50px]" />
+                </div>
+              ) : (
+                <img src="/frlogorv.png" alt="ForgeRealm" className="w-20 h-20 opacity-40" />
+              )}
             </div>
 
             {/* Stats row */}
