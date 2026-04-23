@@ -351,8 +351,8 @@ function BookSelector({ onSelect, isMobile }: { onSelect: (k: BookKey) => void; 
   const handleSelect = (key: BookKey) => {
     if (pending) return;
     setPending(key);
-    // Let the lift/fade animation play before the parent swaps to the book view
-    window.setTimeout(() => onSelect(key), 420);
+    // Brief pause so the lift / fade reads as a deliberate selection, then hand off
+    window.setTimeout(() => onSelect(key), 240);
   };
 
   return (
@@ -387,7 +387,7 @@ function BookSelector({ onSelect, isMobile }: { onSelect: (k: BookKey) => void; 
             }}
             whileHover={!pending ? { y: -6, scale: 1.02 } : undefined}
             whileTap={!pending ? { scale: 0.98 } : undefined}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
           >
             <div
               style={{
@@ -430,16 +430,17 @@ function BookView({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const hasAutoOpenedRef = useRef(false);
 
-  // Auto-open after entry
+  // Auto-open after entry (shorter delay on mobile so it doesn't feel sluggish)
   useEffect(() => {
+    const delay = isMobile ? 280 : 500;
     const t = window.setTimeout(() => {
       if (!hasAutoOpenedRef.current) {
         hasAutoOpenedRef.current = true;
         bookRef.current?.pageFlip?.().flipNext();
       }
-    }, 700);
+    }, delay);
     return () => window.clearTimeout(t);
-  }, []);
+  }, [isMobile]);
 
   const pageW = isMobile ? 360 : 500;
   const pageH = isMobile ? 500 : 680;
@@ -675,7 +676,15 @@ function BookView({
         Back to library
       </button>
 
-      <div style={{ filter: 'drop-shadow(0 26px 50px rgba(0,0,0,0.5))' }}>
+      <div
+        style={{
+          // Lighter shadow on mobile to keep the GPU happy
+          filter: isMobile
+            ? 'drop-shadow(0 14px 24px rgba(0,0,0,0.45))'
+            : 'drop-shadow(0 26px 50px rgba(0,0,0,0.5))',
+          willChange: 'transform',
+        }}
+      >
         <HTMLFlipBook
           key={`${material}-${isMobile ? 'm' : 'd'}`}
           ref={bookRef as never}
@@ -683,14 +692,15 @@ function BookView({
           height={pageH}
           size="fixed"
           usePortrait={isMobile}
-          maxShadowOpacity={0.5}
+          maxShadowOpacity={isMobile ? 0.35 : 0.5}
           drawShadow
           showCover
-          mobileScrollSupport
-          flippingTime={900}
+          // false: stop intercepting touchmove so the page can scroll normally on mobile
+          mobileScrollSupport={false}
+          flippingTime={isMobile ? 550 : 800}
           useMouseEvents
           swipeDistance={30}
-          showPageCorners
+          showPageCorners={!isMobile}
           disableFlipByClick={false}
           autoSize={false}
           startPage={0}
@@ -833,43 +843,56 @@ export default function MaterialsBook() {
           </span>
         </div>
       ) : (
-        <AnimatePresence mode="wait" initial={false}>
-          {active ? (
-            <motion.div
-              key={`book-${active}`}
-              initial={{ opacity: 0, scale: 0.94, y: 18 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: 12 }}
-              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-            >
-              <BookView material={active} onBack={() => setActive(null)} HTMLFlipBook={HTMLFlipBook} isMobile={isMobile} />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="selector"
-              initial={{ opacity: 0, scale: 0.96, y: 12 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: -8 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-            >
-              <BookSelector onSelect={setActive} isMobile={isMobile} />
-              <p
-                style={{
-                  marginTop: 22,
-                  fontSize: 10,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.28em',
-                  color: 'rgba(110,231,183,0.55)',
-                  fontFamily: "'Jost', sans-serif",
-                }}
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            // Hold the parent height steady through the transition so the page doesn't reflow / scroll-jump
+            minHeight: isMobile ? 720 : 900,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+          }}
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            {active ? (
+              <motion.div
+                key={`book-${active}`}
+                initial={{ opacity: 0, scale: 0.96, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.97, y: 8 }}
+                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
               >
-                Pick a codex to open
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                <BookView material={active} onBack={() => setActive(null)} HTMLFlipBook={HTMLFlipBook} isMobile={isMobile} />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="selector"
+                initial={{ opacity: 0, scale: 0.97, y: 8 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.97, y: -6 }}
+                transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+              >
+                <BookSelector onSelect={setActive} isMobile={isMobile} />
+                <p
+                  style={{
+                    marginTop: 22,
+                    fontSize: 10,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.28em',
+                    color: 'rgba(110,231,183,0.55)',
+                    fontFamily: "'Jost', sans-serif",
+                  }}
+                >
+                  Pick a codex to open
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       )}
     </div>
   );
