@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type ComponentType, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ComponentType, type ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 /* ───────── Data ───────── */
@@ -63,6 +63,7 @@ const TYPE_COLORS: Record<string, string> = {
 /* ───────── Inline CSS (matches the sample's class names) ───────── */
 
 const BOOK_CSS = `
+.forgerealm-book { contain: layout paint; }
 .forgerealm-book .page {
   background: linear-gradient(145deg, #ffffff 0%, #f5f5f5 100%);
   border-radius: 5px;
@@ -95,10 +96,15 @@ const BOOK_CSS = `
   color: #0c1726;
   font-family: 'Cinzel', serif; font-weight: 600;
   font-size: clamp(0.95rem, 3vw, 1.4rem); letter-spacing: 0.06em;
-  box-shadow: inset -10px -14px 32px rgba(0,0,0,0.20), 0 8px 22px rgba(0,0,0,0.18);
-  transition: transform 0.3s ease;
+  box-shadow: inset -6px -8px 18px rgba(0,0,0,0.16), 0 4px 12px rgba(0,0,0,0.14);
+  transition: transform 0.25s ease;
 }
-.forgerealm-book .material-swatch:hover { transform: scale(1.05); }
+@media (hover: hover) {
+  .forgerealm-book .material-swatch {
+    box-shadow: inset -10px -14px 32px rgba(0,0,0,0.20), 0 8px 22px rgba(0,0,0,0.18);
+  }
+  .forgerealm-book .material-swatch:hover { transform: scale(1.05); }
+}
 
 .forgerealm-book .material-name {
   font-family: 'Cinzel', serif; font-size: clamp(1.1rem, 3.2vw, 1.9rem);
@@ -181,11 +187,24 @@ const BOOK_CSS = `
   background: var(--spine-accent, rgba(250,222,106,0.18));
   pointer-events: none;
 }
-.forgerealm-library .cover-card:hover {
-  transform: translateY(-6px) rotateX(2deg) rotateY(-2deg);
-  box-shadow: 0 28px 60px rgba(0,0,0,0.55), 0 8px 18px rgba(0,0,0,0.35);
+@media (hover: hover) {
+  .forgerealm-library .cover-card:hover {
+    transform: translateY(-6px) rotateX(2deg) rotateY(-2deg);
+    box-shadow: 0 28px 60px rgba(0,0,0,0.55), 0 8px 18px rgba(0,0,0,0.35);
+  }
 }
 `;
+
+/* One-time CSS injection so React doesn't re-parse the string every render */
+let cssInjected = false;
+function injectCSS() {
+  if (cssInjected || typeof document === 'undefined') return;
+  cssInjected = true;
+  const style = document.createElement('style');
+  style.setAttribute('data-forgerealm-book', '');
+  style.textContent = BOOK_CSS;
+  document.head.appendChild(style);
+}
 
 /* ───────── Cover content (used both in selector & inside the book) ───────── */
 
@@ -381,13 +400,11 @@ function BookSelector({ onSelect, isMobile }: { onSelect: (k: BookKey) => void; 
             initial={false}
             animate={{
               opacity: isFading ? 0 : 1,
-              scale: isChosen ? 1.06 : isFading ? 0.94 : 1,
+              scale: isChosen ? 1.05 : isFading ? 0.94 : 1,
               y: isChosen ? -6 : isFading ? 12 : 0,
-              filter: isChosen ? 'brightness(1.15)' : 'brightness(1)',
             }}
-            whileHover={!pending ? { y: -6, scale: 1.02 } : undefined}
             whileTap={!pending ? { scale: 0.98 } : undefined}
-            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
           >
             <div
               style={{
@@ -430,15 +447,17 @@ function BookView({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const hasAutoOpenedRef = useRef(false);
 
-  // Auto-open after entry (shorter delay on mobile so it doesn't feel sluggish)
+  // Auto-open after entry on desktop only — on mobile the extra flip animation
+  // right after the entry transition makes things feel sluggish, so the user
+  // flips the cover themselves.
   useEffect(() => {
-    const delay = isMobile ? 280 : 500;
+    if (isMobile) return;
     const t = window.setTimeout(() => {
       if (!hasAutoOpenedRef.current) {
         hasAutoOpenedRef.current = true;
         bookRef.current?.pageFlip?.().flipNext();
       }
-    }, delay);
+    }, 500);
     return () => window.clearTimeout(t);
   }, [isMobile]);
 
@@ -449,11 +468,12 @@ function BookView({
   const flipPrev = () => bookRef.current?.pageFlip?.().flipPrev();
   const flipNext = () => bookRef.current?.pageFlip?.().flipNext();
 
-  /* Build the page list per material */
-  const pages: ReactNode[] = [];
+  /* Build the page list per material — memoized so BookView re-renders (e.g. on resize) don't rebuild the JSX tree */
+  const pages: ReactNode[] = useMemo(() => {
+    const built: ReactNode[] = [];
 
-  // Front cover
-  pages.push(
+    // Front cover
+    built.push(
     <div className="page" key="cover">
       <div className="page-content cover" style={{ background: meta.coverGradient }}>
         <CoverContent meta={meta} />
@@ -462,7 +482,7 @@ function BookView({
   );
 
   // Material page
-  pages.push(
+  built.push(
     <div className="page" key="material">
       <div className="page-content">
         <div className="material-container">
@@ -492,7 +512,7 @@ function BookView({
   );
 
   // Evidence page
-  pages.push(
+    built.push(
     <div className="page" key="evidence">
       <div className="page-content">
         <p className="evidence-eyebrow">Evidence</p>
@@ -539,7 +559,7 @@ function BookView({
 
   // PLA-only Silk PLA variant page
   if (material === 'pla') {
-    pages.push(
+      built.push(
       <div className="page" key="silk">
         <div className="page-content">
           <div className="material-container">
@@ -569,7 +589,7 @@ function BookView({
   }
 
   // Closing CTA
-  pages.push(
+    built.push(
     <div className="page" key="cta">
       <div className="page-content">
         <p className="evidence-eyebrow">Order in {meta.title}</p>
@@ -590,7 +610,7 @@ function BookView({
   );
 
   // Back cover
-  pages.push(
+    built.push(
     <div className="page" key="back">
       <div className="page-content cover" style={{ background: meta.coverGradient }}>
         <div className="cover-frame-outer" />
@@ -646,6 +666,9 @@ function BookView({
     </div>
   );
 
+    return built;
+  }, [material, meta]);
+
   return (
     <div ref={wrapperRef} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
       {/* Back to library link */}
@@ -678,10 +701,8 @@ function BookView({
 
       <div
         style={{
-          // Lighter shadow on mobile to keep the GPU happy
-          filter: isMobile
-            ? 'drop-shadow(0 14px 24px rgba(0,0,0,0.45))'
-            : 'drop-shadow(0 26px 50px rgba(0,0,0,0.5))',
+          // No drop-shadow filter on mobile: react-pageflip's internal shadows handle it, and GPU filters are expensive
+          filter: isMobile ? undefined : 'drop-shadow(0 26px 50px rgba(0,0,0,0.5))',
           willChange: 'transform',
         }}
       >
@@ -815,6 +836,7 @@ export default function MaterialsBook() {
   const [active, setActive] = useState<BookKey | null>(null);
 
   useEffect(() => {
+    injectCSS();
     import('react-pageflip').then((mod) => {
       setHTMLFlipBook(() => mod.default as unknown as ComponentType<Record<string, unknown>>);
     });
@@ -826,7 +848,6 @@ export default function MaterialsBook() {
 
   return (
     <div className="forgerealm-book" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-      <style dangerouslySetInnerHTML={{ __html: BOOK_CSS }} />
 
       {!HTMLFlipBook ? (
         <div className="flex items-center justify-center" style={{ minHeight: 480 }}>
@@ -859,10 +880,10 @@ export default function MaterialsBook() {
             {active ? (
               <motion.div
                 key={`book-${active}`}
-                initial={{ opacity: 0, scale: 0.96, y: 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.97, y: 8 }}
-                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                initial={isMobile ? { opacity: 0 } : { opacity: 0, scale: 0.96, y: 10 }}
+                animate={isMobile ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
+                exit={isMobile ? { opacity: 0 } : { opacity: 0, scale: 0.97, y: 8 }}
+                transition={{ duration: isMobile ? 0.18 : 0.28, ease: [0.22, 1, 0.36, 1] }}
                 style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
               >
                 <BookView material={active} onBack={() => setActive(null)} HTMLFlipBook={HTMLFlipBook} isMobile={isMobile} />
@@ -870,10 +891,10 @@ export default function MaterialsBook() {
             ) : (
               <motion.div
                 key="selector"
-                initial={{ opacity: 0, scale: 0.97, y: 8 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.97, y: -6 }}
-                transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                initial={isMobile ? { opacity: 0 } : { opacity: 0, scale: 0.97, y: 8 }}
+                animate={isMobile ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
+                exit={isMobile ? { opacity: 0 } : { opacity: 0, scale: 0.97, y: -6 }}
+                transition={{ duration: isMobile ? 0.15 : 0.25, ease: [0.22, 1, 0.36, 1] }}
                 style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
               >
                 <BookSelector onSelect={setActive} isMobile={isMobile} />

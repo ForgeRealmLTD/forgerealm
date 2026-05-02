@@ -2,12 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 
 type Stall = {
+  kind?: 'stall' | 'note';
   label: string;
   date: string;
   title: string;
-  location: string;
-  partner: string;
-  images: { src: string; alt: string }[];
+  location?: string;
+  partner?: string;
+  images?: { src: string; alt: string; portrait?: boolean }[];
   paragraphs: string[];
   pull?: string;
 };
@@ -95,35 +96,79 @@ const stalls: Stall[] = [
     ],
     pull: 'The plan going forward is to evolve from Dawn\'s base, not abandon it.',
   },
+  {
+    kind: 'note',
+    label: 'Studio',
+    date: '20 April 2026',
+    title: 'We invested in the Flashforge Creator 5',
+    paragraphs: [
+      'There has been a genuine debate in the 3D printing community between two new machines that hadn\'t officially shipped yet: the Snapmaker UI and the Flashforge Creator 5. Most of the experienced traders we\'ve met at stalls landed on the Snapmaker UI. We went the other way.',
+      'Our whole farm runs on Flashforge and the reliability has been consistently solid. Switching ecosystems felt like unnecessary risk when a newer Flashforge option existed. We took the useful advice from people who know more than us and made our own call. We\'re not trying to be the next anybody, ForgeRealm has its own direction.',
+      'The Creator 5 is booked and we\'re expecting it at the start of May. Once it\'s properly run in it should expand both our volume and material range at stalls.',
+    ],
+  },
+  {
+    label: 'Stall 06',
+    date: '25 April 2026',
+    title: 'Albion, arrests and a 4pm surge',
+    location: 'Albion Place, Leeds',
+    partner: 'Artsmix',
+    images: [
+      { src: '/blog/albionStall6.jpg', alt: 'ForgeRealm display at Stall 06, Albion Place, showing the tiered product stand loaded with silk PLA pieces.', portrait: true },
+      { src: '/blog/2albionStall6.jpg', alt: 'Ishmam and Tobi behind the ForgeRealm Leeds banner at Stall 06, Albion Place.' },
+    ],
+    paragraphs: [
+      'There was a large protest running through the city that day. Six people were arrested near The Headrow, right next to Albion, and foot traffic was low because of it. Alex, who runs AR jewellery and first set up next to us at Stall 2, came over and said the whole market was feeling it. Not just us.',
+      'Around 4pm it turned. A surge late in the day pushed us to third best out of the six stalls we\'ve done, which is a result given the context. Pack-down had its own moment when a rising metal bollard caught a white van near our cars and we had to shift our stock further up so we could get through. Nobody hurt, just one of those days.',
+    ],
+    pull: 'Around 4pm it turned, and we ended the day at our third best stall out of six.',
+  },
 ];
 
 function StallEntry({ stall, index }: { stall: Stall; index: number }) {
   const entryRef = useRef<HTMLDivElement>(null);
-  // Fires when the entry sits in the same band as the cyan tip (roughly viewport center)
   const inReadingZone = useInView(entryRef, { margin: '-40% 0px -50% 0px' });
   const dotPulse = inReadingZone ? { scale: [1, 1.6, 1] } : { scale: 1 };
   const dotTransition = { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const };
+  const isNote = stall.kind === 'note';
+
+  const dotGradient = isNote
+    ? 'from-amber-300 to-orange-400'
+    : 'from-cyan-300 to-blue-500';
+  const dotBorder = isNote ? 'border-amber-300/30' : 'border-cyan-300/30';
+  const dotShadow = isNote
+    ? 'shadow-[0_0_0_3px_rgba(251,191,36,0.08)]'
+    : 'shadow-[0_0_0_3px_rgba(6,182,212,0.08)]';
+  const dotShadowMd = isNote
+    ? 'shadow-[0_0_0_4px_rgba(251,191,36,0.08)]'
+    : 'shadow-[0_0_0_4px_rgba(6,182,212,0.08)]';
+  const labelColor = isNote ? 'text-amber-300/70' : 'text-cyan-300/70';
+  const dividerColor = isNote ? 'from-amber-400/30 via-orange-500/10' : 'from-cyan-400/30 via-blue-500/10';
+  const cardGradient = isNote
+    ? 'from-amber-500/[0.05] via-transparent to-orange-500/[0.03]'
+    : 'from-cyan-500/[0.04] via-transparent to-blue-500/[0.04]';
+  const pullBorder = isNote ? 'border-amber-400/40' : 'border-cyan-400/40';
+  const pullText = isNote ? 'text-amber-100/90' : 'text-cyan-100/90';
 
   return (
     <div ref={entryRef} className="relative flex flex-col md:flex-row md:gap-10 pb-16 sm:pb-24 pl-12 md:pl-0">
-      {/* Mobile dot, sits on the rail at left-9 */}
       <motion.div
         animate={dotPulse}
         transition={dotTransition}
-        className="md:hidden absolute left-3 top-2 h-4 w-4 rounded-full border border-cyan-300/30 bg-[#0a0f1a] shadow-[0_0_0_3px_rgba(6,182,212,0.08)]"
+        className={`md:hidden absolute left-3 top-2 h-4 w-4 rounded-full border ${dotBorder} bg-[#0a0f1a] ${dotShadow}`}
       >
-        <div className="absolute inset-1 rounded-full bg-gradient-to-br from-cyan-300 to-blue-500" />
+        <div className={`absolute inset-1 rounded-full bg-gradient-to-br ${dotGradient}`} />
       </motion.div>
       <div className="sticky top-24 md:top-32 self-start md:w-64 md:flex-shrink-0 md:pl-24 z-10 -mt-2 mb-6 md:mb-0">
         <motion.div
           animate={dotPulse}
           transition={dotTransition}
-          className="hidden md:block absolute left-8 top-2 h-5 w-5 rounded-full border border-cyan-300/30 bg-[#0a0f1a] shadow-[0_0_0_4px_rgba(6,182,212,0.08)]"
+          className={`hidden md:block absolute left-8 top-2 h-5 w-5 rounded-full border ${dotBorder} bg-[#0a0f1a] ${dotShadowMd}`}
         >
-          <div className="absolute inset-1 rounded-full bg-gradient-to-br from-cyan-300 to-blue-500" />
+          <div className={`absolute inset-1 rounded-full bg-gradient-to-br ${dotGradient}`} />
         </motion.div>
         <div className="flex items-center gap-3 md:flex-col md:items-start">
-          <span className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.28em] text-cyan-300/70" style={{ fontFamily: 'Jost, sans-serif' }}>
+          <span className={`text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.28em] ${labelColor}`} style={{ fontFamily: 'Jost, sans-serif' }}>
             {stall.label}
           </span>
           <div className="hidden md:block w-8 h-px bg-cyan-400/30" />
@@ -141,24 +186,28 @@ function StallEntry({ stall, index }: { stall: Stall; index: number }) {
         className="flex-1 md:pr-4"
       >
         <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 sm:p-7 backdrop-blur-xl relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/[0.04] via-transparent to-blue-500/[0.04] pointer-events-none" />
+          <div className={`absolute inset-0 bg-gradient-to-br ${cardGradient} pointer-events-none`} />
           <div className="relative">
-            <div className="flex flex-wrap items-center gap-2 mb-3">
-              <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.2em] text-cyan-200" style={{ fontFamily: 'Jost, sans-serif' }}>
-                {stall.location}
-              </span>
-              {stall.partner && (
-                <span className="rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400" style={{ fontFamily: 'Jost, sans-serif' }}>
-                  via {stall.partner}
-                </span>
-              )}
-            </div>
+            {!isNote && (stall.location || stall.partner) && (
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                {stall.location && (
+                  <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.2em] text-cyan-200" style={{ fontFamily: 'Jost, sans-serif' }}>
+                    {stall.location}
+                  </span>
+                )}
+                {stall.partner && (
+                  <span className="rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400" style={{ fontFamily: 'Jost, sans-serif' }}>
+                    via {stall.partner}
+                  </span>
+                )}
+              </div>
+            )}
 
             <h3 className="text-xl sm:text-2xl lg:text-[26px] leading-[1.2] text-white" style={{ fontFamily: 'Cinzel, serif' }}>
               {stall.title}
             </h3>
 
-            <div className="mt-5 h-px w-full bg-gradient-to-r from-cyan-400/30 via-blue-500/10 to-transparent" />
+            <div className={`mt-5 h-px w-full bg-gradient-to-r ${dividerColor} to-transparent`} />
 
             <div className="mt-6 space-y-4" style={{ fontFamily: 'Inter, sans-serif' }}>
               {stall.paragraphs.map((p, i) => (
@@ -169,26 +218,28 @@ function StallEntry({ stall, index }: { stall: Stall; index: number }) {
             </div>
 
             {stall.pull && (
-              <blockquote className="mt-6 border-l-2 border-cyan-400/40 pl-5 py-1">
-                <p className="text-base sm:text-lg text-cyan-100/90" style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', lineHeight: 1.6 }}>
+              <blockquote className={`mt-6 border-l-2 ${pullBorder} pl-5 py-1`}>
+                <p className={`text-base sm:text-lg ${pullText}`} style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', lineHeight: 1.6 }}>
                   "{stall.pull}"
                 </p>
               </blockquote>
             )}
 
-            <div className={`mt-7 grid gap-3 ${stall.images.length === 1 ? 'grid-cols-1' : stall.images.length === 2 ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'}`}>
-              {stall.images.map((img, i) => (
-                <figure key={i} className="group relative overflow-hidden rounded-xl border border-white/[0.06] bg-[#0c1220]">
-                  <img
-                    src={img.src}
-                    alt={img.alt}
-                    loading={index === 0 && i === 0 ? 'eager' : 'lazy'}
-                    className="h-full w-full object-cover aspect-[4/3] transition-transform duration-700 group-hover:scale-[1.03]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                </figure>
-              ))}
-            </div>
+            {!isNote && stall.images && stall.images.length > 0 && (
+              <div className={`mt-7 grid gap-3 ${stall.images.length === 1 ? 'grid-cols-1' : stall.images.length === 2 ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'}`}>
+                {stall.images.map((img, i) => (
+                  <figure key={i} className="group relative overflow-hidden rounded-xl border border-white/[0.06] bg-[#0c1220]">
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      loading={index === 0 && i === 0 ? 'eager' : 'lazy'}
+                      className={`h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03] ${img.portrait ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </figure>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </motion.div>
@@ -221,7 +272,7 @@ export default function StallsTimeline() {
 
   return (
     <div ref={containerRef} className="not-prose relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 my-10">
-      <div className="absolute top-0 left-9 sm:left-14 lg:left-[72px] w-px h-full bg-gradient-to-b from-transparent via-white/[0.08] to-transparent" aria-hidden>
+      <div className="absolute top-0 left-9 sm:left-11 md:left-[66px] lg:left-[72px] w-px h-full bg-gradient-to-b from-transparent via-white/[0.08] to-transparent" aria-hidden>
         <motion.div
           style={{ height: heightTransform, opacity: opacityTransform }}
           className="absolute inset-x-0 top-0 w-px bg-gradient-to-b from-cyan-300 via-cyan-400 to-blue-500"

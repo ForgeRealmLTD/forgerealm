@@ -25,16 +25,10 @@
     ],
     "strict": false,
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
   },
   "include": [
     "**/*",
-    ".astro/types.d.ts",
-    ".next/types/**/*.ts"
+    ".astro/types.d.ts"
   ],
   "exclude": [
     "dist/"
