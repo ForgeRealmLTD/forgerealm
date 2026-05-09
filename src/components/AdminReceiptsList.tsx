@@ -14,9 +14,14 @@ type Receipt = {
 
 const envBase =
   typeof import.meta !== 'undefined' && import.meta.env && typeof import.meta.env.PUBLIC_API_URL === 'string'
-    ? import.meta.env.PUBLIC_API_URL.trim().replace(/\/$/, '')
-    : '';
-const API_BASE = envBase || 'http://localhost:8080';
+    ? import.meta.env.PUBLIC_API_URL.trim().replace(/\/$/, '') : '';
+const envLocal =
+  typeof import.meta !== 'undefined' && import.meta.env && typeof import.meta.env.PUBLIC_API_URL_LOCAL === 'string'
+    ? import.meta.env.PUBLIC_API_URL_LOCAL.trim().replace(/\/$/, '') : '';
+const API_BASE =
+  typeof window !== 'undefined' && window.location.origin.startsWith('http://localhost')
+    ? envLocal || envBase || 'http://localhost:8080'
+    : envBase || 'http://localhost:8080';
 
 const gbp = (p: number) => `£${(p / 100).toFixed(2)}`;
 
@@ -71,35 +76,44 @@ const AdminReceiptsList = () => {
       .catch(() => alert('Could not download PDF'));
   };
 
+  const templateCard = (
+    <div className="flex items-center justify-between gap-4 rounded-2xl border border-blue-400/20 bg-blue-500/5 px-6 py-4">
+      <div>
+        <p className="text-xs uppercase tracking-widest text-blue-300 mb-1">Sample</p>
+        <p className="text-sm font-semibold text-white">Template Invoice</p>
+        <p className="text-xs text-slate-400 mt-0.5">Preview the invoice layout used for all orders.</p>
+      </div>
+      <button
+        onClick={openTemplate}
+        className="shrink-0 rounded-xl border border-blue-400/30 bg-blue-500/10 px-4 py-2 text-sm text-blue-300 hover:bg-blue-500/20 hover:text-white transition"
+      >
+        View Template
+      </button>
+    </div>
+  );
+
   if (loading) return (
     <div className="py-20 text-center text-slate-400">Loading receipts...</div>
   );
 
   if (error) return (
-    <div className="rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">{error}</div>
+    <div className="space-y-6">
+      {templateCard}
+      <div className="rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">{error}</div>
+    </div>
   );
 
   if (!receipts.length) return (
-    <div className="py-20 text-center text-slate-400">No receipts yet. They appear here after completed Stripe payments.</div>
+    <div className="space-y-6">
+      {templateCard}
+      <div className="py-12 text-center text-slate-400">No receipts yet. They appear here after completed Stripe payments.</div>
+    </div>
   );
 
   return (
     <div className="space-y-6">
 
-      {/* Template invoice card */}
-      <div className="flex items-center justify-between gap-4 rounded-2xl border border-blue-400/20 bg-blue-500/5 px-6 py-4">
-        <div>
-          <p className="text-xs uppercase tracking-widest text-blue-300 mb-1">Sample</p>
-          <p className="text-sm font-semibold text-white">Template Invoice</p>
-          <p className="text-xs text-slate-400 mt-0.5">Preview the invoice layout used for all orders.</p>
-        </div>
-        <button
-          onClick={openTemplate}
-          className="shrink-0 rounded-xl border border-blue-400/30 bg-blue-500/10 px-4 py-2 text-sm text-blue-300 hover:bg-blue-500/20 hover:text-white transition"
-        >
-          View Template
-        </button>
-      </div>
+      {templateCard}
 
     <div className="rounded-2xl border border-white/10 bg-white/5 shadow-xl shadow-blue-500/10 backdrop-blur overflow-hidden">
       <div className="flex items-center justify-between gap-3 px-6 py-4 border-b border-white/10">
