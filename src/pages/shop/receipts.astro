@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ShopNavbar from '../../components/ShopNavbar';
+import AdminReceiptsList from '../../components/AdminReceiptsList';
+---
+
+<BaseLayout title="Receipts | ForgeRealm" description="Admin view of all ForgeRealm receipts">
+  <ShopNavbar client:load />
+  <main class="min-h-[100dvh] bg-slate-950 text-white">
+    <div class="h-24 md:h-28" />
+    <section class="mx-auto w-full max-w-6xl px-6 sm:px-10 pb-16">
+      <div class="mb-8 flex items-center justify-between gap-4">
+        <div>
+          <p class="text-xs uppercase tracking-[0.25em] text-blue-200">Admin</p>
+          <h1 class="text-3xl font-semibold">Receipts</h1>
+          <p class="text-sm text-slate-300 mt-2">All generated invoices — admin only.</p>
+        </div>
+        <a href="/shop/dashboard" class="hidden sm:inline-flex text-sm uppercase tracking-wide text-blue-300 hover:text-white transition">
+          &larr; Dashboard
+        </a>
+      </div>
+      <AdminReceiptsList client:load />
+    </section>
+  </main>
+</BaseLayout>

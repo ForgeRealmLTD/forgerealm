@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FiUser, FiShoppingBag, FiMail, FiHeart, FiSettings, FiStar, FiGift, FiBookOpen, FiMessageCircle, FiTruck, FiAward, FiZap } from 'react-icons/fi';
+import { FiUser, FiShoppingBag, FiMail, FiHeart, FiSettings, FiStar, FiGift, FiBookOpen, FiMessageCircle, FiTruck, FiAward, FiZap, FiFileText, FiUsers, FiShield } from 'react-icons/fi';
 
 const envBase =
   typeof import.meta !== 'undefined' && import.meta.env && typeof import.meta.env.PUBLIC_API_URL === 'string'
@@ -266,6 +266,57 @@ const Dashboard = () => {
             </div>
           </div>
         </section>
+
+        {/* ── Admin Tools (admin only) ── */}
+        {user?.role === 'admin' && (
+          <section className="relative overflow-hidden rounded-2xl border border-amber-400/20 bg-amber-500/5 backdrop-blur-xl">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(251,191,36,0.06),transparent_60%)] pointer-events-none" />
+            <div className="relative p-5 sm:p-8">
+              <div className="flex items-center gap-2.5 mb-5">
+                <FiShield className="text-amber-400 text-sm" />
+                <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-amber-400/80">Admin Tools</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <a
+                  href="/shop/receipts"
+                  className="group flex items-center gap-4 rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 transition hover:bg-white/[0.06] hover:border-amber-400/20"
+                >
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-400/20 bg-amber-500/10 text-amber-400 transition group-hover:bg-amber-500/20">
+                    <FiFileText className="text-lg" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-white">Receipts</p>
+                    <p className="text-[11px] text-slate-500">All generated invoices</p>
+                  </div>
+                </a>
+                <a
+                  href="/shop/users"
+                  className="group flex items-center gap-4 rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 transition hover:bg-white/[0.06] hover:border-amber-400/20"
+                >
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-400/20 bg-amber-500/10 text-amber-400 transition group-hover:bg-amber-500/20">
+                    <FiUsers className="text-lg" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-white">Users</p>
+                    <p className="text-[11px] text-slate-500">Manage realm members</p>
+                  </div>
+                </a>
+                <a
+                  href="/shop/kiosk"
+                  className="group flex items-center gap-4 rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 transition hover:bg-white/[0.06] hover:border-amber-400/20"
+                >
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-400/20 bg-amber-500/10 text-amber-400 transition group-hover:bg-amber-500/20">
+                    <FiZap className="text-lg" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-white">Kiosk</p>
+                    <p className="text-[11px] text-slate-500">Stall display mode</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* ── Featured Products ── */}
         <section className="relative border-t border-white/5 pt-8">

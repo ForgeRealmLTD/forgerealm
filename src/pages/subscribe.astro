@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+const publicApiUrl = import.meta.env.PUBLIC_API_URL || '';
+const publicApiUrlLocal = import.meta.env.PUBLIC_API_URL_LOCAL || '';
 ---
 
 <BaseLayout title="Subscribe | ForgeRealm" description="Subscribe to get notified about ForgeRealm booths, products, and offers.">
@@ -138,13 +140,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </section>
 </BaseLayout>
 
-<script is:inline>
+<script define:vars={{ publicApiUrl, publicApiUrlLocal }}>
   const form = document.getElementById('subscribe-form');
   const toast = document.getElementById('subscribe-toast');
   const apiBase =
     window.location.origin.startsWith('http://localhost')
-      ? (import.meta.env.PUBLIC_API_URL_LOCAL || import.meta.env.PUBLIC_API_URL || '')
-      : (import.meta.env.PUBLIC_API_URL || import.meta.env.PUBLIC_API_URL_LOCAL || '');
+      ? (publicApiUrlLocal || publicApiUrl || '')
+      : (publicApiUrl || publicApiUrlLocal || '');
 
   form?.addEventListener('submit', async (event) => {
     event.preventDefault();

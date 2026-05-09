@@ -13,6 +13,7 @@ const subscribeRoutes = require('./routes/subscribe.routes');
 const userRoutes = require('./routes/users.routes');
 const orderRoutes = require('./routes/orders.routes');
 const webhookRoutes = require('./routes/webhook.routes');
+const receiptsRoutes = require('./routes/receipts.routes');
 const { notFound, errorHandler } = require('./utils/errors');
 const { verifyPassword, rehashIfNeeded } = require('./controllers/auth.controller');
 const pool = require('./config/db');
@@ -221,6 +222,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/subscribe', subscribeRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/receipts', receiptsRoutes);
 
 // 404 + error handling
 app.use(notFound);

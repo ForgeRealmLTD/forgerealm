@@ -3,7 +3,7 @@ const { ApiError } = require('./errors');
 /**
  * Send an email via the Brevo (Sendinblue) transactional API.
  */
-const sendBrevoEmail = async ({ to, toName, subject, htmlContent }) => {
+const sendBrevoEmail = async ({ to, toName, subject, htmlContent, attachment }) => {
   const apiKey = process.env.BREVO_API_KEY;
   const senderEmail = process.env.BREVO_SENDER_EMAIL || 'info@forgerealm.co.uk';
   const senderName = process.env.BREVO_SENDER_NAME || 'ForgeRealm';
@@ -18,6 +18,11 @@ const sendBrevoEmail = async ({ to, toName, subject, htmlContent }) => {
     subject,
     htmlContent,
   };
+
+  // attachment: { buffer: Buffer, filename: string }
+  if (attachment?.buffer) {
+    payload.attachment = [{ content: attachment.buffer.toString('base64'), name: attachment.filename }];
+  }
 
   const response = await fetch('https://api.brevo.com/v3/smtp/email', {
     method: 'POST',

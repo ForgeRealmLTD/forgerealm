@@ -42,6 +42,9 @@
 # uploads and generated assets
 /backend/uploads
 
+# generated invoice previews (local dev only)
+scripts/invoice-preview.pdf
+
 # misc
 .DS_Store
 *.pem

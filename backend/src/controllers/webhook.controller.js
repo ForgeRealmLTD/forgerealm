@@ -1,6 +1,7 @@
 const Stripe = require('stripe');
 const { asyncHandler } = require('../utils/errors');
-const { sendOrderConfirmation } = require('../utils/email');
+const { sendOrderConfirmation, sendBrevoEmail } = require('../utils/email');
+const { generateInvoicePdf } = require('../utils/invoice');
 const pool = require('../config/db');
 
 const handleStripeWebhook = asyncHandler(async (req, res) => {
@@ -103,29 +104,58 @@ async function handleCheckoutComplete(stripe, session) {
 
   console.log(`Order #${result.insertId} created for session ${session.id}`);
 
-  // Send confirmation email
-  if (customerEmail) {
-    const subtotal = session.amount_subtotal || 0;
-    const shipping = total - subtotal;
-    const customerName = session.metadata?.customer_name || session.customer_details?.name || 'Guest';
+  // Generate receipt PDF, store in DB, and email to customer
+  const subtotalPence = session.amount_subtotal || 0;
+  const shippingPence = total - subtotalPence;
+  const customerName  = session.metadata?.customer_name || session.customer_details?.name || 'Guest';
+  const invoiceNumber = `#FR-${new Date().getFullYear()}-${String(result.insertId).padStart(5, '0')}`;
 
-    try {
-      await sendOrderConfirmation({
-        order: {
-          id: result.insertId,
-          customer_name: customerName,
-          customer_email: customerEmail,
-          shipping_address: shippingAddress,
-          items: itemsWithIds,
-          subtotal_pence: subtotal,
-          shipping_pence: shipping,
-          total_pence: total,
-        },
+  try {
+    const pdfBuffer = await generateInvoicePdf({
+      invoiceNumber,
+      customerName,
+      customerEmail,
+      shippingAddress,
+      items: itemsWithIds,
+      subtotalPence,
+      shippingPence,
+      totalPence: total,
+      createdAt: new Date(),
+    });
+
+    // Store receipt in DB
+    await pool.query(
+      `INSERT INTO receipts
+        (order_id, invoice_number, customer_name, customer_email, items_json, subtotal_pence, shipping_pence, total_pence, pdf_data)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        session.id, invoiceNumber, customerName, customerEmail,
+        JSON.stringify(itemsWithIds), subtotalPence, shippingPence, total, pdfBuffer,
+      ]
+    );
+    console.log(`Receipt ${invoiceNumber} stored for order #${result.insertId}`);
+
+    // Email customer with PDF attached
+    if (customerEmail) {
+      await sendBrevoEmail({
+        to: customerEmail,
+        toName: customerName,
+        subject: `Your ForgeRealm receipt ${invoiceNumber}`,
+        htmlContent: `
+          <div style="font-family:Arial,sans-serif;background:#0b1220;color:#e2e8f0;padding:32px;">
+            <h2 style="color:#f8fafc;">Thanks for your order, ${customerName.split(' ')[0]}!</h2>
+            <p style="color:#94a3b8;">Your ForgeRealm receipt is attached to this email as a PDF.</p>
+            <p style="color:#94a3b8;">Order total: <strong style="color:#f8fafc;">£${(total / 100).toFixed(2)}</strong></p>
+            <p style="color:#64748b;font-size:13px;">All prints are crafted from biodegradable PLA and dispatched within 3–5 business days.</p>
+            <p style="color:#64748b;font-size:12px;">ForgeRealm · Leeds, United Kingdom · info@forgerealm.co.uk</p>
+          </div>
+        `,
+        attachment: { buffer: pdfBuffer, filename: `${invoiceNumber.replace('#', '')}.pdf` },
       });
-      console.log(`Confirmation email sent to ${customerEmail}`);
-    } catch (err) {
-      console.error('Failed to send order confirmation email:', err.message);
+      console.log(`Receipt email sent to ${customerEmail}`);
     }
+  } catch (err) {
+    console.error('Failed to generate/send receipt:', err.message);
   }
 }
 
