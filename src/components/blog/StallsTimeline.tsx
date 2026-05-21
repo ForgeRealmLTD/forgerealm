@@ -25,9 +25,8 @@ const stalls: Stall[] = [
       { src: '/blog/2albionStall1.jpg', alt: 'Close-up of the first stall\'s display table.' },
     ],
     paragraphs: [
-      'This was the one that turned "DnD prop hobby" into an actual side hustle. The company we booked through was running it as the Christmas market of Albion, which technically makes our debut a Christmas stall. It was also the priciest booking we\'ve made to date, and neither of us slept much the night before. Somehow, against all odds, we broke even and then some, and we\'ve tried hard not to let that set a false baseline, but it was a generous start.',
-      'We will never forget our first customer ever. She goes by the pen name Michelle March, she\'d flown in from the US to support us, and she bought something from the table before we\'d even finished setting up. She\'s an artist with a real eye for design, which hit home for us because "artisan 3D printing" is exactly the identity we want: hand-finished, post-processed in-house, treated like craft. We also met someone building long-range secure routers who was looking for a manufacturer for the shells. Tempting, but a B2B commitment of that scale didn\'t make sense on our first stall. We said no and we still think that was the right call.',
-      'Looking at the photos now, the display itself looked rough. We hadn\'t invested in anything. We just grabbed what we had lying around the house and made it work. You can also tell from the picture we had no tarpaulin behind the stall, which meant we spent the day fighting the wind and the rain while our neighbours stayed snug behind theirs. Painful, but we learned.',
+      'The one that turned the DnD-prop hobby into an actual side hustle. Albion\'s Christmas market with Artsmix, our priciest booking to date and neither of us slept the night before. Against all odds, we broke even and then some.',
+      'We\'ll never forget our first customer ever, Michelle March, an artist who\'d flown in from the US and bought from the table before we\'d even finished setting up. The display itself was rough: no tarpaulin, no real branding, just stuff from the kitchen table. We spent the day fighting wind and rain. Painful, but we learned.',
     ],
     pull: 'Our first customer bought from us before we\'d even finished setting up.',
   },
@@ -57,9 +56,8 @@ const stalls: Stall[] = [
       { src: '/blog/3albionStall3.jpg', alt: 'Wider view of Stall 3 on a sunny Saturday in Leeds.' },
     ],
     paragraphs: [
-      'Stall 3 is where ForgeRealm started looking like ForgeRealm. We\'d commissioned our own branded tarpaulin and banner, printed business cards that people could actually take home, and tightened up the display properly. For the first time it felt less like two guys selling prints and more like a brand.',
-      'The weather did us a massive favour that day: clear sunshine from open to close. That matters more than it sounds, because so much of our work is printed in silk PLA, and silk PLA in direct sunlight is a completely different object. The colours practically shimmer. People stopped for the glint before they\'d even processed what the items were.',
-      'This is still, to date, our most successful stall. Everything lined up: the weather, the display, the branding, the foot traffic. It\'s the one we\'re using as the bar.',
+      'Stall 3 is where ForgeRealm started looking like ForgeRealm: branded tarpaulin and banner, proper business cards, a tightened-up display. For the first time it felt less like two guys selling prints and more like a brand.',
+      'The weather did us a massive favour: clear sunshine open to close. Silk PLA in direct sunlight is a completely different object; people stopped for the glint before they\'d even processed what the items were. Still our most successful stall to date and the one we\'re using as the bar.',
     ],
     pull: 'Silk PLA in direct sunlight is a completely different object.',
   },
@@ -74,9 +72,8 @@ const stalls: Stall[] = [
       { src: '/blog/2kirkgateStall4.jpg', alt: 'Display detail at Kirkgate Market with the full medieval-fantasy front.' },
     ],
     paragraphs: [
-      'First stall outside of Albion. Still central Leeds, still one of our favourite markets in the city. If you live in Leeds you love Kirkgate by default, it\'s the law. Shorter hours, lower booking cost, easier parking, less setup fatigue. We went home less shattered than usual.',
-      'Kirkgate is also where we properly committed to the medieval-fantasy aesthetic for the stall front, the same direction you\'re seeing across this website, with the aurora, the Cinzel headings, the serif accents. It landed. For the first time other traders, people who\'ve been doing this for years, came over to tell us the stall looked good. That meant a lot.',
-      'Commercially it was strong, especially given it was shorter hours and indoors (so less footfall than a sunny outdoor market). Not Stall 3 numbers, which made sense, but we\'d absolutely do Kirkgate again if the slot opened up.',
+      'First stall outside of Albion. Still central Leeds, still one of our favourite markets in the city. If you live here you love Kirkgate by default. Shorter hours, lower booking cost, easier parking; we went home less shattered than usual.',
+      'This is also where we properly committed to the medieval-fantasy aesthetic for the stall front. It landed: for the first time other traders, people who\'d been doing this for years, came over to say the stall looked good. Commercially strong given the shorter hours, and we\'d absolutely do Kirkgate again.',
     ],
   },
   {
@@ -90,9 +87,8 @@ const stalls: Stall[] = [
       { src: '/blog/2alwoodleyStall5.jpg', alt: 'The Avenue stall laid out in Dawn\'s style, our best-looking stall to date.' },
     ],
     paragraphs: [
-      'Stall 5 was a deliberate experiment: what happens when we set up outside the city centre, in a residential area? Commercially it wasn\'t our best, but we expected that going in. This was a test, not a peak. What it was, genuinely, was the most wholesome day we\'ve had. The other traders were kind, experienced, and quietly supportive of each other in a way you don\'t always see at bigger markets.',
-      'This is also where we met our first real "competitor", and I use that word loosely, because he\'d been selling 3D prints for five-plus years and his range (action figures, bird houses) barely overlaps with ours (animals, mythical creatures, lamps, fidgets). He came over first, to support us. He gave us a stack of advice we\'re now weaving into the day-to-day, both for running a stall and for getting more out of a full print farm. We\'re still in touch with him, still learning.',
-      'We also met Dawn, who was selling baby products. Her displays are beautiful, and she offered to help us tidy ours up. She basically set up our stall for us, in the layout you can see in the photos. It\'s the best ForgeRealm has ever looked. The plan going forward is to evolve from Dawn\'s base, not abandon it. Thank you, Dawn.',
+      'Stall 5 was a deliberate experiment: what happens when we set up outside the city centre, in a residential area? Commercially it wasn\'t our best, but we expected that going in. What it was, genuinely, was the most wholesome day we\'ve had.',
+      'We met our first real "competitor", a printer of five-plus years with a different range entirely. He came over first to support us and gave us a stack of advice we\'re still using. We also met Dawn, who sells baby products. Her displays are beautiful, and she basically set up our stall for us in the layout you see in the photos. The plan is to evolve from Dawn\'s base, not abandon it.',
     ],
     pull: 'The plan going forward is to evolve from Dawn\'s base, not abandon it.',
   },
