@@ -85,6 +85,16 @@ const SignIn = () => {
       if (data?.token && typeof window !== 'undefined') {
         localStorage.setItem('forgerealm_admin_token', data.token);
         window.dispatchEvent(new Event('forgerealm-admin-token-changed'));
+        // Identify the signed-in customer in the Brevo chat widget so the
+        // inbox shows real info instead of "anonymous visitor".
+        const identify = (window as any).identifyCustomerInBrevo;
+        if (typeof identify === 'function') {
+          identify({
+            email: username,
+            firstName: data.user?.firstName ?? data.user?.first_name,
+            lastName: data.user?.lastName ?? data.user?.last_name,
+          });
+        }
       }
       setLoggedIn(true);
       setStatus({ type: 'success', message: 'Signed in successfully' });
