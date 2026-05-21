@@ -11,6 +11,13 @@ const {
   title = 'ForgeRealm',
   description = 'ForgeRealm powered by Astro'
 } = Astro.props;
+
+// Brevo Conversations widget — Conversations ID lives in .env.local as
+// PUBLIC_BREVO_CONVERSATIONS_ID (grab it from app.brevo.com → Conversations →
+// Settings → Install). Most visual tweaks (welcome message, agent avatar,
+// auto-replies, business hours) are configured in the Brevo dashboard; what we
+// override here is the embed-time setup so the launcher fits the site brand.
+const brevoConversationsId = import.meta.env.PUBLIC_BREVO_CONVERSATIONS_ID;
 ---
 
 <!doctype html>
@@ -53,5 +60,69 @@ const {
         targets.forEach((el) => observer.observe(el));
       })();
     </script>
+
+    {brevoConversationsId && (
+      <script is:inline define:vars={{ brevoConversationsId }}>
+        // Pre-load setup so the widget is on-brand the moment it mounts.
+        window.BrevoConversationsSetup = {
+          buttonColor: '#3b82f6',
+          buttonPosition: 'br',
+          zIndex: 2147483646,
+          locale: 'en',
+        };
+        (function (d, w, c) {
+          w.BrevoConversationsID = brevoConversationsId;
+          w[c] = w[c] || function () { (w[c].q = w[c].q || []).push(arguments); };
+          var s = d.createElement('script');
+          s.async = true;
+          s.src = 'https://conversations-widget.brevo.com/brevo-conversations.js';
+          if (d.head) d.head.appendChild(s);
+        })(document, window, 'BrevoConversations');
+
+        // Customer identity hook — Brevo's stub queues calls before the real
+        // widget loads, so we can fire updateIntegrationData immediately.
+        function identifyInBrevo(c) {
+          if (!c || !window.BrevoConversations) return;
+          var payload = {};
+          if (c.email)     payload.email     = c.email;
+          if (c.firstName) payload.firstName = c.firstName;
+          if (c.lastName)  payload.lastName  = c.lastName;
+          if (c.phone)     payload.phone     = c.phone;
+          if (Object.keys(payload).length) {
+            window.BrevoConversations('updateIntegrationData', payload);
+          }
+        }
+
+        // Auto-identify from the shop's saved customer details, if present.
+        try {
+          var raw = localStorage.getItem('fr_customer');
+          if (raw) identifyInBrevo(JSON.parse(raw));
+        } catch (_) { /* ignore */ }
+
+        // Re-identify when the saved details change (e.g. after checkout opts
+        // in to save, or after a sign-in flow that writes fr_customer).
+        window.addEventListener('storage', function (e) {
+          if (e.key === 'fr_customer' && e.newValue) {
+            try { identifyInBrevo(JSON.parse(e.newValue)); } catch (_) {}
+          }
+        });
+
+        // Expose a manual hook so SignIn / checkout can identify on the same
+        // tab (storage events only fire across tabs). Call:
+        //   window.identifyCustomerInBrevo({ firstName, email, ... })
+        window.identifyCustomerInBrevo = identifyInBrevo;
+
+        // Brand-voice locale overrides. Brevo only exposes a few keys publicly;
+        // anything missing here is controlled in the Brevo dashboard
+        // (Conversations → Chat widget → Preferences / Localization).
+        window.BrevoConversations('setLocale', {
+          locale: 'en',
+          translations: {
+            'chat.placeholder': 'Drop us a message…',
+            'chat.send': 'Send',
+          },
+        });
+      </script>
+    )}
   </body>
 </html>
