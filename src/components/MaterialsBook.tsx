@@ -868,8 +868,11 @@ export default function MaterialsBook() {
           style={{
             position: 'relative',
             width: '100%',
-            // Hold the parent height steady through the transition so the page doesn't reflow / scroll-jump
-            minHeight: isMobile ? 720 : 900,
+            // Each state (selector / open book) now has its own card around it, so
+            // we size the parent's reserved height to the active state — keeps
+            // page reflow minimal during the transition without leaving dead
+            // space below the smaller closed-card state.
+            minHeight: active ? (isMobile ? 560 : 760) : (isMobile ? 460 : 540),
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -884,7 +887,8 @@ export default function MaterialsBook() {
                 animate={isMobile ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
                 exit={isMobile ? { opacity: 0 } : { opacity: 0, scale: 0.97, y: 8 }}
                 transition={{ duration: isMobile ? 0.18 : 0.28, ease: [0.22, 1, 0.36, 1] }}
-                style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+                className="md:p-8 lg:p-10 md:rounded-[2rem] md:border md:border-white/10 md:bg-white/[0.03] md:shadow-[0_30px_80px_-12px_rgba(0,0,0,0.75),inset_0_1px_0_rgba(255,255,255,0.05)]"
+                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
               >
                 <BookView material={active} onBack={() => setActive(null)} HTMLFlipBook={HTMLFlipBook} isMobile={isMobile} />
               </motion.div>
@@ -895,7 +899,8 @@ export default function MaterialsBook() {
                 animate={isMobile ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
                 exit={isMobile ? { opacity: 0 } : { opacity: 0, scale: 0.97, y: -6 }}
                 transition={{ duration: isMobile ? 0.15 : 0.25, ease: [0.22, 1, 0.36, 1] }}
-                style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+                className="md:p-8 lg:p-10 md:rounded-[2rem] md:border md:border-white/10 md:bg-white/[0.03] md:shadow-[0_30px_80px_-12px_rgba(0,0,0,0.75),inset_0_1px_0_rgba(255,255,255,0.05)]"
+                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
               >
                 <BookSelector onSelect={setActive} isMobile={isMobile} />
                 <p
