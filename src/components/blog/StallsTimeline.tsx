@@ -114,10 +114,42 @@ const stalls: Stall[] = [
       { src: '/blog/2albionStall6.jpg', alt: 'Ishmam and Tobi behind the ForgeRealm Leeds banner at Stall 06, Albion Place.' },
     ],
     paragraphs: [
-      'There was a large protest running through the city that day. Six people were arrested near The Headrow, right next to Albion, and foot traffic was low because of it. Alex, who runs AR jewellery and first set up next to us at Stall 2, came over and said the whole market was feeling it. Not just us.',
-      'Around 4pm it turned. A surge late in the day pushed us to third best out of the six stalls we\'ve done, which is a result given the context. Pack-down had its own moment when a rising metal bollard caught a white van near our cars and we had to shift our stock further up so we could get through. Nobody hurt, just one of those days.',
+      'A large protest ran through the city that day. Six people were arrested near The Headrow, right next to Albion, and foot traffic was low because of it. By early afternoon we\'d more or less written the stall off.',
+      'Then around 4pm it turned. A late surge pulled the day into a result a lot better than we\'d expected, and we left genuinely proud of how the stall looked. Best presentation to date, and proof the branded front was earning its place. Pack-down had its own moment when a rising metal bollard caught a white van near our cars (nobody hurt, just one of those days).',
     ],
-    pull: 'Around 4pm it turned, and we ended the day at our third best stall out of six.',
+    pull: 'We left genuinely proud of how the stall looked, our best presentation to date.',
+  },
+  {
+    label: 'Stall 07',
+    date: '9 May 2026',
+    title: 'Albion, our new third best',
+    location: 'Albion Place, Leeds',
+    partner: 'Artsmix',
+    images: [
+      { src: '/blog/albionStall7.jpg', alt: 'ForgeRealm at Stall 07, Albion Place, with the first proper product sheets on the table.', portrait: true },
+      { src: '/blog/2albionStall7.jpg', alt: 'Display detail at Stall 07 showing the new printed price sheets in front of the silk PLA pieces.', portrait: true },
+    ],
+    paragraphs: [
+      'Back at Albion and we came in with more confidence in our products than we\'ve ever had. The proof was on the table: our first proper product sheets, openly listing prices. Until now we\'d kept the pricing conversational, partly because the motive and the vibe are what we put the most weight on (the prices reflect that, quietly), but writing the numbers in front of customers felt like a real step up. People responded to it, and product sheets are now a permanent fixture at every stall we run.',
+      'Commercially this one bumped Stall 6 out of the top three. Stall 7 is our new third best to date, and the gap to Stall 3 (still the bar) is closing.',
+    ],
+    pull: 'Stall 7 is our new third best, and the gap to Stall 3 is closing.',
+  },
+  {
+    label: 'Stall 08',
+    date: '17 May 2026',
+    title: 'Manchester Jazz Festival',
+    location: 'Manchester Jazz Festival',
+    images: [
+      { src: '/blog/manchesterStall8.jpg', alt: 'ForgeRealm\'s first stall in Manchester, set up at the Manchester Jazz Festival.' },
+      { src: '/blog/2manchesterStall8.jpg', alt: 'Display detail at the Manchester Jazz Festival stall on a wet afternoon.' },
+      { src: '/blog/3manchesterStall8.jpg', alt: 'Jazz musicians performing live at Manchester Jazz Festival behind the stall.' },
+    ],
+    paragraphs: [
+      'Our first stall outside Leeds and our first time in Manchester, at the Manchester Jazz Festival. Not our best day commercially, but we\'d assumed that going in (new city, no reputation built yet). The weather contributed a fair bit, and the day was shorter than we\'re used to: 11 to 4 versus Albion\'s 9 to 7, with a lot of it taken over by the rain. One thing the photos do show: this was our prettiest setup to date.',
+      'The vibes were great regardless. Food was delicious. We met an experienced trader, shout out to The Mexican Coffee Company, who gave us pro tips and trade secrets on running a stall properly. The third photo is the jazz performance we caught in the gaps; both of us are jazz enthusiasts so that alone made the trip worth it. Four of us travelled together, the owners and our partners, which made it feel less like work and more like a proper day out.',
+    ],
+    pull: 'Our prettiest setup to date, with The Mexican Coffee Company for the tips and the jazz musicians for the soundtrack.',
   },
 ];
 
