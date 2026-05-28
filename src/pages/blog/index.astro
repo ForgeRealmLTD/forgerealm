@@ -45,14 +45,14 @@ const formatShortDate = (date?: Date) =>
                 <span class="relative inline-flex h-2 w-2 rounded-full bg-cyan-300" />
               </span>
               <span class="text-[11px] font-medium uppercase tracking-[0.24em] text-cyan-100" style="font-family: 'Jost', sans-serif;">
-                Next stall confirmed
+                Next stalls confirmed
               </span>
             </div>
             <h3 class="text-2xl sm:text-3xl lg:text-4xl leading-[1.1] text-white" style="font-family: 'Cinzel', serif;">
-              We're heading <em class="text-cyan-300" style="font-family: 'Cormorant Garamond', serif; font-weight: 300;">back to Albion</em>
+              Doubling up at <em class="text-cyan-300" style="font-family: 'Cormorant Garamond', serif; font-weight: 300;">Kirkgate and Albion</em>
             </h3>
             <p class="mt-4 max-w-xl text-base sm:text-lg text-slate-300" style="font-family: 'Cormorant Garamond', serif; font-style: italic; line-height: 1.7;">
-              Saturday 23 May 2026. Albion Place, Leeds. Back on home turf after our Manchester trip, with fresh stock and a tighter display.
+              Saturday 6 June 2026. Two booths, one day, two of our favourite Leeds markets. Stall-maxxing, ForgeRealm style. Kirkgate runs 10 to 4, Albion 9 to 7.
             </p>
             <div class="mt-6 flex flex-wrap items-center gap-3">
               <a
@@ -73,22 +73,32 @@ const formatShortDate = (date?: Date) =>
             </div>
           </div>
 
-          <div class="grid grid-cols-3 gap-3 sm:gap-4">
-            <div class="rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 text-center backdrop-blur-xl">
-              <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70 mb-2" style="font-family: 'Jost', sans-serif;">Day</p>
-              <p class="text-2xl sm:text-3xl text-white" style="font-family: 'Cinzel', serif;">Sat</p>
+          <div class="space-y-3 sm:space-y-4">
+            <!-- Shared date -->
+            <div class="rounded-xl border border-cyan-300/25 bg-cyan-300/[0.06] p-4 backdrop-blur-xl">
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-200 mb-1.5" style="font-family: 'Jost', sans-serif;">Date</p>
+                  <p class="text-xl sm:text-2xl text-white" style="font-family: 'Cinzel', serif;">Sat &middot; 6 June 2026</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70" style="font-family: 'Jost', sans-serif;">Two stalls</p>
+                  <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70" style="font-family: 'Jost', sans-serif;">One day</p>
+                </div>
+              </div>
             </div>
-            <div class="rounded-xl border border-cyan-300/25 bg-cyan-300/[0.06] p-4 text-center backdrop-blur-xl">
-              <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-200 mb-2" style="font-family: 'Jost', sans-serif;">Date</p>
-              <p class="text-2xl sm:text-3xl text-white" style="font-family: 'Cinzel', serif;">23</p>
-            </div>
-            <div class="rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 text-center backdrop-blur-xl">
-              <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70 mb-2" style="font-family: 'Jost', sans-serif;">Month</p>
-              <p class="text-2xl sm:text-3xl text-white" style="font-family: 'Cinzel', serif;">May</p>
-            </div>
-            <div class="col-span-3 rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 text-center backdrop-blur-xl">
-              <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70 mb-1.5" style="font-family: 'Jost', sans-serif;">Where</p>
-              <p class="text-base sm:text-lg text-white" style="font-family: 'Cinzel', serif;">Albion Place, Leeds</p>
+            <!-- Two venues -->
+            <div class="grid grid-cols-2 gap-3 sm:gap-4">
+              <div class="rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 backdrop-blur-xl">
+                <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70 mb-2" style="font-family: 'Jost', sans-serif;">Kirkgate</p>
+                <p class="text-base sm:text-lg text-white leading-tight" style="font-family: 'Cinzel', serif;">Kirkgate Market</p>
+                <p class="mt-2 text-sm text-slate-300" style="font-family: 'Inter', sans-serif;">10am to 4pm</p>
+              </div>
+              <div class="rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 backdrop-blur-xl">
+                <p class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70 mb-2" style="font-family: 'Jost', sans-serif;">Albion</p>
+                <p class="text-base sm:text-lg text-white leading-tight" style="font-family: 'Cinzel', serif;">Albion Place</p>
+                <p class="mt-2 text-sm text-slate-300" style="font-family: 'Inter', sans-serif;">9am to 7pm</p>
+              </div>
             </div>
           </div>
         </div>
