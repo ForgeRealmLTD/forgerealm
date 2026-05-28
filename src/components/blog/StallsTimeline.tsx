@@ -157,7 +157,10 @@ const stalls: Stall[] = [
     title: 'Albion in the warm spell',
     location: 'Albion Place, Leeds',
     partner: 'Artsmix',
-    images: [],
+    images: [
+      { src: '/blog/albionStall9.jpg', alt: 'ForgeRealm at Stall 09, Albion Place, with the full tiered display, branded tablecloth, and QR code on the front.' },
+      { src: '/blog/2albionStall9.jpg', alt: 'Display detail at Stall 09 with the ForgeRealm Leeds price sheet, dragon eggs, and oversized green and purple icosahedrons.', portrait: true },
+    ],
     paragraphs: [],
   },
 ];
