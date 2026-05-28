@@ -151,6 +151,15 @@ const stalls: Stall[] = [
     ],
     pull: 'Our prettiest setup to date, with The Mexican Coffee Company for the tips and the jazz musicians for the soundtrack.',
   },
+  {
+    label: 'Stall 09',
+    date: '23 May 2026',
+    title: 'Albion in the warm spell',
+    location: 'Albion Place, Leeds',
+    partner: 'Artsmix',
+    images: [],
+    paragraphs: [],
+  },
 ];
 
 function StallEntry({ stall, index }: { stall: Stall; index: number }) {
