@@ -161,7 +161,11 @@ const stalls: Stall[] = [
       { src: '/blog/albionStall9.jpg', alt: 'ForgeRealm at Stall 09, Albion Place, with the full tiered display, branded tablecloth, and QR code on the front.' },
       { src: '/blog/2albionStall9.jpg', alt: 'Display detail at Stall 09 with the ForgeRealm Leeds price sheet, dragon eggs, and oversized green and purple icosahedrons.', portrait: true },
     ],
-    paragraphs: [],
+    paragraphs: [
+      'Back at Albion after Manchester, and roughly three times the result. You win some, you lose some. Credit goes mostly to the weather: the UK is at an all-time high for warmth, and for once that worked in our favour. Sun out, silk PLA doing the same trick it pulled at Stall 3, and the usual Albion traders noticeably in better spirits than normal.',
+      'A goth fest near the venue gave the stall next to us a proper boost. That is Shining Star Jewelry, one of our favourite vendors: not just for being consistently supportive of us and every other stall around them, but for having some of the coolest pieces we have seen at any fair. Slightly above our all-time average, so no complaints.',
+    ],
+    pull: 'Roughly three times Manchester, with the sun doing most of the heavy lifting.',
   },
 ];
 
