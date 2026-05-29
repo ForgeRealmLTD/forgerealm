@@ -171,7 +171,7 @@ const stalls: Stall[] = [
     kind: 'note',
     label: 'Studio',
     date: '29 May 2026',
-    title: 'Big preps for June: stall maxing and the Merrion',
+    title: 'Stall maxing and the mini market',
     paragraphs: [
       'June is shaping up to be the busiest month we have done so far. Four stall bookings across two Saturdays, plus a shelf at the Merrion mini market from the 13th. The only way two of us pull this off is by splitting up and running two locations on the same day. Stall maxing at it\'s finest.',
       'On Saturday 6 June, one of us runs Kirkgate while the other runs Albion. We do the exact same split again on Saturday 20 June, same pair of locations. The 6th is our next stall and we\'re printing roughly double the stock we usually take to a single market, now that the farm can keep up with both displays at once.',
