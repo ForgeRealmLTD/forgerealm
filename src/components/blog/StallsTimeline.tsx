@@ -7,7 +7,6 @@ type Stall = {
   date: string;
   title: string;
   location?: string;
-  partner?: string;
   images?: { src: string; alt: string; portrait?: boolean }[];
   paragraphs: string[];
   pull?: string;
@@ -19,7 +18,6 @@ const stalls: Stall[] = [
     date: '29 November 2025',
     title: 'The Albion debut',
     location: 'Albion Place, Leeds',
-    partner: 'Artsmix',
     images: [
       { src: '/blog/albionStall1.jpg', alt: 'ForgeRealm\'s first ever stall at Albion Place, Leeds during the Christmas market.' },
       { src: '/blog/2albionStall1.jpg', alt: 'Close-up of the first stall\'s display table.' },
@@ -35,7 +33,6 @@ const stalls: Stall[] = [
     date: '6 December 2025',
     title: 'Back at Albion',
     location: 'Albion Place, Leeds',
-    partner: 'Artsmix',
     images: [
       { src: '/blog/albionStall2.jpg', alt: 'ForgeRealm\'s second stall, now with a tarpaulin behind the display.' },
     ],
@@ -49,7 +46,6 @@ const stalls: Stall[] = [
     date: '14 March 2026',
     title: 'Albion in the sunshine',
     location: 'Albion Place, Leeds',
-    partner: 'Artsmix',
     images: [
       { src: '/blog/albionStall3.jpg', alt: 'Stall 3 at Albion Place with the new ForgeRealm branded tarpaulin and banner.' },
       { src: '/blog/2albionStall3.jpg', alt: 'Display detail at Stall 3 with silk PLA pieces catching the sun.' },
@@ -66,7 +62,6 @@ const stalls: Stall[] = [
     date: '28 March 2026',
     title: 'Kirkgate Market',
     location: 'Kirkgate Market, Leeds',
-    partner: 'Eventszo',
     images: [
       { src: '/blog/kirkgateStall4.jpg', alt: 'ForgeRealm at Kirkgate Market, Leeds, our first stall outside of Albion Place.' },
       { src: '/blog/2kirkgateStall4.jpg', alt: 'Display detail at Kirkgate Market with the full medieval-fantasy front.' },
@@ -81,7 +76,6 @@ const stalls: Stall[] = [
     date: '12 April 2026',
     title: 'The Alwoodley experiment',
     location: 'The Avenue, Alwoodley, Leeds',
-    partner: '',
     images: [
       { src: '/blog/alwoodleyStall5.jpg', alt: 'Stall 5 at The Avenue, Alwoodley, our first stall in a residential area.' },
       { src: '/blog/2alwoodleyStall5.jpg', alt: 'The Avenue stall laid out in Dawn\'s style, our best-looking stall to date.' },
@@ -108,7 +102,6 @@ const stalls: Stall[] = [
     date: '25 April 2026',
     title: 'Albion, arrests and a 4pm surge',
     location: 'Albion Place, Leeds',
-    partner: 'Artsmix',
     images: [
       { src: '/blog/albionStall6.jpg', alt: 'ForgeRealm display at Stall 06, Albion Place, showing the tiered product stand loaded with silk PLA pieces.', portrait: true },
       { src: '/blog/2albionStall6.jpg', alt: 'Ishmam and Tobi behind the ForgeRealm Leeds banner at Stall 06, Albion Place.' },
@@ -124,7 +117,6 @@ const stalls: Stall[] = [
     date: '9 May 2026',
     title: 'Albion, our new third best',
     location: 'Albion Place, Leeds',
-    partner: 'Artsmix',
     images: [
       { src: '/blog/albionStall7.jpg', alt: 'ForgeRealm at Stall 07, Albion Place, with the first proper product sheets on the table.', portrait: true },
       { src: '/blog/2albionStall7.jpg', alt: 'Display detail at Stall 07 showing the new printed price sheets in front of the silk PLA pieces.', portrait: true },
@@ -156,7 +148,6 @@ const stalls: Stall[] = [
     date: '23 May 2026',
     title: 'Albion in the warm spell',
     location: 'Albion Place, Leeds',
-    partner: 'Artsmix',
     images: [
       { src: '/blog/albionStall9.jpg', alt: 'ForgeRealm at Stall 09, Albion Place, with the full tiered display, branded tablecloth, and QR code on the front.' },
       { src: '/blog/2albionStall9.jpg', alt: 'Display detail at Stall 09 with the ForgeRealm Leeds price sheet, dragon eggs, and oversized green and purple icosahedrons.', portrait: true },
@@ -244,18 +235,11 @@ function StallEntry({ stall, index }: { stall: Stall; index: number }) {
         <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 sm:p-7 backdrop-blur-xl relative overflow-hidden">
           <div className={`absolute inset-0 bg-gradient-to-br ${cardGradient} pointer-events-none`} />
           <div className="relative">
-            {!isNote && (stall.location || stall.partner) && (
+            {!isNote && stall.location && (
               <div className="flex flex-wrap items-center gap-2 mb-3">
-                {stall.location && (
-                  <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.2em] text-cyan-200" style={{ fontFamily: 'Jost, sans-serif' }}>
-                    {stall.location}
-                  </span>
-                )}
-                {stall.partner && (
-                  <span className="rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400" style={{ fontFamily: 'Jost, sans-serif' }}>
-                    via {stall.partner}
-                  </span>
-                )}
+                <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.2em] text-cyan-200" style={{ fontFamily: 'Jost, sans-serif' }}>
+                  {stall.location}
+                </span>
               </div>
             )}
 
