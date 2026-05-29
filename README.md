@@ -1,93 +1,141 @@
-# 🏗️ ForgeRealm
+<div align="center">
 
-ForgeRealm is a **UK-based 3D printing and design studio** that blends creativity, precision, and sustainability.  
-We specialize in producing **eco-friendly, custom 3D models** — from collectible figurines to functional prototypes — built to inspire imagination and elevate modern living.
+<img src="public/frlogorv.png" alt="ForgeRealm" width="200" />
 
----
+# ForgeRealm
 
-## 🌍 About Us
-At ForgeRealm, we believe design should balance **aesthetic appeal, environmental consciousness, and technical precision**.  
-Using **biodegradable PLA materials** and advanced printing techniques, we craft pieces that merge artistry with innovation.
+**A 3D printing & design studio. Forged in Leeds.**
 
-Our designs are made to be:
-- 🌱 **Sustainable** – 100% biodegradable materials  
-- ⚙️ **Durable** – engineered for strength and precision  
-- 🎨 **Customizable** – tailored to individual creative visions  
-- 💡 **Innovative** – merging traditional artistry with modern 3D technology  
+Eco-friendly figurines, ambient lamps, tabletop pieces, and the odd articulated dragon.
+Designed in our workshop, printed on biodegradable PLA, finished by hand.
 
----
+<br/>
 
-## 🧩 What We Create
-ForgeRealm’s work spans artistic and practical creations, including:
-- **Figurines & Miniatures** – fantasy-inspired collectibles and custom designs  
-- **Home Décor** – lamps, wall art, and unique display pieces  
-- **Functional Prints** – holders, organizers, and creative accessories  
-- **Prototypes** – concept models for startups and independent designers  
+[![Astro](https://img.shields.io/badge/Astro-5-FF5D01?logo=astro&logoColor=white)](https://astro.build)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Tailwind](https://img.shields.io/badge/Tailwind-3-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![Stripe](https://img.shields.io/badge/Stripe-payments-635BFF?logo=stripe&logoColor=white)](https://stripe.com)
+[![100% eco PLA](https://img.shields.io/badge/100%25-eco_PLA-22c55e)](#-what-we-believe)
+[![Made in Leeds](https://img.shields.io/badge/Made_in-Leeds_UK-0ea5e9)](#-find-us)
 
-Each item is designed, printed, and finished in-house, ensuring consistent quality and creative control from start to finish.
+<br/>
 
----
+[**Shop**](https://forgerealm.co.uk/shop)
+&nbsp;·&nbsp;
+[**Stall Chronicles**](https://forgerealm.co.uk/blog)
+&nbsp;·&nbsp;
+[**Commission a piece**](https://forgerealm.co.uk/custom-order)
+&nbsp;·&nbsp;
+[**Get on the list**](https://forgerealm.co.uk/subscribe)
 
-## 🧠 Our Philosophy
-ForgeRealm isn’t just about prints — it’s about **storytelling through form and material**.  
-Every design is a reflection of balance: sustainability meets imagination, creativity meets technology.
-
-> “We build realms of possibility — one layer at a time.”
+</div>
 
 ---
 
-## 📍 Location
-**Leeds, United Kingdom**
+> _"We build realms of possibility, one layer at a time."_
 
 ---
 
-## 📞 Contact
-- 📧 **Email:** forgerealmltd@gmail.com  
-- 📱 **Phone:** +44 (0) 7947 636 347  
-- 🌐 **Website:** [forgerealm.com](https://forgerealm.com) *(coming soon)*  
+## ✦ The realm
+
+ForgeRealm is a UK-based 3D printing and design studio that blends creativity, precision, and sustainability. Every piece is designed, printed, and hand-finished in our Leeds workshop, on biodegradable PLA, with the patience to make it actually look good.
+
+|  Figurines  |  Home decor  |  Functional  |  Prototypes  |
+|:---:|:---:|:---:|:---:|
+| Fantasy minis & collectibles | Lamps, wall art, displays | Organisers, holders, accessories | Concept models for indie designers |
 
 ---
 
-## 🕓 Business Hours
+## ✦ What we believe
+
+- 🌱 &nbsp;**Sustainable** &middot; 100% biodegradable PLA, low-waste packaging
+- ⚙️ &nbsp;**Durable** &middot; engineered prints, not throwaway novelties
+- 🎨 &nbsp;**Customisable** &middot; commissions tailored to your idea
+- 💡 &nbsp;**Innovative** &middot; old-school craft meets new-school tech
+
+---
+
+## ✦ Under the hood
+
+This repo powers **[forgerealm.co.uk](https://forgerealm.co.uk)** end to end, frontend through checkout to receipts.
+
+| Layer | Stack |
+|---|---|
+| **Frontend** | Astro 5, React 19, Tailwind 3, Framer Motion, Spline 3D |
+| **Backend** | Node + Express, MySQL, JWT auth |
+| **Email** | Brevo (transactional + mailing list) |
+| **Payments** | Stripe Checkout + webhooks, PDF invoices via PDFKit |
+
+### Run it locally
+
+```bash
+# install deps
+npm install
+cd backend && npm install && cd ..
+
+# spin up frontend + backend together
+npm run dev:all
+```
+
+Frontend lives at `http://localhost:4321`. Backend port is set in `backend/.env`.
+
+---
+
+## ✦ Find us
+
+<table>
+  <tr>
+    <td width="40">📍</td><td><strong>Workshop</strong></td><td>Leeds, United Kingdom</td>
+  </tr>
+  <tr>
+    <td>📧</td><td><strong>Email</strong></td><td><a href="mailto:forgerealmltd@gmail.com">forgerealmltd@gmail.com</a></td>
+  </tr>
+  <tr>
+    <td>📞</td><td><strong>Phone</strong></td><td>+44 (0) 7947 636 347</td>
+  </tr>
+  <tr>
+    <td>🌐</td><td><strong>Website</strong></td><td><a href="https://forgerealm.co.uk">forgerealm.co.uk</a></td>
+  </tr>
+</table>
+
+### Hours
+
 | Day | Hours |
-|------|--------|
-| Monday – Friday | 08:00 – 18:00 |
-| Saturday | 10:00 – 16:00 |
+|:--|:--|
+| Monday to Friday | 08:00 to 18:00 |
+| Saturday | 10:00 to 16:00 |
 | Sunday | Closed |
 
----
+### Follow the journey
 
-## 🤝 Collaborations
-We welcome partnerships with:
-- **Designers & Artists** looking to bring digital concepts to life  
-- **Small Businesses** needing bespoke display models or accessories  
-- **Gamers & Creators** wanting unique collectibles or tabletop pieces  
+[![Instagram](https://img.shields.io/badge/Instagram-@forgerealm-E4405F?logo=instagram&logoColor=white)](https://instagram.com/forgerealm)
+[![Threads](https://img.shields.io/badge/Threads-@forgerealm3d-000000?logo=threads&logoColor=white)](https://threads.net/@forgerealm3d)
+[![X](https://img.shields.io/badge/X-@forgerealm3d-000000?logo=x&logoColor=white)](https://x.com/forgerealm3d)
 
 ---
 
-## 🧾 Licensing & Ethics
-All ForgeRealm products are:
-- Made from **biodegradable materials**  
-- Packaged with **minimal waste**  
-- Designed and produced with respect for the environment  
+## ✦ Collaborations
 
-We proudly align with sustainable practices that support creativity without compromise.
+We're up for working with:
 
----
+- **Designers & artists** bringing digital concepts into the real world
+- **Small businesses** wanting bespoke displays, signage, or accessories
+- **Gamers & creators** chasing unique collectibles or tabletop pieces
 
-## 💬 Follow Our Journey
-Stay tuned for upcoming launches, featured collections, and behind-the-scenes looks into our creative process.
-
-Follow ForgeRealm across:
-- 📸 Instagram: **@forgerealm**  
-- 🧵 Threads: **@forgerealm3d**  
-- 🐦 X (Twitter): **@forgerealm3d**
+Drop us a line at **forgerealmltd@gmail.com** if any of that sounds like you.
 
 ---
 
-## 🪄 Credits
-**ForgeRealm Ltd** — designed and crafted in the United Kingdom.  
-© 2025 ForgeRealm. All rights reserved.
+<div align="center">
+
+<img src="public/headfrlogorv.png" alt="" width="70" />
+
+**ForgeRealm Ltd** &middot; designed and crafted in the United Kingdom
+
+<sub>© 2026 ForgeRealm. All rights reserved.</sub>
+
+</div>
 
 <!-- DAILY_PULSE_START -->
 ## Daily Project Pulse
