@@ -89,7 +89,7 @@ Frontend lives at `http://localhost:4321`. Backend port is set in `backend/.env`
     <td width="40">📍</td><td><strong>Workshop</strong></td><td>Leeds, United Kingdom</td>
   </tr>
   <tr>
-    <td>📧</td><td><strong>Email</strong></td><td><a href="mailto:forgerealmltd@gmail.com">forgerealmltd@gmail.com</a></td>
+    <td>📧</td><td><strong>Email</strong></td><td><a href="mailto:info@forgerealm.co.uk">info@forgerealm.co.uk</a></td>
   </tr>
   <tr>
     <td>📞</td><td><strong>Phone</strong></td><td>+44 (0) 7947 636 347</td>
@@ -123,7 +123,7 @@ We're up for working with:
 - **Small businesses** wanting bespoke displays, signage, or accessories
 - **Gamers & creators** chasing unique collectibles or tabletop pieces
 
-Drop us a line at **forgerealmltd@gmail.com** if any of that sounds like you.
+Drop us a line at **info@forgerealm.co.uk** if any of that sounds like you.
 
 ---
 
