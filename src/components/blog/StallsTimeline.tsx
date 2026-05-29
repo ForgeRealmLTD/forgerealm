@@ -167,6 +167,18 @@ const stalls: Stall[] = [
     ],
     pull: 'Roughly three times Manchester, with the sun doing most of the heavy lifting.',
   },
+  {
+    kind: 'note',
+    label: 'Studio',
+    date: '29 May 2026',
+    title: 'Big preps for June: stall maxing and the Merrion',
+    paragraphs: [
+      'June is shaping up to be the busiest month we have done so far. Four stall bookings across two Saturdays, plus a permanent shelf at the Merrion from the 13th. The only way two of us pull this off is by splitting up and running two locations on the same day. Stall maxing at it\'s finest.',
+      'On Saturday 6 June, one of us runs Kirkgate while the other runs Albion. We do the exact same split again on Saturday 20 June, same pair of locations. The 6th is our next stall and we\'re printing roughly double the stock we usually take to a single market, now that the farm can keep up with both displays at once.',
+      'Separately, from Friday 13 June, ForgeRealm pieces will be permanently available at the Merrion mini market. Rather than a one day booking, it\'s an always on retail spot where people can drop in throughout the week. Our first home outside of a stall, and a small but real step toward proper retail presence in Leeds.',
+    ],
+    pull: 'Stall maxing at it\'s finest.',
+  },
 ];
 
 function StallEntry({ stall, index }: { stall: Stall; index: number }) {
