@@ -162,13 +162,13 @@ const stalls: Stall[] = [
     kind: 'note',
     label: 'Studio',
     date: '5 June 2026',
-    title: 'Stall maxing and the mini market',
+    title: 'Stall maxxing and the mini market',
     paragraphs: [
-      'June is shaping up to be the busiest month we have done so far. Four stall bookings across two Saturdays, plus a shelf at the Merrion mini market from the 13th. The only way two of us pull this off is by splitting up and running two locations on the same day. Stall maxing at it\'s finest.',
+      'June is shaping up to be the busiest month we have done so far. Four stall bookings across two Saturdays, plus a shelf at the Merrion mini market from the 13th. The only way two of us pull this off is by splitting up and running two locations on the same day. Stall maxxing at it\'s finest.',
       'On Saturday 6 June, one of us runs Kirkgate while the other runs Albion. We do the exact same split again on Saturday 20 June, same pair of locations. The 6th is our next stall and we\'re printing roughly double the stock we usually take to a single market, now that the farm can keep up with both displays at once.',
       'From Friday 13 June, ForgeRealm pieces will also be on a shelf at the Merrion mini market for now. Rather than a one day booking, it\'s a spot where people can drop in throughout the week. First time we\'ve had stock sitting somewhere outside of a stall, and we\'ll see where it goes.',
     ],
-    pull: 'Stall maxing at it\'s finest.',
+    pull: 'Stall maxxing at it\'s finest.',
   },
   {
     kind: 'note',
