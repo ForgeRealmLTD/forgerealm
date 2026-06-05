@@ -92,9 +92,8 @@ const stalls: Stall[] = [
     date: '20 April 2026',
     title: 'We invested in the Flashforge Creator 5',
     paragraphs: [
-      'There has been a genuine debate in the 3D printing community between two new machines that hadn\'t officially shipped yet: the Snapmaker UI and the Flashforge Creator 5. Most of the experienced traders we\'ve met at stalls landed on the Snapmaker UI. We went the other way.',
-      'Our whole farm runs on Flashforge and the reliability has been consistently solid. Switching ecosystems felt like unnecessary risk when a newer Flashforge option existed. We took the useful advice from people who know more than us and made our own call. We\'re not trying to be the next anybody, ForgeRealm has its own direction.',
-      'The Creator 5 is booked and we\'re expecting it at the start of May. Once it\'s properly run in it should expand both our volume and material range at stalls.',
+      'The 3D printing community has been split on the Snapmaker UI vs the Flashforge Creator 5. Most experienced traders we met at stalls landed on the Snapmaker. We went the other way.',
+      'Our whole farm is already Flashforge and the reliability has held up. Switching ecosystems for the sake of consensus felt like unnecessary risk. The Creator 5 lands in May and should expand both our volume and material range at stalls.',
     ],
   },
   {
@@ -164,9 +163,8 @@ const stalls: Stall[] = [
     date: '5 June 2026',
     title: 'Stall maxxing and the mini market',
     paragraphs: [
-      'June is shaping up to be the busiest month we have done so far. Four stall bookings across two Saturdays, plus a shelf at the Merrion mini market from the 13th. The only way two of us pull this off is by splitting up and running two locations on the same day. Stall maxxing at it\'s finest.',
-      'On Saturday 6 June, one of us runs Kirkgate while the other runs Albion. We do the exact same split again on Saturday 20 June, same pair of locations. The 6th is our next stall and we\'re printing roughly double the stock we usually take to a single market, now that the farm can keep up with both displays at once.',
-      'From Friday 13 June, ForgeRealm pieces will also be on a shelf at the Merrion mini market for now. Rather than a one day booking, it\'s a spot where people can drop in throughout the week. First time we\'ve had stock sitting somewhere outside of a stall, and we\'ll see where it goes.',
+      'Busiest month yet: four stall bookings across two Saturdays, plus a shelf at the Merrion mini market from the 13th. Stall maxxing at it\'s finest.',
+      'Saturday 6 and 20 June, one of us at Kirkgate, the other at Albion. The 6th is our next stall and we\'re printing roughly double our usual stock for it. From the 13th, our pieces also sit at the Merrion mini market for now.',
     ],
     pull: 'Stall maxxing at it\'s finest.',
   },
@@ -176,11 +174,10 @@ const stalls: Stall[] = [
     date: '5 June 2026',
     title: 'The farm is humming, FIFA 2026 next',
     paragraphs: [
-      'The Creator 5 has been in the studio for a few weeks now and it is genuinely a step up. Print quality has improved noticeably and the failure rate has dropped to the point we barely think about it. The bigger shift is that we now have a proper Flashforge mini farm running in parallel, not a couple of machines limping along between jobs.',
-      'What that unlocks is design freedom. Until recently we stuck mostly to pieces we knew would sell because we could not afford the time on experiments. With the farm running, we can take swings on more unique designs without putting the safe stock at risk.',
-      'The one we are most excited about: FIFA 2026 is coming up and we want a proper line of football merch ready for it. The aim is to have it on the table for the next stall. If it does not make the next one, then the stalls after. Either way, it is the kind of drop we could not have attempted six months ago.',
+      'The Creator 5 has been running a few weeks and the quality jump is real. We now have a proper Flashforge mini farm in parallel, not a couple of machines limping between jobs.',
+      'The capacity buys us design freedom. First swing: a FIFA 2026 football merch line, aimed at the next stall or the ones after. Six months ago we couldn\'t have attempted it.',
     ],
-    pull: 'FIFA 2026 is coming up and we want a proper line of football merch ready for it.',
+    pull: 'First swing: a FIFA 2026 football merch line.',
   },
 ];
 
