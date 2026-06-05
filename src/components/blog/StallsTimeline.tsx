@@ -170,6 +170,18 @@ const stalls: Stall[] = [
     ],
     pull: 'Stall maxing at it\'s finest.',
   },
+  {
+    kind: 'note',
+    label: 'Studio',
+    date: '30 May 2026',
+    title: 'The farm is humming, FIFA 2026 next',
+    paragraphs: [
+      'The Creator 5 has been in the studio for a few weeks now and it is genuinely a step up. Print quality has improved noticeably and the failure rate has dropped to the point we barely think about it. The bigger shift is that we now have a proper Flashforge mini farm running in parallel, not a couple of machines limping along between jobs.',
+      'What that unlocks is design freedom. Until recently we stuck mostly to pieces we knew would sell because we could not afford the time on experiments. With the farm running, we can take swings on more unique designs without putting the safe stock at risk.',
+      'The one we are most excited about: FIFA 2026 is coming up and we want a proper line of football merch ready for it. The aim is to have it on the table for the next stall. If it does not make the next one, then the stalls after. Either way, it is the kind of drop we could not have attempted six months ago.',
+    ],
+    pull: 'FIFA 2026 is coming up and we want a proper line of football merch ready for it.',
+  },
 ];
 
 function StallEntry({ stall, index }: { stall: Stall; index: number }) {
