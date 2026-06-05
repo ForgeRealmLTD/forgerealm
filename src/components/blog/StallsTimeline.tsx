@@ -161,7 +161,7 @@ const stalls: Stall[] = [
   {
     kind: 'note',
     label: 'Studio',
-    date: '29 May 2026',
+    date: '5 June 2026',
     title: 'Stall maxing and the mini market',
     paragraphs: [
       'June is shaping up to be the busiest month we have done so far. Four stall bookings across two Saturdays, plus a shelf at the Merrion mini market from the 13th. The only way two of us pull this off is by splitting up and running two locations on the same day. Stall maxing at it\'s finest.',
@@ -173,7 +173,7 @@ const stalls: Stall[] = [
   {
     kind: 'note',
     label: 'Studio',
-    date: '30 May 2026',
+    date: '5 June 2026',
     title: 'The farm is humming, FIFA 2026 next',
     paragraphs: [
       'The Creator 5 has been in the studio for a few weeks now and it is genuinely a step up. Print quality has improved noticeably and the failure rate has dropped to the point we barely think about it. The bigger shift is that we now have a proper Flashforge mini farm running in parallel, not a couple of machines limping along between jobs.',
