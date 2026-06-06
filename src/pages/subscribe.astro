@@ -91,6 +91,14 @@ const publicApiUrlLocal = import.meta.env.PUBLIC_API_URL_LOCAL || '';
                 />
               </label>
 
+              {/* Honeypot: hidden from real users, bots tend to fill it. */}
+              <div aria-hidden="true" class="absolute -left-[10000px] top-auto h-px w-px overflow-hidden">
+                <label>
+                  Website
+                  <input type="text" name="website" tabindex="-1" autocomplete="off" />
+                </label>
+              </div>
+
               <div class="pt-1 text-xs text-white/60">
                 By joining, you'll receive updates about new products, services, offers, and booth events from ForgeRealm.
               </div>
@@ -118,6 +126,12 @@ const publicApiUrlLocal = import.meta.env.PUBLIC_API_URL_LOCAL || '';
             >
               Thank you for your interest. You’ll receive an email from ForgeRealm shortly.
             </div>
+            <div
+              id="subscribe-error"
+              class="hidden mt-6 rounded-2xl border border-rose-400/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-100"
+            >
+              <span id="subscribe-error-message">Something went wrong. Please try again.</span>
+            </div>
           </div>
           <div class="pt-8 pb-10 text-center text-sm text-slate-300">
             <p class="whitespace-nowrap">
@@ -143,32 +157,66 @@ const publicApiUrlLocal = import.meta.env.PUBLIC_API_URL_LOCAL || '';
 <script define:vars={{ publicApiUrl, publicApiUrlLocal }}>
   const form = document.getElementById('subscribe-form');
   const toast = document.getElementById('subscribe-toast');
+  const errorBox = document.getElementById('subscribe-error');
+  const errorMessage = document.getElementById('subscribe-error-message');
+  const submitButton = form?.querySelector('button[type="submit"]');
+  const submitLabel = submitButton?.querySelector('span:last-child');
+  const originalLabel = submitLabel?.textContent;
   const apiBase =
     window.location.origin.startsWith('http://localhost')
       ? (publicApiUrlLocal || publicApiUrl || '')
       : (publicApiUrl || publicApiUrlLocal || '');
 
+  function showError(message) {
+    if (!errorBox) return;
+    if (errorMessage) errorMessage.textContent = message;
+    errorBox.classList.remove('hidden');
+  }
+
   form?.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const data = new FormData(form);
-    const payload = {
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
-      email: data.get('email'),
-      company: data.get('company'),
-    };
+    toast?.classList.add('hidden');
+    errorBox?.classList.add('hidden');
 
-    const res = await fetch(`${apiBase}/api/subscribe`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
+    if (submitButton) submitButton.disabled = true;
+    if (submitLabel) submitLabel.textContent = 'Subscribing…';
 
-    if (res.ok) {
-      form.reset();
-      if (toast) {
-        toast.classList.remove('hidden');
+    try {
+      const data = new FormData(form);
+      const payload = {
+        firstName: data.get('firstName'),
+        lastName: data.get('lastName'),
+        email: data.get('email'),
+        company: data.get('company'),
+        website: data.get('website'),
+      };
+
+      const res = await fetch(`${apiBase}/api/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        form.reset();
+        toast?.classList.remove('hidden');
+        return;
       }
+
+      let message = 'Something went wrong. Please try again.';
+      if (res.status === 429) {
+        message = 'Too many attempts. Please wait a minute and try again.';
+      } else {
+        const body = await res.json().catch(() => ({}));
+        if (body?.error) message = body.error;
+        else if (body?.message) message = body.message;
+      }
+      showError(message);
+    } catch (_) {
+      showError('Network error. Please check your connection and try again.');
+    } finally {
+      if (submitButton) submitButton.disabled = false;
+      if (submitLabel && originalLabel) submitLabel.textContent = originalLabel;
     }
   });
 </script>
