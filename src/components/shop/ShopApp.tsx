@@ -1276,7 +1276,7 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
                 <>
                   <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_70%,rgba(255,255,255,0.18),transparent_60%)]" />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-[100px] opacity-40 select-none float-slow">{style.icon}</span>
+                    <img src="/headfrlogorv.png" alt="" aria-hidden="true" className="w-1/3 opacity-30 select-none float-slow" loading="lazy" />
                   </div>
                 </>
               )}
