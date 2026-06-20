@@ -4,7 +4,7 @@ export interface Product {
   slug: string;
   price: number; // pence for Stripe
   displayPrice: string;
-  category: string; // kept for future use (featured, seasonal, etc.) - blank for now
+  category: string; // product category (e.g., Articulated, Voronoi, Fidget)
   description: string;
   stock: number | null;
   badge?: string;
