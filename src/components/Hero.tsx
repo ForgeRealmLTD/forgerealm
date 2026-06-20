@@ -225,7 +225,7 @@ export default function Hero() {
         {/* Emblem divider */}
         <div className="flex items-center justify-center gap-4 mt-16">
           <div className="flex-1 h-px bg-gradient-to-r from-transparent via-blue-400/60 to-transparent" />
-          <img src="/frlogorv.png" alt="" aria-hidden="true" className="h-8 w-8 opacity-80 drop-shadow-[0_0_12px_rgba(59,130,246,0.45)]" />
+          <img src="/frlogorv.png" alt="" aria-hidden="true" loading="lazy" className="h-8 w-8 opacity-80 drop-shadow-[0_0_12px_rgba(59,130,246,0.45)]" />
           <div className="flex-1 h-px bg-gradient-to-r from-transparent via-blue-400/60 to-transparent" />
         </div>
       </div>
