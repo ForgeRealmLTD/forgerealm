@@ -79,7 +79,7 @@ export default function Hero() {
   const [printAnim, setPrintAnim] = useState<any>(null);
   const typed = useTypewriter(WORDS);
   const printsSold = useCountUp(442, 2200);
-  const designs = useCountUp(30, 1800);
+  const designs = useCountUp(50, 1800);
 
   useEffect(() => {
     // Delay Lottie load to prioritise LCP content
