@@ -166,7 +166,7 @@ const stalls: Stall[] = [
       'Busiest month yet: four stall bookings across two Saturdays, plus a shelf at the Merrion mini market from the 13th. Stall maxxing at its finest.',
       'Saturday 6 and 20 June, one of us at Kirkgate, the other at Albion. The 6th is our next stall and we\'re printing roughly double our usual stock for it. From the 13th, our pieces also sit at the Merrion mini market for now.',
     ],
-    pull: 'Stall maxxing at it\'s finest.',
+    pull: 'Stall maxxing at its finest.',
   },
   {
     kind: 'note',
