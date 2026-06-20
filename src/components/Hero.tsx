@@ -78,7 +78,7 @@ const WORDS = ['Imagination', 'Precision', 'Passion', 'Purpose', 'Detail', 'Hear
 export default function Hero() {
   const [printAnim, setPrintAnim] = useState<any>(null);
   const typed = useTypewriter(WORDS);
-  const printsSold = useCountUp(238, 2200);
+  const printsSold = useCountUp(442, 2200);
   const designs = useCountUp(30, 1800);
 
   useEffect(() => {
