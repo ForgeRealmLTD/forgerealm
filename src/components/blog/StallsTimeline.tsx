@@ -179,6 +179,21 @@ const stalls: Stall[] = [
     ],
     pull: 'First swing: a FIFA 2026 football merch line.',
   },
+  {
+    label: 'Stall 10',
+    date: '6 June 2026',
+    title: 'The dual-stall debut',
+    location: 'Albion Place & Kirkgate Market, Leeds',
+    images: [
+      { src: '/blog/albionStall10.jpg', alt: 'Ishmam at the Albion Place stall on the dual-stall debut, sun out on the green-striped marquee.' },
+      { src: '/blog/kirkgateStall10.jpg', alt: 'Tobi at the Kirkgate Market stall on the dual-stall debut, ForgeRealm display under the market hall roof.' },
+    ],
+    paragraphs: [
+      'First time running two stalls in one day and it landed properly. Ishmam took Albion, Tobi took Kirkgate, the split worked out exactly how we hoped. We also brought Natasha on as a ForgeRealm trader for the first time, joining us at the booths and slotting straight in.',
+      'New default from here. Same setup again on 20 June, and on every multi-venue Saturday we can fit. Stall maxxing was a joke for about a week. Now it is the plan.',
+    ],
+    pull: 'Stall maxxing was a joke for about a week. Now it is the plan.',
+  },
 ];
 
 function StallEntry({ stall, index }: { stall: Stall; index: number }) {
