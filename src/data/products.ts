@@ -17,9 +17,9 @@ export interface Product {
 export const products: Product[] = [
   // ── Dragons ──
   {
-    id: 'large-dragon-blue',
-    name: 'Large Dragon (Blue)',
-    slug: 'large-dragon-blue',
+    id: 'big-dragon-blue',
+    name: 'Big Dragon (Blue)',
+    slug: 'big-dragon-blue',
     price: 1200,
     displayPrice: '£12.00',
     category: 'Articulated',
@@ -29,9 +29,9 @@ export const products: Product[] = [
     featured: true,
   },
   {
-    id: 'large-dragon-red',
-    name: 'Large Dragon (Red)',
-    slug: 'large-dragon-red',
+    id: 'big-dragon-red',
+    name: 'Big Dragon (Red)',
+    slug: 'big-dragon-red',
     price: 1200,
     displayPrice: '£12.00',
     category: 'Articulated',
@@ -139,9 +139,9 @@ export const products: Product[] = [
 
   // ── Spinners ──
   {
-    id: 'large-spinner',
-    name: 'Large Spinner',
-    slug: 'large-spinner',
+    id: 'big-spinner',
+    name: 'Big Spinner',
+    slug: 'big-spinner',
     price: 800,
     displayPrice: '£8.00',
     category: 'Fidget',
@@ -150,9 +150,9 @@ export const products: Product[] = [
     image: '/shop-products/Photoroom_20260413_14427_am.jpg',
   },
   {
-    id: 'small-spinner',
-    name: 'Small Spinner',
-    slug: 'small-spinner',
+    id: 'spinner',
+    name: 'Spinner',
+    slug: 'spinner',
     price: 400,
     displayPrice: '£4.00',
     category: 'Fidget',
