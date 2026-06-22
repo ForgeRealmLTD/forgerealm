@@ -214,13 +214,23 @@ function KioskDisplay({ products: items, onExit }: { products: typeof products; 
             >
               {/* Image */}
               <div className="relative aspect-square bg-white">
-                {product.image && (
+                {product.image ? (
                   <img
                     src={product.image}
                     alt={product.name}
                     className="h-full w-full object-cover"
                     loading="lazy"
                   />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <img
+                      src="/headfrlogorv.png"
+                      alt=""
+                      aria-hidden="true"
+                      className="h-1/3 w-1/3 object-contain opacity-20"
+                      loading="lazy"
+                    />
+                  </div>
                 )}
                 {/* Stock badge */}
                 {product.stock !== null && product.stock <= 3 && product.stock > 0 && (
