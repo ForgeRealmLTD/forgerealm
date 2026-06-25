@@ -194,6 +194,22 @@ const stalls: Stall[] = [
     ],
     pull: 'Stall maxxing was a joke for about a week. Now it is the plan.',
   },
+  {
+    label: 'Stall 12',
+    date: '20 June 2026',
+    title: 'Stall maxxing, take two',
+    location: 'Albion Place & Kirkgate Market, Leeds',
+    images: [
+      { src: '/blog/albionStall12.jpg', alt: 'Ishmam at the Albion Place stall under the green-striped marquee, full tiered display with the wooden castle prop and rows of dragons.' },
+      { src: '/blog/kirkgateStall12.jpg', alt: 'Tobi at the Kirkgate Market stall, ForgeRealm display under the market hall roof with other traders behind.' },
+      { src: '/blog/2albionStall12.jpg', alt: 'Tobi at the Albion stall after Kirkgate closed at 4pm and we restocked together, possibly the best the stall has ever looked.', portrait: true },
+    ],
+    paragraphs: [
+      'Round two of the dual setup, Albion + Kirkgate. Beat our second-best Albion record yet again, and the overall total across both venues basically tied the first dual on Stall 10. A bit more if you squint, the same if you do the maths. Different day, same outcome, the model holds.',
+      'When Tobi closed Kirkgate at 4 he came over to Albion and we restocked the whole display together. The third photo is what it looked like after, possibly the best the stall has ever looked. Gorgeous weather all day, and lucky timing on top: the heatwave landed the next morning.',
+    ],
+    pull: 'Possibly the best the stall has ever looked, and the heatwave waited until the morning after.',
+  },
 ];
 
 function StallEntry({ stall, index }: { stall: Stall; index: number }) {
