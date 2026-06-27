@@ -56,18 +56,21 @@ export default function JumpToLatest() {
   if (!mounted || !meta) return null;
 
   const visible = scrolledPastHero && !latestInView;
+  const ariaLabel = meta.date
+    ? `Jump to ${meta.label}, ${meta.date}`
+    : `Jump to ${meta.label}`;
 
   return (
     <div
-      className={`group fixed bottom-6 right-6 z-40 transition-all duration-300 ${
+      className={`group fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 transition-all duration-300 ${
         visible ? 'opacity-100 translate-y-0' : 'pointer-events-none opacity-0 translate-y-2'
       }`}
     >
       <div className="relative">
-        {/* Breathing cyan halo behind the pill */}
+        {/* Breathing cyan halo behind the pill (disabled when reduced motion is preferred) */}
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -inset-2 rounded-full bg-cyan-400/40 blur-2xl animate-pulse"
+          className="pointer-events-none absolute -inset-2 rounded-full bg-cyan-400/40 blur-2xl animate-pulse motion-reduce:animate-none"
         />
         {/* Date preview chip, revealed on hover */}
         {meta.date && (
@@ -81,12 +84,14 @@ export default function JumpToLatest() {
         <button
           type="button"
           onClick={jump}
+          aria-label={ariaLabel}
           aria-hidden={!visible}
           tabIndex={visible ? 0 : -1}
-          className="relative inline-flex items-center gap-2 rounded-full border border-cyan-300/30 bg-gradient-to-r from-blue-500/80 via-cyan-500/80 to-blue-500/80 px-5 py-3 text-[11px] font-medium uppercase tracking-[0.22em] text-white backdrop-blur-xl shadow-[0_10px_30px_-10px_rgba(34,211,238,0.55)] transition-transform duration-200 hover:-translate-y-0.5"
+          className="relative inline-flex items-center gap-2 rounded-full border border-cyan-300/30 bg-gradient-to-r from-blue-500/80 via-cyan-500/80 to-blue-500/80 px-4 py-2.5 sm:px-5 sm:py-3 text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.22em] text-white backdrop-blur-xl shadow-[0_10px_30px_-10px_rgba(34,211,238,0.55)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0f1a]"
           style={{ fontFamily: "'Jost', sans-serif" }}
         >
-          <span>Jump to {meta.label}</span>
+          <span className="hidden sm:inline">Jump to {meta.label}</span>
+          <span className="sm:hidden">{meta.label}</span>
           <svg
             aria-hidden="true"
             viewBox="0 0 24 24"
