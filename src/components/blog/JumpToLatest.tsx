@@ -58,17 +58,28 @@ export default function JumpToLatest() {
   const visible = scrolledPastHero && !latestInView;
 
   return (
-    <button
-      type="button"
-      onClick={jump}
-      aria-hidden={!visible}
-      tabIndex={visible ? 0 : -1}
-      className={`fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 rounded-full border border-cyan-300/30 bg-gradient-to-r from-blue-500/80 via-cyan-500/80 to-blue-500/80 px-5 py-3 text-[11px] font-medium uppercase tracking-[0.22em] text-white backdrop-blur-xl shadow-[0_10px_30px_-10px_rgba(34,211,238,0.55)] transition-all duration-300 ${
+    <div
+      className={`fixed bottom-6 right-6 z-40 transition-all duration-300 ${
         visible ? 'opacity-100 translate-y-0' : 'pointer-events-none opacity-0 translate-y-2'
       }`}
-      style={{ fontFamily: "'Jost', sans-serif" }}
     >
-      Jump to {meta.label}
-    </button>
+      <div className="relative">
+        {/* Breathing cyan halo behind the pill */}
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -inset-2 rounded-full bg-cyan-400/40 blur-2xl animate-pulse"
+        />
+        <button
+          type="button"
+          onClick={jump}
+          aria-hidden={!visible}
+          tabIndex={visible ? 0 : -1}
+          className="relative inline-flex items-center gap-2 rounded-full border border-cyan-300/30 bg-gradient-to-r from-blue-500/80 via-cyan-500/80 to-blue-500/80 px-5 py-3 text-[11px] font-medium uppercase tracking-[0.22em] text-white backdrop-blur-xl shadow-[0_10px_30px_-10px_rgba(34,211,238,0.55)]"
+          style={{ fontFamily: "'Jost', sans-serif" }}
+        >
+          Jump to {meta.label}
+        </button>
+      </div>
+    </div>
   );
 }
