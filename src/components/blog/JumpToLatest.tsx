@@ -59,7 +59,7 @@ export default function JumpToLatest() {
 
   return (
     <div
-      className={`fixed bottom-6 right-6 z-40 transition-all duration-300 ${
+      className={`group fixed bottom-6 right-6 z-40 transition-all duration-300 ${
         visible ? 'opacity-100 translate-y-0' : 'pointer-events-none opacity-0 translate-y-2'
       }`}
     >
@@ -69,15 +69,36 @@ export default function JumpToLatest() {
           aria-hidden="true"
           className="pointer-events-none absolute -inset-2 rounded-full bg-cyan-400/40 blur-2xl animate-pulse"
         />
+        {/* Date preview chip, revealed on hover */}
+        {meta.date && (
+          <div
+            className="pointer-events-none absolute bottom-full right-0 mb-2 rounded-full border border-cyan-300/30 bg-slate-900/85 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-cyan-200 backdrop-blur-md opacity-0 translate-y-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-y-0 whitespace-nowrap"
+            style={{ fontFamily: "'Jost', sans-serif" }}
+          >
+            {meta.date}
+          </div>
+        )}
         <button
           type="button"
           onClick={jump}
           aria-hidden={!visible}
           tabIndex={visible ? 0 : -1}
-          className="relative inline-flex items-center gap-2 rounded-full border border-cyan-300/30 bg-gradient-to-r from-blue-500/80 via-cyan-500/80 to-blue-500/80 px-5 py-3 text-[11px] font-medium uppercase tracking-[0.22em] text-white backdrop-blur-xl shadow-[0_10px_30px_-10px_rgba(34,211,238,0.55)]"
+          className="relative inline-flex items-center gap-2 rounded-full border border-cyan-300/30 bg-gradient-to-r from-blue-500/80 via-cyan-500/80 to-blue-500/80 px-5 py-3 text-[11px] font-medium uppercase tracking-[0.22em] text-white backdrop-blur-xl shadow-[0_10px_30px_-10px_rgba(34,211,238,0.55)] transition-transform duration-200 hover:-translate-y-0.5"
           style={{ fontFamily: "'Jost', sans-serif" }}
         >
-          Jump to {meta.label}
+          <span>Jump to {meta.label}</span>
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-y-0.5"
+          >
+            <path d="M12 5v14M19 12l-7 7-7-7" />
+          </svg>
         </button>
       </div>
     </div>
