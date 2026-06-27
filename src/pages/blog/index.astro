@@ -4,6 +4,7 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import Navbar from '~/components/Navbar';
 import BlogHero from '~/components/blog/BlogHero';
 import StallsTimeline from '~/components/blog/StallsTimeline';
+import JumpToLatest from '~/components/blog/JumpToLatest';
 
 const journalPosts = (await getCollection('post', ({ data }) => !data.draft))
   .filter((p) => p.id !== 'placeholder')
@@ -230,6 +231,8 @@ const formatShortDate = (date?: Date) =>
         </div>
       </div>
     </section>
+
+    <JumpToLatest client:idle />
   </div>
 </BaseLayout>
 
