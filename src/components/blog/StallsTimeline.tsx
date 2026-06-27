@@ -14,7 +14,7 @@ type Stall = {
 
 const stalls: Stall[] = [
   {
-    label: 'Stall 01',
+    label: 'Stall Session 01',
     date: '29 November 2025',
     title: 'The Albion debut',
     location: 'Albion Place, Leeds',
@@ -29,7 +29,7 @@ const stalls: Stall[] = [
     pull: 'Our first customer bought from us before we\'d even finished setting up.',
   },
   {
-    label: 'Stall 02',
+    label: 'Stall Session 02',
     date: '6 December 2025',
     title: 'Back at Albion',
     location: 'Albion Place, Leeds',
@@ -37,28 +37,28 @@ const stalls: Stall[] = [
       { src: '/blog/albionStall2.jpg', alt: 'ForgeRealm\'s second stall, now with a tarpaulin behind the display.' },
     ],
     paragraphs: [
-      'Stall 2 was the "okay, we\'ve learned some things" stall. We finally bought a tarpaulin, which immediately changed the day. No more sideways rain down the back of your jumper, and the products actually looked like products instead of wet cardboard.',
-      'The display evolved a little. It still wasn\'t where we wanted it, but it was measurably better than Stall 1: more legible, less "stuff from the kitchen table." We made a decent profit again, confirmed that the concept worked in cold weather, and went home with a list of things to improve before next time.',
+      'Stall Session 2 was the "okay, we\'ve learned some things" stall. We finally bought a tarpaulin, which immediately changed the day. No more sideways rain down the back of your jumper, and the products actually looked like products instead of wet cardboard.',
+      'The display evolved a little. It still wasn\'t where we wanted it, but it was measurably better than Stall Session 1: more legible, less "stuff from the kitchen table." We made a decent profit again, confirmed that the concept worked in cold weather, and went home with a list of things to improve before next time.',
     ],
   },
   {
-    label: 'Stall 03',
+    label: 'Stall Session 03',
     date: '14 March 2026',
     title: 'Albion in the sunshine',
     location: 'Albion Place, Leeds',
     images: [
-      { src: '/blog/albionStall3.jpg', alt: 'Stall 3 at Albion Place with the new ForgeRealm branded tarpaulin and banner.' },
-      { src: '/blog/2albionStall3.jpg', alt: 'Display detail at Stall 3 with silk PLA pieces catching the sun.' },
-      { src: '/blog/3albionStall3.jpg', alt: 'Wider view of Stall 3 on a sunny Saturday in Leeds.' },
+      { src: '/blog/albionStall3.jpg', alt: 'Stall Session 3 at Albion Place with the new ForgeRealm branded tarpaulin and banner.' },
+      { src: '/blog/2albionStall3.jpg', alt: 'Display detail at Stall Session 3 with silk PLA pieces catching the sun.' },
+      { src: '/blog/3albionStall3.jpg', alt: 'Wider view of Stall Session 3 on a sunny Saturday in Leeds.' },
     ],
     paragraphs: [
-      'Stall 3 is where ForgeRealm started looking like ForgeRealm: branded tarpaulin and banner, proper business cards, a tightened-up display. For the first time it felt less like two guys selling prints and more like a brand.',
+      'Stall Session 3 is where ForgeRealm started looking like ForgeRealm: branded tarpaulin and banner, proper business cards, a tightened-up display. For the first time it felt less like two guys selling prints and more like a brand.',
       'The weather did us a massive favour: clear sunshine open to close. Silk PLA in direct sunlight is a completely different object; people stopped for the glint before they\'d even processed what the items were. Still our most successful stall to date and the one we\'re using as the bar.',
     ],
     pull: 'Silk PLA in direct sunlight is a completely different object.',
   },
   {
-    label: 'Stall 04',
+    label: 'Stall Session 04',
     date: '28 March 2026',
     title: 'Kirkgate Market',
     location: 'Kirkgate Market, Leeds',
@@ -72,16 +72,16 @@ const stalls: Stall[] = [
     ],
   },
   {
-    label: 'Stall 05',
+    label: 'Stall Session 05',
     date: '12 April 2026',
     title: 'The Alwoodley experiment',
     location: 'The Avenue, Alwoodley, Leeds',
     images: [
-      { src: '/blog/alwoodleyStall5.jpg', alt: 'Stall 5 at The Avenue, Alwoodley, our first stall in a residential area.' },
+      { src: '/blog/alwoodleyStall5.jpg', alt: 'Stall Session 5 at The Avenue, Alwoodley, our first stall in a residential area.' },
       { src: '/blog/2alwoodleyStall5.jpg', alt: 'The Avenue stall laid out in Dawn\'s style, our best-looking stall to date.' },
     ],
     paragraphs: [
-      'Stall 5 was a deliberate experiment: what happens when we set up outside the city centre, in a residential area? Commercially it wasn\'t our best, but we expected that going in. What it was, genuinely, was the most wholesome day we\'ve had.',
+      'Stall Session 5 was a deliberate experiment: what happens when we set up outside the city centre, in a residential area? Commercially it wasn\'t our best, but we expected that going in. What it was, genuinely, was the most wholesome day we\'ve had.',
       'We met our first real "competitor", a printer of five-plus years with a different range entirely. He came over first to support us and gave us a stack of advice we\'re still using. We also met Dawn, who sells baby products. Her displays are beautiful, and she basically set up our stall for us in the layout you see in the photos. The plan is to evolve from Dawn\'s base, not abandon it.',
     ],
     pull: 'The plan going forward is to evolve from Dawn\'s base, not abandon it.',
@@ -97,13 +97,13 @@ const stalls: Stall[] = [
     ],
   },
   {
-    label: 'Stall 06',
+    label: 'Stall Session 06',
     date: '25 April 2026',
     title: 'Albion, arrests and a 4pm surge',
     location: 'Albion Place, Leeds',
     images: [
-      { src: '/blog/albionStall6.jpg', alt: 'ForgeRealm display at Stall 06, Albion Place, showing the tiered product stand loaded with silk PLA pieces.', portrait: true },
-      { src: '/blog/2albionStall6.jpg', alt: 'Ishmam and Tobi behind the ForgeRealm Leeds banner at Stall 06, Albion Place.' },
+      { src: '/blog/albionStall6.jpg', alt: 'ForgeRealm display at Stall Session 06, Albion Place, showing the tiered product stand loaded with silk PLA pieces.', portrait: true },
+      { src: '/blog/2albionStall6.jpg', alt: 'Ishmam and Tobi behind the ForgeRealm Leeds banner at Stall Session 06, Albion Place.' },
     ],
     paragraphs: [
       'A large protest ran through the city that day. Six people were arrested near The Headrow, right next to Albion, and foot traffic was low because of it. By early afternoon we\'d more or less written the stall off.',
@@ -112,22 +112,22 @@ const stalls: Stall[] = [
     pull: 'We left genuinely proud of how the stall looked, our best presentation to date.',
   },
   {
-    label: 'Stall 07',
+    label: 'Stall Session 07',
     date: '9 May 2026',
     title: 'Albion, our new third best',
     location: 'Albion Place, Leeds',
     images: [
-      { src: '/blog/albionStall7.jpg', alt: 'ForgeRealm at Stall 07, Albion Place, with the first proper product sheets on the table.', portrait: true },
-      { src: '/blog/2albionStall7.jpg', alt: 'Display detail at Stall 07 showing the new printed price sheets in front of the silk PLA pieces.', portrait: true },
+      { src: '/blog/albionStall7.jpg', alt: 'ForgeRealm at Stall Session 07, Albion Place, with the first proper product sheets on the table.', portrait: true },
+      { src: '/blog/2albionStall7.jpg', alt: 'Display detail at Stall Session 07 showing the new printed price sheets in front of the silk PLA pieces.', portrait: true },
     ],
     paragraphs: [
       'Back at Albion and we came in with more confidence in our products than we\'ve ever had. The proof was on the table: our first proper product sheets, openly listing prices. Until now we\'d kept the pricing conversational, partly because the motive and the vibe are what we put the most weight on (the prices reflect that, quietly), but writing the numbers in front of customers felt like a real step up. People responded to it, and product sheets are now a permanent fixture at every stall we run.',
-      'Commercially this one bumped Stall 6 out of the top three. Stall 7 is our new third best to date, and the gap to Stall 3 (still the bar) is closing.',
+      'Commercially this one bumped Stall Session 6 out of the top three. Stall Session 7 is our new third best to date, and the gap to Stall Session 3 (still the bar) is closing.',
     ],
-    pull: 'Stall 7 is our new third best, and the gap to Stall 3 is closing.',
+    pull: 'Stall Session 7 is our new third best, and the gap to Stall Session 3 is closing.',
   },
   {
-    label: 'Stall 08',
+    label: 'Stall Session 08',
     date: '17 May 2026',
     title: 'Manchester Jazz Festival',
     location: 'Manchester Jazz Festival',
@@ -143,16 +143,16 @@ const stalls: Stall[] = [
     pull: 'Our prettiest setup to date, with The Mexican Coffee Company for the tips and the jazz musicians for the soundtrack.',
   },
   {
-    label: 'Stall 09',
+    label: 'Stall Session 09',
     date: '23 May 2026',
     title: 'Albion in the warm spell',
     location: 'Albion Place, Leeds',
     images: [
-      { src: '/blog/albionStall9.jpg', alt: 'ForgeRealm at Stall 09, Albion Place, with the full tiered display, branded tablecloth, and QR code on the front.' },
-      { src: '/blog/2albionStall9.jpg', alt: 'Display detail at Stall 09 with the ForgeRealm Leeds price sheet, dragon eggs, and oversized green and purple icosahedrons.', portrait: true },
+      { src: '/blog/albionStall9.jpg', alt: 'ForgeRealm at Stall Session 09, Albion Place, with the full tiered display, branded tablecloth, and QR code on the front.' },
+      { src: '/blog/2albionStall9.jpg', alt: 'Display detail at Stall Session 09 with the ForgeRealm Leeds price sheet, dragon eggs, and oversized green and purple icosahedrons.', portrait: true },
     ],
     paragraphs: [
-      'Back at Albion after Manchester, and roughly three times the result. You win some, you lose some. Credit goes mostly to the weather: the UK is at an all-time high for warmth, and for once that worked in our favour. Sun out, silk PLA doing the same trick it pulled at Stall 3, and the usual Albion traders noticeably in better spirits than normal.',
+      'Back at Albion after Manchester, and roughly three times the result. You win some, you lose some. Credit goes mostly to the weather: the UK is at an all-time high for warmth, and for once that worked in our favour. Sun out, silk PLA doing the same trick it pulled at Stall Session 3, and the usual Albion traders noticeably in better spirits than normal.',
       'A goth fest near the venue gave the stall next to us a proper boost. That is Shining Star Jewelry, one of our favourite vendors: not just for being consistently supportive of us and every other stall around them, but for having some of the coolest pieces we have seen at any fair. Slightly above our all-time average, so no complaints.',
     ],
     pull: 'Roughly three times Manchester, with the sun doing most of the heavy lifting.',
@@ -180,7 +180,7 @@ const stalls: Stall[] = [
     pull: 'First swing: a FIFA 2026 football merch line.',
   },
   {
-    label: 'Stall 10',
+    label: 'Stall Session 10',
     date: '6 June 2026',
     title: 'The dual-stall debut',
     location: 'Albion Place & Kirkgate Market, Leeds',
@@ -195,7 +195,7 @@ const stalls: Stall[] = [
     pull: 'Stall maxxing was a joke for about a week. Now it is the plan.',
   },
   {
-    label: 'Stall 12',
+    label: 'Stall Session 11',
     date: '20 June 2026',
     title: 'Stall maxxing, take two',
     location: 'Albion Place & Kirkgate Market, Leeds',
@@ -205,7 +205,7 @@ const stalls: Stall[] = [
       { src: '/blog/2albionStall12.jpg', alt: 'Tobi at the Albion stall after Kirkgate closed at 4pm and we restocked together, possibly the best the stall has ever looked.', portrait: true },
     ],
     paragraphs: [
-      'Round two of the dual setup, Albion + Kirkgate. Beat our second-best Albion record yet again, and the overall total across both venues basically tied the first dual on Stall 10. A bit more if you squint, the same if you do the maths. Different day, same outcome, the model holds.',
+      'Round two of the dual setup, Albion + Kirkgate. Beat our second-best Albion record yet again, and the overall total across both venues basically tied the first dual on Stall Session 10. A bit more if you squint, the same if you do the maths. Different day, same outcome, the model holds.',
       'When Tobi closed Kirkgate at 4 he came over to Albion and we restocked the whole display together. The third photo is what it looked like after, possibly the best the stall has ever looked. Gorgeous weather all day, and lucky timing on top: the heatwave landed the next morning.',
     ],
     pull: 'Possibly the best the stall has ever looked, and the heatwave waited until the morning after.',
