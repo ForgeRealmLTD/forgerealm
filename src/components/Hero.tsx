@@ -115,7 +115,7 @@ export default function Hero() {
 
             {/* Emblem + eyebrow */}
             <div className="mb-6 flex items-center gap-4 justify-center lg:justify-start">
-              <img src="/frlogorv.png" alt="ForgeRealm Emblem" className="h-12 w-12 sm:h-14 sm:w-14 drop-shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:drop-shadow-[0_0_25px_rgba(59,130,246,0.6)] transition-all duration-500 cursor-pointer" />
+              <img src="/frlogorv.png" alt="ForgeRealm Emblem" className="h-12 w-12 sm:h-14 sm:w-14 drop-shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:drop-shadow-[0_0_25px_rgba(59,130,246,0.6)] transition-all duration-500" decoding="async" />
               <div>
                 <span className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.3em] text-blue-300/70 block" style={{ fontFamily: "'Jost', sans-serif" }}>
                   3D Printed in Leeds
