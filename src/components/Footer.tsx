@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import { FaInstagram, FaFacebook, FaTwitter, FaEtsy } from "react-icons/fa";
+import { FaInstagram, FaLinkedin, FaTiktok } from "react-icons/fa6";
 
 export default function Footer() {
   const [modal, setModal] = useState<"privacy" | "terms" | "sla" | null>(null);
@@ -66,17 +66,14 @@ export default function Footer() {
 
             {/* Social icons */}
             <div className="flex gap-4 mt-5 text-lg text-stone-400">
-              <a href="#" aria-label="Instagram" className="hover:text-blue-300 transition-colors duration-300">
+              <a href="https://instagram.com/forgerealmltd" target="_blank" rel="noopener noreferrer" aria-label="ForgeRealm on Instagram" className="hover:text-blue-300 transition-colors duration-300">
                 <FaInstagram />
               </a>
-              <a href="#" aria-label="Facebook" className="hover:text-blue-300 transition-colors duration-300">
-                <FaFacebook />
+              <a href="https://www.linkedin.com/company/forgerealm" target="_blank" rel="noopener noreferrer" aria-label="ForgeRealm on LinkedIn" className="hover:text-blue-300 transition-colors duration-300">
+                <FaLinkedin />
               </a>
-              <a href="#" aria-label="Twitter" className="hover:text-blue-300 transition-colors duration-300">
-                <FaTwitter />
-              </a>
-              <a href="#" aria-label="Etsy" className="hover:text-blue-300 transition-colors duration-300">
-                <FaEtsy />
+              <a href="https://www.tiktok.com/@forgerealmltd" target="_blank" rel="noopener noreferrer" aria-label="ForgeRealm on TikTok" className="hover:text-blue-300 transition-colors duration-300">
+                <FaTiktok />
               </a>
             </div>
           </div>
@@ -91,22 +88,22 @@ export default function Footer() {
             </div>
             <ul className="mt-3 space-y-2" style={{ fontFamily: "'Inter', sans-serif" }}>
               <li>
-                <a href="#services" className="text-stone-400 hover:text-blue-300 transition-colors duration-300">
+                <a href="/custom-order" className="text-stone-400 hover:text-blue-300 transition-colors duration-300">
                   Custom Prints
                 </a>
               </li>
               <li>
-                <a href="#services" className="text-stone-400 hover:text-blue-300 transition-colors duration-300">
+                <a href="/shop" className="text-stone-400 hover:text-blue-300 transition-colors duration-300">
                   Online Orders
                 </a>
               </li>
               <li>
-                <a href="#services" className="text-stone-400 hover:text-blue-300 transition-colors duration-300">
+                <a href="/blog" className="text-stone-400 hover:text-blue-300 transition-colors duration-300">
                   Leeds Booths
                 </a>
               </li>
               <li>
-                <a href="#materials" className="text-stone-400 hover:text-blue-300 transition-colors duration-300">
+                <a href="/#materials" className="text-stone-400 hover:text-blue-300 transition-colors duration-300">
                   Materials
                 </a>
               </li>
@@ -123,22 +120,22 @@ export default function Footer() {
             </div>
             <ul className="mt-3 space-y-2" style={{ fontFamily: "'Inter', sans-serif" }}>
               <li>
-                <a href="#work" className="text-stone-400 hover:text-blue-300 transition-colors duration-300">
+                <a href="/#work" className="text-stone-400 hover:text-blue-300 transition-colors duration-300">
                   Recent Work
                 </a>
               </li>
               <li>
-                <a href="#about" className="text-stone-400 hover:text-blue-300 transition-colors duration-300">
+                <a href="/blog" className="text-stone-400 hover:text-blue-300 transition-colors duration-300">
                   About
                 </a>
               </li>
               <li>
-                <a href="#contact" className="text-stone-400 hover:text-blue-300 transition-colors duration-300">
+                <a href="mailto:info@forgerealm.co.uk" className="text-stone-400 hover:text-blue-300 transition-colors duration-300">
                   Contact
                 </a>
               </li>
               <li>
-                <a href="#faq" className="text-stone-400 hover:text-blue-300 transition-colors duration-300">
+                <a href="/#faq" className="text-stone-400 hover:text-blue-300 transition-colors duration-300">
                   FAQ
                 </a>
               </li>
