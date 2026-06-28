@@ -212,7 +212,7 @@ const stalls: Stall[] = [
   },
 ];
 
-function StallEntry({ stall, index }: { stall: Stall; index: number }) {
+function StallEntry({ stall, index, isLatest }: { stall: Stall; index: number; isLatest?: boolean }) {
   const entryRef = useRef<HTMLDivElement>(null);
   const inReadingZone = useInView(entryRef, { margin: '-40% 0px -50% 0px' });
   const dotPulse = inReadingZone ? { scale: [1, 1.6, 1] } : { scale: 1 };
@@ -238,7 +238,7 @@ function StallEntry({ stall, index }: { stall: Stall; index: number }) {
   const pullText = isNote ? 'text-amber-100/90' : 'text-cyan-100/90';
 
   return (
-    <div ref={entryRef} className="relative flex flex-col md:flex-row md:gap-10 pb-16 sm:pb-24 pl-12 md:pl-0">
+    <div ref={entryRef} data-latest-stall={isLatest ? '' : undefined} data-stall-label={isLatest ? stall.label : undefined} data-stall-date={isLatest ? stall.date : undefined} className="relative flex flex-col md:flex-row md:gap-10 pb-16 sm:pb-24 pl-12 md:pl-0">
       <motion.div
         animate={dotPulse}
         transition={dotTransition}
@@ -366,9 +366,12 @@ export default function StallsTimeline() {
       </div>
 
       <div className="relative">
-        {stalls.map((stall, i) => (
-          <StallEntry key={stall.label} stall={stall} index={i} />
-        ))}
+        {(() => {
+          const latestStallIndex = stalls.map((s, i) => ({ s, i })).filter(({ s }) => s.kind !== 'note').pop()?.i ?? -1;
+          return stalls.map((stall, i) => (
+            <StallEntry key={stall.label} stall={stall} index={i} isLatest={i === latestStallIndex} />
+          ));
+        })()}
       </div>
     </div>
   );
