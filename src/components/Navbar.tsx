@@ -57,7 +57,7 @@ export default function Navbar() {
               <a
                 key={label}
                 href={href}
-                className="px-4 py-2 rounded-full text-[10px] font-medium uppercase tracking-[0.18em] text-stone-400 transition-all duration-300 hover:text-white hover:bg-white/[0.08]"
+                className="px-4 py-2 rounded-full text-[10px] font-medium uppercase tracking-[0.18em] text-stone-400 transition-all duration-300 hover:text-white hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/70 focus-visible:text-white"
                 style={{ fontFamily: "'Jost', sans-serif" }}
               >
                 {label}
