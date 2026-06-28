@@ -82,7 +82,7 @@ export default function BlogNavbar() {
             {/* Mobile hamburger */}
             <button
               onClick={() => setOpen(true)}
-              className={`md:hidden rounded-full p-2.5 transition-all ${scrolled ? 'bg-black/50 backdrop-blur-xl border border-[#FADE6A]/30' : 'bg-white/[0.06] border border-white/[0.08]'}`}
+              className={`md:hidden rounded-full p-2.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FADE6A]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080c16] ${scrolled ? 'bg-black/50 backdrop-blur-xl border border-[#FADE6A]/30' : 'bg-white/[0.06] border border-white/[0.08]'}`}
               aria-label="Open menu"
             >
               <HiOutlineMenu className={`h-5 w-5 transition-colors duration-500 ${scrolled ? 'text-[#FADE6A]' : 'text-white'}`} />
