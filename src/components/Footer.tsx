@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import { FaInstagram, FaThreads, FaXTwitter } from "react-icons/fa6";
+import { FaInstagram, FaLinkedin, FaTiktok } from "react-icons/fa6";
 
 export default function Footer() {
   const [modal, setModal] = useState<"privacy" | "terms" | "sla" | null>(null);
@@ -66,14 +66,14 @@ export default function Footer() {
 
             {/* Social icons */}
             <div className="flex gap-4 mt-5 text-lg text-stone-400">
-              <a href="https://instagram.com/forgerealm" target="_blank" rel="noopener noreferrer" aria-label="ForgeRealm on Instagram" className="hover:text-blue-300 transition-colors duration-300">
+              <a href="https://instagram.com/forgerealmltd" target="_blank" rel="noopener noreferrer" aria-label="ForgeRealm on Instagram" className="hover:text-blue-300 transition-colors duration-300">
                 <FaInstagram />
               </a>
-              <a href="https://www.threads.net/@forgerealm3d" target="_blank" rel="noopener noreferrer" aria-label="ForgeRealm on Threads" className="hover:text-blue-300 transition-colors duration-300">
-                <FaThreads />
+              <a href="https://www.linkedin.com/company/forgerealm" target="_blank" rel="noopener noreferrer" aria-label="ForgeRealm on LinkedIn" className="hover:text-blue-300 transition-colors duration-300">
+                <FaLinkedin />
               </a>
-              <a href="https://x.com/forgerealm3d" target="_blank" rel="noopener noreferrer" aria-label="ForgeRealm on X" className="hover:text-blue-300 transition-colors duration-300">
-                <FaXTwitter />
+              <a href="https://www.tiktok.com/@forgerealmltd" target="_blank" rel="noopener noreferrer" aria-label="ForgeRealm on TikTok" className="hover:text-blue-300 transition-colors duration-300">
+                <FaTiktok />
               </a>
             </div>
           </div>
