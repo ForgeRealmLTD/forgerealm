@@ -27,16 +27,18 @@ const formatShortDate = (date?: Date) =>
 
     <BlogHero client:load />
 
+    <!-- Jump to latest post (prominent CTA at the top) -->
+    <section class="relative mx-auto max-w-7xl px-4 pt-6 pb-2 sm:px-6 sm:pt-10 lg:px-8">
+      <JumpToLatest client:idle />
+    </section>
+
     <!-- Next stall (top of page so readers see it first) -->
     <section class="relative mx-auto max-w-7xl px-4 pt-4 pb-8 sm:px-6 sm:pt-8 sm:pb-10 lg:px-8">
-      <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
-        <div class="inline-flex items-center gap-3">
-          <div class="w-5 h-px bg-cyan-400/50" />
-          <span class="text-[11px] sm:text-[12px] font-medium uppercase tracking-[0.28em] text-cyan-300/70" style="font-family: 'Jost', sans-serif;">
-            Where to find us next
-          </span>
-        </div>
-        <JumpToLatest client:idle />
+      <div class="inline-flex items-center gap-3 mb-5">
+        <div class="w-5 h-px bg-cyan-400/50" />
+        <span class="text-[11px] sm:text-[12px] font-medium uppercase tracking-[0.28em] text-cyan-300/70" style="font-family: 'Jost', sans-serif;">
+          Where to find us next
+        </span>
       </div>
       <div class="relative overflow-hidden rounded-2xl border border-cyan-300/20 bg-gradient-to-br from-cyan-500/[0.08] via-blue-500/[0.05] to-transparent p-6 sm:p-8 lg:p-10 backdrop-blur-xl">
         <div class="pointer-events-none absolute -top-20 -right-20 h-[300px] w-[300px] rounded-full bg-cyan-400/10 blur-[120px]" style="animation: glow-pulse 4s ease-in-out infinite;" />
