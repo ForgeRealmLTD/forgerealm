@@ -203,7 +203,7 @@ export default function Footer() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 font-semibold transition-opacity duration-300 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+                className="rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 font-semibold transition-opacity duration-300 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
                 style={{ fontFamily: "'Cinzel', serif" }}
               >
                 {submitting ? "Submitting..." : "Subscribe"}
