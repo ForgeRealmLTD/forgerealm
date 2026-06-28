@@ -33,7 +33,7 @@ export default function Navbar() {
             <div className={`relative rounded-full p-1.5 transition-all duration-500 border ${scrolled ? 'bg-black/60 backdrop-blur-xl border-[#FADE6A]/30 sm:border-white/10' : 'border-transparent'}`}>
               <div className="relative">
                 <div className="absolute -inset-2 rounded-full bg-blue-400/0 group-hover:bg-blue-400/20 blur-xl transition-all duration-500" />
-                <img src="/headfrlogorv.png" alt="ForgeRealm" width={36} height={36} className="relative h-9 w-9 rounded-full transition-transform duration-300 group-hover:rotate-12 group-hover:drop-shadow-[0_0_12px_rgba(59,130,246,0.5)]" loading="eager" />
+                <img src="/headfrlogorv.png" alt="ForgeRealm" width={36} height={36} className="relative h-9 w-9 rounded-full transition-transform duration-300 group-hover:rotate-12 group-hover:drop-shadow-[0_0_12px_rgba(59,130,246,0.5)]" loading="eager" decoding="async" fetchpriority="high" />
               </div>
             </div>
             <div className="hidden sm:block">
