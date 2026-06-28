@@ -69,14 +69,14 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <a
               href="/shop"
-              className="hidden sm:inline-flex items-center gap-2 rounded-full bg-gradient-to-t from-amber-500 to-yellow-300 px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-black transition-all hover:-translate-y-0.5 shadow-lg shadow-amber-500/20"
+              className="hidden sm:inline-flex items-center gap-2 rounded-full bg-gradient-to-t from-amber-500 to-yellow-300 px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-black transition-all hover:-translate-y-0.5 shadow-lg shadow-amber-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/90 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080c16]"
               style={{ fontFamily: "'Cinzel', serif" }}
             >
               Shop
             </a>
             <a
               href="/shop/sign-in"
-              className={`hidden sm:inline-flex items-center rounded-full px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/70 transition-all hover:text-white border border-white/20 hover:border-white/40 ${scrolled ? 'bg-black/40 backdrop-blur-xl' : 'bg-white/[0.04]'}`}
+              className={`hidden sm:inline-flex items-center rounded-full px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/70 transition-all hover:text-white border border-white/20 hover:border-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080c16] ${scrolled ? 'bg-black/40 backdrop-blur-xl' : 'bg-white/[0.04]'}`}
               style={{ fontFamily: "'Cinzel', serif" }}
             >
               Sign In
