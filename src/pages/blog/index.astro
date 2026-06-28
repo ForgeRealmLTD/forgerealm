@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '~/layouts/BaseLayout.astro';
-import Navbar from '~/components/Navbar';
+import BlogNavbar from '~/components/BlogNavbar';
 import BlogHero from '~/components/blog/BlogHero';
 import StallsTimeline from '~/components/blog/StallsTimeline';
 
@@ -22,7 +22,7 @@ const formatShortDate = (date?: Date) =>
       @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
     </style>
 
-    <Navbar client:load />
+    <BlogNavbar client:load />
 
     <BlogHero client:load />
 
