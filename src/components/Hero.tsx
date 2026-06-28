@@ -139,7 +139,7 @@ export default function Hero() {
               }
             `}</style>
 
-            <p className="mt-4 sm:mt-6 max-w-lg text-stone-400 leading-relaxed mx-auto lg:mx-0 text-[13px] sm:text-base lg:text-lg" style={{ fontFamily: "'Inter', sans-serif", lineHeight: 1.7 }}>
+            <p className="mt-4 sm:mt-6 max-w-lg text-stone-400 leading-relaxed mx-auto lg:mx-0 text-[13px] sm:text-base lg:text-lg [text-wrap:pretty]" style={{ fontFamily: "'Inter', sans-serif", lineHeight: 1.7 }}>
               From articulated dragons to ambient lamps, every piece is designed, printed, and hand-finished in our Leeds workshop. Eco-friendly PLA, no compromise on detail.
             </p>
 
