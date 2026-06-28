@@ -402,6 +402,7 @@ function ShopHeader({ onCartOpen }: { onCartOpen: () => void }) {
         <nav className="hidden md:flex items-center gap-1">
           <a href="/" className="rounded-lg px-3 py-2 text-sm text-slate-400 transition-all hover:bg-white/5 hover:text-white">Home</a>
           <a href="#products" className="rounded-lg px-3 py-2 text-sm text-slate-400 transition-all hover:bg-white/5 hover:text-white">Shop</a>
+          <a href="/blog" className="rounded-lg px-3 py-2 text-sm text-slate-400 transition-all hover:bg-white/5 hover:text-white">Blog</a>
           <a href="/shop/dashboard" className="rounded-lg px-3 py-2 text-sm text-slate-400 transition-all hover:bg-white/5 hover:text-white">Profile</a>
           <div className="ml-2 h-5 w-px bg-white/10" />
           <button
@@ -450,6 +451,7 @@ function ShopHeader({ onCartOpen }: { onCartOpen: () => void }) {
             <div className="space-y-3 px-4 py-4">
               <a href="/" className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white">Home</a>
               <a href="#products" onClick={() => setMobileOpen(false)} className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white">Shop</a>
+              <a href="/blog" className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white">Blog</a>
               <a href="/shop/dashboard" className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white">Profile</a>
             </div>
           </motion.div>
