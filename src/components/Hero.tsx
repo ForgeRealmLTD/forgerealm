@@ -152,7 +152,7 @@ export default function Hero() {
                 Enter the Shop
               </a>
               <a
-                href="#work"
+                href="/#work"
                 className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/[0.05] px-8 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/80 transition-all hover:border-white/50 hover:text-white hover:bg-white/10 backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080c14]"
                 style={{ fontFamily: "'Cinzel', serif" }}
               >
