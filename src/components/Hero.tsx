@@ -124,7 +124,7 @@ export default function Hero() {
               </div>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl lg:text-[5rem] font-bold leading-[0.9] text-white" style={{ fontFamily: "'Cinzel', serif" }}>
+            <h1 className="text-4xl sm:text-6xl lg:text-[5rem] font-bold leading-[0.9] text-white [text-wrap:balance]" style={{ fontFamily: "'Cinzel', serif" }}>
               Crafted with
               <br />
               <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-300 bg-clip-text text-transparent" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300, fontSize: '1.1em' }}>
