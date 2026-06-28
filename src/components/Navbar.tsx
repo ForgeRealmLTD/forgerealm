@@ -8,11 +8,11 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   const navLinks = [
-    ["Services", "#services"],
-    ["Work", "#work"],
-    ["FAQ", "#faq"],
+    ["Services", "/#services"],
+    ["Work", "/#work"],
+    ["FAQ", "/#faq"],
     ["Blog", "/blog"],
-    ["Contact", "#contact"],
+    ["Contact", "/#contact"],
     ["Booths", "/subscribe"],
   ];
 
