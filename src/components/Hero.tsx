@@ -172,7 +172,7 @@ export default function Hero() {
             </div>
 
             {/* Stats row */}
-            <div className="mt-10 flex flex-wrap gap-8 justify-center lg:justify-start" ref={printsSold.ref}>
+            <div className="mt-8 sm:mt-10 flex flex-wrap gap-6 sm:gap-8 justify-center lg:justify-start" ref={printsSold.ref}>
               <div>
                 <p className="text-2xl font-bold text-white tabular-nums" style={{ fontFamily: "'Cinzel', serif" }}>{printsSold.count}+</p>
                 <p className="text-[10px] uppercase tracking-[0.2em] text-stone-500 mt-0.5" style={{ fontFamily: "'Jost', sans-serif" }}>Prints Sold</p>
