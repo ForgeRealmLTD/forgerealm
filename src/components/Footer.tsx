@@ -66,13 +66,13 @@ export default function Footer() {
 
             {/* Social icons */}
             <div className="flex gap-4 mt-5 text-lg text-stone-400">
-              <a href="https://instagram.com/forgerealmltd" target="_blank" rel="noopener noreferrer" aria-label="ForgeRealm on Instagram" className="hover:text-blue-300 transition-colors duration-300">
+              <a href="https://instagram.com/forgerealmltd" target="_blank" rel="noopener noreferrer" aria-label="ForgeRealm on Instagram" className="hover:text-blue-300 transition-colors duration-300 focus-visible:outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-blue-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]">
                 <FaInstagram />
               </a>
-              <a href="https://www.linkedin.com/company/forgerealm" target="_blank" rel="noopener noreferrer" aria-label="ForgeRealm on LinkedIn" className="hover:text-blue-300 transition-colors duration-300">
+              <a href="https://www.linkedin.com/company/forgerealm" target="_blank" rel="noopener noreferrer" aria-label="ForgeRealm on LinkedIn" className="hover:text-blue-300 transition-colors duration-300 focus-visible:outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-blue-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]">
                 <FaLinkedin />
               </a>
-              <a href="https://www.tiktok.com/@forgerealmltd" target="_blank" rel="noopener noreferrer" aria-label="ForgeRealm on TikTok" className="hover:text-blue-300 transition-colors duration-300">
+              <a href="https://www.tiktok.com/@forgerealmltd" target="_blank" rel="noopener noreferrer" aria-label="ForgeRealm on TikTok" className="hover:text-blue-300 transition-colors duration-300 focus-visible:outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-blue-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]">
                 <FaTiktok />
               </a>
             </div>
@@ -228,13 +228,13 @@ export default function Footer() {
             (c) {new Date().getFullYear()} ForgeRealm Ltd. All rights reserved.
           </div>
           <div className="flex items-center gap-4" style={{ fontFamily: "'Inter', sans-serif" }}>
-            <button type="button" onClick={() => setModal("privacy")} className="hover:text-blue-300 transition-colors duration-300">
+            <button type="button" onClick={() => setModal("privacy")} className="hover:text-blue-300 transition-colors duration-300 focus-visible:outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-blue-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]">
               Privacy
             </button>
-            <button type="button" onClick={() => setModal("terms")} className="hover:text-blue-300 transition-colors duration-300">
+            <button type="button" onClick={() => setModal("terms")} className="hover:text-blue-300 transition-colors duration-300 focus-visible:outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-blue-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]">
               Terms
             </button>
-            <button type="button" onClick={() => setModal("sla")} className="hover:text-blue-300 transition-colors duration-300">
+            <button type="button" onClick={() => setModal("sla")} className="hover:text-blue-300 transition-colors duration-300 focus-visible:outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-blue-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]">
               SLA
             </button>
           </div>
