@@ -50,6 +50,15 @@
   --border: rgba(255, 255, 255, 0.10);
 }
 
+/* Smooth anchor jumps with sticky-nav clearance, disabled for reduced-motion */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
