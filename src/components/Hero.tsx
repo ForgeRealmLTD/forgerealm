@@ -129,10 +129,15 @@ export default function Hero() {
               <br />
               <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-300 bg-clip-text text-transparent" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300, fontSize: '1.1em' }}>
                 {typed}
-                <span className="inline-block w-[2px] h-[0.85em] ml-1 align-middle bg-cyan-300/60" style={{ animation: 'blink 1s step-end infinite' }} />
+                <span aria-hidden="true" className="typewriter-cursor inline-block w-[2px] h-[0.85em] ml-1 align-middle bg-cyan-300/60" style={{ animation: 'blink 1s step-end infinite' }} />
               </span>
             </h1>
-            <style>{`@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }`}</style>
+            <style>{`
+              @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+              @media (prefers-reduced-motion: reduce) {
+                .typewriter-cursor { animation: none !important; opacity: 1 !important; }
+              }
+            `}</style>
 
             <p className="mt-4 sm:mt-6 max-w-lg text-stone-400 leading-relaxed mx-auto lg:mx-0 text-[13px] sm:text-base lg:text-lg" style={{ fontFamily: "'Inter', sans-serif", lineHeight: 1.7 }}>
               From articulated dragons to ambient lamps, every piece is designed, printed, and hand-finished in our Leeds workshop. Eco-friendly PLA, no compromise on detail.
