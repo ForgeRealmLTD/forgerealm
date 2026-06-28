@@ -146,14 +146,14 @@ export default function Hero() {
             <div className="mt-8 flex flex-wrap gap-3 justify-center lg:justify-start">
               <a
                 href="/shop"
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-400 px-8 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white border border-white/30 transition-all hover:-translate-y-0.5 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-400 px-8 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white border border-white/30 transition-all hover:-translate-y-0.5 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080c14]"
                 style={{ fontFamily: "'Cinzel', serif" }}
               >
                 Enter the Shop
               </a>
               <a
                 href="#work"
-                className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/[0.05] px-8 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/80 transition-all hover:border-white/50 hover:text-white hover:bg-white/10 backdrop-blur-sm"
+                className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/[0.05] px-8 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/80 transition-all hover:border-white/50 hover:text-white hover:bg-white/10 backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080c14]"
                 style={{ fontFamily: "'Cinzel', serif" }}
               >
                 See Our Work
