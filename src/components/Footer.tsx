@@ -165,7 +165,7 @@ export default function Footer() {
                 id="subscribe-first-name"
                 placeholder="First name"
                 aria-label="First name"
-                className="w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-white text-sm outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-stone-500"
+                className="w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-white text-sm outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400/50 placeholder:text-stone-500 transition-colors"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               />
 
@@ -175,7 +175,7 @@ export default function Footer() {
                 id="subscribe-last-name"
                 placeholder="Last name"
                 aria-label="Last name"
-                className="w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-white text-sm outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-stone-500"
+                className="w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-white text-sm outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400/50 placeholder:text-stone-500 transition-colors"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               />
 
@@ -186,7 +186,7 @@ export default function Footer() {
                 id="subscribe-email"
                 placeholder="you@example.com"
                 aria-label="Email address"
-                className="w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-white text-sm outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-stone-500"
+                className="w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-white text-sm outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400/50 placeholder:text-stone-500 transition-colors"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               />
 
@@ -196,7 +196,7 @@ export default function Footer() {
                 id="subscribe-company"
                 placeholder="Company (optional)"
                 aria-label="Company"
-                className="w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-white text-sm outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-stone-500"
+                className="w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-white text-sm outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400/50 placeholder:text-stone-500 transition-colors"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               />
 
