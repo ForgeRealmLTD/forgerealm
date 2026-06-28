@@ -73,7 +73,7 @@ export default function BlogNavbar() {
           <div className="flex items-center gap-2">
             <a
               href="/shop/sign-in"
-              className={`hidden sm:inline-flex items-center rounded-full px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/70 transition-all hover:text-white border border-white/20 hover:border-white/40 ${scrolled ? 'bg-black/40 backdrop-blur-xl' : 'bg-white/[0.04]'}`}
+              className={`hidden sm:inline-flex items-center rounded-full px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/70 transition-all hover:text-white border border-white/20 hover:border-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080c16] ${scrolled ? 'bg-black/40 backdrop-blur-xl' : 'bg-white/[0.04]'}`}
               style={{ fontFamily: "'Cinzel', serif" }}
             >
               Sign In
