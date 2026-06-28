@@ -204,7 +204,7 @@ export default function Hero() {
                   {printAnim ? (
                     <Lottie animationData={printAnim} loop className="h-[120%] w-[120%]" />
                   ) : (
-                    <img src="/frlogorv.png" alt="ForgeRealm" width={180} height={180} className="opacity-40" />
+                    <img src="/frlogorv.png" alt="" aria-hidden="true" width={180} height={180} className="opacity-40" loading="lazy" decoding="async" />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
                 </div>
