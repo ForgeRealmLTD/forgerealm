@@ -54,6 +54,8 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 6rem;
+  scrollbar-color: rgba(59, 130, 246, 0.35) transparent;
+  scrollbar-width: thin;
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
