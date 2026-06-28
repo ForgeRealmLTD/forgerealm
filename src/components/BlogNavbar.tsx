@@ -44,7 +44,7 @@ export default function BlogNavbar() {
               <span className="text-[15px] font-semibold text-white block leading-tight whitespace-nowrap" style={{ fontFamily: "'Cinzel', serif" }}>
                 ForgeRealm
               </span>
-              <span className="text-[8px] uppercase tracking-[0.3em] text-blue-300/50 whitespace-nowrap" style={{ fontFamily: "'Jost', sans-serif" }}>Stall Chronicles</span>
+              <span className="text-[9px] tracking-[0.18em] text-cyan-300/70 whitespace-nowrap" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 400 }}>Stall Chronicles</span>
             </div>
           </a>
 
