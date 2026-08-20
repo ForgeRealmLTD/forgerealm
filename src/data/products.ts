@@ -18,7 +18,7 @@ export const products: Product[] = [
   // ── Dragons ──
   {
     id: "big-dragon-blue",
-    name: "Big Dragon (Blue)",
+    name: "Mini Dragon (Blue)",
     slug: "big-dragon-blue",
     price: 1200,
     displayPrice: "£12.00",
@@ -31,7 +31,7 @@ export const products: Product[] = [
   },
   {
     id: "big-dragon-red",
-    name: "Big Dragon (Red)",
+    name: "Mini Dragon (Red)",
     slug: "big-dragon-red",
     price: 1200,
     displayPrice: "£12.00",
@@ -150,28 +150,28 @@ export const products: Product[] = [
     ],
   },
 
-  // ── Spinners ──
+  // ── Spiral Cone Fidgets (renamed from Spinners - single printed piece, no bearing) ──
   {
     id: "big-spinner",
-    name: "Big Spinner",
+    name: "Big Spiral Cone Fidget",
     slug: "big-spinner",
     price: 800,
     displayPrice: "£8.00",
     category: "Fidget",
     description:
-      "Oversized fidget spinner with weighted arms for long, smooth spins. Satisfying desk toy with iridescent blue-purple finish.",
+      "Oversized spiral cone fidget - a single printed piece with a helical cut that stretches and twists like a slinky-cone, no bearing or axle. Satisfying desk toy with iridescent blue-purple finish.",
     stock: 4,
     image: "/shop-products/Photoroom_20260413_14427_am.jpg",
   },
   {
     id: "spinner",
-    name: "Spinner",
+    name: "Spiral Cone Fidget",
     slug: "spinner",
     price: 400,
     displayPrice: "£4.00",
     category: "Fidget",
     description:
-      "Compact fidget spinner with balanced weight and smooth rotation. Pocket-sized stress relief in iridescent blue-purple.",
+      "Compact spiral cone fidget with a smooth helical twist-and-stretch action, no bearing or axle. Pocket-sized stress relief in iridescent blue-purple.",
     stock: 28,
     image: "/shop-products/Photoroom_20260413_14501_am.jpg",
     featured: true,
@@ -245,7 +245,7 @@ export const products: Product[] = [
     featured: true,
   },
 
-  // ── Keychains ──
+  // ── Small prints (formerly Keychains - ring dropped, sold bare) ──
   {
     id: "hexagon-keychain-yellow",
     name: "Hexagon Keychain (Yellow)",
@@ -254,7 +254,7 @@ export const products: Product[] = [
     displayPrice: "£3.00",
     category: "Keychains",
     description:
-      "Geometric hexagon keychain with a satisfying weight. Clean lines and modern design in golden yellow.",
+      "Geometric hexagon charm with a satisfying weight, sold as a standalone print with no keyring attached. Clean lines and modern design in golden yellow.",
     stock: null,
     image: "/shop-products/Photoroom_20260413_15601_am.jpg",
   },
@@ -266,7 +266,7 @@ export const products: Product[] = [
     displayPrice: "£3.00",
     category: "Keychains",
     description:
-      "Geometric hexagon keychain with a satisfying weight. Clean lines and modern design in iridescent purple.",
+      "Geometric hexagon charm with a satisfying weight, sold as a standalone print with no keyring attached. Clean lines and modern design in iridescent purple.",
     stock: 3,
     image: "/shop-products/Photoroom_20260413_15645_am.jpg",
   },
@@ -278,7 +278,7 @@ export const products: Product[] = [
     displayPrice: "£3.00",
     category: "Keychains",
     description:
-      "Geometric hexagon keychain with a satisfying weight. Clean lines and modern design in emerald green.",
+      "Geometric hexagon charm with a satisfying weight, sold as a standalone print with no keyring attached. Clean lines and modern design in emerald green.",
     stock: 4,
     image: "/shop-products/Photoroom_20260413_15727_am.jpg",
   },
@@ -290,7 +290,7 @@ export const products: Product[] = [
     displayPrice: "£3.00",
     category: "Keychains",
     description:
-      "Geometric hexagon keychain with a satisfying weight. Clean lines and modern design in hot pink.",
+      "Geometric hexagon charm with a satisfying weight, sold as a standalone print with no keyring attached. Clean lines and modern design in hot pink.",
     stock: 3,
     image: "/shop-products/Photoroom_20260413_15805_am.jpg",
   },
@@ -343,28 +343,6 @@ export const products: Product[] = [
     badge: "Premium",
   },
   {
-    id: "leaf-dragon",
-    name: "Leaf Dragon",
-    slug: "leaf-dragon",
-    price: 1000,
-    displayPrice: "£10.00",
-    category: "Articulated",
-    description:
-      "Articulated dragon with delicate frilled leaf segments along the body. Lightweight, gorgeous in light.",
-    stock: null,
-  },
-  {
-    id: "snake-mc",
-    name: "Snake (MC)",
-    slug: "snake-mc",
-    price: 1000,
-    displayPrice: "£10.00",
-    category: "Articulated",
-    description:
-      "Long articulated snake with seamless joint flex. Available in multiple colourways.",
-    stock: null,
-  },
-  {
     id: "medium-dragon",
     name: "Medium Dragon",
     slug: "medium-dragon",
@@ -373,17 +351,6 @@ export const products: Product[] = [
     category: "Articulated",
     description:
       "Step-up articulated dragon between the small and big. Same flexible joints, mid-tier scale.",
-    stock: null,
-  },
-  {
-    id: "dragon-no-legs",
-    name: "Dragon (No Legs)",
-    slug: "dragon-no-legs",
-    price: 700,
-    displayPrice: "£7.00",
-    category: "Articulated",
-    description:
-      "Coiling articulated dragon with no legs. Pure flowing motion, elegant and minimal.",
     stock: null,
   },
   {
@@ -420,28 +387,6 @@ export const products: Product[] = [
     stock: null,
   },
   {
-    id: "crocodile",
-    name: "Crocodile",
-    slug: "crocodile",
-    price: 400,
-    displayPrice: "£4.00",
-    category: "Articulated",
-    description:
-      "Long articulated crocodile that snakes across a surface. Hinged jaw, scaled back.",
-    stock: null,
-  },
-  {
-    id: "articulated-bunny",
-    name: "Bunny",
-    slug: "articulated-bunny",
-    price: 300,
-    displayPrice: "£3.00",
-    category: "Articulated",
-    description:
-      "Articulated bunny with flexible joints. Pocket companion or shelf piece.",
-    stock: null,
-  },
-  {
     id: "articulated-cat",
     name: "Cat",
     slug: "articulated-cat",
@@ -450,17 +395,6 @@ export const products: Product[] = [
     category: "Articulated",
     description:
       "Articulated cat with smooth joint flex. Sits, stretches, perches on a shelf edge.",
-    stock: null,
-  },
-  {
-    id: "egg-bunny",
-    name: "Egg Bunny",
-    slug: "egg-bunny",
-    price: 300,
-    displayPrice: "£3.00",
-    category: "Articulated",
-    description:
-      "Bunny tucked inside an egg, articulated to peek out. A seasonal favourite.",
     stock: null,
   },
   {
@@ -486,24 +420,25 @@ export const products: Product[] = [
     stock: null,
   },
   {
-    id: "small-bunny",
-    name: "Small Bunny",
-    slug: "small-bunny",
-    price: 200,
-    displayPrice: "£2.00",
+    id: "wing-dragon",
+    name: "Wing Dragon",
+    slug: "wing-dragon",
+    price: 900,
+    displayPrice: "£9.00", // TODO: placeholder price, confirm before launch
     category: "Articulated",
-    description: "Mini articulated bunny. Pocket-sized, perfect first piece.",
+    description:
+      "Articulated dragon with flapping wings that fold and extend with a satisfying motion, printed in one piece. Full body flex plus wing action.",
     stock: null,
   },
   {
-    id: "bunny-spring",
-    name: "Bunny Spring",
-    slug: "bunny-spring",
-    price: 200,
-    displayPrice: "£2.00",
+    id: "octoring",
+    name: "Octoring",
+    slug: "octoring",
+    price: 500,
+    displayPrice: "£5.00", // TODO: placeholder price, confirm before launch
     category: "Articulated",
     description:
-      "Compact spring-loaded bunny that bounces in the hand. Light and satisfying.",
+      "Octopus fidget built around a central cylinder with several rings that rotate freely around it. Satisfying spin, printed in one piece.",
     stock: null,
   },
   // ── Voronoi + Tealights (new SKUs) ──
@@ -561,207 +496,6 @@ export const products: Product[] = [
       "Bunny tealight holder. Glow shines through the lattice silhouette for cosy evenings.",
     stock: null,
   },
-  // ── Fidget + Keychains + Idol (new SKUs) ──
-  {
-    id: "cube-fidget",
-    name: "Cube Fidget",
-    slug: "cube-fidget",
-    price: 400,
-    displayPrice: "£4.00",
-    category: "Fidget",
-    description:
-      "Six-faced fidget cube with tactile switches, buttons, and rollers. One face for every mood.",
-    stock: null,
-  },
-  {
-    id: "fidget-octopus",
-    name: "Octopus Fidget",
-    slug: "fidget-octopus",
-    price: 400,
-    displayPrice: "£4.00",
-    category: "Fidget",
-    description:
-      "Reversible octopus fidget that flips inside out to switch its mood.",
-    stock: null,
-  },
-  {
-    id: "xl-dragon-keychain",
-    name: "XL Dragon Keychain",
-    slug: "xl-dragon-keychain",
-    price: 500,
-    displayPrice: "£5.00",
-    category: "Keychains",
-    description:
-      "Oversized articulated dragon keychain. Full flex, full presence on your keys.",
-    stock: null,
-  },
-  {
-    id: "mushroom-mc-keychain",
-    name: "Mushroom Keychain (MC)",
-    slug: "mushroom-mc-keychain",
-    price: 500,
-    displayPrice: "£5.00",
-    category: "Keychains",
-    description:
-      "Mushroom keychain with detailed cap. Multiple colour finishes available.",
-    stock: null,
-  },
-  {
-    id: "octopus-keychain",
-    name: "Octopus Keychain",
-    slug: "octopus-keychain",
-    price: 400,
-    displayPrice: "£4.00",
-    category: "Keychains",
-    description:
-      "Articulated octopus keychain that wraps gently around fingers.",
-    stock: null,
-  },
-  {
-    id: "big-keychain-dragon",
-    name: "Big Dragon Keychain",
-    slug: "big-keychain-dragon",
-    price: 300,
-    displayPrice: "£3.00",
-    category: "Keychains",
-    description:
-      "Larger articulated dragon keychain. The full flex on your keys.",
-    stock: null,
-  },
-  {
-    id: "world-cup-trophy-keyring",
-    name: "World Cup Trophy Keyring",
-    slug: "world-cup-trophy-keyring",
-    price: 300,
-    displayPrice: "£3.00",
-    category: "Keychains",
-    description: "World Cup trophy mini, sized for keys. For the fan.",
-    stock: null,
-  },
-  {
-    id: "small-keychain-dragon",
-    name: "Small Dragon Keychain",
-    slug: "small-keychain-dragon",
-    price: 200,
-    displayPrice: "£2.00",
-    category: "Keychains",
-    description:
-      "Compact dragon keychain with full joint flex. Big charm, small size.",
-    stock: null,
-  },
-  {
-    id: "bunny-keychain",
-    name: "Bunny Keychain",
-    slug: "bunny-keychain",
-    price: 200,
-    displayPrice: "£2.00",
-    category: "Keychains",
-    description:
-      "Tiny articulated bunny keychain. Charming on a daily-carry loop.",
-    stock: null,
-  },
-  {
-    id: "extra-keychain",
-    name: "Extra Keychain",
-    slug: "extra-keychain",
-    price: 200,
-    displayPrice: "£2.00",
-    category: "Keychains",
-    description: "Bonus keychain add-on. Pick your sculpt at the stall.",
-    stock: null,
-  },
-  {
-    id: "luffy",
-    name: "Luffy",
-    slug: "luffy",
-    price: 1200,
-    displayPrice: "£12.00",
-    category: "Idol",
-    description:
-      "Stylised Monkey D. Luffy figure for the anime fans. Detailed paintwork.",
-    stock: null,
-  },
-  {
-    id: "pikachu",
-    name: "Pikachu",
-    slug: "pikachu",
-    price: 1000,
-    displayPrice: "£10.00",
-    category: "Idol",
-    description:
-      "Stylised Pikachu figure with detailed sculpt. Bold colourway.",
-    stock: null,
-  },
-  {
-    id: "idol-owl",
-    name: "Owl",
-    slug: "idol-owl",
-    price: 500,
-    displayPrice: "£5.00",
-    category: "Idol",
-    description: "The ForgeRealm owl, our mascot in printable form.",
-    stock: null,
-  },
-  {
-    id: "minion",
-    name: "Minion",
-    slug: "minion",
-    price: 300,
-    displayPrice: "£3.00",
-    category: "Idol",
-    description: "Compact Minion figure for desk or shelf. Smiles included.",
-    stock: null,
-  },
-  // ── Bundle (deals) ──
-  {
-    id: "bundle-giant-egg-3cs",
-    name: "Giant Egg + 3 Celestial / Spikey",
-    slug: "bundle-giant-egg-3cs",
-    price: 5000,
-    displayPrice: "£50.00",
-    category: "Bundle",
-    description:
-      "Centrepiece giant egg paired with three showpiece dragons. The full ForgeRealm hero set.",
-    stock: null,
-    badge: "Bundle",
-  },
-  {
-    id: "bundle-giant-egg-2cs",
-    name: "Giant Egg + 2 Celestial / Spikey",
-    slug: "bundle-giant-egg-2cs",
-    price: 4000,
-    displayPrice: "£40.00",
-    category: "Bundle",
-    description:
-      "Centrepiece giant egg paired with two showpiece dragons. Statement bundle.",
-    stock: null,
-    badge: "Bundle",
-  },
-  {
-    id: "bundle-dragon-egg",
-    name: "Dragon + Egg",
-    slug: "bundle-dragon-egg",
-    price: 1200,
-    displayPrice: "£12.00",
-    category: "Bundle",
-    description:
-      "Articulated dragon paired with a matching egg. A starter set for the fantasy shelf.",
-    stock: null,
-    badge: "Bundle",
-  },
-  {
-    id: "bundle-small-dragon-egg",
-    name: "Small Dragon + Small Egg",
-    slug: "bundle-small-dragon-egg",
-    price: 300,
-    displayPrice: "£3.00",
-    category: "Bundle",
-    description:
-      "Tiny dragon nestled with a small egg. Starter at the pocket-scale.",
-    stock: null,
-    badge: "Bundle",
-  },
-
   // ── Other / Home / Easter / Clicker (new SKUs) ──
   {
     id: "giant-egg",
@@ -774,17 +508,6 @@ export const products: Product[] = [
       "Showpiece giant dragon egg with deep textured shell. Centrepiece scale.",
     stock: null,
     badge: "Premium",
-  },
-  {
-    id: "knight-dragon",
-    name: "Knight (Dragon)",
-    slug: "knight-dragon",
-    price: 500,
-    displayPrice: "£5.00",
-    category: "Other",
-    description:
-      "Dragon knight figurine with sword and shield. For the tabletop or shelf.",
-    stock: null,
   },
   {
     id: "small-egg",
@@ -826,6 +549,17 @@ export const products: Product[] = [
     displayPrice: "£2.00",
     category: "Easter",
     description: "Snug holder sized for Kinder eggs. Stand-up display piece.",
+    stock: null,
+  },
+  {
+    id: "mushroom-mc-keychain",
+    name: "Mushroom Keychain (MC)",
+    slug: "mushroom-mc-keychain",
+    price: 500,
+    displayPrice: "£5.00",
+    category: "Keychains",
+    description:
+      "Mushroom charm with a detailed cap, sold as a standalone print with no keyring attached. Multiple colour finishes available.",
     stock: null,
   },
   {
