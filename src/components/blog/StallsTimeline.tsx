@@ -37,7 +37,7 @@ const stalls: Stall[] = [
     paragraphs: [
       "Single stall this time, Tobi running Albion on his own. A steady Saturday that never really spiked and never went quiet either, the kind of day that doesn't leave you with a story so much as a number.",
       "The number turned out to be almost too tidy. We run our own POS system, built in-house, and when we closed the day out it put us exactly one percent above our running average. Not a record, not a washout, one percent. You could not design a more average day if you tried.",
-      "Odin came back, though. The bearded dragon from Stall Session 13, who left that day with one of our castles, turned up to inspect the new stock. He settled in beside Blackthorn Manor first, then climbed the wooden castle prop and spread out along the battlements like he'd booked the spot. Still the best product photography we don't have to set up ourselves.",
+      "Odin came back, though. The bearded dragon from Stall Session 13, who left that day with one of our castles, turned up to inspect the new stock. He settled in beside Blackthorn Manor first, then climbed the wooden castle prop and spread out along the battlements like he'd booked the spot. Two visits in, we're calling him a regular.",
     ],
     pull: "Exactly one percent above average. You could not design a more average day if you tried.",
   },
