@@ -14,6 +14,34 @@ type Stall = {
 
 const stalls: Stall[] = [
   {
+    label: "Stall Session 15",
+    date: "12 September 2026",
+    title: "One percent above average",
+    location: "Albion Place, Leeds",
+    images: [
+      {
+        src: "/blog/session15-albion.jpg",
+        alt: "Odin the bearded dragon stretched out along the battlements of ForgeRealm's wooden castle display at Albion Place, with Tobi behind the stall.",
+        portrait: true,
+      },
+      {
+        src: "/blog/session15-albion-2.jpg",
+        alt: "Odin the bearded dragon sitting on the wooden log slice beside the Blackthorn Manor print at the Albion Place stall.",
+        portrait: true,
+      },
+      {
+        src: "/blog/session15-albion-3.jpg",
+        alt: "The full ForgeRealm table at Albion Place on 12 September, tiered display stacked with dragon eggs and figures, spiral cones, hexagon coasters and mermaid tail bowls across the front.",
+      },
+    ],
+    paragraphs: [
+      "Single stall this time, Tobi running Albion on his own. A steady Saturday that never really spiked and never went quiet either, the kind of day that doesn't leave you with a story so much as a number.",
+      "The number turned out to be almost too tidy. We run our own POS system, built in-house, and when we closed the day out it put us exactly one percent above our running average. Not a record, not a washout, one percent. You could not design a more average day if you tried.",
+      "Odin came back, though. The bearded dragon from Stall Session 13, who left that day with one of our castles, turned up to inspect the new stock. He settled in beside Blackthorn Manor first, then climbed the wooden castle prop and spread out along the battlements like he'd booked the spot. Two visits in, we're calling him a regular.",
+    ],
+    pull: "Exactly one percent above average. You could not design a more average day if you tried.",
+  },
+  {
     label: "Stall Session 14",
     date: "15 August 2026",
     title: "The quiet one",

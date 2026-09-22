@@ -61,14 +61,14 @@ const products: Product[] = [
     accentColor: "#F59E0B",
   },
   {
-    id: "loving-memory",
-    name: "In Loving Memory",
+    id: "tala",
+    name: "Tala",
     description:
-      "An exact replica of a customer's late dog, commissioned so they could still see him every day. Shared here with the owner's blessing.",
+      "A miniature statue of Tala, Paul's dog, sculpted from his photos and hand-finished so the character still reads at a few inches tall. Shared here with Paul's blessing.",
     shopDescription:
-      "This one wasn't a shop piece. It was a commission we took on when a customer asked us to recreate their beloved dog in 3D. We measured, we sculpted, we sanded, and we hand-finished every last layer to make sure the little details felt right. A small piece of a much-loved friend, forever on the shelf.",
+      "This one wasn't a shop piece. Paul came to us wanting a mini statue of Tala, his dog, small enough to sit on a desk and still be unmistakably Tala. We worked from his photos, then sculpted, printed, sanded and hand-finished every last layer until the markings and the stance felt right.",
     detail:
-      "It's commissions like this that remind us why we do what we do. If there's a piece of your life you'd like us to bring into the real world, we'd be honoured to help.",
+      "Pets are some of our favourite commissions. There's a lot of character to catch, and you know the moment you've got it. If you'd like your own, get in touch.",
     image: "/featured3.jpg",
     background: "#0a0a0a",
     lifestyleImage: "/featured3bg.jpg",
