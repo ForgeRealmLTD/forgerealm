@@ -66,7 +66,7 @@ const products: Product[] = [
     description:
       "A miniature statue of Tala, Paul's dog, sculpted from his photos and hand-finished so the character still reads at a few inches tall. Shared here with Paul's blessing.",
     shopDescription:
-      "This one wasn't a shop piece. Paul came to us wanting a mini statue of Tala, his dog, small enough to sit on a desk and still be unmistakably Tala. We worked from his photos, then sculpted, printed, sanded and hand-finished every last layer until the markings and the stance felt right. The real Tala is still very much around, so the little one just gets to sit on the shelf alongside.",
+      "This one wasn't a shop piece. Paul came to us wanting a mini statue of Tala, his dog, small enough to sit on a desk and still be unmistakably Tala. We worked from his photos, then sculpted, printed, sanded and hand-finished every last layer until the markings and the stance felt right.",
     detail:
       "Pets are some of our favourite commissions. There's a lot of character to catch, and you know the moment you've got it. If you'd like your own, get in touch.",
     image: "/featured3.jpg",
