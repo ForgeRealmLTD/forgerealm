@@ -13,6 +13,7 @@
     "check": "npm run check:astro && npm run check:eslint && npm run check:prettier",
     "test": "vitest run",
     "test:watch": "vitest",
+    "images:blog": "node scripts/blog-image-variants.js",
     "check:astro": "astro check",
     "check:eslint": "eslint .",
     "check:prettier": "prettier --check .",

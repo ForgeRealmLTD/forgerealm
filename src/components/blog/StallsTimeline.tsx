@@ -436,6 +436,19 @@ const stalls: Stall[] = [
   },
 ];
 
+// Resized WebP copies made by scripts/blog-image-variants.js
+// (/blog/foo.jpg -> /blog/sized/foo-640.webp and foo-1280.webp).
+const sized = (src: string, width: number) =>
+  src.replace(/^\/blog\/(.+)\.\w+$/, `/blog/sized/$1-${width}.webp`);
+
+// Rendered tile width per grid layout, so phones and 3-up rows pick 640.
+const imageSizes = (count: number) =>
+  count === 1
+    ? "(min-width: 1024px) 900px, 100vw"
+    : count === 2
+      ? "(min-width: 1024px) 450px, (min-width: 640px) 50vw, 100vw"
+      : "(min-width: 1024px) 300px, (min-width: 640px) 50vw, 100vw";
+
 function StallEntry({
   stall,
   index,
@@ -450,6 +463,7 @@ function StallEntry({
   const dotPulse = inReadingZone ? { scale: [1, 1.6, 1] } : { scale: 1 };
   const dotTransition = { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const };
   const isNote = stall.kind === "note";
+  const imageCount = stall.images?.length ?? 0;
 
   const dotGradient = isNote
     ? "from-amber-300 to-orange-400"
@@ -588,9 +602,12 @@ function StallEntry({
                     className="group relative overflow-hidden rounded-xl border border-white/[0.06] bg-[#0c1220]"
                   >
                     <img
-                      src={img.src}
+                      src={sized(img.src, 640)}
+                      srcSet={`${sized(img.src, 640)} 640w, ${sized(img.src, 1280)} 1280w`}
+                      sizes={imageSizes(imageCount)}
                       alt={img.alt}
                       loading={index === 0 && i === 0 ? "eager" : "lazy"}
+                      decoding="async"
                       className={`h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03] ${img.portrait ? "aspect-[3/4]" : "aspect-[4/3]"}`}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
