@@ -14,6 +14,29 @@ type Stall = {
 
 const stalls: Stall[] = [
   {
+    label: "Stall Session 17",
+    date: "10 October 2026",
+    title: "Little Fox at The Mini Mall",
+    location: "The Mini Mall, Merrion Centre, Leeds",
+    paragraphs: [
+      "A first on two counts. This time the stall was inside The Mini Mall at the Merrion Centre, the same place our prints already sit on the shelf, and it was our first market with Little Fox Events. It went well.",
+      "We met a lot of great people, customers and fellow traders alike. A friendly room, and plenty of good conversations on both sides of the table.",
+      "It was also the first time our 3D printed lamppost went up on the stall, and we're very proud of it. Photos of the lamppost and the rest of the day are on their way.",
+    ],
+    pull: "Our first market with Little Fox Events, and the first time the 3D printed lamppost went up.",
+  },
+  {
+    label: "Stall Session 16",
+    date: "26 September 2026",
+    title: "Leeds fills back up",
+    location: "Albion Place & Kirkgate Market, Leeds",
+    paragraphs: [
+      "Double stall again for 26 September, Ishmam at Albion and Tobi at Kirkgate. Back in August the city had emptied out for the summer. This time it had filled right back up: a lot of people home from their holidays, and the students back too, some returning for another year and plenty starting uni for the first time.",
+      "You could feel it on the streets. Leeds was vibrant all day, and autumn has been treating us well so far. The surprise of the day was Kirkgate: it was booming with people from start to finish and came out ahead of Albion this round. A nice reminder of what the city feels like when it's full.",
+    ],
+    pull: "Kirkgate was booming, and this round it came out ahead of Albion.",
+  },
+  {
     label: "Stall Session 15",
     date: "12 September 2026",
     title: "One percent above average",
