@@ -209,7 +209,7 @@ Thanks!`,
             aria-label="ForgeRealm home"
           >
             <img
-              src="/frlogorv.png"
+              src="/frlogorv-384.webp"
               alt=""
               aria-hidden="true"
               className="h-11 w-11 sm:h-12 sm:w-12 drop-shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all duration-500 group-hover:drop-shadow-[0_0_25px_rgba(59,130,246,0.6)] group-hover:rotate-6"

@@ -41,7 +41,7 @@ export default function BlogNavbar() {
               <div className="relative">
                 <div className="absolute -inset-2 rounded-full bg-blue-400/0 group-hover:bg-blue-400/20 blur-xl transition-all duration-500" />
                 <img
-                  src="/headfrlogorv.png"
+                  src="/headfrlogorv-128.webp"
                   alt="ForgeRealm"
                   width={36}
                   height={36}
@@ -148,7 +148,7 @@ export default function BlogNavbar() {
         <div className="flex items-center justify-between p-6">
           <div className="flex items-center gap-3">
             <img
-              src="/headfrlogorv.png"
+              src="/headfrlogorv-128.webp"
               alt=""
               className="h-8 w-8 rounded-full"
             />

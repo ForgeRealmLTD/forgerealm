@@ -386,7 +386,7 @@ export default function Hero() {
             {/* Emblem + eyebrow */}
             <div className="mb-6 flex items-center gap-4 justify-center lg:justify-start">
               <img
-                src="/frlogorv.png"
+                src="/frlogorv-384.webp"
                 alt="ForgeRealm Emblem"
                 className="hero-emblem-main h-12 w-12 sm:h-14 sm:w-14 drop-shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:drop-shadow-[0_0_25px_rgba(59,130,246,0.6)] transition-all duration-500 cursor-pointer"
                 decoding="async"
@@ -506,7 +506,7 @@ export default function Hero() {
                 </div>
               ) : (
                 <img
-                  src="/frlogorv.png"
+                  src="/frlogorv-384.webp"
                   alt="ForgeRealm"
                   className="w-20 h-20 opacity-40"
                 />
@@ -585,7 +585,7 @@ export default function Hero() {
                     />
                   ) : (
                     <img
-                      src="/frlogorv.png"
+                      src="/frlogorv-384.webp"
                       alt=""
                       aria-hidden="true"
                       width={180}
@@ -618,7 +618,7 @@ export default function Hero() {
                       </p>
                     </div>
                     <img
-                      src="/headfrlogorv.png"
+                      src="/headfrlogorv-128.webp"
                       alt=""
                       className="h-8 w-8 rounded-full"
                     />
@@ -636,7 +636,7 @@ export default function Hero() {
             style={{ transform: "scaleX(0)", transformOrigin: "right" }}
           />
           <img
-            src="/frlogorv.png"
+            src="/frlogorv-384.webp"
             alt=""
             aria-hidden="true"
             loading="lazy"

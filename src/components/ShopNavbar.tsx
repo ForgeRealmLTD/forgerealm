@@ -112,7 +112,7 @@ const ShopNavbar = () => {
             aria-label="ForgeRealm home"
           >
             <img
-              src="/headfrlogorv.png"
+              src="/headfrlogorv-128.webp"
               alt="ForgeRealm Logo"
               width={32}
               height={32}
