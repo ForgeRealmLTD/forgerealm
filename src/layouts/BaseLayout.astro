@@ -46,7 +46,7 @@ const brevoConversationsId = import.meta.env.PUBLIC_BREVO_CONVERSATIONS_ID;
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="preload" as="image" href="/headfrlogorv.png" />
+    <link rel="preload" as="image" href="/headfrlogorv-128.webp" type="image/webp" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
@@ -91,10 +91,23 @@ const brevoConversationsId = import.meta.env.PUBLIC_BREVO_CONVERSATIONS_ID;
         (function (d, w, c) {
           w.BrevoConversationsID = brevoConversationsId;
           w[c] = w[c] || function () { (w[c].q = w[c].q || []).push(arguments); };
-          var s = d.createElement('script');
-          s.async = true;
-          s.src = 'https://conversations-widget.brevo.com/brevo-conversations.js';
-          if (d.head) d.head.appendChild(s);
+          // The widget is ~400 KB of script and takes the main thread for a
+          // good half second, so it loads on the visitor's first scroll, tap
+          // or key press, or 4s after page load, whichever comes first. The
+          // stub above queues any calls made before then.
+          var loaded = false;
+          var events = ['scroll', 'pointerdown', 'keydown', 'touchstart'];
+          function load() {
+            if (loaded) return;
+            loaded = true;
+            events.forEach(function (e) { w.removeEventListener(e, load); });
+            var s = d.createElement('script');
+            s.async = true;
+            s.src = 'https://conversations-widget.brevo.com/brevo-conversations.js';
+            if (d.head) d.head.appendChild(s);
+          }
+          events.forEach(function (e) { w.addEventListener(e, load, { passive: true }); });
+          w.addEventListener('load', function () { setTimeout(load, 4000); });
         })(document, window, 'BrevoConversations');
 
         // Customer identity hook — Brevo's stub queues calls before the real

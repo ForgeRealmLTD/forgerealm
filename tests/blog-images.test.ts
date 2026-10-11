@@ -4,16 +4,11 @@ import { describe, expect, it } from "vitest";
 
 const BLOG_DIR = path.resolve("public", "blog");
 const SIZED_DIR = path.join(BLOG_DIR, "sized");
-const TIMELINE = path.resolve(
-  "src",
-  "components",
-  "blog",
-  "StallsTimeline.tsx",
-);
+const STALLS = path.resolve("src", "data", "stalls.ts");
 
 describe("blog timeline images", () => {
   const timelineSrcs = [
-    ...fs.readFileSync(TIMELINE, "utf8").matchAll(/src: "(\/blog\/[^"]+)"/g),
+    ...fs.readFileSync(STALLS, "utf8").matchAll(/src: "(\/blog\/[^"]+)"/g),
   ].map((m) => m[1]);
 
   it("finds the timeline's images", () => {

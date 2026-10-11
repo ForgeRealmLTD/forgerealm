@@ -1,0 +1,95 @@
+---
+// Jumps to the newest stall on the timeline. Rendered at build time from
+// the stall data, so it is in place on first paint (no layout shift).
+import { stalls } from "~/data/stalls";
+
+const latest = stalls.find((s) => s.kind !== "note") ?? stalls[0];
+---
+
+<a
+  href="#latest-stall"
+  data-jump-latest
+  aria-label={`Jump to latest post, ${latest.label}, ${latest.date}`}
+  class="group relative block w-full overflow-hidden rounded-2xl border border-cyan-300/30 bg-gradient-to-r from-blue-500/20 via-cyan-500/15 to-blue-500/20 px-6 py-5 sm:px-8 sm:py-6 shadow-[0_10px_40px_-12px_rgba(34,211,238,0.45)] transition-all hover:-translate-y-0.5 hover:border-cyan-300/60 hover:shadow-[0_14px_50px_-10px_rgba(34,211,238,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0f1a]"
+>
+  <!-- Decorative breathing glows -->
+  <span
+    aria-hidden="true"
+    class="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-cyan-400/30 blur-3xl animate-pulse motion-reduce:animate-none"
+  ></span>
+  <span
+    aria-hidden="true"
+    class="pointer-events-none absolute -bottom-10 -left-10 h-28 w-28 rounded-full bg-blue-500/25 blur-3xl animate-pulse motion-reduce:animate-none"
+    style="animation-delay: 1.5s;"></span>
+
+  <span class="relative flex flex-wrap items-center justify-between gap-4">
+    <span class="flex items-center gap-4 text-left">
+      <span
+        class="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full border border-cyan-300/40 bg-cyan-300/10"
+      >
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="h-5 w-5 sm:h-6 sm:w-6 text-cyan-200 transition-transform duration-300 group-hover:translate-y-0.5"
+        >
+          <path d="M12 5v14M19 12l-7 7-7-7"></path>
+        </svg>
+      </span>
+      <span>
+        <span
+          class="block text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.28em] text-cyan-300/80"
+          style="font-family: 'Jost', sans-serif;"
+        >
+          Jump to latest post
+        </span>
+        <span
+          class="mt-1 block text-lg sm:text-xl lg:text-2xl text-white"
+          style="font-family: 'Cinzel', serif;"
+        >
+          {latest.label}
+          <em
+            class="text-cyan-300/90"
+            style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300;"
+          >
+            {latest.date}
+          </em>
+        </span>
+      </span>
+    </span>
+    <span
+      aria-hidden="true"
+      class="hidden sm:inline-flex items-center gap-1 rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.22em] text-cyan-100 transition-all group-hover:bg-cyan-300/20 group-hover:border-cyan-300/60"
+      style="font-family: 'Jost', sans-serif;"
+    >
+      Scroll to entry
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5"
+      >
+        <path d="M5 12h14M13 5l7 7-7 7"></path>
+      </svg>
+    </span>
+  </span>
+</a>
+
+<script>
+  // Smooth scroll; the plain #latest-stall link still works without JS.
+  document
+    .querySelector("[data-jump-latest]")
+    ?.addEventListener("click", (event) => {
+      const target = document.getElementById("latest-stall");
+      if (!target) return;
+      event.preventDefault();
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+</script>

@@ -287,7 +287,7 @@ function CoverContent({ meta }: { meta: BookMeta }) {
           }}
         />
         <img
-          src="/headfrlogorv.png"
+          src="/headfrlogorv-128.webp"
           alt="ForgeRealm"
           style={{
             width: 64,

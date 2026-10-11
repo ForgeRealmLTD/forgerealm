@@ -539,7 +539,7 @@ function ShopHeader({ onCartOpen }: { onCartOpen: () => void }) {
           <div className="relative">
             <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-500/50 to-cyan-400/50 blur-md opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             <img
-              src="/headfrlogorv.png"
+              src="/headfrlogorv-128.webp"
               alt="ForgeRealm"
               width={36}
               height={36}
@@ -918,7 +918,7 @@ function HeroBanner() {
                   <div className="relative">
                     <div className="absolute -inset-6 rounded-full bg-gradient-to-r from-blue-500/30 to-cyan-400/30 blur-2xl glow-breathe" />
                     <img
-                      src="/frlogorv.png"
+                      src="/frlogorv-384.webp"
                       alt="ForgeRealm"
                       width={140}
                       height={140}
@@ -1188,7 +1188,7 @@ function ProductCard({
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_80%,rgba(255,255,255,0.15),transparent_60%)]" />
             <div className="absolute inset-0 flex items-center justify-center">
               <img
-                src="/headfrlogorv.png"
+                src="/headfrlogorv-512.webp"
                 alt=""
                 aria-hidden="true"
                 className="w-1/3 opacity-20 select-none"
@@ -2227,7 +2227,7 @@ function ProductModal({
                   <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_70%,rgba(255,255,255,0.18),transparent_60%)]" />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <img
-                      src="/headfrlogorv.png"
+                      src="/headfrlogorv-512.webp"
                       alt=""
                       aria-hidden="true"
                       className="w-1/3 opacity-30 select-none float-slow"
@@ -2760,7 +2760,7 @@ function CheckoutForm({
               <div className="flex items-center justify-between border-b border-white/[0.08] px-6 py-5 sm:px-8">
                 <div className="flex items-center gap-3">
                   <img
-                    src="/headfrlogorv.png"
+                    src="/headfrlogorv-128.webp"
                     alt="ForgeRealm"
                     width={28}
                     height={28}
@@ -3237,7 +3237,7 @@ function ShopFooter() {
           <div>
             <a href="/" className="group inline-flex items-center gap-2.5">
               <img
-                src="/headfrlogorv.png"
+                src="/headfrlogorv-128.webp"
                 alt="ForgeRealm"
                 width={32}
                 height={32}

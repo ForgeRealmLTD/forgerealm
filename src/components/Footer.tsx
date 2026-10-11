@@ -57,7 +57,7 @@ export default function Footer() {
           <div>
             <div className="inline-flex items-center gap-3">
               <img
-                src="/headfrlogorv.png"
+                src="/headfrlogorv-128.webp"
                 alt="ForgeRealm Logo"
                 width={32}
                 height={32}

@@ -126,7 +126,7 @@ export default function KioskMode() {
       <div className="flex min-h-screen items-center justify-center bg-[#0a0a0a] text-white px-4">
         <div className="text-center max-w-md">
           <img
-            src="/frlogorv.png"
+            src="/frlogorv-384.webp"
             alt="ForgeRealm"
             className="w-20 h-20 mx-auto mb-6"
           />
@@ -229,7 +229,7 @@ function KioskDisplay({
         onClick={handleExitTap}
       >
         <div className="flex items-center gap-4">
-          <img src="/frlogorv.png" alt="" className="h-12 w-12" />
+          <img src="/frlogorv-384.webp" alt="" className="h-12 w-12" />
           <div>
             <h1
               className="text-2xl font-bold text-white"
@@ -302,7 +302,7 @@ function KioskDisplay({
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <img
-                      src="/headfrlogorv.png"
+                      src="/headfrlogorv-512.webp"
                       alt=""
                       aria-hidden="true"
                       className="h-1/3 w-1/3 object-contain opacity-20"
@@ -367,7 +367,7 @@ function KioskDisplay({
               forgerealm.co.uk
             </span>
             <img
-              src="/headfrlogorv.png"
+              src="/headfrlogorv-128.webp"
               alt=""
               className="h-5 w-5 rounded-full opacity-40"
             />
