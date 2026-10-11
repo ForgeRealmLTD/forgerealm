@@ -9,6 +9,8 @@ const intro =
   "Product drops, booth tales, and behind-the-scenes myths from our Leeds workshop.".split(
     " ",
   );
+// Non-breaking space keeps word gaps between the inline-block spans.
+const nbsp = String.fromCharCode(160);
 const ticks = ["Booth tales", "Drop announcements", "Workshop myths"];
 ---
 
@@ -58,7 +60,7 @@ const ticks = ["Booth tales", "Drop announcements", "Workshop myths"];
                   class="hero-rise"
                   style={`animation-delay: ${i * 30}ms;`}
                 >
-                  {ch === " " ? " " : ch}
+                  {ch === " " ? nbsp : ch}
                 </span>
               ))
             }
@@ -91,7 +93,7 @@ const ticks = ["Booth tales", "Drop announcements", "Workshop myths"];
                   class="hero-blur"
                   style={`animation-delay: ${i * 30}ms;`}
                 >
-                  {i < intro.length - 1 ? `${word} ` : word}
+                  {i < intro.length - 1 ? word + nbsp : word}
                 </span>
               ))
             }
