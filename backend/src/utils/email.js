@@ -2,10 +2,14 @@ const { ApiError } = require("./errors");
 
 /**
  * Send an email via the Brevo (Sendinblue) transactional API.
+ *
+ * `to` is a single address (with optional `toName`) or an array of
+ * `{ email, name }` recipients. `replyTo` is an optional `{ email, name }`.
  */
 const sendBrevoEmail = async ({
   to,
   toName,
+  replyTo,
   subject,
   htmlContent,
   attachment,
@@ -20,10 +24,14 @@ const sendBrevoEmail = async ({
 
   const payload = {
     sender: { name: senderName, email: senderEmail },
-    to: [{ email: to, name: toName || to }],
+    to: Array.isArray(to) ? to : [{ email: to, name: toName || to }],
     subject,
     htmlContent,
   };
+
+  if (replyTo?.email) {
+    payload.replyTo = replyTo;
+  }
 
   // attachment: { buffer: Buffer, filename: string }
   if (attachment?.buffer) {

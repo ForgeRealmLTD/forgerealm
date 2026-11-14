@@ -1,0 +1,314 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar";
+import LithophaneForm from "../components/lithophane/LithophaneForm";
+import ChristmasTouches from "../components/christmas/ChristmasTouches.astro";
+import { CHRISTMAS } from "../config/seasonal";
+
+// Full class strings so Tailwind can see them (same palette as the landing hero)
+const accentText = CHRISTMAS
+  ? "from-rose-300 via-amber-200 to-emerald-300"
+  : "from-blue-400 via-purple-400 to-cyan-300";
+const eyebrowText = CHRISTMAS ? "text-amber-200/70" : "text-blue-300/70";
+const cardGlow = CHRISTMAS
+  ? "from-red-500/15 via-amber-400/8 to-emerald-500/12"
+  : "from-blue-500/15 via-purple-500/8 to-cyan-500/12";
+---
+
+<BaseLayout
+  title="Lithophanes | ForgeRealm"
+  description="Send us a photo and we'll print it as a lithophane lamp: blank when it's off, your picture when it's lit. Made to order in Leeds."
+>
+  <div
+    class="litho-page relative isolate overflow-x-clip text-white"
+    style="font-family: 'Jost', sans-serif; background: linear-gradient(180deg, #080c14 0%, #0a0e18 30%, #0c1020 60%, #080c14 100%);"
+  >
+    {CHRISTMAS && <ChristmasTouches />}
+    <Navbar client:load />
+
+    <main class="litho-main">
+      <div class="litho-grid">
+        <!-- Copy -->
+        <section class="litho-copy" aria-labelledby="litho-title">
+          <p
+            class={`hidden text-[10px] font-medium uppercase tracking-[0.3em] sm:text-[11px] lg:block ${eyebrowText}`}
+          >
+            Made to order in Leeds
+          </p>
+
+          <div class="flex items-end justify-between gap-3 lg:block">
+            <h1
+              id="litho-title"
+              class="text-[28px] font-bold leading-[0.95] text-white sm:text-4xl lg:mt-5 lg:text-[4.25rem]"
+              style="font-family: 'Cinzel', serif;"
+            >
+              Lithophanes
+              <span
+                class={`mt-1 block bg-gradient-to-r bg-clip-text text-[0.62em] text-transparent lg:mt-2 lg:text-[0.8em] ${accentText}`}
+                style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300;"
+              >
+                lit from within
+              </span>
+            </h1>
+            {
+              CHRISTMAS && (
+                <img
+                  src="/christmas/santa.webp"
+                  alt=""
+                  aria-hidden="true"
+                  width="64"
+                  height="64"
+                  class="litho-santa h-16 w-16 shrink-0 lg:hidden"
+                  decoding="async"
+                />
+              )
+            }
+          </div>
+
+          <p
+            class="mt-2 text-[13px] leading-relaxed text-stone-400 lg:hidden"
+            style="font-family: 'Inter', sans-serif;"
+          >
+            Your photo, printed so it only appears when lit. Framed and wired as
+            a lamp.
+          </p>
+
+          <p
+            class="mt-6 hidden max-w-lg text-lg leading-[1.7] text-stone-400 lg:block [@media(max-height:760px)]:text-base"
+            style="font-family: 'Inter', sans-serif;"
+          >
+            Your photo, printed into a thin panel. Switched off it looks blank.
+            Light it from behind and the picture appears, every shade set in the
+            depth of the print. We frame and wire each one as a lamp.
+          </p>
+
+          <ol class="litho-steps">
+            <li><span>1</span>Send us a photo</li>
+            <li><span>2</span>We reply with options and a price</li>
+            <li><span>3</span>We print, frame and wire it</li>
+          </ol>
+
+          {
+            CHRISTMAS && (
+              <p class="mt-6 hidden items-center gap-2 text-[13px] text-amber-200/80 lg:flex [@media(max-height:760px)]:mt-4">
+                <svg aria-hidden="true" viewBox="0 0 24 24" class="h-4 w-4">
+                  <path
+                    d="M12 3l1.8 4.6L18 6l-1.6 4.2L21 12l-4.6 1.8L18 18l-4.2-1.6L12 21l-1.8-4.6L6 18l1.6-4.2L3 12l4.6-1.8L6 6l4.2 1.6z"
+                    fill="currentColor"
+                    opacity="0.9"
+                  />
+                </svg>
+                A Christmas gift that lights up
+              </p>
+            )
+          }
+        </section>
+
+        <!-- Form card -->
+        <section class="litho-card-wrap" aria-label="Request a lithophane">
+          <div
+            class={`pointer-events-none absolute inset-0 scale-105 rounded-3xl bg-gradient-to-br blur-3xl ${cardGlow}`}
+          >
+          </div>
+          <div class="litho-card">
+            <LithophaneForm client:load festive={CHRISTMAS} />
+          </div>
+          {
+            CHRISTMAS && (
+              <img
+                src="/christmas/santa.webp"
+                alt=""
+                aria-hidden="true"
+                width="100"
+                height="100"
+                class="litho-santa absolute -bottom-2 -left-20 hidden h-[100px] w-[100px] drop-shadow-[0_10px_18px_rgba(0,0,0,0.45)] lg:block"
+                decoding="async"
+              />
+            )
+          }
+        </section>
+      </div>
+    </main>
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  // Same as the landing page: this page is always dark
+  document.documentElement.setAttribute("data-theme", "dark");
+  document.documentElement.classList.add("dark");
+</script>
+
+<style>
+  .litho-page {
+    /* dvh, not vh: mobile browser chrome makes 100vh taller than the screen.
+       min-height (not height) so a short viewport scrolls instead of clipping. */
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .litho-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    /* Room for the fixed navbar */
+    padding: 76px 0 16px;
+  }
+
+  .litho-grid {
+    width: 100%;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0 16px;
+    display: grid;
+    /* minmax(0, ...) so a long unbroken filename can't widen the column
+       past the screen; the default auto track grows to fit its content */
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .litho-copy {
+    max-width: 520px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .litho-card-wrap {
+    position: relative;
+    max-width: 520px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .litho-card {
+    position: relative;
+    border-radius: 1.5rem;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    background: rgb(255 255 255 / 0.03);
+    backdrop-filter: blur(6px);
+    box-shadow:
+      0 30px 80px -12px rgb(0 0 0 / 0.75),
+      inset 0 1px 0 rgb(255 255 255 / 0.05);
+    padding: 18px 16px;
+  }
+
+  .litho-steps {
+    display: none;
+    list-style: none;
+    margin: 28px 0 0;
+    padding: 0;
+  }
+
+  .litho-steps li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 0;
+    border-top: 1px solid rgb(255 255 255 / 0.08);
+    font-size: 15px;
+    color: rgb(231 229 228 / 0.85);
+  }
+
+  .litho-steps li:last-child {
+    border-bottom: 1px solid rgb(255 255 255 / 0.08);
+  }
+
+  .litho-steps span {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border-radius: 9999px;
+    border: 1px solid rgb(253 230 138 / 0.4);
+    color: rgb(253 230 138 / 0.9);
+    font-family: "Cinzel", serif;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  @keyframes litho-santa-bob {
+    0%,
+    100% {
+      transform: translateY(0) rotate(-2deg);
+    }
+    50% {
+      transform: translateY(-5px) rotate(1deg);
+    }
+  }
+
+  .litho-santa {
+    animation: litho-santa-bob 3.2s ease-in-out infinite;
+    transform-origin: 50% 90%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .litho-santa {
+      animation: none;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .litho-card {
+      padding: 26px 26px;
+    }
+  }
+
+  /* Desktop: copy left, form card right */
+  @media (min-width: 1024px) {
+    .litho-main {
+      padding: 96px 0 24px;
+    }
+
+    .litho-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 64px;
+      align-items: center;
+      padding: 0 32px;
+    }
+
+    .litho-copy,
+    .litho-card-wrap {
+      max-width: 500px;
+      margin: 0;
+    }
+
+    .litho-card-wrap {
+      justify-self: end;
+    }
+
+    .litho-steps {
+      display: block;
+    }
+  }
+
+  /* Short laptop screens: tighten so everything still fits without scrolling */
+  @media (min-width: 1024px) and (max-height: 760px) {
+    .litho-main {
+      padding-top: 84px;
+    }
+
+    .litho-steps {
+      margin-top: 16px;
+    }
+
+    .litho-steps li {
+      padding: 7px 0;
+    }
+
+    .litho-card {
+      padding: 20px 24px;
+    }
+  }
+
+  /* Short phones (e.g. 360x740): tighten the card */
+  @media (max-width: 1023px) and (max-height: 800px) {
+    .litho-main {
+      padding-top: 70px;
+    }
+
+    .litho-card {
+      padding: 14px 14px;
+    }
+  }
+</style>

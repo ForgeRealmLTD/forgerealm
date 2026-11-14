@@ -14,6 +14,7 @@ const userRoutes = require("./routes/users.routes");
 const orderRoutes = require("./routes/orders.routes");
 const webhookRoutes = require("./routes/webhook.routes");
 const receiptsRoutes = require("./routes/receipts.routes");
+const lithophaneRoutes = require("./routes/lithophane.routes");
 const { notFound, errorHandler } = require("./utils/errors");
 const {
   verifyPassword,
@@ -226,6 +227,7 @@ app.use("/api/subscribe", subscribeRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/receipts", receiptsRoutes);
+app.use("/api/lithophane", lithophaneRoutes);
 
 // 404 + error handling
 app.use(notFound);
