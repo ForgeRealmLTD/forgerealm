@@ -1,0 +1,158 @@
+---
+// Minimal seasonal layer for the landing page: sparse snowfall plus a sleigh
+// silhouette that glides across the top of the hero every so often.
+// Toggled by CHRISTMAS in src/pages/index.astro.
+---
+
+<canvas id="xmas-snow" aria-hidden="true"></canvas>
+
+<div class="xmas-sleigh-lane" aria-hidden="true">
+  <img
+    src="/christmas/sleigh.webp"
+    alt=""
+    width="720"
+    height="546"
+    class="xmas-sleigh"
+    decoding="async"
+  />
+</div>
+
+<style>
+  #xmas-snow {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 30;
+  }
+
+  /* Lane covers the top of the page only; the sleigh never reaches the content below */
+  .xmas-sleigh-lane {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 320px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 20;
+  }
+
+  .xmas-sleigh {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150px;
+    height: auto;
+    opacity: 0;
+    filter: drop-shadow(0 0 10px rgba(253, 230, 138, 0.35));
+    animation: xmas-sleigh-flight 38s linear 3s infinite;
+    will-change: transform, opacity;
+  }
+
+  /* Right to left with a gentle climb, then a long pause off-screen */
+  @keyframes xmas-sleigh-flight {
+    0% {
+      transform: translate(105vw, 210px) rotate(-6deg);
+      opacity: 0;
+    }
+    3% {
+      opacity: 0.85;
+    }
+    30% {
+      opacity: 0.85;
+    }
+    33% {
+      transform: translate(-200px, 90px) rotate(-10deg);
+      opacity: 0;
+    }
+    100% {
+      transform: translate(-200px, 90px) rotate(-10deg);
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .xmas-sleigh {
+      width: 96px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #xmas-snow,
+    .xmas-sleigh-lane {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const canvas = document.getElementById(
+    "xmas-snow",
+  ) as HTMLCanvasElement | null;
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  if (canvas && !reduceMotion) {
+    const ctx = canvas.getContext("2d")!;
+    type Flake = {
+      x: number;
+      y: number;
+      r: number;
+      vy: number;
+      sway: number;
+      phase: number;
+      a: number;
+    };
+    let flakes: Flake[] = [];
+    let w = 0;
+    let h = 0;
+    let raf = 0;
+
+    const makeFlake = (anyHeight: boolean): Flake => ({
+      x: Math.random() * w,
+      y: anyHeight ? Math.random() * h : -4,
+      r: 0.8 + Math.random() * 1.8,
+      vy: 0.25 + Math.random() * 0.55,
+      sway: 0.3 + Math.random() * 0.6,
+      phase: Math.random() * Math.PI * 2,
+      a: 0.25 + Math.random() * 0.45,
+    });
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // Sparse on purpose: roughly one flake per 22,000px², capped
+      const target = Math.min(90, Math.round((w * h) / 22000));
+      flakes = Array.from({ length: target }, () => makeFlake(true));
+    };
+
+    const tick = (t: number) => {
+      ctx.clearRect(0, 0, w, h);
+      for (const f of flakes) {
+        f.y += f.vy;
+        f.x += Math.sin(t / 1600 + f.phase) * f.sway * 0.3;
+        if (f.y > h + 4) Object.assign(f, makeFlake(false));
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${f.a})`;
+        ctx.fill();
+      }
+      raf = requestAnimationFrame(tick);
+    };
+
+    resize();
+    raf = requestAnimationFrame(tick);
+    window.addEventListener("resize", resize);
+    document.addEventListener("visibilitychange", () => {
+      cancelAnimationFrame(raf);
+      if (!document.hidden) raf = requestAnimationFrame(tick);
+    });
+  }
+</script>

@@ -117,7 +117,28 @@ const WORDS = [
   "Soul",
 ];
 
-export default function Hero() {
+// Seasonal accent swaps. `festive` is switched on from the landing page.
+const PALETTES = {
+  default: {
+    eyebrow: "text-blue-300/70",
+    headline: "from-blue-400 via-purple-400 to-cyan-300",
+    cursor: "bg-cyan-300/60",
+    signature: ["#60a5fa", "#a78bfa", "#22d3ee"],
+    cta: "from-blue-500 via-blue-400 to-cyan-400 shadow-blue-500/25 hover:shadow-blue-500/40 focus-visible:ring-cyan-300/80",
+    glow: "from-blue-500/15 via-purple-500/8 to-cyan-500/12",
+  },
+  festive: {
+    eyebrow: "text-amber-200/70",
+    headline: "from-rose-300 via-amber-200 to-emerald-300",
+    cursor: "bg-amber-200/70",
+    signature: ["#fda4af", "#fde68a", "#6ee7b7"],
+    cta: "from-red-600 via-red-500 to-rose-400 shadow-red-500/25 hover:shadow-red-500/40 focus-visible:ring-rose-300/80",
+    glow: "from-red-500/15 via-amber-400/8 to-emerald-500/12",
+  },
+} as const;
+
+export default function Hero({ festive = false }: { festive?: boolean }) {
+  const fx = festive ? PALETTES.festive : PALETTES.default;
   const [printAnim, setPrintAnim] = useState<any>(null);
   const typed = useTypewriter(WORDS);
   const printsRef = useAnimatedCount(514, 2200);
@@ -393,7 +414,7 @@ export default function Hero() {
               />
               <div>
                 <ScrambleLabel
-                  className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.3em] text-blue-300/70 block"
+                  className={`text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.3em] ${fx.eyebrow} block`}
                   style={{ fontFamily: "'Jost', sans-serif" }}
                   chars="uppercase"
                   duration={1500}
@@ -410,7 +431,7 @@ export default function Hero() {
               Crafted with
               <br />
               <span
-                className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-300 bg-clip-text text-transparent"
+                className={`bg-gradient-to-r ${fx.headline} bg-clip-text text-transparent`}
                 style={{
                   fontFamily: "'Cormorant Garamond', serif",
                   fontStyle: "italic",
@@ -421,15 +442,18 @@ export default function Hero() {
                 {typed}
                 <span
                   aria-hidden="true"
-                  className="typewriter-cursor inline-block w-[2px] h-[0.85em] ml-1 align-middle bg-cyan-300/60"
+                  className={`typewriter-cursor inline-block w-[2px] h-[0.85em] ml-1 align-middle ${fx.cursor}`}
                   style={{ animation: "blink 1s step-end infinite" }}
                 />
               </span>
             </h1>
             <style>{`
               @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+              @keyframes santa-bob { 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-5px) rotate(1deg)} }
+              .hero-santa { animation: santa-bob 3.2s ease-in-out infinite; transform-origin: 50% 90%; }
               @media (prefers-reduced-motion: reduce) {
                 .typewriter-cursor { animation: none !important; opacity: 1 !important; }
+                .hero-santa { animation: none !important; }
               }
             `}</style>
 
@@ -454,9 +478,9 @@ export default function Hero() {
                     x2="100%"
                     y2="0%"
                   >
-                    <stop offset="0%" stopColor="#60a5fa" />
-                    <stop offset="50%" stopColor="#a78bfa" />
-                    <stop offset="100%" stopColor="#22d3ee" />
+                    <stop offset="0%" stopColor={fx.signature[0]} />
+                    <stop offset="50%" stopColor={fx.signature[1]} />
+                    <stop offset="100%" stopColor={fx.signature[2]} />
                   </linearGradient>
                 </defs>
                 <path
@@ -479,7 +503,7 @@ export default function Hero() {
             <div className="mt-8 flex flex-wrap gap-3 justify-center lg:justify-start">
               <a
                 href="/shop"
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-400 px-8 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white border border-white/30 transition-all hover:-translate-y-0.5 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080c14]"
+                className={`inline-flex items-center gap-2 rounded-full bg-gradient-to-r ${fx.cta} px-8 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white border border-white/30 transition-all hover:-translate-y-0.5 shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080c14]`}
                 style={{ fontFamily: "'Cinzel', serif" }}
               >
                 Enter the Shop
@@ -496,13 +520,26 @@ export default function Hero() {
             {/* Mobile: Lottie sits between CTAs and stats */}
             <div className="lg:hidden flex flex-col items-center mt-8">
               {printAnim ? (
-                <div className="relative w-[180px] h-[180px] sm:w-[200px] sm:h-[200px] overflow-hidden rounded-2xl bg-gradient-to-t from-amber-500 via-amber-400 to-yellow-300">
-                  <Lottie
-                    lottieRef={mobileLottieRef}
-                    animationData={printAnim}
-                    loop
-                    className="relative w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] -mt-[40px] -ml-[40px] sm:-mt-[50px] sm:-ml-[50px]"
-                  />
+                <div className="relative">
+                  <div className="relative w-[180px] h-[180px] sm:w-[200px] sm:h-[200px] overflow-hidden rounded-2xl bg-gradient-to-t from-amber-500 via-amber-400 to-yellow-300">
+                    <Lottie
+                      lottieRef={mobileLottieRef}
+                      animationData={printAnim}
+                      loop
+                      className="relative w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] -mt-[40px] -ml-[40px] sm:-mt-[50px] sm:-ml-[50px]"
+                    />
+                  </div>
+                  {festive && (
+                    <img
+                      src="/christmas/santa.webp"
+                      alt=""
+                      aria-hidden="true"
+                      width={72}
+                      height={72}
+                      className="hero-santa absolute -left-9 -bottom-2 w-[72px] h-[72px] drop-shadow-[0_6px_10px_rgba(0,0,0,0.45)]"
+                      decoding="async"
+                    />
+                  )}
                 </div>
               ) : (
                 <img
@@ -571,7 +608,9 @@ export default function Hero() {
               <div className="hero-ring-inner absolute -inset-20 rounded-full border border-purple-500/[0.03]" />
 
               {/* Colour glow behind */}
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-500/15 via-purple-500/8 to-cyan-500/12 blur-3xl scale-110" />
+              <div
+                className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${fx.glow} blur-3xl scale-110`}
+              />
 
               {/* Lottie card container */}
               <div className="relative overflow-hidden rounded-3xl border border-amber-300/30 bg-gradient-to-t from-amber-500 via-amber-400 to-yellow-300">
@@ -625,6 +664,18 @@ export default function Hero() {
                   </div>
                 </div>
               </div>
+
+              {festive && (
+                <img
+                  src="/christmas/santa.webp"
+                  alt=""
+                  aria-hidden="true"
+                  width={140}
+                  height={140}
+                  className="hero-santa absolute -left-16 bottom-24 w-[140px] h-[140px] drop-shadow-[0_10px_18px_rgba(0,0,0,0.45)]"
+                  decoding="async"
+                />
+              )}
             </div>
           </div>
         </div>
