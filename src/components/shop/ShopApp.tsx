@@ -442,7 +442,7 @@ function MarqueeBanner() {
     { icon: "✋", text: "Hand-finished" },
     { icon: "🚚", text: "Free delivery in Leeds" },
     { icon: "♻️", text: "Biodegradable materials" },
-    { icon: "⭐", text: "514+ prints sold" },
+    { icon: "⭐", text: "783+ prints sold" },
     { icon: "🎨", text: "Custom orders welcome" },
   ];
 
@@ -768,7 +768,7 @@ function ShopHeader({ onCartOpen }: { onCartOpen: () => void }) {
 /* ═══════════════════════════ Hero ═══════════════════════════ */
 
 function HeroBanner() {
-  const counter = useCountUp(514, 2200);
+  const counter = useCountUp(783, 2200);
   return (
     <section className="relative overflow-hidden bg-[#0a0f1a]">
       {/* Ambient background - subtle and refined */}
@@ -941,9 +941,9 @@ function HeroBanner() {
                   {/* Mini stats */}
                   <div className="grid w-full grid-cols-3 gap-3">
                     {[
-                      { n: "30+", l: "Designs" },
+                      { n: "65+", l: "Designs" },
                       { n: "12", l: "Collections" },
-                      { n: "100%", l: "Eco PLA" },
+                      { n: "100%", l: "Eco friendly" },
                     ].map((s) => (
                       <div
                         key={s.l}

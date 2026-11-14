@@ -141,8 +141,8 @@ export default function Hero({ festive = false }: { festive?: boolean }) {
   const fx = festive ? PALETTES.festive : PALETTES.default;
   const [printAnim, setPrintAnim] = useState<any>(null);
   const typed = useTypewriter(WORDS);
-  const printsRef = useAnimatedCount(514, 2200);
-  const designsRef = useAnimatedCount(50, 1800);
+  const printsRef = useAnimatedCount(783, 2200);
+  const designsRef = useAnimatedCount(65, 1800);
   const mobileLottieRef = useRef<LottieRefCurrentProps>(null);
   const desktopLottieRef = useRef<LottieRefCurrentProps>(null);
 
@@ -594,7 +594,7 @@ export default function Hero({ festive = false }: { festive?: boolean }) {
                   className="text-[10px] uppercase tracking-[0.2em] text-stone-500 mt-0.5"
                   style={{ fontFamily: "'Jost', sans-serif" }}
                 >
-                  Eco PLA
+                  Eco friendly
                 </p>
               </div>
             </div>
