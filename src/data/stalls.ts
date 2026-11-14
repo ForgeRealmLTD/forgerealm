@@ -14,6 +14,66 @@ export type Stall = {
 };
 
 export const stalls: Stall[] = [
+  // TODO: confirm location, then add photos (public/blog/session22-*.jpg + `npm run images:blog`)
+  {
+    label: "Stall Session 22",
+    date: "14 November 2026",
+    title: "A new record",
+    location: "Albion Place, Leeds",
+    paragraphs: [
+      "Tobi on his own again, and we finally did it. 14 November is our best stall to date, beating Stall Session 3, the sunny March day that's been the bar for eight months.",
+      "The Christmas range carried it. A big share of the day's sales were Christmas items and seasonal gifts, and with every Saturday between now and the 25th still to come, that's a very good sign.",
+    ],
+    pull: "Stall Session 3 is no longer the bar.",
+  },
+  // TODO: confirm location, then add photos (public/blog/session21-*.jpg + `npm run images:blog`)
+  {
+    label: "Stall Session 21",
+    date: "7 November 2026",
+    title: "From worst to second best",
+    location: "Albion Place, Leeds",
+    paragraphs: [
+      "Tobi ran this one on his own while Ishmam was away on holiday. Coming straight off Halloween, expectations were low.",
+      "It turned out to be our second-best stall to date, behind only Stall Session 3. One week from our worst day to our second best, which says more about Saturdays than it does about us.",
+    ],
+    pull: "One week from our worst stall to our second best.",
+  },
+  // TODO: add photos (public/blog/session20-*.jpg + `npm run images:blog`)
+  {
+    label: "Stall Session 20",
+    date: "31 October 2026",
+    title: "Out for Halloween, not for shopping",
+    location: "Albion Place, Leeds",
+    paragraphs: [
+      "Halloween fell on a Saturday. The city was busy, but busy with Halloween: people in costume heading to parties and pubs, not out for a wander and a browse. Plenty of footfall, very little of it stopping.",
+      "It was very nearly our first loss at Albion. We've lost money before at experimental locations, but never here, and the one who kept that record intact was Dwayne, one of our friends from The Mini Mall, who came through and tipped us just over break-even. Still our worst stall to date, and a long way from Kirkgate the week before.",
+    ],
+    pull: "Thanks to Dwayne, Albion still hasn't seen us make a loss.",
+  },
+  // TODO: add photos (public/blog/session19-*.jpg + `npm run images:blog`)
+  {
+    label: "Stall Session 19",
+    date: "24 October 2026",
+    title: "Three printers, one market",
+    location: "Kirkgate Market, Leeds",
+    paragraphs: [
+      "Kirkgate this time, and we weren't the only printers in the hall: two other 3D printing stalls were trading the same day. A first for us, and not the easiest setup to walk into.",
+      "Safe to say we did well. People had three tables of prints to choose from and plenty of them still chose ours.",
+    ],
+    pull: "Two other 3D printing stalls in the hall, and we still did well.",
+  },
+  // TODO: placeholder copy. Add photos (public/blog/session18-*.jpg + `npm run images:blog`)
+  {
+    label: "Stall Session 18",
+    date: "17 October 2026",
+    title: "Every Saturday from here",
+    location: "Albion Place, Leeds",
+    paragraphs: [
+      "Back out in the open air after the Mini Mall. From here on the markets run every Saturday, and while we won't be at all of them, we'll be at a lot more than we used to be.",
+      "A steady autumn day with a good mix of regulars and new faces, and the dragons doing what the dragons always do.",
+    ],
+    pull: "Every Saturday from here on. We won't make all of them, but we'll make a lot.",
+  },
   {
     label: "Stall Session 17",
     date: "10 October 2026",
