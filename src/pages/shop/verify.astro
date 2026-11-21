@@ -10,11 +10,12 @@ const apiLocal = import.meta.env.PUBLIC_API_URL_LOCAL
 ---
 
 <BaseLayout
+  bodyClass="fr-site"
   title="Verify Email | ForgeRealm"
   description="Verify your ForgeRealm account to unlock the shop."
 >
   <main
-    class="relative isolate min-h-[100svh] bg-slate-950 text-white overflow-x-hidden"
+    class="relative isolate min-h-[100svh] bg-[#0b0a08] text-white overflow-x-hidden"
     data-api-base={apiBase}
     data-api-local={apiLocal}
   >
@@ -54,7 +55,7 @@ const apiLocal = import.meta.env.PUBLIC_API_URL_LOCAL
             </div>
             <div class="relative space-y-6">
               <div
-                class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.35em] text-blue-100"
+                class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[11px] font-semibold text-blue-100"
               >
                 Account Verification
               </div>
@@ -73,9 +74,7 @@ const apiLocal = import.meta.env.PUBLIC_API_URL_LOCAL
 
               <form id="verify-form" class="grid gap-4">
                 <label class="flex flex-col gap-2 text-sm text-slate-200">
-                  <span class="text-xs uppercase tracking-wide text-slate-300"
-                    >Verification token</span
-                  >
+                  <span class="text-xs text-slate-300">Verification token</span>
                   <input
                     id="verify-token"
                     class="w-full rounded-2xl border border-white/10 bg-slate-900/70 px-4 py-3 text-sm text-slate-100 shadow-inner focus:border-blue-400 focus:outline-none placeholder-slate-500"
@@ -92,7 +91,7 @@ const apiLocal = import.meta.env.PUBLIC_API_URL_LOCAL
                     class="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#ffffff_0%,#3b82f6_20%,#06b6d4_40%,#3b82f6_60%,#ffffff_80%,#3b82f6_100%)]"
                   ></span>
                   <span
-                    class="relative inline-flex w-full items-center justify-center gap-2 rounded-full bg-blue-500 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-blue-400"
+                    class="relative inline-flex w-full items-center justify-center gap-2 rounded-full bg-blue-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-400"
                   >
                     Verify Email
                   </span>
@@ -106,7 +105,7 @@ const apiLocal = import.meta.env.PUBLIC_API_URL_LOCAL
               </div>
 
               <div
-                class="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.3em] text-blue-200/80"
+                class="flex flex-wrap items-center gap-3 text-xs text-blue-200/80"
               >
                 <a
                   href="/shop/sign-in"

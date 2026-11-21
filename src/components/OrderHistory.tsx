@@ -126,7 +126,7 @@ function OrderCard({ order }: { order: Order }) {
               Order #{String(order.id).padStart(5, "0")}
             </span>
             <span
-              className={`rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${config.bg} ${config.color}`}
+              className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${config.bg} ${config.color}`}
             >
               {order.status}
             </span>
@@ -148,7 +148,7 @@ function OrderCard({ order }: { order: Order }) {
         <div className="border-t border-white/[0.06] px-4 pb-5 pt-4 sm:px-5 space-y-4">
           {/* Items */}
           <div>
-            <h4 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400 mb-3">
+            <h4 className="text-[11px] font-semibold text-slate-400 mb-3">
               Items
             </h4>
             <div className="space-y-2">
@@ -174,7 +174,7 @@ function OrderCard({ order }: { order: Order }) {
           {/* Summary */}
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3 space-y-2">
-              <h4 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+              <h4 className="text-[11px] font-semibold text-slate-400">
                 Payment
               </h4>
               <div className="flex justify-between text-sm font-bold text-white pt-2 border-t border-white/[0.06]">
@@ -190,7 +190,7 @@ function OrderCard({ order }: { order: Order }) {
             </div>
 
             <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3 space-y-2">
-              <h4 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+              <h4 className="text-[11px] font-semibold text-slate-400">
                 Details
               </h4>
               {order.shipping_address ? (

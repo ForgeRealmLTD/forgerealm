@@ -85,7 +85,7 @@ const theme = (isNote: boolean) =>
           >
             <div
               data-stall-dot
-              class={`md:hidden absolute left-3 top-2 h-4 w-4 rounded-full border ${t.dotBorder} bg-[#0a0f1a] ${t.dotShadow}`}
+              class={`md:hidden absolute left-3 top-2 h-4 w-4 rounded-full border ${t.dotBorder} bg-[#0b0a08] ${t.dotShadow}`}
             >
               <div
                 class={`absolute inset-1 rounded-full bg-gradient-to-br ${t.dotGradient}`}
@@ -94,7 +94,7 @@ const theme = (isNote: boolean) =>
             <div class="sticky top-24 md:top-32 self-start md:w-64 md:flex-shrink-0 md:pl-24 z-10 -mt-2 mb-6 md:mb-0">
               <div
                 data-stall-dot
-                class={`hidden md:block absolute left-8 top-2 h-5 w-5 rounded-full border ${t.dotBorder} bg-[#0a0f1a] ${t.dotShadowMd}`}
+                class={`hidden md:block absolute left-8 top-2 h-5 w-5 rounded-full border ${t.dotBorder} bg-[#0b0a08] ${t.dotShadowMd}`}
               >
                 <div
                   class={`absolute inset-1 rounded-full bg-gradient-to-br ${t.dotGradient}`}
@@ -102,15 +102,15 @@ const theme = (isNote: boolean) =>
               </div>
               <div class="flex items-center gap-3 md:flex-col md:items-start">
                 <span
-                  class={`text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.28em] ${t.labelColor}`}
-                  style="font-family: Jost, sans-serif;"
+                  class={`text-[10px] sm:text-[11px] font-medium ${t.labelColor}`}
+                  style="font-family: var(--fr-font-label);"
                 >
                   {stall.label}
                 </span>
                 <div class="hidden md:block w-8 h-px bg-cyan-400/30" />
                 <span
                   class="text-sm sm:text-base text-white"
-                  style="font-family: Cinzel, serif;"
+                  style="font-family: var(--fr-font-pixel);"
                 >
                   {stall.date}
                 </span>
@@ -126,8 +126,8 @@ const theme = (isNote: boolean) =>
                   {!isNote && stall.location && (
                     <div class="flex flex-wrap items-center gap-2 mb-3">
                       <span
-                        class="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.2em] text-cyan-200"
-                        style="font-family: Jost, sans-serif;"
+                        class="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-2.5 py-0.5 text-[10px] font-medium text-cyan-200"
+                        style="font-family: var(--fr-font-label);"
                       >
                         {stall.location}
                       </span>
@@ -136,7 +136,7 @@ const theme = (isNote: boolean) =>
 
                   <h3
                     class="text-xl sm:text-2xl lg:text-[26px] leading-[1.2] text-white"
-                    style="font-family: Cinzel, serif;"
+                    style="font-family: var(--fr-font-pixel);"
                   >
                     {stall.title}
                   </h3>
@@ -147,7 +147,7 @@ const theme = (isNote: boolean) =>
 
                   <div
                     class="mt-6 space-y-4"
-                    style="font-family: Inter, sans-serif;"
+                    style="font-family: var(--fr-font-body);"
                   >
                     {stall.paragraphs.map((p) => (
                       <p class="text-[15px] sm:text-base text-slate-300 leading-[1.8]">
@@ -162,7 +162,7 @@ const theme = (isNote: boolean) =>
                     >
                       <p
                         class={`text-base sm:text-lg ${t.pullText}`}
-                        style="font-family: 'Cormorant Garamond', serif; font-style: italic; line-height: 1.6;"
+                        style="font-family: var(--fr-font-pixel); font-style: italic; line-height: 1.6;"
                       >
                         "{stall.pull}"
                       </p>
@@ -174,7 +174,7 @@ const theme = (isNote: boolean) =>
                       class={`mt-7 grid gap-3 ${images.length === 1 ? "grid-cols-1" : images.length === 2 ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"}`}
                     >
                       {images.map((img, i) => (
-                        <figure class="group relative overflow-hidden rounded-xl border border-white/[0.06] bg-[#0c1220]">
+                        <figure class="group relative overflow-hidden rounded-xl border border-white/[0.06] bg-[#141210]">
                           <img
                             src={sized(img.src, 640)}
                             srcset={`${sized(img.src, 640)} 640w, ${sized(img.src, 1280)} 1280w`}

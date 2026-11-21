@@ -1,15 +1,20 @@
 ---
 import '~/assets/styles/tailwind.css';
 import '~/assets/styles/globals.css';
+import '~/assets/styles/landing.css';
 
 interface Props {
   title?: string;
   description?: string;
+  /** Extra class for <body>. Blog and shop pages pass "fr-site" to opt into
+      the shared theme (see src/assets/styles/landing.css). */
+  bodyClass?: string;
 }
 
 const {
   title = 'ForgeRealm',
-  description = 'ForgeRealm powered by Astro'
+  description = 'ForgeRealm powered by Astro',
+  bodyClass = ''
 } = Astro.props;
 
 // Brevo Conversations widget — Conversations ID lives in .env.local as
@@ -49,11 +54,11 @@ const brevoConversationsId = import.meta.env.PUBLIC_BREVO_CONVERSATIONS_ID;
     <link rel="preload" as="image" href="/headfrlogorv-128.webp" type="image/webp" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+25&family=Jersey+15&family=DM+Sans:opsz,wght@9..40,400..700&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
     <script is:inline>document.documentElement.classList.add('js');</script>
     <script is:inline src="/theme-init.js"></script>
   </head>
-  <body class="min-h-[100dvh] md:min-h-[100svh] antialiased overflow-x-hidden" style={{ background: 'var(--background)', color: 'var(--foreground)' }}>
+  <body class:list={["min-h-[100dvh] md:min-h-[100svh] antialiased overflow-x-hidden", bodyClass]} style={{ background: 'var(--background)', color: 'var(--foreground)' }}>
     <slot />
 
     <script is:inline>

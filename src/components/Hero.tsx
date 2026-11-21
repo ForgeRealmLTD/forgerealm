@@ -19,6 +19,7 @@ import { createPausedLoops } from "../hooks/useLoopGroup";
 import type { LoopLike } from "../hooks/useLoopGroup";
 import { useAnimeReveal } from "../hooks/useAnimeReveal";
 import { useScrollScrub } from "../hooks/useScrollScrub";
+import { ArrowKnob } from "./landing/ui";
 
 function useTypewriter(words: string[]) {
   const [text, setText] = useState(words[0]);
@@ -117,28 +118,7 @@ const WORDS = [
   "Soul",
 ];
 
-// Seasonal accent swaps. `festive` is switched on from the landing page.
-const PALETTES = {
-  default: {
-    eyebrow: "text-blue-300/70",
-    headline: "from-blue-400 via-purple-400 to-cyan-300",
-    cursor: "bg-cyan-300/60",
-    signature: ["#60a5fa", "#a78bfa", "#22d3ee"],
-    cta: "from-blue-500 via-blue-400 to-cyan-400 shadow-blue-500/25 hover:shadow-blue-500/40 focus-visible:ring-cyan-300/80",
-    glow: "from-blue-500/15 via-purple-500/8 to-cyan-500/12",
-  },
-  festive: {
-    eyebrow: "text-amber-200/70",
-    headline: "from-rose-300 via-amber-200 to-emerald-300",
-    cursor: "bg-amber-200/70",
-    signature: ["#fda4af", "#fde68a", "#6ee7b7"],
-    cta: "from-red-600 via-red-500 to-rose-400 shadow-red-500/25 hover:shadow-red-500/40 focus-visible:ring-rose-300/80",
-    glow: "from-red-500/15 via-amber-400/8 to-emerald-500/12",
-  },
-} as const;
-
 export default function Hero({ festive = false }: { festive?: boolean }) {
-  const fx = festive ? PALETTES.festive : PALETTES.default;
   const [printAnim, setPrintAnim] = useState<any>(null);
   const typed = useTypewriter(WORDS);
   const printsRef = useAnimatedCount(783, 2200);
@@ -384,237 +364,163 @@ export default function Hero({ festive = false }: { festive?: boolean }) {
   return (
     <section
       ref={heroRef}
-      className="landing-ambience relative min-h-[100vh] flex items-center overflow-hidden"
-      style={{
-        background:
-          "linear-gradient(135deg, #080c14 0%, #0c1222 40%, #0e1428 70%, #080c14 100%)",
-      }}
+      // `fr-festive` swaps the accent token for the seasonal red.
+      className={`fr-ink fr-plate ${festive ? "fr-festive" : ""} relative flex min-h-[100svh] flex-col overflow-hidden`}
     >
-      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28 md:max-w-[min(97vw,2000px)] md:mt-28 md:mb-12 md:py-12 md:rounded-[2rem] md:border md:border-white/10 md:bg-white/[0.03] md:shadow-[0_30px_80px_-12px_rgba(0,0,0,0.75),inset_0_1px_0_rgba(255,255,255,0.05)]">
-        <div className="grid lg:grid-cols-[1fr_1.05fr] gap-12 lg:gap-16 items-center">
-          {/* Left - Content */}
-          <div className="hero-copy text-center lg:text-left">
-            {/* Mobile brand name */}
-            <div className="lg:hidden mb-4 text-center">
-              <span
-                className="text-2xl font-bold text-white"
-                style={{ fontFamily: "'Cinzel', serif" }}
-              >
-                ForgeRealm
-              </span>
-            </div>
+      <style>{`
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        @keyframes santa-bob { 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-5px) rotate(1deg)} }
+        .hero-santa { animation: santa-bob 3.2s ease-in-out infinite; transform-origin: 50% 90%; }
+        @media (prefers-reduced-motion: reduce) {
+          .typewriter-cursor { animation: none !important; opacity: 1 !important; }
+          .hero-santa { animation: none !important; }
+        }
+      `}</style>
 
-            {/* Emblem + eyebrow */}
-            <div className="mb-6 flex items-center gap-4 justify-center lg:justify-start">
-              <img
-                src="/frlogorv-384.webp"
-                alt="ForgeRealm Emblem"
-                className="hero-emblem-main h-12 w-12 sm:h-14 sm:w-14 drop-shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:drop-shadow-[0_0_25px_rgba(59,130,246,0.6)] transition-all duration-500 cursor-pointer"
-                decoding="async"
-              />
-              <div>
-                <ScrambleLabel
-                  className={`text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.3em] ${fx.eyebrow} block`}
-                  style={{ fontFamily: "'Jost', sans-serif" }}
-                  chars="uppercase"
-                  duration={1500}
-                >
-                  3D Printed in Leeds
-                </ScrambleLabel>
+      <div className="fr-wrap relative flex flex-1 flex-col pt-[5.5rem]">
+        {/* Eyebrow row: emblem, label, a rule out to the workshop coordinates */}
+        <div className="flex items-center gap-4">
+          <img
+            src="/frlogorv-384.webp"
+            alt="ForgeRealm Emblem"
+            className="hero-emblem-main h-10 w-10 cursor-pointer sm:h-11 sm:w-11"
+            decoding="async"
+          />
+          <ScrambleLabel
+            className="fr-label fr-accent-text block"
+            chars="lowercase"
+            duration={1500}
+          >
+            3D Printed in Leeds
+          </ScrambleLabel>
+          <span
+            className="h-px flex-1"
+            style={{ background: "var(--line)" }}
+            aria-hidden="true"
+          />
+          <span className="fr-label fr-fg-3 hidden sm:block" aria-hidden="true">
+            53.80° N / 1.55° W
+          </span>
+        </div>
+
+        <div className="grid flex-1 items-center gap-10 py-8 lg:grid-cols-12 lg:gap-10">
+          {/* Copy */}
+          <div className="hero-copy lg:col-span-7 xl:col-span-8">
+            {/* The headline "prints" in bottom-up (CSS only, see landing.css) */}
+            <h1 className="fr-h1 fr-print text-[clamp(3.2rem,16vw,7.5rem)] lg:text-[clamp(5rem,min(9.6vw,17svh),9rem)] xl:text-[clamp(6rem,min(10.6vw,18.5svh),10.5rem)]">
+              <span className="fr-print__body block">
+                Crafted with
+                <br />
+                <span className="fr-i">
+                  {typed}
+                  <span
+                    aria-hidden="true"
+                    className="typewriter-cursor ml-[0.06em] inline-block h-[0.6em] w-[0.26em] bg-current align-baseline"
+                    style={{ animation: "blink 1s step-end infinite" }}
+                  />
+                </span>
+              </span>
+            </h1>
+
+            {/* Signature flourish: anime.js stroke-draws this on mount */}
+            <svg
+              className="hero-signature fr-accent-text mt-4"
+              viewBox="0 0 260 22"
+              width="260"
+              height="22"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              aria-hidden="true"
+            >
+              <path d="M4 13 C 40 3, 80 21, 130 11 S 220 3, 256 11" />
+            </svg>
+
+            {/* Side by side only where the copy column is wide enough: md
+                (single column, full width) and xl. At lg it is narrow, so
+                the paragraph and buttons stack. */}
+            <div className="mt-8 grid gap-8 md:grid-cols-[minmax(0,30rem)_auto] md:items-end md:gap-12 lg:grid-cols-1 lg:gap-8 xl:grid-cols-[minmax(0,30rem)_auto] xl:gap-12">
+              <p className="fr-body">
+                From articulated dragons to ambient lamps, every piece is
+                designed, printed, and hand-finished in our Leeds workshop.
+                Eco-friendly PLA, no compromise on detail.
+              </p>
+
+              <div className="flex flex-wrap gap-3">
+                <a href="/shop" className="fr-btn fr-btn--solid">
+                  Enter the Shop
+                  <ArrowKnob />
+                </a>
+                <a href="/#work" className="fr-btn fr-btn--ghost">
+                  See Our Work
+                  <ArrowKnob />
+                </a>
               </div>
             </div>
 
-            <h1
-              className="text-4xl sm:text-6xl lg:text-[5rem] font-bold leading-[0.9] text-white [text-wrap:balance]"
-              style={{ fontFamily: "'Cinzel', serif" }}
-            >
-              Crafted with
-              <br />
-              <span
-                className={`bg-gradient-to-r ${fx.headline} bg-clip-text text-transparent`}
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontStyle: "italic",
-                  fontWeight: 300,
-                  fontSize: "1.1em",
-                }}
-              >
-                {typed}
-                <span
-                  aria-hidden="true"
-                  className={`typewriter-cursor inline-block w-[2px] h-[0.85em] ml-1 align-middle ${fx.cursor}`}
-                  style={{ animation: "blink 1s step-end infinite" }}
-                />
-              </span>
-            </h1>
-            <style>{`
-              @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-              @keyframes santa-bob { 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-5px) rotate(1deg)} }
-              .hero-santa { animation: santa-bob 3.2s ease-in-out infinite; transform-origin: 50% 90%; }
-              @media (prefers-reduced-motion: reduce) {
-                .typewriter-cursor { animation: none !important; opacity: 1 !important; }
-                .hero-santa { animation: none !important; }
-              }
-            `}</style>
-
-            {/* Signature flourish — anime.js stroke-draws these on mount */}
-            <div className="mt-4 flex justify-center lg:justify-start">
-              <svg
-                className="hero-signature"
-                viewBox="0 0 260 26"
-                width="260"
-                height="26"
-                fill="none"
-                stroke="url(#hSigGrad)"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                aria-hidden="true"
-              >
-                <defs>
-                  <linearGradient
-                    id="hSigGrad"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="0%"
-                  >
-                    <stop offset="0%" stopColor={fx.signature[0]} />
-                    <stop offset="50%" stopColor={fx.signature[1]} />
-                    <stop offset="100%" stopColor={fx.signature[2]} />
-                  </linearGradient>
-                </defs>
-                <path
-                  d="M4 14 C 40 4, 80 22, 130 12 S 220 4, 256 12"
-                  opacity="0.9"
-                />
-                <path d="M24 22 L 236 22" strokeWidth="1" opacity="0.35" />
-              </svg>
-            </div>
-
-            <p
-              className="mt-4 sm:mt-6 max-w-lg text-stone-400 leading-relaxed mx-auto lg:mx-0 text-[13px] sm:text-base lg:text-lg [text-wrap:pretty]"
-              style={{ fontFamily: "'Inter', sans-serif", lineHeight: 1.7 }}
-            >
-              From articulated dragons to ambient lamps, every piece is
-              designed, printed, and hand-finished in our Leeds workshop.
-              Eco-friendly PLA, no compromise on detail.
-            </p>
-
-            <div className="mt-8 flex flex-wrap gap-3 justify-center lg:justify-start">
-              <a
-                href="/shop"
-                className={`inline-flex items-center gap-2 rounded-full bg-gradient-to-r ${fx.cta} px-8 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white border border-white/30 transition-all hover:-translate-y-0.5 shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080c14]`}
-                style={{ fontFamily: "'Cinzel', serif" }}
-              >
-                Enter the Shop
-              </a>
-              <a
-                href="/#work"
-                className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/[0.05] px-8 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/80 transition-all hover:border-white/50 hover:text-white hover:bg-white/10 backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080c14]"
-                style={{ fontFamily: "'Cinzel', serif" }}
-              >
-                See Our Work
-              </a>
-            </div>
-
-            {/* Mobile: Lottie sits between CTAs and stats */}
-            <div className="lg:hidden flex flex-col items-center mt-8">
-              {printAnim ? (
-                <div className="relative">
-                  <div className="relative w-[180px] h-[180px] sm:w-[200px] sm:h-[200px] overflow-hidden rounded-2xl bg-gradient-to-t from-amber-500 via-amber-400 to-yellow-300">
+            {/* Mobile: the printer panel sits between the CTAs and the stats */}
+            <div className="mt-10 lg:hidden">
+              <div className="relative mx-auto max-w-[24rem]">
+                <div className="fr-amber fr-layers relative h-[210px] overflow-hidden rounded-[22px]">
+                  {printAnim ? (
                     <Lottie
                       lottieRef={mobileLottieRef}
                       animationData={printAnim}
                       loop
-                      className="relative w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] -mt-[40px] -ml-[40px] sm:-mt-[50px] sm:-ml-[50px]"
+                      className="absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2"
                     />
-                  </div>
-                  {festive && (
+                  ) : (
                     <img
-                      src="/christmas/santa.webp"
-                      alt=""
-                      aria-hidden="true"
-                      width={72}
-                      height={72}
-                      className="hero-santa absolute -left-9 -bottom-2 w-[72px] h-[72px] drop-shadow-[0_6px_10px_rgba(0,0,0,0.45)]"
-                      decoding="async"
+                      src="/frlogorv-384.webp"
+                      alt="ForgeRealm"
+                      className="absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 opacity-40"
                     />
                   )}
+                  <span
+                    className="fr-label absolute left-4 top-4 !text-[14px]"
+                    aria-hidden="true"
+                  >
+                    Job FR-0783
+                  </span>
+                  <span
+                    className="fr-label absolute right-4 top-4 flex items-center gap-2 !text-[14px]"
+                    aria-hidden="true"
+                  >
+                    <i className="fr-blink h-1.5 w-1.5 rounded-full bg-current" />
+                    Printing
+                  </span>
                 </div>
-              ) : (
-                <img
-                  src="/frlogorv-384.webp"
-                  alt="ForgeRealm"
-                  className="w-20 h-20 opacity-40"
-                />
-              )}
-            </div>
-
-            {/* Stats row */}
-            <div
-              ref={statsRef}
-              className="hero-stats-row mt-8 sm:mt-10 flex flex-wrap gap-6 sm:gap-8 justify-center lg:justify-start"
-            >
-              <div data-ar className="hero-stat">
-                <p
-                  className="text-2xl font-bold text-white tabular-nums"
-                  style={{ fontFamily: "'Cinzel', serif" }}
-                >
-                  <span ref={printsRef}>0</span>+
-                </p>
-                <p
-                  className="text-[10px] uppercase tracking-[0.2em] text-stone-500 mt-0.5"
-                  style={{ fontFamily: "'Jost', sans-serif" }}
-                >
-                  Prints Sold
-                </p>
-              </div>
-              <div data-ar className="hero-stat">
-                <p
-                  className="text-2xl font-bold text-white tabular-nums"
-                  style={{ fontFamily: "'Cinzel', serif" }}
-                >
-                  <span ref={designsRef}>0</span>+
-                </p>
-                <p
-                  className="text-[10px] uppercase tracking-[0.2em] text-stone-500 mt-0.5"
-                  style={{ fontFamily: "'Jost', sans-serif" }}
-                >
-                  Designs
-                </p>
-              </div>
-              <div data-ar className="hero-stat">
-                <p
-                  className="text-2xl font-bold text-white"
-                  style={{ fontFamily: "'Cinzel', serif" }}
-                >
-                  100%
-                </p>
-                <p
-                  className="text-[10px] uppercase tracking-[0.2em] text-stone-500 mt-0.5"
-                  style={{ fontFamily: "'Jost', sans-serif" }}
-                >
-                  Eco friendly
-                </p>
+                {festive && (
+                  <img
+                    src="/christmas/santa.webp"
+                    alt=""
+                    aria-hidden="true"
+                    width={72}
+                    height={72}
+                    className="hero-santa absolute -bottom-4 -left-2 h-[72px] w-[72px] drop-shadow-[0_6px_10px_rgba(0,0,0,0.45)]"
+                    decoding="async"
+                  />
+                )}
               </div>
             </div>
           </div>
 
-          {/* Right - Lottie in glass card (desktop only) */}
-          <div className="hero-visual hidden lg:block relative">
+          {/* Printer panel (desktop): an amber device face with a job readout */}
+          <div className="hero-visual relative hidden lg:col-span-5 lg:block xl:col-span-4">
             <div className="relative">
-              {/* Decorative rings — anime.js rotates these continuously */}
-              <div className="hero-ring-outer absolute -inset-12 rounded-full border border-blue-500/[0.05]" />
-              <div className="hero-ring-inner absolute -inset-20 rounded-full border border-purple-500/[0.03]" />
-
-              {/* Colour glow behind */}
+              {/* Registration rings: anime.js rotates these continuously */}
               <div
-                className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${fx.glow} blur-3xl scale-110`}
+                className="hero-ring-outer absolute -inset-10 rounded-full border border-dashed"
+                style={{ borderColor: "var(--line)" }}
+              />
+              <div
+                className="hero-ring-inner absolute -inset-20 rounded-full border border-dashed"
+                style={{ borderColor: "rgba(240, 232, 216, 0.07)" }}
               />
 
-              {/* Lottie card container */}
-              <div className="relative overflow-hidden rounded-3xl border border-amber-300/30 bg-gradient-to-t from-amber-500 via-amber-400 to-yellow-300">
-                <div className="relative aspect-[4/5] flex items-center justify-center overflow-hidden">
+              <div className="fr-amber relative overflow-hidden rounded-[28px]">
+                <div className="fr-layers relative flex h-[min(54svh,540px)] min-h-[340px] items-center justify-center overflow-hidden">
                   {printAnim ? (
                     <Lottie
                       lottieRef={desktopLottieRef}
@@ -634,32 +540,38 @@ export default function Hero({ festive = false }: { festive?: boolean }) {
                       decoding="async"
                     />
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
                 </div>
 
-                {/* Card footer */}
-                <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
-                  <div className="flex items-center justify-between">
+                {/* Readout along the top */}
+                <div
+                  className="absolute inset-x-0 top-0 flex items-center justify-between p-5"
+                  aria-hidden="true"
+                >
+                  <span className="fr-label">Job FR-0783</span>
+                  <span className="fr-label flex items-center gap-2">
+                    <i className="fr-blink h-1.5 w-1.5 rounded-full bg-current" />
+                    Printing
+                  </span>
+                </div>
+
+                {/* Panel footer */}
+                <div className="absolute inset-x-0 bottom-0 p-5">
+                  <div
+                    className="mb-4 h-px w-full"
+                    style={{ background: "var(--line-2)" }}
+                    aria-hidden="true"
+                  />
+                  <div className="flex items-end justify-between">
                     <div>
-                      <div className="mb-1">
-                        <span
-                          className="text-[9px] font-medium uppercase tracking-[0.25em] text-black/50"
-                          style={{ fontFamily: "'Jost', sans-serif" }}
-                        >
-                          ForgeRealm
-                        </span>
-                      </div>
-                      <p
-                        className="text-[13px] text-black/70"
-                        style={{ fontFamily: "'Inter', sans-serif" }}
-                      >
+                      <span className="fr-label fr-fg-3 block">ForgeRealm</span>
+                      <p className="fr-px mt-1.5 text-[1.75rem] leading-none">
                         Every piece, a story
                       </p>
                     </div>
                     <img
                       src="/headfrlogorv-128.webp"
                       alt=""
-                      className="h-8 w-8 rounded-full"
+                      className="h-9 w-9 rounded-full"
                     />
                   </div>
                 </div>
@@ -672,7 +584,7 @@ export default function Hero({ festive = false }: { festive?: boolean }) {
                   aria-hidden="true"
                   width={140}
                   height={140}
-                  className="hero-santa absolute -left-16 bottom-24 w-[140px] h-[140px] drop-shadow-[0_10px_18px_rgba(0,0,0,0.45)]"
+                  className="hero-santa absolute -left-16 bottom-24 h-[140px] w-[140px] drop-shadow-[0_10px_18px_rgba(0,0,0,0.45)]"
                   decoding="async"
                 />
               )}
@@ -680,23 +592,63 @@ export default function Hero({ festive = false }: { festive?: boolean }) {
           </div>
         </div>
 
-        {/* Emblem divider — lines scan outward, emblem pops in on scroll */}
-        <div className="hero-emblem-divider flex items-center justify-center gap-4 mt-16">
+        {/* Stats strip: pixel numerals on a ruled row */}
+        <div
+          ref={statsRef}
+          className="hero-stats-row fr-line grid grid-cols-3 border-t"
+        >
+          <div data-ar className="hero-stat py-5 pr-3">
+            <p className="fr-dot text-[clamp(2.6rem,8vw,5.5rem)]">
+              <span ref={printsRef}>0</span>+
+            </p>
+            <p className="fr-label fr-fg-3 mt-2 !text-[14px] sm:!text-[17px]">
+              Prints Sold
+            </p>
+          </div>
           <div
-            className="hero-divider-line flex-1 h-px bg-gradient-to-r from-transparent via-blue-400/60 to-transparent"
-            style={{ transform: "scaleX(0)", transformOrigin: "right" }}
+            data-ar
+            className="hero-stat fr-line border-l py-5 pl-4 pr-3 sm:pl-8"
+          >
+            <p className="fr-dot text-[clamp(2.6rem,8vw,5.5rem)]">
+              <span ref={designsRef}>0</span>+
+            </p>
+            <p className="fr-label fr-fg-3 mt-2 !text-[14px] sm:!text-[17px]">
+              Designs
+            </p>
+          </div>
+          <div data-ar className="hero-stat fr-line border-l py-5 pl-4 sm:pl-8">
+            <p className="fr-dot text-[clamp(2.6rem,8vw,5.5rem)]">100%</p>
+            <p className="fr-label fr-fg-3 mt-2 !text-[14px] sm:!text-[17px]">
+              Eco friendly
+            </p>
+          </div>
+        </div>
+
+        {/* Emblem divider: lines scan outward, emblem pops in on scroll */}
+        <div className="hero-emblem-divider flex items-center justify-center gap-4 pb-5">
+          <div
+            className="hero-divider-line h-px flex-1"
+            style={{
+              background: "var(--line-2)",
+              transform: "scaleX(0)",
+              transformOrigin: "right",
+            }}
           />
           <img
             src="/frlogorv-384.webp"
             alt=""
             aria-hidden="true"
             loading="lazy"
-            className="hero-divider-emblem h-8 w-8 opacity-80 drop-shadow-[0_0_12px_rgba(59,130,246,0.45)]"
+            className="hero-divider-emblem h-6 w-6"
             style={{ opacity: 0 }}
           />
           <div
-            className="hero-divider-line flex-1 h-px bg-gradient-to-r from-transparent via-blue-400/60 to-transparent"
-            style={{ transform: "scaleX(0)", transformOrigin: "left" }}
+            className="hero-divider-line h-px flex-1"
+            style={{
+              background: "var(--line-2)",
+              transform: "scaleX(0)",
+              transformOrigin: "left",
+            }}
           />
         </div>
       </div>

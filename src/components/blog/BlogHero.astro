@@ -14,7 +14,7 @@ const nbsp = String.fromCharCode(160);
 const ticks = ["Booth tales", "Drop announcements", "Workshop myths"];
 ---
 
-<section class="relative overflow-hidden bg-[#0a0f1a]">
+<section class="relative overflow-hidden bg-[#0b0a08]">
   {/* Subtle ambient glows */}
   <div class="pointer-events-none absolute inset-0">
     <div
@@ -41,8 +41,8 @@ const ticks = ["Booth tales", "Drop announcements", "Workshop myths"];
         <div class="mb-4 sm:mb-5 inline-flex items-center gap-3">
           <div class="w-8 h-px bg-blue-400/50"></div>
           <span
-            class="text-[13px] sm:text-[15px] font-medium uppercase tracking-[0.28em] text-blue-300/70"
-            style="font-family: 'Jost', sans-serif;"
+            class="text-[13px] sm:text-[15px] font-medium text-blue-300/70"
+            style="font-family: var(--fr-font-label);"
           >
             ForgeRealm Journal
           </span>
@@ -50,7 +50,7 @@ const ticks = ["Booth tales", "Drop announcements", "Workshop myths"];
 
         <h1
           class="text-3xl font-bold leading-[0.95] tracking-tight sm:text-5xl lg:text-[4rem]"
-          style="font-family: 'Cinzel', serif;"
+          style="font-family: var(--fr-font-pixel);"
         >
           <span class="inline" aria-label="Lore &">
             {
@@ -73,7 +73,7 @@ const ticks = ["Booth tales", "Drop announcements", "Workshop myths"];
               class="hero-gradient inline-block relative z-[2] text-transparent bg-clip-text"
             >
               <span
-                style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; font-size: 1.1em;"
+                style="font-family: var(--fr-font-pixel); font-style: italic; font-weight: 300; font-size: 1.1em;"
               >
                 Legends
               </span>
@@ -103,8 +103,8 @@ const ticks = ["Booth tales", "Drop announcements", "Workshop myths"];
         <div class="mt-8 flex flex-wrap gap-2.5 sm:gap-3">
           <a
             href="/subscribe"
-            class="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-400 px-6 py-2.5 sm:px-7 sm:py-3 text-[12px] sm:text-[15px] font-semibold uppercase tracking-[0.14em] text-white shadow-xl shadow-blue-500/25 transition-all hover:-translate-y-0.5 hover:shadow-blue-500/40"
-            style="font-family: 'Cinzel', serif;"
+            class="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-400 px-6 py-2.5 sm:px-7 sm:py-3 text-[12px] sm:text-[15px] font-semibold text-white shadow-xl shadow-blue-500/25 transition-all hover:-translate-y-0.5 hover:shadow-blue-500/40"
+            style="font-family: var(--fr-font-pixel);"
           >
             <span class="relative z-10">Subscribe</span>
             <div
@@ -114,8 +114,8 @@ const ticks = ["Booth tales", "Drop announcements", "Workshop myths"];
           </a>
           <a
             href="/"
-            class="inline-flex items-center gap-2 rounded-full border border-white/[0.12] bg-white/[0.03] px-6 py-2.5 sm:px-7 sm:py-3 text-[12px] sm:text-[15px] font-semibold uppercase tracking-[0.14em] text-white/70 transition-all hover:border-blue-400/30 hover:text-white"
-            style="font-family: 'Cinzel', serif;"
+            class="inline-flex items-center gap-2 rounded-full border border-white/[0.12] bg-white/[0.03] px-6 py-2.5 sm:px-7 sm:py-3 text-[12px] sm:text-[15px] font-semibold text-white/70 transition-all hover:border-blue-400/30 hover:text-white"
+            style="font-family: var(--fr-font-pixel);"
           >
             Main Site
           </a>
@@ -176,11 +176,11 @@ const ticks = ["Booth tales", "Drop announcements", "Workshop myths"];
             />
             {/* Inner overlay for depth */}
             <div
-              class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,#0a0f1a_80%)]"
+              class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,#0b0a08_80%)]"
             >
             </div>
             <div
-              class="absolute inset-0 bg-gradient-to-t from-[#0a0f1a]/60 via-transparent to-transparent"
+              class="absolute inset-0 bg-gradient-to-t from-[#0b0a08]/60 via-transparent to-transparent"
             >
             </div>
 
@@ -205,8 +205,8 @@ const ticks = ["Booth tales", "Drop announcements", "Workshop myths"];
                 />
               </div>
               <p
-                class="mt-4 text-xs tracking-[0.3em] uppercase text-slate-400"
-                style="font-family: 'Jost', sans-serif;"
+                class="mt-4 text-xs text-slate-400"
+                style="font-family: var(--fr-font-label);"
               >
                 The Journal
               </p>
@@ -219,7 +219,7 @@ const ticks = ["Booth tales", "Drop announcements", "Workshop myths"];
 
   {/* Bottom fade */}
   <div
-    class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0f1a] to-transparent"
+    class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0b0a08] to-transparent"
   >
   </div>
 </section>

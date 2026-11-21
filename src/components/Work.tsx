@@ -26,6 +26,8 @@ type Product = {
   accentColor: string;
 };
 
+const AUTO_ADVANCE_MS = 4200;
+
 const products: Product[] = [
   {
     id: "ivysaur-planter",
@@ -37,12 +39,12 @@ const products: Product[] = [
     detail:
       "It sits in the shop's front window at Merrion Centre, so it's the first thing people see walking past The Mini Mall. If you're after something that mixes a print with something living, that's exactly the kind of commission we love.",
     image: "/featured1.jpg",
-    background: "#0a0a0a",
+    background: "#141210",
     lifestyleImage: "/featured1bg.jpg",
     thumbnailScale: 1.1,
     expandedScale: 0.8,
-    textColor: "#FADE6A",
-    accentColor: "#F59E0B",
+    textColor: "#f0e8d8",
+    accentColor: "#ffb224",
   },
   {
     id: "blackthorn-manor",
@@ -54,11 +56,11 @@ const products: Product[] = [
     detail:
       "If turrets, timber framing and old English charm are your thing, this is the kind of build we could happily spend a week on. Get in touch if you want your own version.",
     image: "/featured2.jpg",
-    background: "#0a0a0a",
+    background: "#141210",
     lifestyleImage: "/featured2bg.jpg",
     expandedScale: 0.7,
-    textColor: "#FADE6A",
-    accentColor: "#F59E0B",
+    textColor: "#f0e8d8",
+    accentColor: "#ffb224",
   },
   {
     id: "tala",
@@ -70,22 +72,27 @@ const products: Product[] = [
     detail:
       "Pets are some of our favourite commissions. There's a lot of character to catch, and you know the moment you've got it. If you'd like your own, get in touch.",
     image: "/featured3.jpg",
-    background: "#0a0a0a",
+    background: "#141210",
     lifestyleImage: "/featured3bg.jpg",
     thumbnailScale: 0.7,
     expandedScale: 0.55,
-    textColor: "#FADE6A",
-    accentColor: "#F59E0B",
+    textColor: "#f0e8d8",
+    accentColor: "#ffb224",
   },
 ];
 
 export default function Work() {
-  const isLight = false;
   const [activeIndex, setActiveIndex] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCoarsePointer, setIsCoarsePointer] = useState(false);
   const [isNarrowScreen, setIsNarrowScreen] = useState(false);
+  // Narrow screens show the strip as an accordion: one panel open wide, the
+  // rest as slim spines. `focusIndex` is the open one; it advances on a timer
+  // until the visitor takes over.
+  const [focusIndex, setFocusIndex] = useState(0);
+  const [autoPlay, setAutoPlay] = useState(true);
+  const stripTouchRef = useRef<{ x: number; y: number } | null>(null);
   const [direction, setDirection] = useState(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [isCarouselInView, setIsCarouselInView] = useState(true);
@@ -97,8 +104,6 @@ export default function Work() {
   const touchStartXRef = useRef<number | null>(null);
   const touchStartYRef = useRef<number | null>(null);
   const touchMovedRef = useRef(false);
-  const autoScrollTimerRef = useRef<number | null>(null);
-  const autoIndexRef = useRef(0);
 
   const activeProduct = useMemo(() => products[activeIndex], [activeIndex]);
 
@@ -186,7 +191,7 @@ export default function Work() {
 
   useEffect(() => {
     const carousel = carouselRef.current;
-    if (!carousel || isExpanded) return;
+    if (!carousel || isExpanded || isNarrowScreen) return;
     let ticking = false;
     const handleScroll = () => {
       if (isExpanded) return;
@@ -195,61 +200,32 @@ export default function Work() {
       requestAnimationFrame(() => {
         ticking = false;
         const width = carousel.clientWidth || 1;
-        const approxPanelWidth =
-          isCoarsePointer && isNarrowScreen ? width * 0.8 : width * 0.2;
+        const approxPanelWidth = width * 0.2;
         const index = Math.round(carousel.scrollLeft / approxPanelWidth);
         const nextIndex = clampIndex(index);
-        autoIndexRef.current = nextIndex;
         setActiveIndex(nextIndex);
       });
     };
     carousel.addEventListener("scroll", handleScroll, { passive: true });
     return () => carousel.removeEventListener("scroll", handleScroll);
-  }, [clampIndex, isCoarsePointer, isExpanded, isNarrowScreen]);
+  }, [clampIndex, isExpanded, isNarrowScreen]);
 
   useEffect(() => {
     if (!isExpanded) return;
     setHoveredIndex(null);
   }, [isExpanded]);
 
+  // Accordion auto-advance. Stops for good once the visitor taps or swipes,
+  // and never runs under reduced motion.
   useEffect(() => {
-    if (!(isCoarsePointer && isNarrowScreen) || isExpanded || !isCarouselInView)
-      return;
-    autoIndexRef.current = 0;
-    const startTimer = window.setTimeout(() => {
-      const carousel = carouselRef.current;
-      const panel = panelRefs.current[0];
-      if (!carousel || !panel) return;
-      const target =
-        panel.offsetLeft - (carousel.clientWidth - panel.offsetWidth) / 2;
-      carousel.scrollTo({ left: Math.max(0, target), behavior: "auto" });
-    }, 60);
-    const step = () => {
-      const carousel = carouselRef.current;
-      const nextIndex = clampIndex(autoIndexRef.current + 1);
-      autoIndexRef.current = nextIndex;
-      setActiveIndex(nextIndex);
-      const panel = panelRefs.current[nextIndex];
-      if (!carousel || !panel) return;
-      const target =
-        panel.offsetLeft - (carousel.clientWidth - panel.offsetWidth) / 2;
-      carousel.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
-    };
-    autoScrollTimerRef.current = window.setInterval(step, 4200);
-    return () => {
-      window.clearTimeout(startTimer);
-      if (autoScrollTimerRef.current) {
-        window.clearInterval(autoScrollTimerRef.current);
-        autoScrollTimerRef.current = null;
-      }
-    };
-  }, [
-    clampIndex,
-    isCarouselInView,
-    isCoarsePointer,
-    isExpanded,
-    isNarrowScreen,
-  ]);
+    if (!isNarrowScreen || isExpanded || !isCarouselInView || !autoPlay) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(
+      () => setFocusIndex((prev) => clampIndex(prev + 1)),
+      AUTO_ADVANCE_MS,
+    );
+    return () => window.clearInterval(timer);
+  }, [autoPlay, clampIndex, isCarouselInView, isExpanded, isNarrowScreen]);
 
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
@@ -281,9 +257,8 @@ export default function Work() {
   }, [isExpanded]);
 
   const getPanelWidth = (index: number) => {
-    if (isCoarsePointer && isNarrowScreen) {
-      return "72vw";
-    }
+    // Accordion panels are sized by flex-grow instead (see the panel style).
+    if (isNarrowScreen) return undefined;
     if (isExpanded && activeIndex === index) {
       return "100vw";
     }
@@ -301,6 +276,7 @@ export default function Work() {
     }
     setActiveIndex(index);
     setHoveredIndex(null);
+    setAutoPlay(false);
     setDirection(index > activeIndex ? 1 : -1);
     panelRefs.current[index]?.scrollIntoView({
       behavior: "smooth",
@@ -311,7 +287,14 @@ export default function Work() {
   };
 
   const handleClose = () => {
+    // Come back to the print that was last on screen in the overlay.
+    setFocusIndex(activeIndex);
     setIsExpanded(false);
+  };
+
+  const focusPanel = (index: number) => {
+    setAutoPlay(false);
+    setFocusIndex(clampIndex(index));
   };
 
   const handleNext = () => {
@@ -327,31 +310,14 @@ export default function Work() {
   return (
     <section
       id="work"
-      className="relative h-screen w-full overflow-hidden text-white"
-      style={{
-        background:
-          "linear-gradient(180deg, #080c14 0%, #0a0e18 50%, #080c14 100%)",
-      }}
+      className="fr-ink relative h-screen w-full overflow-hidden"
     >
-      <div className="pointer-events-none absolute inset-0 -z-10" />
-      {/* Yellow gradient borders */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#FADE6A]/40 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#FADE6A]/40 to-transparent" />
-      <div className="relative z-10 mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8 lg:pt-12">
-        <div className="max-w-2xl">
-          <h2
-            className="text-3xl sm:text-4xl lg:text-5xl font-normal leading-[1.15] text-white"
-            style={{ fontFamily: "'Cinzel', serif" }}
-          >
-            Featured Prints
+      <div className="fr-wrap relative z-10 pt-10 lg:pt-12">
+        <div className="flex items-end justify-between gap-6">
+          <h2 className="fr-h2 !text-[clamp(2.4rem,5vw,4.25rem)]">
+            Featured <span className="fr-i">Prints</span>
           </h2>
-          <p
-            className="work-text-force mt-2 text-sm text-stone-400"
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontStyle: "italic",
-            }}
-          >
+          <p className="work-text-force fr-label fr-fg-3 pb-2">
             Recently forged
           </p>
         </div>
@@ -363,21 +329,42 @@ export default function Work() {
         <div
           ref={carouselRef}
           className={`flex h-full w-full overflow-y-hidden scrollbar-hidden scroll-smooth ${
-            isExpanded
+            isExpanded || isNarrowScreen
               ? "overflow-hidden snap-none"
               : "snap-x snap-mandatory overflow-x-auto"
-          } ${isCoarsePointer && isNarrowScreen ? "justify-start px-[8vw]" : "justify-center"}`}
+          } ${isNarrowScreen ? "justify-start" : "justify-center"}`}
           style={{
             WebkitOverflowScrolling: "touch",
-            touchAction: isExpanded ? "none" : "auto",
-            scrollPaddingLeft:
-              isCoarsePointer && isNarrowScreen ? "8vw" : undefined,
-            scrollPaddingRight:
-              isCoarsePointer && isNarrowScreen ? "8vw" : undefined,
+            // pan-y: the page still scrolls, sideways swipes are ours.
+            touchAction: isExpanded
+              ? "none"
+              : isNarrowScreen
+                ? "pan-y"
+                : "auto",
+          }}
+          onTouchStart={(event) => {
+            const touch = event.touches[0];
+            stripTouchRef.current = touch
+              ? { x: touch.clientX, y: touch.clientY }
+              : null;
+          }}
+          onTouchEnd={(event) => {
+            const start = stripTouchRef.current;
+            const touch = event.changedTouches[0];
+            stripTouchRef.current = null;
+            if (!isNarrowScreen || isExpanded || !start || !touch) return;
+            const dx = touch.clientX - start.x;
+            const dy = touch.clientY - start.y;
+            // A deliberate sideways swipe, not a scroll or a tap.
+            if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+            focusPanel(focusIndex + (dx < 0 ? 1 : -1));
           }}
         >
           {products.map((product, index) => {
             const isActive = isExpanded && activeIndex === index;
+            const isFocused = isNarrowScreen && focusIndex === index;
+            // "Lit" is the desktop hover look; the accordion's open panel wears it too.
+            const isLit = hoveredIndex === index || isFocused;
             return (
               <motion.button
                 key={product.id}
@@ -390,22 +377,33 @@ export default function Work() {
                 }}
                 onMouseLeave={() => setHoveredIndex(null)}
                 onClick={() => {
+                  // Accordion: the first tap opens the spine, the second opens the print.
+                  if (isNarrowScreen && !isFocused) {
+                    focusPanel(index);
+                    return;
+                  }
                   handleOpen(index);
                 }}
                 className={`relative flex h-full shrink-0 ${
-                  isCoarsePointer && isNarrowScreen
-                    ? "snap-center snap-always"
-                    : "snap-start"
-                } items-center justify-center overflow-hidden border transition-[width] duration-500 ease-out focus:outline-none`}
+                  isNarrowScreen ? "" : "snap-start"
+                } items-center justify-center overflow-hidden border transition-[width,flex-grow] duration-500 ease-out focus:outline-none`}
                 style={{
                   width: getPanelWidth(index),
+                  // Every panel starts from the same slim basis; only the open
+                  // one grows, and flex-grow animates where width: auto cannot.
+                  flexBasis: isNarrowScreen ? "3.25rem" : undefined,
+                  flexGrow: isNarrowScreen ? (isFocused ? 1 : 0) : undefined,
                   background: product.background,
-                  borderColor: "#FADE6A40",
+                  borderColor: "var(--line)",
                 }}
-                aria-label={`Open ${product.name}`}
+                aria-label={
+                  isNarrowScreen && !isFocused
+                    ? `Show ${product.name}`
+                    : `Open ${product.name}`
+                }
               >
                 <span
-                  className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/30"
+                  className="fr-layers--light absolute inset-0"
                   aria-hidden
                 />
                 <span
@@ -413,21 +411,28 @@ export default function Work() {
                   aria-hidden
                 />
                 <span
-                  className="work-text-force absolute right-6 top-10 text-6xl font-semibold sm:text-7xl"
+                  className={`work-text-force fr-dot absolute transition-[color,opacity,font-size] duration-500 ${
+                    isNarrowScreen
+                      ? "right-3 top-4 leading-none"
+                      : "right-4 top-5 text-[clamp(2.6rem,6vw,5.5rem)] sm:right-5"
+                  }`}
                   style={{
-                    fontFamily: "'Cinzel', serif",
-                    color: product.textColor,
-                    opacity: 0.15,
+                    color: isLit ? product.accentColor : product.textColor,
+                    opacity: isLit ? 0.95 : isNarrowScreen ? 0.45 : 0.2,
+                    fontSize: isNarrowScreen
+                      ? isFocused
+                        ? "3.4rem"
+                        : "1.7rem"
+                      : undefined,
                   }}
                 >
                   {(index + 1).toString().padStart(2, "0")}
                 </span>
                 <span
-                  className="work-text-force absolute left-6 top-8 rotate-180 text-[10px] uppercase tracking-[0.45em] [writing-mode:vertical-rl] sm:text-xs z-10"
-                  style={{
-                    fontFamily: "'Cinzel', serif",
-                    color: product.textColor,
-                  }}
+                  className={`work-text-force fr-label absolute z-10 rotate-180 whitespace-nowrap [writing-mode:vertical-rl] ${
+                    isNarrowScreen ? "left-4 top-16" : "left-5 top-7"
+                  }`}
+                  style={{ color: product.textColor, opacity: 0.75 }}
                 >
                   {product.name}
                 </span>
@@ -435,21 +440,58 @@ export default function Work() {
                   src={product.image}
                   alt={product.name}
                   className={`${
-                    isCoarsePointer && isNarrowScreen
-                      ? "max-h-[52vh] max-w-[70vw]"
+                    isNarrowScreen
+                      ? "max-h-[46vh] max-w-[58vw]"
                       : "max-h-[40vh] max-w-[34vw] sm:max-h-[44vh] sm:max-w-[36vw]"
                   } w-auto object-contain drop-shadow-[0_0_35px_rgba(0,0,0,0.55)] drop-shadow-[0_40px_80px_rgba(0,0,0,0.4)]`}
                   animate={{
+                    // A spine has no room for the print, so it fades out there.
+                    opacity: isNarrowScreen && !isFocused ? 0 : 1,
                     scale:
                       (product.thumbnailScale ?? 1) *
                       (isActive
                         ? 1.18
                         : hoveredIndex === index && !isCoarsePointer
                           ? 1.08
-                          : 1),
+                          : isNarrowScreen && !isFocused
+                            ? 0.9
+                            : 1),
                   }}
                   transition={{ duration: 0.5, ease: "easeOut" }}
                 />
+                {isNarrowScreen && (
+                  <span
+                    className="work-text-force fr-label absolute bottom-5 left-5 right-5 flex items-center justify-between whitespace-nowrap transition-opacity duration-300"
+                    style={{
+                      color: product.textColor,
+                      opacity: isFocused ? 0.8 : 0,
+                    }}
+                    aria-hidden
+                  >
+                    Tap to open
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 8 8"
+                      fill={product.accentColor}
+                      shapeRendering="crispEdges"
+                    >
+                      <path d="M0 0h2v1h2v1h2v1h2v2h-2v1h-2v1h-2v1h-2z" />
+                    </svg>
+                  </span>
+                )}
+                {isFocused && autoPlay && isCarouselInView && !isExpanded && (
+                  <span
+                    // Remounting restarts the bar whenever the timer restarts.
+                    key={`${focusIndex}-${isCarouselInView}`}
+                    className="fr-autobar"
+                    style={{
+                      background: product.accentColor,
+                      animationDuration: `${AUTO_ADVANCE_MS}ms`,
+                    }}
+                    aria-hidden
+                  />
+                )}
               </motion.button>
             );
           })}
@@ -457,11 +499,8 @@ export default function Work() {
       </div>
 
       <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2">
-        <div
-          className="rounded-lg px-3 py-2 text-[10px] uppercase tracking-[0.35em] bg-black/50 text-white/60 backdrop-blur-sm"
-          style={{ fontFamily: "'Jost', sans-serif" }}
-        >
-          Swipe to explore
+        <div className="fr-label fr-fg-3 whitespace-nowrap !text-[15px]">
+          {isNarrowScreen ? "Swipe or tap to browse" : "Swipe to explore"}
         </div>
       </div>
 
@@ -580,23 +619,20 @@ export default function Work() {
                         />
                       </div>
                       <p
-                        className={`work-text-force text-[10px] uppercase tracking-[0.35em] ${isLight ? "text-slate-700" : "text-white/80"}`}
+                        className="work-text-force fr-label"
+                        style={{ color: activeProduct.accentColor }}
                       >
                         Featured print
                       </p>
                       <h3
-                        className="work-text-force text-3xl font-bold sm:text-4xl"
-                        style={{
-                          fontFamily: "'Cinzel', serif",
-                          color: activeProduct.textColor,
-                        }}
+                        className="work-text-force fr-h2 !text-[clamp(2.6rem,10vw,3.75rem)]"
+                        style={{ color: activeProduct.textColor }}
                       >
                         {activeProduct.name}
                       </h3>
                       <p
                         className="work-text-force text-sm sm:text-base"
                         style={{
-                          fontFamily: "'Inter', sans-serif",
                           color: activeProduct.textColor,
                           opacity: 0.9,
                         }}
@@ -606,7 +642,6 @@ export default function Work() {
                       <p
                         className="work-text-force text-sm sm:text-base"
                         style={{
-                          fontFamily: "'Inter', sans-serif",
                           color: activeProduct.textColor,
                           opacity: 0.7,
                         }}
@@ -616,7 +651,6 @@ export default function Work() {
                       <p
                         className="work-text-force text-xs sm:text-sm"
                         style={{
-                          fontFamily: "'Inter', sans-serif",
                           color: activeProduct.textColor,
                           opacity: 0.6,
                         }}
@@ -627,7 +661,7 @@ export default function Work() {
                         {activeProduct.shopUrl && (
                           <a
                             href={activeProduct.shopUrl}
-                            className={`work-text-force inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-[0.2em] transition ${isLight ? "border-slate-300 text-slate-700 hover:bg-slate-100" : "border-white/40 text-white hover:bg-white/10"}`}
+                            className="work-text-force fr-btn fr-btn--ghost fr-btn--sm fr-btn--plain"
                           >
                             View in store
                           </a>
@@ -635,7 +669,7 @@ export default function Work() {
                         <button
                           type="button"
                           onClick={handleClose}
-                          className={`work-text-force inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-[0.2em] transition ${isLight ? "border-slate-300 text-slate-700 hover:bg-slate-100" : "border-white/40 text-white hover:bg-white/10"}`}
+                          className="work-text-force fr-btn fr-btn--ghost fr-btn--sm fr-btn--plain"
                         >
                           Close
                         </button>
@@ -657,27 +691,20 @@ export default function Work() {
 
                       <div className="relative z-10 w-full max-w-md space-y-6 text-left lg:w-[45%] lg:ml-[6vw] lg:my-auto">
                         <p
-                          className="work-text-force text-[10px] uppercase tracking-[0.35em]"
-                          style={{
-                            fontFamily: "'Jost', sans-serif",
-                            color: activeProduct.accentColor,
-                          }}
+                          className="work-text-force fr-label"
+                          style={{ color: activeProduct.accentColor }}
                         >
                           Featured print
                         </p>
                         <h3
-                          className="work-text-force text-3xl font-bold sm:text-4xl"
-                          style={{
-                            fontFamily: "'Cinzel', serif",
-                            color: activeProduct.textColor,
-                          }}
+                          className="work-text-force fr-h2 !text-[clamp(3rem,5.2vw,5rem)]"
+                          style={{ color: activeProduct.textColor }}
                         >
                           {activeProduct.name}
                         </h3>
                         <p
                           className="work-text-force text-sm sm:text-base"
                           style={{
-                            fontFamily: "'Inter', sans-serif",
                             color: activeProduct.textColor,
                             opacity: 0.9,
                           }}
@@ -687,7 +714,6 @@ export default function Work() {
                         <p
                           className="work-text-force text-sm sm:text-base"
                           style={{
-                            fontFamily: "'Inter', sans-serif",
                             color: activeProduct.textColor,
                             opacity: 0.7,
                           }}
@@ -697,7 +723,6 @@ export default function Work() {
                         <p
                           className="work-text-force text-xs sm:text-sm"
                           style={{
-                            fontFamily: "'Inter', sans-serif",
                             color: activeProduct.textColor,
                             opacity: 0.6,
                           }}
@@ -708,7 +733,7 @@ export default function Work() {
                           {activeProduct.shopUrl && (
                             <a
                               href={activeProduct.shopUrl}
-                              className={`work-text-force inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-[0.2em] transition ${isLight ? "border-slate-300 text-slate-700 hover:bg-slate-100" : "border-white/40 text-white hover:bg-white/10"}`}
+                              className="work-text-force fr-btn fr-btn--ghost fr-btn--sm fr-btn--plain"
                             >
                               View in store
                             </a>
@@ -716,14 +741,14 @@ export default function Work() {
                           <button
                             type="button"
                             onClick={handleNext}
-                            className={`work-text-force inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-[0.2em] transition ${isLight ? "border-slate-300 text-slate-700 hover:bg-slate-100" : "border-white/40 text-white hover:bg-white/10"}`}
+                            className="work-text-force fr-btn fr-btn--ghost fr-btn--sm fr-btn--plain"
                           >
                             Next
                           </button>
                           <button
                             type="button"
                             onClick={handleClose}
-                            className={`work-text-force inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-[0.2em] transition ${isLight ? "border-slate-300 text-slate-700 hover:bg-slate-100" : "border-white/40 text-white hover:bg-white/10"}`}
+                            className="work-text-force fr-btn fr-btn--ghost fr-btn--sm fr-btn--plain"
                           >
                             Close
                           </button>
@@ -739,7 +764,7 @@ export default function Work() {
                               className="h-full w-full object-cover"
                             />
                           ) : (
-                            <div className="flex h-full w-full items-center justify-center text-xs uppercase tracking-[0.3em] text-white/70">
+                            <div className="flex h-full w-full items-center justify-center text-xs tracking-[0.05em] text-white/70">
                               Lifestyle image
                             </div>
                           )}
@@ -754,7 +779,7 @@ export default function Work() {
             <button
               type="button"
               aria-label="Close"
-              className={`absolute right-6 top-6 z-20 flex h-11 w-11 items-center justify-center rounded-full border shadow-[0_12px_30px_rgba(0,0,0,0.45)] transition pointer-events-auto ${isLight ? "border-slate-300 bg-white/80 text-slate-700 hover:bg-white" : "border-white/60 bg-white/10 text-white hover:bg-white/20"}`}
+              className="fr-fg fr-line-2 pointer-events-auto absolute right-6 top-6 z-20 flex h-11 w-11 items-center justify-center rounded-full border bg-[#0b0a08] transition-colors hover:border-[color:var(--fg)]"
               onClick={(event) => {
                 event.stopPropagation();
                 handleClose();
@@ -767,7 +792,7 @@ export default function Work() {
                 <button
                   type="button"
                   aria-label="Previous product"
-                  className="absolute bottom-8 left-8 z-10 rounded-full border border-white/40 bg-black/40 px-5 py-2 text-[10px] uppercase tracking-[0.4em] text-white shadow-[0_12px_30px_rgba(0,0,0,0.45)] transition hover:bg-black/60"
+                  className="fr-btn fr-btn--ghost fr-btn--sm fr-btn--plain absolute bottom-8 left-8 z-10 bg-[#0b0a08]"
                   onClick={(event) => {
                     event.stopPropagation();
                     handlePrev();
@@ -778,7 +803,7 @@ export default function Work() {
                 <button
                   type="button"
                   aria-label="Next product"
-                  className="absolute bottom-8 right-8 z-10 rounded-full border border-white/40 bg-black/40 px-5 py-2 text-[10px] uppercase tracking-[0.4em] text-white shadow-[0_12px_30px_rgba(0,0,0,0.45)] transition hover:bg-black/60"
+                  className="fr-btn fr-btn--ghost fr-btn--sm fr-btn--plain absolute bottom-8 right-8 z-10 bg-[#0b0a08]"
                   onClick={(event) => {
                     event.stopPropagation();
                     handleNext();

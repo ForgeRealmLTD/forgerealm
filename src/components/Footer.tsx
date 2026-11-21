@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FaInstagram, FaLinkedin, FaTiktok } from "react-icons/fa6";
+import { ArrowKnob } from "./landing/ui";
 
 export default function Footer() {
   const [modal, setModal] = useState<"privacy" | "terms" | "sla" | null>(null);
@@ -49,44 +50,41 @@ export default function Footer() {
     }
   };
 
+  const social =
+    "fr-line-2 grid h-10 w-10 place-items-center rounded-full border transition-colors duration-300 hover:border-[color:var(--fg)] hover:bg-[var(--fg)] hover:text-[color:var(--bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffb224]";
+
   return (
-    <footer className="relative overflow-hidden py-16 bg-[#0a0a0a] border-t border-white/10">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-        <div className="grid md:grid-cols-4 gap-10 text-sm">
+    <footer className="fr-ink fr-line relative overflow-hidden border-t pt-16 sm:pt-20">
+      <div className="fr-wrap relative">
+        <div className="grid gap-12 md:grid-cols-12 md:gap-8">
           {/* Brand */}
-          <div>
+          <div className="md:col-span-4">
             <div className="inline-flex items-center gap-3">
               <img
                 src="/headfrlogorv-128.webp"
                 alt="ForgeRealm Logo"
-                width={32}
-                height={32}
+                width={36}
+                height={36}
                 className="rounded-full"
                 loading="lazy"
               />
-              <span
-                className="font-bold text-white text-lg tracking-wide"
-                style={{ fontFamily: "'Cinzel', serif" }}
-              >
+              <span className="fr-px text-[2.3rem] leading-none">
                 ForgeRealm
               </span>
             </div>
-            <p
-              className="mt-3 text-stone-400 max-w-xs"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
+            <p className="fr-body mt-4 max-w-xs !text-[0.975rem]">
               UK-based creators of custom, sustainable 3D prints from concept to
               craft.
             </p>
 
             {/* Social icons */}
-            <div className="flex gap-4 mt-5 text-lg text-stone-400">
+            <div className="mt-6 flex gap-3 text-base">
               <a
                 href="https://instagram.com/forgerealmltd"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="ForgeRealm on Instagram"
-                className="hover:text-blue-300 transition-colors duration-300 focus-visible:outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-blue-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
+                className={social}
               >
                 <FaInstagram />
               </a>
@@ -95,7 +93,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="ForgeRealm on LinkedIn"
-                className="hover:text-blue-300 transition-colors duration-300 focus-visible:outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-blue-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
+                className={social}
               >
                 <FaLinkedin />
               </a>
@@ -104,7 +102,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="ForgeRealm on TikTok"
-                className="hover:text-blue-300 transition-colors duration-300 focus-visible:outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-blue-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
+                className={social}
               >
                 <FaTiktok />
               </a>
@@ -112,46 +110,26 @@ export default function Footer() {
           </div>
 
           {/* Services links */}
-          <div>
-            <div
-              className="font-semibold text-white"
-              style={{ fontFamily: "'Cinzel', serif" }}
-            >
-              Services
-            </div>
-            <ul
-              className="mt-3 space-y-2"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
+          <div className="md:col-span-2">
+            <div className="fr-label fr-fg-3">Services</div>
+            <ul className="mt-5 space-y-3 text-[1.05rem] font-medium">
               <li>
-                <a
-                  href="/custom-order"
-                  className="text-stone-400 hover:text-blue-300 transition-colors duration-300"
-                >
+                <a href="/custom-order" className="fr-link">
                   Custom Prints
                 </a>
               </li>
               <li>
-                <a
-                  href="/shop"
-                  className="text-stone-400 hover:text-blue-300 transition-colors duration-300"
-                >
+                <a href="/shop" className="fr-link">
                   Online Orders
                 </a>
               </li>
               <li>
-                <a
-                  href="/blog"
-                  className="text-stone-400 hover:text-blue-300 transition-colors duration-300"
-                >
+                <a href="/blog" className="fr-link">
                   Leeds Booths
                 </a>
               </li>
               <li>
-                <a
-                  href="/#materials"
-                  className="text-stone-400 hover:text-blue-300 transition-colors duration-300"
-                >
+                <a href="/#materials" className="fr-link">
                   Materials
                 </a>
               </li>
@@ -159,46 +137,26 @@ export default function Footer() {
           </div>
 
           {/* Company links */}
-          <div>
-            <div
-              className="font-semibold text-white"
-              style={{ fontFamily: "'Cinzel', serif" }}
-            >
-              Company
-            </div>
-            <ul
-              className="mt-3 space-y-2"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
+          <div className="md:col-span-2">
+            <div className="fr-label fr-fg-3">Company</div>
+            <ul className="mt-5 space-y-3 text-[1.05rem] font-medium">
               <li>
-                <a
-                  href="/#work"
-                  className="text-stone-400 hover:text-blue-300 transition-colors duration-300"
-                >
+                <a href="/#work" className="fr-link">
                   Recent Work
                 </a>
               </li>
               <li>
-                <a
-                  href="/blog"
-                  className="text-stone-400 hover:text-blue-300 transition-colors duration-300"
-                >
+                <a href="/blog" className="fr-link">
                   About
                 </a>
               </li>
               <li>
-                <a
-                  href="mailto:info@forgerealm.co.uk"
-                  className="text-stone-400 hover:text-blue-300 transition-colors duration-300"
-                >
+                <a href="mailto:info@forgerealm.co.uk" className="fr-link">
                   Contact
                 </a>
               </li>
               <li>
-                <a
-                  href="/#faq"
-                  className="text-stone-400 hover:text-blue-300 transition-colors duration-300"
-                >
+                <a href="/#faq" className="fr-link">
                   FAQ
                 </a>
               </li>
@@ -206,23 +164,15 @@ export default function Footer() {
           </div>
 
           {/* Subscribe */}
-          <div>
-            <div
-              className="font-semibold text-white"
-              style={{ fontFamily: "'Cinzel', serif" }}
-            >
-              Stay Updated
-            </div>
-            <p
-              className="mt-1 text-[12px] text-stone-500"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
+          <div className="md:col-span-4">
+            <div className="fr-label fr-fg-3">Stay Updated</div>
+            <p className="fr-fg-2 mt-5 text-sm leading-relaxed">
               Get notified about new products, booth locations, and market dates
               across Leeds.
             </p>
 
             <form
-              className="mt-3 flex flex-col gap-3"
+              className="mt-3 grid grid-cols-2 gap-x-5"
               onSubmit={handleSubscribe}
             >
               <input
@@ -232,8 +182,7 @@ export default function Footer() {
                 id="subscribe-first-name"
                 placeholder="First name"
                 aria-label="First name"
-                className="w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-white text-sm outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400/50 placeholder:text-stone-500 transition-colors"
-                style={{ fontFamily: "'Inter', sans-serif" }}
+                className="fr-input"
               />
 
               <input
@@ -242,8 +191,7 @@ export default function Footer() {
                 id="subscribe-last-name"
                 placeholder="Last name"
                 aria-label="Last name"
-                className="w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-white text-sm outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400/50 placeholder:text-stone-500 transition-colors"
-                style={{ fontFamily: "'Inter', sans-serif" }}
+                className="fr-input"
               />
 
               <input
@@ -253,8 +201,7 @@ export default function Footer() {
                 id="subscribe-email"
                 placeholder="you@example.com"
                 aria-label="Email address"
-                className="w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-white text-sm outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400/50 placeholder:text-stone-500 transition-colors"
-                style={{ fontFamily: "'Inter', sans-serif" }}
+                className="fr-input col-span-2"
               />
 
               <input
@@ -263,27 +210,26 @@ export default function Footer() {
                 id="subscribe-company"
                 placeholder="Company (optional)"
                 aria-label="Company"
-                className="w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-white text-sm outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400/50 placeholder:text-stone-500 transition-colors"
-                style={{ fontFamily: "'Inter', sans-serif" }}
+                className="fr-input col-span-2"
               />
 
               <button
                 type="submit"
                 disabled={submitting}
-                className="rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 font-semibold transition-opacity duration-300 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
-                style={{ fontFamily: "'Cinzel', serif" }}
+                className="fr-btn fr-btn--solid col-span-2 mt-6 w-full"
               >
                 {submitting ? "Submitting..." : "Subscribe"}
+                <ArrowKnob />
               </button>
             </form>
             {subscribeStatus === "success" && (
-              <div className="mt-3 rounded-lg border border-emerald-400/30 bg-emerald-500/10 px-3 py-2 text-xs text-emerald-200">
+              <div className="mt-4 rounded-md border border-emerald-400/30 bg-emerald-500/10 px-3 py-2 text-xs text-emerald-200">
                 Thank you for your interest. You'll receive an email from
                 ForgeRealm shortly.
               </div>
             )}
             {subscribeStatus === "error" && (
-              <div className="mt-3 rounded-lg border border-red-400/30 bg-red-500/10 px-3 py-2 text-xs text-red-200">
+              <div className="mt-4 rounded-md border border-red-400/30 bg-red-500/10 px-3 py-2 text-xs text-red-200">
                 Something went wrong. Please try again.
               </div>
             )}
@@ -291,32 +237,29 @@ export default function Footer() {
         </div>
 
         {/* Bottom row */}
-        <div className="mt-10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-stone-500">
-          <div style={{ fontFamily: "'Inter', sans-serif" }}>
+        <div className="fr-line fr-label fr-fg-3 mt-14 flex flex-col items-center justify-between gap-4 border-t py-6 !text-[15px] md:flex-row">
+          <div>
             (c) {new Date().getFullYear()} ForgeRealm Ltd. All rights reserved.
           </div>
-          <div
-            className="flex items-center gap-4"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
+          <div className="flex items-center gap-6">
             <button
               type="button"
               onClick={() => setModal("privacy")}
-              className="hover:text-blue-300 transition-colors duration-300 focus-visible:outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-blue-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
+              className="fr-link"
             >
               Privacy
             </button>
             <button
               type="button"
               onClick={() => setModal("terms")}
-              className="hover:text-blue-300 transition-colors duration-300 focus-visible:outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-blue-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
+              className="fr-link"
             >
               Terms
             </button>
             <button
               type="button"
               onClick={() => setModal("sla")}
-              className="hover:text-blue-300 transition-colors duration-300 focus-visible:outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-blue-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
+              className="fr-link"
             >
               SLA
             </button>
@@ -324,38 +267,42 @@ export default function Footer() {
         </div>
       </div>
 
+      {/* Oversized outlined pixel wordmark, cropped by the bottom of the page.
+          Stroke first, then an ink fill over it, so only the outer outline
+          of each glyph shows. */}
+      <div
+        aria-hidden="true"
+        className="fr-px pointer-events-none select-none whitespace-nowrap text-center text-[23vw] leading-[0.7]"
+        style={{
+          color: "var(--bg)",
+          WebkitTextStroke: "2px rgba(240, 232, 216, 0.3)",
+          paintOrder: "stroke fill",
+          marginBottom: "-0.1em",
+        }}
+      >
+        ForgeRealm
+      </div>
+
       {modal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 py-6">
-          <div className="relative w-full max-w-2xl rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 text-white shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 px-4 py-6">
+          <div className="fr-line-2 relative w-full max-w-2xl rounded-[22px] border bg-[#141210] p-7 shadow-2xl sm:p-9">
             <button
               type="button"
               aria-label="Close"
-              className="absolute right-4 top-4 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-white/80 hover:bg-white/20 transition-colors duration-300"
-              style={{ fontFamily: "'Jost', sans-serif" }}
+              className="fr-btn fr-btn--ghost fr-btn--sm fr-btn--plain absolute right-5 top-5"
               onClick={() => setModal(null)}
             >
               Close
             </button>
             {modal === "privacy" ? (
               <>
-                <h3
-                  className="text-xl font-semibold"
-                  style={{ fontFamily: "'Cinzel', serif" }}
-                >
-                  Privacy Policy
-                </h3>
-                <p
-                  className="mt-3 text-sm text-stone-400"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
-                >
+                <h3 className="fr-h3 pr-24">Privacy Policy</h3>
+                <p className="fr-body mt-4 !text-[0.95rem]">
                   We only collect the details needed to process orders, respond
                   to inquiries, and send updates you opt in to receive. We never
                   sell your data.
                 </p>
-                <ul
-                  className="mt-4 space-y-2 text-sm text-stone-500"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
-                >
+                <ul className="fr-fg-3 mt-4 space-y-2 text-sm">
                   <li>
                     We store email and order details for fulfillment and
                     support.
@@ -368,24 +315,13 @@ export default function Footer() {
               </>
             ) : modal === "terms" ? (
               <>
-                <h3
-                  className="text-xl font-semibold"
-                  style={{ fontFamily: "'Cinzel', serif" }}
-                >
-                  Terms of Service
-                </h3>
-                <p
-                  className="mt-3 text-sm text-stone-400"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
-                >
+                <h3 className="fr-h3 pr-24">Terms of Service</h3>
+                <p className="fr-body mt-4 !text-[0.95rem]">
                   Orders are made to order. Production times vary by item and
                   load. We will confirm timelines and keep you updated on
                   progress.
                 </p>
-                <ul
-                  className="mt-4 space-y-2 text-sm text-stone-500"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
-                >
+                <ul className="fr-fg-3 mt-4 space-y-2 text-sm">
                   <li>Custom orders are final once production begins.</li>
                   <li>Damaged deliveries must be reported within 48 hours.</li>
                   <li>
@@ -396,23 +332,12 @@ export default function Footer() {
               </>
             ) : (
               <>
-                <h3
-                  className="text-xl font-semibold"
-                  style={{ fontFamily: "'Cinzel', serif" }}
-                >
-                  Service Level Agreement
-                </h3>
-                <p
-                  className="mt-3 text-sm text-stone-400"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
-                >
+                <h3 className="fr-h3 pr-24">Service Level Agreement</h3>
+                <p className="fr-body mt-4 !text-[0.95rem]">
                   Our standard service levels outline communication and
                   fulfillment expectations for ForgeRealm orders.
                 </p>
-                <ul
-                  className="mt-4 space-y-2 text-sm text-stone-500"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
-                >
+                <ul className="fr-fg-3 mt-4 space-y-2 text-sm">
                   <li>Responses within 24 hours on business days.</li>
                   <li>
                     Production timelines shared before your order is confirmed.

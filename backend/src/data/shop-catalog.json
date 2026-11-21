@@ -1,0 +1,478 @@
+[
+  {
+    "id": "big-dragon-blue",
+    "name": "Big Dragon (Blue)",
+    "price": 1200,
+    "stock": 2,
+    "comingSoon": false
+  },
+  {
+    "id": "big-dragon-red",
+    "name": "Big Dragon (Red)",
+    "price": 1200,
+    "stock": 1,
+    "comingSoon": false
+  },
+  {
+    "id": "dragon-egg-blue",
+    "name": "Dragon Egg (Blue)",
+    "price": 800,
+    "stock": 1,
+    "comingSoon": false
+  },
+  {
+    "id": "dragon-egg-green",
+    "name": "Dragon Egg (Green)",
+    "price": 800,
+    "stock": 1,
+    "comingSoon": false
+  },
+  {
+    "id": "dice-dragon",
+    "name": "Dice Dragon",
+    "price": 400,
+    "stock": 1,
+    "comingSoon": false
+  },
+  {
+    "id": "voronoi-cat",
+    "name": "Voronoi Cat",
+    "price": 500,
+    "stock": 6,
+    "comingSoon": false
+  },
+  {
+    "id": "voronoi-elephant",
+    "name": "Voronoi Elephant",
+    "price": 400,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "voronoi-elephant-tealight",
+    "name": "Voronoi Elephant Tealight",
+    "price": 600,
+    "stock": 4,
+    "comingSoon": false
+  },
+  {
+    "id": "small-voronoi-cat-tealight",
+    "name": "Small Voronoi Cat Tealight",
+    "price": 400,
+    "stock": 6,
+    "comingSoon": false
+  },
+  {
+    "id": "small-voronoi-elephant-tealight",
+    "name": "Small Voronoi Elephant Tealight",
+    "price": 300,
+    "stock": 5,
+    "comingSoon": false
+  },
+  {
+    "id": "big-spinner",
+    "name": "Big Spinner",
+    "price": 800,
+    "stock": 4,
+    "comingSoon": false
+  },
+  {
+    "id": "spinner",
+    "name": "Spinner",
+    "price": 400,
+    "stock": 28,
+    "comingSoon": false
+  },
+  {
+    "id": "hexagon-fidget-green",
+    "name": "Hexagon Fidget (Green)",
+    "price": 500,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "hexagon-fidget-gold",
+    "name": "Hexagon Fidget (Gold)",
+    "price": 500,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "hexagon-fidget-pink",
+    "name": "Hexagon Fidget (Pink)",
+    "price": 500,
+    "stock": 1,
+    "comingSoon": false
+  },
+  {
+    "id": "hexagon-fidget-purple",
+    "name": "Hexagon Fidget (Purple)",
+    "price": 500,
+    "stock": 3,
+    "comingSoon": false
+  },
+  {
+    "id": "hexagon-keychain-yellow",
+    "name": "Hexagon Keychain (Yellow)",
+    "price": 300,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "hexagon-keychain-purple",
+    "name": "Hexagon Keychain (Purple)",
+    "price": 300,
+    "stock": 3,
+    "comingSoon": false
+  },
+  {
+    "id": "hexagon-keychain-green",
+    "name": "Hexagon Keychain (Green)",
+    "price": 300,
+    "stock": 4,
+    "comingSoon": false
+  },
+  {
+    "id": "hexagon-keychain-pink",
+    "name": "Hexagon Keychain (Pink)",
+    "price": 300,
+    "stock": 3,
+    "comingSoon": false
+  },
+  {
+    "id": "artichoke-lamp",
+    "name": "Artichoke Lamp",
+    "price": 2000,
+    "stock": 4,
+    "comingSoon": false
+  },
+  {
+    "id": "deer-keyring-holder",
+    "name": "Deer Keyring Holder",
+    "price": 600,
+    "stock": 3,
+    "comingSoon": false
+  },
+  {
+    "id": "celestial-dragon",
+    "name": "Celestial Dragon",
+    "price": 1500,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "leaf-dragon",
+    "name": "Leaf Dragon",
+    "price": 1000,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "snake-mc",
+    "name": "Snake (MC)",
+    "price": 1000,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "medium-dragon",
+    "name": "Medium Dragon",
+    "price": 700,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "dragon-no-legs",
+    "name": "Dragon (No Legs)",
+    "price": 700,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "axolotl-mc",
+    "name": "Axolotl (MC)",
+    "price": 600,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "articulated-dog",
+    "name": "Dog",
+    "price": 600,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "articulated-octopus",
+    "name": "Octopus",
+    "price": 500,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "crocodile",
+    "name": "Crocodile",
+    "price": 400,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "articulated-bunny",
+    "name": "Bunny",
+    "price": 300,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "articulated-cat",
+    "name": "Cat",
+    "price": 300,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "egg-bunny",
+    "name": "Egg Bunny",
+    "price": 300,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "penguin",
+    "name": "Penguin",
+    "price": 300,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "red-panda",
+    "name": "Red Panda",
+    "price": 300,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "small-bunny",
+    "name": "Small Bunny",
+    "price": 200,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "bunny-spring",
+    "name": "Bunny Spring",
+    "price": 200,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "voronoi-dog",
+    "name": "Voronoi Dog",
+    "price": 500,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "voronoi-giraffe",
+    "name": "Voronoi Giraffe",
+    "price": 500,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "voronoi-deer",
+    "name": "Voronoi Deer",
+    "price": 400,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "voronoi-small-cat",
+    "name": "Voronoi Small Cat",
+    "price": 300,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "tealight-bunny",
+    "name": "Tealight Bunny",
+    "price": 300,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "cube-fidget",
+    "name": "Cube Fidget",
+    "price": 400,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "fidget-octopus",
+    "name": "Octopus Fidget",
+    "price": 400,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "xl-dragon-keychain",
+    "name": "XL Dragon Keychain",
+    "price": 500,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "mushroom-mc-keychain",
+    "name": "Mushroom Keychain (MC)",
+    "price": 500,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "octopus-keychain",
+    "name": "Octopus Keychain",
+    "price": 400,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "big-keychain-dragon",
+    "name": "Big Dragon Keychain",
+    "price": 300,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "world-cup-trophy-keyring",
+    "name": "World Cup Trophy Keyring",
+    "price": 300,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "small-keychain-dragon",
+    "name": "Small Dragon Keychain",
+    "price": 200,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "bunny-keychain",
+    "name": "Bunny Keychain",
+    "price": 200,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "extra-keychain",
+    "name": "Extra Keychain",
+    "price": 200,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "luffy",
+    "name": "Luffy",
+    "price": 1200,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "pikachu",
+    "name": "Pikachu",
+    "price": 1000,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "idol-owl",
+    "name": "Owl",
+    "price": 500,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "minion",
+    "name": "Minion",
+    "price": 300,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "bundle-giant-egg-3cs",
+    "name": "Giant Egg + 3 Celestial / Spikey",
+    "price": 5000,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "bundle-giant-egg-2cs",
+    "name": "Giant Egg + 2 Celestial / Spikey",
+    "price": 4000,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "bundle-dragon-egg",
+    "name": "Dragon + Egg",
+    "price": 1200,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "bundle-small-dragon-egg",
+    "name": "Small Dragon + Small Egg",
+    "price": 300,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "giant-egg",
+    "name": "Giant Egg",
+    "price": 2000,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "knight-dragon",
+    "name": "Knight (Dragon)",
+    "price": 500,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "small-egg",
+    "name": "Egg",
+    "price": 200,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "lamp-shade",
+    "name": "Lamp Shade",
+    "price": 700,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "easter-egg-holder",
+    "name": "Egg Holder",
+    "price": 200,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "kinder-holder",
+    "name": "Kinder Holder",
+    "price": 200,
+    "stock": null,
+    "comingSoon": false
+  },
+  {
+    "id": "mini-piano",
+    "name": "Mini Piano",
+    "price": 600,
+    "stock": null,
+    "comingSoon": false
+  }
+]

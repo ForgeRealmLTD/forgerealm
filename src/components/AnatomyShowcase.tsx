@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { animate, createTimeline, stagger, svg, scrambleText } from "animejs";
 import type { JSAnimation } from "animejs";
 import AnimatedHeading from "./anime/AnimatedHeading";
+import ModelViewer from "./ModelViewer";
+import type { AnchorPoint } from "./ModelViewer";
 import { EASE, DUR, STEP, prefersReducedMotion } from "../hooks/motion";
 import { useScrollScrub } from "../hooks/useScrollScrub";
 import { useLoopGroup } from "../hooks/useLoopGroup";
@@ -17,7 +19,7 @@ import { useLoopGroup } from "../hooks/useLoopGroup";
  * they always start at the correct label edge and land on the right point
  * of the image, at any container width. The assembly is scrubbed by scroll
  * position (not a one-shot trigger): as the section crosses the viewport
- *   1. the focal image converges (fade + scale)
+ *   1. the focal model converges (scale)
  *   2. the exploded label pills slide inward from either side
  *   3. each leader line stroke-draws in sequence
  *   4. hotspot dots resolve into place
@@ -77,21 +79,32 @@ const RIGHT: Anchor[] = [
     key: "eco",
     label: "eco packaging",
     side: "right",
-    hotXPct: 65,
-    hotYPct: 80,
+    hotXPct: 61,
+    hotYPct: 87,
   },
 ];
 const ANCHORS: Anchor[] = [...LEFT, ...RIGHT];
 
 export default function AnatomyShowcase() {
   const rootRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
   const labelRefs = useRef<Map<string, HTMLDivElement>>(new Map());
   const [paths, setPaths] = useState<Record<string, string>>({});
   const [hotspots, setHotspots] = useState<
     Record<string, { x: number; y: number }>
   >({});
   const [size, setSize] = useState({ w: 0, h: 0 });
+  // Live geometry for the per-frame anchor updates (no React renders there).
+  const geomRef = useRef({
+    left: 0,
+    top: 0,
+    w: 0,
+    h: 0,
+    origins: {} as Record<string, { x: number; y: number }>,
+  });
+  const lastPinsRef = useRef<Record<string, AnchorPoint> | null>(null);
+  const leaderRefs = useRef<Map<string, SVGPathElement>>(new Map());
+  const hotPosRefs = useRef<Map<string, SVGGElement>>(new Map());
 
   // Recompute line paths + hotspot coordinates whenever the layout changes.
   // The label pills converge via transforms on their inner spans, so the
@@ -110,6 +123,11 @@ export default function AnatomyShowcase() {
 
       const nextPaths: Record<string, string> = {};
       const nextHotspots: Record<string, { x: number; y: number }> = {};
+      const geom = geomRef.current;
+      geom.left = imgRect.left - rootRect.left;
+      geom.top = imgRect.top - rootRect.top;
+      geom.w = imgRect.width;
+      geom.h = imgRect.height;
 
       ANCHORS.forEach((a) => {
         const labelEl = labelRefs.current.get(a.key);
@@ -130,6 +148,7 @@ export default function AnatomyShowcase() {
             : lRect.left - rootRect.left;
         const originY = lRect.top - rootRect.top + lRect.height / 2;
 
+        geom.origins[a.key] = { x: originX, y: originY };
         nextPaths[a.key] = `M ${originX} ${originY} L ${hotX} ${hotY}`;
         nextHotspots[a.key] = { x: hotX, y: hotY };
       });
@@ -137,18 +156,20 @@ export default function AnatomyShowcase() {
       setPaths(nextPaths);
       setHotspots(nextHotspots);
       setSize({ w: rootRect.width, h: rootRect.height });
+      // Re-apply the model's current pose after React paints the front pose.
+      requestAnimationFrame(() => {
+        if (lastPinsRef.current) applyPins(lastPinsRef.current);
+      });
     };
 
     measure();
 
+    // The focal box is a fixed-aspect square, so its size is known before
+    // any image or model loads; observing both boxes covers every reflow.
     const ro = new ResizeObserver(measure);
     ro.observe(root);
-    if (img.complete) measure();
-    img.addEventListener("load", measure);
-    return () => {
-      ro.disconnect();
-      img.removeEventListener("load", measure);
-    };
+    ro.observe(img);
+    return () => ro.disconnect();
   }, []);
 
   // Scroll-scrubbed assembly: progress is driven by the section's viewport
@@ -163,13 +184,10 @@ export default function AnatomyShowcase() {
         defaults: { ease: EASE.inOut },
       });
 
+      // Scale only: fading the focal with scroll left the 3D owl ghostly at
+      // partial scroll while the labels were already fully shown.
       const focal = root.querySelector<HTMLElement>(".anatomy-focal");
-      if (focal)
-        tl.add(
-          focal,
-          { opacity: [0, 1], scale: [0.92, 1], duration: DUR.md },
-          0,
-        );
+      if (focal) tl.add(focal, { scale: [0.92, 1], duration: DUR.md }, 0);
 
       // Exploded pills converge inward from either side.
       const leftPills = root.querySelectorAll<HTMLElement>(
@@ -302,6 +320,40 @@ export default function AnatomyShowcase() {
     };
   }, []);
 
+  // Called by the 3D viewer every frame the owl turns: slide each leader
+  // line's end and its hotspot onto the pinned point on the model, and fade
+  // the ones that have turned away from the viewer.
+  function applyPins(pins: Record<string, AnchorPoint>) {
+    lastPinsRef.current = pins;
+    const g = geomRef.current;
+    if (!g.w) return;
+    for (const a of ANCHORS) {
+      const p = pins[a.key];
+      const o = g.origins[a.key];
+      if (!p || !o) continue;
+      const x = g.left + (p.xPct / 100) * g.w;
+      const y = g.top + (p.yPct / 100) * g.h;
+      const fade = String(0.15 + 0.85 * p.facing);
+      const path = leaderRefs.current.get(a.key);
+      if (path) {
+        path.setAttribute("d", `M ${o.x} ${o.y} L ${x} ${y}`);
+        path.style.opacity = fade;
+      }
+      const dot = hotPosRefs.current.get(a.key);
+      if (dot) {
+        dot.setAttribute("transform", `translate(${x} ${y})`);
+        dot.style.opacity = String(p.facing);
+      }
+    }
+  }
+
+  const setMapRef =
+    <T,>(map: Map<string, T>, key: string) =>
+    (el: T | null) => {
+      if (el) map.set(key, el);
+      else map.delete(key);
+    };
+
   const setLabelRef = (key: string) => (el: HTMLDivElement | null) => {
     if (el) labelRefs.current.set(key, el);
     else labelRefs.current.delete(key);
@@ -316,23 +368,13 @@ export default function AnatomyShowcase() {
   };
 
   return (
-    <section
-      className="safari-drop-backdrop landing-ambience relative py-20 sm:py-28 md:min-h-screen md:flex md:flex-col md:justify-center md:py-16 overflow-hidden"
-      style={{
-        background: "linear-gradient(180deg, #0a0e18 0%, #0c1020 100%)",
-      }}
-    >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative">
+    <section className="safari-drop-backdrop fr-ink fr-plate relative overflow-hidden py-20 sm:py-28 md:flex md:min-h-screen md:flex-col md:justify-center md:py-16">
+      <div className="fr-wrap relative">
         {/* Header: centred and bare. The callout labels on the diagram below
             carry the detail, so the heading does not repeat them. */}
-        <div className="text-center mb-10 sm:mb-14">
-          <AnimatedHeading
-            as="h2"
-            className="text-3xl sm:text-4xl lg:text-5xl font-normal leading-[1.15] text-white"
-            style={{ fontFamily: "'Cinzel', serif" }}
-            from="center"
-          >
-            Every piece, engineered
+        <div className="mb-10 text-center sm:mb-12">
+          <AnimatedHeading as="h2" className="fr-h2" from="center">
+            Every piece, <em className="fr-i not-italic">engineered</em>
           </AnimatedHeading>
         </div>
 
@@ -353,11 +395,7 @@ export default function AnatomyShowcase() {
                 >
                   <span
                     data-side={a.side}
-                    className="anatomy-label-text inline-block px-1.5 py-0.5 sm:px-3 sm:py-1.5 rounded-md border border-blue-400/25 bg-blue-500/[0.08] backdrop-blur-sm text-[8px] sm:text-[10px] md:text-[11px] uppercase tracking-[0.08em] sm:tracking-[0.14em] text-blue-100/85 leading-tight break-words"
-                    style={{
-                      fontFamily:
-                        '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace',
-                    }}
+                    className="anatomy-label-text fr-tag"
                   >
                     {a.label}
                   </span>
@@ -365,15 +403,22 @@ export default function AnatomyShowcase() {
               ))}
             </div>
 
-            {/* Focal image — big enough on mobile that labels overlap; grows further at each breakpoint. */}
+            {/* Focal model — the owl photo until the 3D owl loads (or if it
+                can't). Big enough on mobile that labels overlap; grows further
+                at each breakpoint. */}
             <div className="flex justify-center">
-              <img
+              <ModelViewer
                 ref={imageRef}
-                src="/owlPrint.png"
+                src="/models/owl.glb"
+                poster="/owlPrint.png"
+                anchors={ANCHORS.map((a) => ({
+                  key: a.key,
+                  xPct: a.hotXPct,
+                  yPct: a.hotYPct,
+                }))}
+                onAnchors={applyPins}
                 alt="A ForgeRealm printed owl figurine"
-                className="anatomy-focal h-[420px] sm:h-[440px] md:h-[min(72vh,720px)] xl:h-[min(78vh,860px)] max-w-none w-auto object-contain drop-shadow-[0_0_40px_rgba(96,165,250,0.15)]"
-                loading="lazy"
-                decoding="async"
+                className="anatomy-focal h-[420px] max-w-none shrink-0 sm:h-[440px] md:h-[min(72vh,720px)] xl:h-[min(78vh,860px)]"
               />
             </div>
 
@@ -387,11 +432,7 @@ export default function AnatomyShowcase() {
                 >
                   <span
                     data-side={a.side}
-                    className="anatomy-label-text inline-block px-1.5 py-0.5 sm:px-3 sm:py-1.5 rounded-md border border-blue-400/25 bg-blue-500/[0.08] backdrop-blur-sm text-[8px] sm:text-[10px] md:text-[11px] uppercase tracking-[0.08em] sm:tracking-[0.14em] text-blue-100/85 leading-tight break-words"
-                    style={{
-                      fontFamily:
-                        '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace',
-                    }}
+                    className="anatomy-label-text fr-tag"
                   >
                     {a.label}
                   </span>
@@ -417,8 +458,8 @@ export default function AnatomyShowcase() {
                   x2="100%"
                   y2="0%"
                 >
-                  <stop offset="0%" stopColor="rgba(96, 165, 250, 0.15)" />
-                  <stop offset="100%" stopColor="rgba(103, 232, 249, 0.9)" />
+                  <stop offset="0%" stopColor="rgba(240, 232, 216, 0.18)" />
+                  <stop offset="100%" stopColor="rgba(255, 178, 36, 0.95)" />
                 </linearGradient>
                 <linearGradient
                   id="anatomyLineGradRight"
@@ -427,8 +468,8 @@ export default function AnatomyShowcase() {
                   x2="0%"
                   y2="0%"
                 >
-                  <stop offset="0%" stopColor="rgba(96, 165, 250, 0.15)" />
-                  <stop offset="100%" stopColor="rgba(103, 232, 249, 0.9)" />
+                  <stop offset="0%" stopColor="rgba(240, 232, 216, 0.18)" />
+                  <stop offset="100%" stopColor="rgba(255, 178, 36, 0.95)" />
                 </linearGradient>
               </defs>
 
@@ -436,6 +477,7 @@ export default function AnatomyShowcase() {
                 paths[a.key] ? (
                   <path
                     key={a.key}
+                    ref={setMapRef(leaderRefs.current, a.key)}
                     className="anatomy-leader"
                     d={paths[a.key]}
                     stroke={`url(#anatomyLineGrad${a.side === "left" ? "Left" : "Right"})`}
@@ -449,26 +491,33 @@ export default function AnatomyShowcase() {
               {ANCHORS.map((a) => {
                 const h = hotspots[a.key];
                 if (!h) return null;
+                // Outer group carries the position (moved per frame by
+                // applyPins); the inner one is what the scrub/pulse animate,
+                // scaling about its own centre.
                 return (
                   <g
                     key={`${a.key}-hot`}
-                    className="anatomy-hotspot"
-                    style={{ transformOrigin: `${h.x}px ${h.y}px` }}
+                    ref={setMapRef(hotPosRefs.current, a.key)}
+                    transform={`translate(${h.x} ${h.y})`}
                   >
-                    <circle
-                      className="anatomy-pulse"
-                      cx={h.x}
-                      cy={h.y}
-                      r="8"
-                      fill="rgba(103, 232, 249, 0.15)"
-                      style={{ transformOrigin: `${h.x}px ${h.y}px` }}
-                    />
-                    <circle
-                      cx={h.x}
-                      cy={h.y}
-                      r="3.2"
-                      fill="rgba(103, 232, 249, 1)"
-                    />
+                    <g
+                      className="anatomy-hotspot"
+                      style={{
+                        transformBox: "fill-box",
+                        transformOrigin: "center",
+                      }}
+                    >
+                      <circle
+                        className="anatomy-pulse"
+                        r="8"
+                        fill="rgba(255, 178, 36, 0.18)"
+                        style={{
+                          transformBox: "fill-box",
+                          transformOrigin: "center",
+                        }}
+                      />
+                      <circle r="3.2" fill="#ffb224" />
+                    </g>
                   </g>
                 );
               })}

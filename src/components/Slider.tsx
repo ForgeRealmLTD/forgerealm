@@ -1,9 +1,43 @@
 "use client";
 
 import { useReveal } from "../hooks/useReveal";
+import { Spark } from "./landing/ui";
 
+const ITEMS = [
+  "Fidget Toys",
+  "White Vases",
+  "Halloween Trinkets",
+  "D&D Dice Holders",
+  "Phone Stands",
+  "Keychains",
+  "Book Stands",
+  "Figurines (Dragons, Cats)",
+  "Cosplay Props",
+  "...and more",
+];
+
+/**
+ * "What we make" band: a slim full-bleed amber strip in pixel type, running
+ * between the hero and the stockist sheet. The list is rendered twice so the
+ * -50% marquee loop is seamless; the second copy is hidden from assistive
+ * tech. Pauses on hover and holds still under reduced motion.
+ */
 export default function ProductsMarquee() {
   const marquee = useReveal<HTMLDivElement>();
+
+  const row = (duplicate: boolean) => (
+    <div
+      className="flex shrink-0 items-center"
+      aria-hidden={duplicate || undefined}
+    >
+      {ITEMS.map((item) => (
+        <span key={item} className="flex items-center">
+          <span className="px-4 sm:px-6">{item}</span>
+          <Spark className="fr-fg-3 text-[0.42em]" />
+        </span>
+      ))}
+    </div>
+  );
 
   return (
     <div
@@ -11,37 +45,11 @@ export default function ProductsMarquee() {
       ref={marquee.ref}
       data-observe
       suppressHydrationWarning
-      className={`reveal relative py-6 border-y border-white/10 bg-[#0a0a0a] overflow-hidden ${marquee.isVisible ? "is-visible" : ""}`}
+      className={`reveal fr-amber fr-marquee-host relative overflow-hidden py-2.5 sm:py-3 ${marquee.isVisible ? "is-visible" : ""}`}
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-        <div className="flex items-center gap-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-          <div
-            className="flex animate-[marquee_25s_linear_infinite] gap-10 whitespace-nowrap text-xs sm:text-sm uppercase tracking-[0.25em]"
-            style={{ color: "#FADE6A" }}
-          >
-            {[
-              "Fidget Toys",
-              "White Vases",
-              "Halloween Trinkets",
-              "D&D Dice Holders",
-              "Phone Stands",
-              "Keychains",
-              "Book Stands",
-              "Figurines (Dragons, Cats)",
-              "Cosplay Props",
-              "...and more",
-            ].map((item, i) => (
-              <span key={i} style={{ fontFamily: "'Cinzel', serif" }}>
-                {item}
-                {i < 9 && (
-                  <span className="ml-10 text-yellow-300/50" aria-hidden="true">
-                    ·
-                  </span>
-                )}
-              </span>
-            ))}
-          </div>
-        </div>
+      <div className="fr-marquee fr-px text-[clamp(1.25rem,1.9vw,1.7rem)] leading-none">
+        {row(false)}
+        {row(true)}
       </div>
     </div>
   );

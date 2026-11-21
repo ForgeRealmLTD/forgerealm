@@ -18,195 +18,177 @@ import {
 import { useReveal } from "../hooks/useReveal";
 import MaterialsBook from "./MaterialsBook";
 
+const FEATURES = [
+  {
+    title: "Eco Friendly",
+    detail: "Biodegradable and low-impact materials.",
+    icon: <FaLeaf />,
+  },
+  {
+    title: "Material Options",
+    detail: "PLA and PETG choices for each build.",
+    icon: <FiBox />,
+  },
+  {
+    title: "Local Collection",
+    detail: "Leeds pickup options when available.",
+    icon: <FiMapPin />,
+  },
+  {
+    title: "Social Drops",
+    detail: "New releases and stall dates posted weekly.",
+    icon: <FiShare2 />,
+  },
+  {
+    title: "Support First",
+    detail: "Real replies from the makers.",
+    icon: <FiHeadphones />,
+  },
+  {
+    title: "Workshops Soon",
+    detail: "Collaborations and events in the pipeline.",
+    icon: <FiUsers />,
+  },
+];
+
+const SERVICES = [
+  {
+    icon: <FaShoppingCart />,
+    title: "Order Online",
+    text: "Browse and buy our 3D-printed products directly from our website, or find us on Etsy, eBay, and Vinted.",
+  },
+  {
+    icon: <MdBrush />,
+    title: "Custom & Bespoke Prints",
+    text: "Contact us to discuss your ideas or request a personalised print.",
+  },
+  {
+    icon: <FaStore />,
+    title: "Leeds Booths & Stalls",
+    text: "Find us at local markets, fairs, and events across Leeds. Follow us on social media for updates on where we will be next.",
+  },
+];
+
+/**
+ * Services + Materials. Set like a spec sheet rather than a wall of cards:
+ * the six features are a ruled list, the three ways to buy are columns
+ * divided by hairlines, and the socials close the block on one row.
+ */
 export default function Services() {
   const services = useReveal<HTMLElement>();
   const materials = useReveal<HTMLElement>();
 
   return (
-    <div className="relative overflow-hidden bg-[#0a0e18]">
+    <div className="fr-ink relative overflow-hidden">
       <section
         id="services"
         ref={services.ref}
         data-observe
         suppressHydrationWarning
-        className={`reveal landing-ambience relative py-16 sm:py-24 ${services.isVisible ? "is-visible" : ""}`}
+        className={`reveal fr-plate relative py-20 sm:py-28 lg:py-32 ${services.isVisible ? "is-visible" : ""}`}
       >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-          {/* Header: heading alone, lead paragraph does the explaining. */}
-          <h2
-            className="max-w-3xl text-3xl sm:text-4xl lg:text-5xl font-normal leading-[1.15] text-white"
-            style={{ fontFamily: "'Cinzel', serif" }}
-          >
-            Our Services
-          </h2>
-
-          <p
-            className="mt-5 max-w-2xl text-base sm:text-lg leading-[1.8] text-stone-400"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            ForgeRealm is a UK-based business offering unique, customisable
-            3D-printed products. You can order online, contact us for bespoke
-            prints, or visit us at our pop-up stalls and booths around Leeds.
-          </p>
-
-          {/* Feature grid */}
-          <div className="mt-8 grid gap-4 lg:grid-cols-6 auto-rows-fr">
-            {[
-              {
-                title: "Eco Friendly",
-                detail: "Biodegradable and low-impact materials.",
-                icon: <FaLeaf className="text-emerald-400 text-xl" />,
-              },
-              {
-                title: "Material Options",
-                detail: "PLA and PETG choices for each build.",
-                icon: <FiBox className="text-blue-400 text-xl" />,
-              },
-              {
-                title: "Local Collection",
-                detail: "Leeds pickup options when available.",
-                icon: <FiMapPin className="text-blue-400 text-xl" />,
-              },
-              {
-                title: "Social Drops",
-                detail: "New releases and stall dates posted weekly.",
-                icon: <FiShare2 className="text-cyan-300 text-xl" />,
-              },
-              {
-                title: "Support First",
-                detail: "Real replies from the makers.",
-                icon: <FiHeadphones className="text-blue-400 text-xl" />,
-              },
-              {
-                title: "Workshops Soon",
-                detail: "Collaborations and events in the pipeline.",
-                icon: <FiUsers className="text-cyan-300 text-xl" />,
-              },
-            ].map((item, idx) => (
-              <div
-                key={item.title}
-                className={`rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4 backdrop-blur-sm hover:border-blue-400/30 hover:bg-white/[0.04] hover:shadow-xl hover:shadow-blue-500/[0.12] transition-all duration-500 hover:-translate-y-0.5 ${
-                  idx === 0
-                    ? "lg:col-span-4"
-                    : idx === 1
-                      ? "lg:col-span-2"
-                      : "lg:col-span-3"
-                }`}
-              >
-                <div className="flex items-center gap-2 text-white font-semibold text-sm">
-                  {item.icon}
-                  <span style={{ fontFamily: "'Cinzel', serif" }}>
-                    {item.title}
-                  </span>
-                </div>
-                <p
-                  className="mt-2 text-xs text-stone-400"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
-                >
-                  {item.detail}
-                </p>
-              </div>
-            ))}
+        <div className="fr-wrap relative">
+          <div className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-10">
+            <h2 className="fr-h2 lg:col-span-7">
+              Our <span className="fr-i">Services</span>
+            </h2>
+            <p className="fr-body max-w-xl lg:col-span-5">
+              ForgeRealm is a UK-based business offering unique, customisable
+              3D-printed products. You can order online, contact us for bespoke
+              prints, or visit us at our pop-up stalls and booths around Leeds.
+            </p>
           </div>
 
-          {/* Service grid */}
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                icon: <FaShoppingCart className="text-blue-400 text-xl" />,
-                title: "Order Online",
-                text: "Browse and buy our 3D-printed products directly from our website, or find us on Etsy, eBay, and Vinted.",
-              },
-              {
-                icon: <MdBrush className="text-blue-400 text-xl" />,
-                title: "Custom & Bespoke Prints",
-                text: "Contact us to discuss your ideas or request a personalised print.",
-              },
-              {
-                icon: <FaStore className="text-blue-400 text-xl" />,
-                title: "Leeds Booths & Stalls",
-                text: "Find us at local markets, fairs, and events across Leeds. Follow us on social media for updates on where we will be next.",
-              },
-            ].map((service, i) => (
-              <article
-                key={i}
-                className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 backdrop-blur-sm hover:border-blue-400/30 hover:bg-white/[0.04] hover:shadow-xl hover:shadow-blue-500/[0.12] transition-all duration-500 hover:-translate-y-1 flex flex-col"
+          {/* Feature list: six ruled entries */}
+          <dl className="mt-14 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
+            {FEATURES.map((item) => (
+              <div
+                key={item.title}
+                className="fr-line flex gap-4 border-t py-5"
               >
-                <div className="flex items-center gap-3 mb-2">
-                  {service.icon}
-                  <h3
-                    className="text-lg font-semibold text-white"
-                    style={{ fontFamily: "'Cinzel', serif" }}
-                  >
-                    {service.title}
-                  </h3>
-                </div>
-                <p
-                  className="mt-2 text-sm text-stone-400"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                <span
+                  className="fr-accent-text mt-1.5 text-lg"
+                  aria-hidden="true"
                 >
-                  {service.text}
-                </p>
+                  {item.icon}
+                </span>
+                <div>
+                  <dt className="fr-px text-[1.65rem] leading-none">
+                    {item.title}
+                  </dt>
+                  <dd className="fr-fg-2 mt-1.5 text-sm leading-relaxed">
+                    {item.detail}
+                  </dd>
+                </div>
+              </div>
+            ))}
+          </dl>
+
+          {/* The three ways to buy: columns divided by hairlines */}
+          <div className="fr-line-2 mt-14 grid border-t lg:grid-cols-3">
+            {SERVICES.map((service) => (
+              <article
+                key={service.title}
+                className="fr-line border-b py-8 lg:border-b-0 lg:border-l lg:px-8 lg:py-10 lg:first:border-l-0 lg:first:pl-0 lg:last:pr-0"
+              >
+                <span className="fr-accent-text text-3xl" aria-hidden="true">
+                  {service.icon}
+                </span>
+                <h3 className="fr-h3 mt-7">{service.title}</h3>
+                <p className="fr-body mt-3 !text-[0.975rem]">{service.text}</p>
               </article>
             ))}
           </div>
 
-          {/* Follow us capsule */}
-          <div className="max-w-2xl mt-16 rounded-lg border border-white/10 bg-white/[0.03] p-6 hover:border-blue-400/40 transition-colors duration-300">
-            <p
-              className="text-stone-400 text-sm mb-4"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
+          {/* Follow us */}
+          <div className="fr-line flex flex-col gap-6 border-b py-7 sm:flex-row sm:items-center sm:justify-between lg:border-t">
+            <p className="fr-body max-w-2xl !text-[0.975rem]">
               Follow us on Instagram and other socials for the latest news,
               stall locations, and new product launches. More services,
               including workshops and collaborations, coming soon!
             </p>
 
-            <div className="flex items-center gap-4 text-stone-400 mt-2">
+            <div className="flex flex-none items-center gap-3">
               <a
                 href="https://www.instagram.com/forgerealmltd/"
                 aria-label="Instagram"
-                className="hover:text-pink-400 transition-colors duration-300"
+                className="fr-line-2 grid h-11 w-11 place-items-center rounded-full border text-lg transition-colors duration-300 hover:border-[color:var(--fg)] hover:bg-[var(--fg)] hover:text-[color:var(--bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffb224]"
               >
-                <FaInstagram className="text-lg" />
+                <FaInstagram />
               </a>
               <a
                 href="https://www.linkedin.com/company/forgerealm"
                 aria-label="LinkedIn"
-                className="hover:text-blue-400 transition-colors duration-300"
+                className="fr-line-2 grid h-11 w-11 place-items-center rounded-full border text-lg transition-colors duration-300 hover:border-[color:var(--fg)] hover:bg-[var(--fg)] hover:text-[color:var(--bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffb224]"
               >
-                <FaLinkedin className="text-lg" />
+                <FaLinkedin />
               </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Materials section — no divider; grid + shared accent unify it with Services. */}
+      {/* Materials section: no divider; the shared surface unifies it with Services. */}
       <section
         id="materials"
         ref={materials.ref}
         data-observe
         suppressHydrationWarning
-        className={`reveal landing-ambience relative py-16 sm:py-24 ${materials.isVisible ? "is-visible" : ""}`}
+        className={`reveal relative py-20 sm:py-28 ${materials.isVisible ? "is-visible" : ""}`}
       >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-          <h2
-            className="text-3xl sm:text-4xl lg:text-5xl font-normal leading-[1.15] text-white"
-            style={{ fontFamily: "'Cinzel', serif" }}
-          >
-            Our Materials
-          </h2>
-          <p
-            className="mt-3 max-w-xl text-stone-400"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            We offer the following filaments for 3D printing. Flip through to
-            see what each one is, where we use it, and the science behind the
-            claims.
-          </p>
+        <div className="fr-wrap relative">
+          <div className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-10">
+            <h2 className="fr-h2 lg:col-span-7">
+              Our <span className="fr-i">Materials</span>
+            </h2>
+            <p className="fr-body max-w-xl lg:col-span-5">
+              We offer the following filaments for 3D printing. Flip through to
+              see what each one is, where we use it, and the science behind the
+              claims.
+            </p>
+          </div>
 
-          <div className="mt-12 flex justify-center">
+          <div className="mt-14 flex justify-center">
             <MaterialsBook />
           </div>
         </div>

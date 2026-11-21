@@ -33,8 +33,7 @@ interface UserData {
 
 const inputClass =
   "w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition focus:border-blue-500/40 focus:bg-white/[0.08]";
-const labelClass =
-  "block text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400 mb-1.5";
+const labelClass = "block text-[11px] font-semibold   text-slate-400 mb-1.5";
 
 export default function AccountSettings() {
   const [user, setUser] = useState<UserData | null>(null);

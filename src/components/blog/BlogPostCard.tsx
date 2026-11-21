@@ -47,22 +47,22 @@ export default function BlogPostCard({
                   <div className="inline-flex items-center gap-3">
                     <div className="w-5 h-px bg-cyan-400/50" />
                     <span
-                      className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.28em] text-cyan-300/70"
-                      style={{ fontFamily: "'Jost', sans-serif" }}
+                      className="text-[10px] sm:text-[11px] font-medium text-cyan-300/70"
+                      style={{ fontFamily: "var(--fr-font-label)" }}
                     >
                       Featured Entry
                     </span>
                   </div>
                   <h2
                     className="mt-5 max-w-2xl text-2xl sm:text-3xl lg:text-4xl leading-tight text-white group-hover:text-cyan-100 transition-colors"
-                    style={{ fontFamily: "'Cinzel', serif" }}
+                    style={{ fontFamily: "var(--fr-font-pixel)" }}
                   >
                     {title}
                   </h2>
                   <p
                     className="mt-4 max-w-xl text-sm sm:text-base leading-relaxed text-slate-400"
                     style={{
-                      fontFamily: "'Cormorant Garamond', serif",
+                      fontFamily: "var(--fr-font-pixel)",
                       fontStyle: "italic",
                       lineHeight: 1.7,
                     }}
@@ -72,8 +72,8 @@ export default function BlogPostCard({
                 </div>
                 <div className="mt-6 flex flex-wrap items-center gap-3">
                   <span
-                    className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-cyan-200"
-                    style={{ fontFamily: "'Jost', sans-serif" }}
+                    className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-[10px] font-medium text-cyan-200"
+                    style={{ fontFamily: "var(--fr-font-label)" }}
                   >
                     {category || "Update"}
                   </span>
@@ -81,8 +81,8 @@ export default function BlogPostCard({
                     <>
                       <span className="h-1 w-1 rounded-full bg-slate-600" />
                       <span
-                        className="text-[11px] uppercase tracking-[0.2em] text-slate-500"
-                        style={{ fontFamily: "'Jost', sans-serif" }}
+                        className="text-[11px] text-slate-500"
+                        style={{ fontFamily: "var(--fr-font-label)" }}
                       >
                         {date}
                       </span>
@@ -92,8 +92,8 @@ export default function BlogPostCard({
                     <>
                       <span className="h-1 w-1 rounded-full bg-slate-600" />
                       <span
-                        className="text-[11px] uppercase tracking-[0.2em] text-slate-500"
-                        style={{ fontFamily: "'Jost', sans-serif" }}
+                        className="text-[11px] text-slate-500"
+                        style={{ fontFamily: "var(--fr-font-label)" }}
                       >
                         {author}
                       </span>
@@ -107,7 +107,7 @@ export default function BlogPostCard({
             <div className="hidden lg:flex flex-col justify-end border-l border-white/[0.06] p-8">
               <div
                 className="flex items-center gap-3 text-sm font-medium text-cyan-300/80 transition group-hover:text-cyan-200"
-                style={{ fontFamily: "'Jost', sans-serif" }}
+                style={{ fontFamily: "var(--fr-font-label)" }}
               >
                 Read full post
                 <span className="transition-transform duration-300 group-hover:translate-x-1">
@@ -132,15 +132,15 @@ export default function BlogPostCard({
           <div className="relative flex flex-col h-full">
             <div className="flex items-center justify-between gap-4">
               <span
-                className="text-[10px] font-medium uppercase tracking-[0.24em] text-cyan-300/60"
-                style={{ fontFamily: "'Jost', sans-serif" }}
+                className="text-[10px] font-medium text-cyan-300/60"
+                style={{ fontFamily: "var(--fr-font-label)" }}
               >
                 {category || "Update"}
               </span>
               {date && (
                 <span
-                  className="text-[10px] uppercase tracking-[0.2em] text-slate-600"
-                  style={{ fontFamily: "'Jost', sans-serif" }}
+                  className="text-[10px] text-slate-600"
+                  style={{ fontFamily: "var(--fr-font-label)" }}
                 >
                   {date}
                 </span>
@@ -149,7 +149,7 @@ export default function BlogPostCard({
 
             <h2
               className="mt-4 text-lg sm:text-xl leading-tight text-white group-hover:text-cyan-100 transition-colors"
-              style={{ fontFamily: "'Cinzel', serif" }}
+              style={{ fontFamily: "var(--fr-font-pixel)" }}
             >
               {title}
             </h2>
@@ -157,7 +157,7 @@ export default function BlogPostCard({
             <p
               className="mt-3 flex-1 text-sm leading-relaxed text-slate-400"
               style={{
-                fontFamily: "'Cormorant Garamond', serif",
+                fontFamily: "var(--fr-font-pixel)",
                 fontStyle: "italic",
                 lineHeight: 1.7,
               }}
@@ -168,13 +168,13 @@ export default function BlogPostCard({
             <div className="mt-5 flex items-center justify-between gap-4 pt-4 border-t border-white/[0.05]">
               <span
                 className="text-[11px] text-slate-500"
-                style={{ fontFamily: "'Jost', sans-serif" }}
+                style={{ fontFamily: "var(--fr-font-label)" }}
               >
                 {author || "ForgeRealm"}
               </span>
               <span
                 className="flex items-center gap-1.5 text-[11px] font-medium text-cyan-300/60 transition group-hover:text-cyan-300"
-                style={{ fontFamily: "'Jost', sans-serif" }}
+                style={{ fontFamily: "var(--fr-font-label)" }}
               >
                 Read
                 <svg

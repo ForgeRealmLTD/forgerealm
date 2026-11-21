@@ -1,0 +1,660 @@
+/* ==========================================================================
+   ForgeRealm landing system ("workshop sheet", pixel type)
+   --------------------------------------------------------------------------
+   An industrial spec-sheet layout: warm soot black, blush-cream sheets
+   and forge amber, hairline rules instead of cards. The type is the game set: a pixel
+   face for headings and numerals (Jersey 25), its small-size sibling for
+   labels and buttons (Jersey 15), and a plain sans for body copy so it stays
+   easy to read.
+
+   How it fits together:
+     - Brand tokens (--fr-*) live on :root so the shared Navbar/Footer work on
+       any page.
+     - A SURFACE class (.fr-ink / .fr-paper / .fr-amber) sets the semantic
+       tokens (--fg, --line, --bg, --accent ...). Everything inside reads
+       those, so a whole section flips theme by changing one class.
+     - Type and button classes are plain CSS on purpose: Tailwind v3 cannot
+       put an opacity modifier on a var() colour, and these read cleaner.
+
+   Cascade note: this file loads AFTER Tailwind, so on a clash a class here
+   beats a utility. Properties a caller is expected to override (display on
+   buttons, position on textured sections) are therefore declared inside
+   :where(), which has zero specificity and lets the utility win. Font sizes
+   cannot use that trick (Tailwind's preflight `h2 { font-size: inherit }`
+   would beat it), so size overrides on headings use the `!` prefix.
+   ========================================================================== */
+
+:root {
+  --fr-ink: #0b0a08;
+  --fr-ink-2: #141210;
+  --fr-ink-3: #1e1b17;
+  --fr-bone: #f0e8d8;
+  /* Blush cream: a cream with a faint peach tint, neither beige nor yellow.
+     Paired with navy ink and the owl's cobalt. */
+  --fr-paper: #f7ebe1;
+  --fr-paper-2: #eedccd;
+  --fr-navy: #0f1433;
+  --fr-amber: #ffb224;
+  --fr-cobalt: #2747e0;
+  /* Jersey 25 for headings and numerals: a pixel face whose c/o and C/O stay
+     distinct at display sizes. Jersey 15 is the same design drawn for a
+     15px grid, so small labels stay crisp. Both have a single weight. */
+  --fr-font-pixel: "Jersey 25", "Jersey 15", ui-monospace, monospace;
+  --fr-font-label: "Jersey 15", "Jersey 25", ui-monospace, monospace;
+  --fr-font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ── Surfaces ─────────────────────────────────────────────────────────── */
+.fr-ink {
+  --fg: var(--fr-bone);
+  --fg-2: rgba(240, 232, 216, 0.7);
+  --fg-3: rgba(240, 232, 216, 0.46);
+  --line: rgba(240, 232, 216, 0.14);
+  --line-2: rgba(240, 232, 216, 0.32);
+  --bg: var(--fr-ink);
+  --bg-2: var(--fr-ink-2);
+  --accent: var(--fr-amber);
+  --accent-text: var(--fr-amber);
+  --on-accent: #15110a;
+}
+.fr-paper {
+  --fg: var(--fr-navy);
+  --fg-2: rgba(15, 20, 51, 0.78);
+  --fg-3: rgba(15, 20, 51, 0.56);
+  --line: rgba(15, 20, 51, 0.16);
+  --line-2: rgba(15, 20, 51, 0.42);
+  --bg: var(--fr-paper);
+  --bg-2: var(--fr-paper-2);
+  /* On paper the "solid" button is navy ink and the accent is the owl's
+     cobalt blue: the brand's blue-and-gold pairing, not orange on beige. */
+  --accent: var(--fr-navy);
+  --accent-text: var(--fr-cobalt);
+  --on-accent: var(--fr-paper);
+}
+.fr-amber {
+  --fg: #15110a;
+  --fg-2: rgba(21, 17, 10, 0.78);
+  --fg-3: rgba(21, 17, 10, 0.58);
+  --line: rgba(21, 17, 10, 0.2);
+  --line-2: rgba(21, 17, 10, 0.5);
+  --bg: var(--fr-amber);
+  --bg-2: #f3a312;
+  --accent: #15110a;
+  --accent-text: #15110a;
+  --on-accent: var(--fr-amber);
+}
+.fr-ink,
+.fr-paper,
+.fr-amber {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--fr-font-body);
+}
+/* Seasonal accent swap, set on the hero only. */
+.fr-ink.fr-festive {
+  --accent: #e5372d;
+  --accent-text: #ff6b5e;
+  --on-accent: #fff6ea;
+}
+
+/* A paper section sits on the dark page like a sheet on a workbench. */
+.fr-sheet {
+  margin-inline: 0.5rem;
+  border-radius: 22px;
+}
+@media (min-width: 640px) {
+  .fr-sheet {
+    margin-inline: 1rem;
+    border-radius: 28px;
+  }
+}
+
+/* Token helpers for use next to Tailwind layout classes. */
+.fr-fg {
+  color: var(--fg);
+}
+.fr-fg-2 {
+  color: var(--fg-2);
+}
+.fr-fg-3 {
+  color: var(--fg-3);
+}
+.fr-accent-text {
+  color: var(--accent-text);
+}
+.fr-line {
+  border-color: var(--line);
+}
+.fr-line-2 {
+  border-color: var(--line-2);
+}
+.fr-bg-2 {
+  background-color: var(--bg-2);
+}
+.fr-wrap {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1500px;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 640px) {
+  .fr-wrap {
+    padding-inline: 2rem;
+  }
+}
+@media (min-width: 1024px) {
+  .fr-wrap {
+    padding-inline: 3rem;
+  }
+}
+
+/* ── Type ─────────────────────────────────────────────────────────────── */
+/* The pixel face has one weight. A faux bold would smear its pixels, so
+   weight is pinned and synthesis is off wherever it is used. */
+.fr-px,
+.fr-h1,
+.fr-h2,
+.fr-h3,
+.fr-i,
+.fr-dot {
+  font-family: var(--fr-font-pixel);
+  font-weight: 400;
+  font-synthesis: none;
+}
+.fr-label,
+.fr-btn,
+.fr-nav-link,
+.fr-tag,
+.fr-progress-readout {
+  font-family: var(--fr-font-label);
+  font-weight: 400;
+  font-synthesis: none;
+}
+.fr-h1,
+.fr-h2,
+.fr-h3 {
+  color: var(--fg);
+  text-wrap: balance;
+}
+/* No font-size here: the hero sets it per breakpoint with utilities. */
+.fr-h1 {
+  line-height: 0.82;
+}
+.fr-h2 {
+  font-size: clamp(3rem, 7vw, 6.25rem);
+  line-height: 0.84;
+}
+.fr-h3 {
+  font-size: clamp(1.8rem, 2.6vw, 2.5rem);
+  line-height: 0.95;
+}
+/* Accent word inside a heading: same pixel face, accent colour. */
+.fr-i {
+  color: var(--accent-text);
+}
+.fr-body {
+  font-family: var(--fr-font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--fg-2);
+  text-wrap: pretty;
+}
+/* Small pixel label. Mixed case on purpose: nothing on this page is set in
+   all caps. */
+.fr-label {
+  font-size: 17px;
+  line-height: 1.1;
+  letter-spacing: 0.03em;
+}
+/* Pixel numerals: stats, indices, counters. */
+.fr-dot {
+  font-variant-numeric: tabular-nums;
+  line-height: 0.85;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────────── */
+/* Capsule with a round "knob" that carries the arrow. The knob turns on
+   hover so the arrow points up and out. */
+:where(.fr-btn) {
+  display: inline-flex;
+}
+.fr-btn {
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: 3.25rem;
+  padding: 0 0.45rem 0 1.5rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 19px;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+.fr-btn__knob {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 999px;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.fr-btn:hover .fr-btn__knob,
+.fr-btn:focus-visible .fr-btn__knob {
+  transform: rotate(-45deg);
+}
+.fr-btn:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 3px;
+}
+.fr-btn--solid {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.fr-btn--solid .fr-btn__knob {
+  background: var(--on-accent);
+  color: var(--accent);
+}
+.fr-btn--ghost {
+  border-color: var(--line-2);
+  color: var(--fg);
+}
+.fr-btn--ghost:hover {
+  border-color: var(--fg);
+}
+.fr-btn--ghost .fr-btn__knob {
+  background: var(--fg);
+  color: var(--bg);
+}
+.fr-btn--sm {
+  height: 2.5rem;
+  padding: 0 0.3rem 0 1.05rem;
+  gap: 0.7rem;
+  font-size: 17px;
+}
+.fr-btn--sm .fr-btn__knob {
+  width: 1.9rem;
+  height: 1.9rem;
+}
+.fr-btn--plain {
+  padding-inline: 1.25rem;
+}
+.fr-btn[disabled] {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Text link with a rule that draws in from the left. */
+.fr-link {
+  position: relative;
+  color: inherit;
+}
+.fr-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.2em;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.fr-link:hover::after,
+.fr-link:focus-visible::after {
+  transform: scaleX(1);
+}
+.fr-link:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Underline-only form field. */
+.fr-input {
+  width: 100%;
+  padding: 0.7rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--line-2);
+  border-radius: 0;
+  background: transparent;
+  color: var(--fg);
+  font-family: var(--fr-font-body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.fr-input::placeholder {
+  color: var(--fg-3);
+}
+.fr-input:focus {
+  border-bottom-color: var(--accent-text);
+  box-shadow: 0 1px 0 0 var(--accent-text);
+}
+
+/* ── Textures ─────────────────────────────────────────────────────────── */
+/* Build-plate dot grid, fading out toward the edges of its section. */
+:where(.fr-plate) {
+  position: relative;
+}
+.fr-plate {
+  isolation: isolate;
+}
+.fr-plate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle,
+    var(--line-2) 1px,
+    transparent 1.3px
+  );
+  background-size: 28px 28px;
+  opacity: 0.55;
+  -webkit-mask-image: radial-gradient(
+    ellipse 85% 75% at 50% 45%,
+    black 15%,
+    transparent 88%
+  );
+  mask-image: radial-gradient(
+    ellipse 85% 75% at 50% 45%,
+    black 15%,
+    transparent 88%
+  );
+}
+/* FDM layer lines: fine horizontal ridges, like the side of a print. */
+.fr-layers {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.075) 0 1px,
+    transparent 1px 5px
+  );
+}
+.fr-layers--light {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(240, 232, 216, 0.045) 0 1px,
+    transparent 1px 6px
+  );
+}
+/* Film grain over the whole page: one small tile on one fixed layer. */
+.fr-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Print progress (scroll position as a print job) ──────────────────── */
+.fr-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  height: 2px;
+  background: var(--fr-amber);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+/* Set vertically so it lives in the page gutter, clear of the content. */
+.fr-progress-readout {
+  position: fixed;
+  left: 1rem;
+  bottom: 1.25rem;
+  z-index: 45;
+  display: none;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  color: #fff;
+  /* Inverts against whatever is behind it, so it reads on ink and paper. */
+  mix-blend-mode: difference;
+  opacity: 0.7;
+  pointer-events: none;
+}
+@media (min-width: 1024px) {
+  .fr-progress-readout {
+    display: block;
+  }
+}
+
+/* ── Motion ───────────────────────────────────────────────────────────── */
+/* Headline "prints" in from the bottom up in stepped layers, with a nozzle
+   line riding the top edge. Pure CSS, so it runs without JS. */
+@keyframes fr-print-in {
+  from {
+    clip-path: inset(100% -5% -10% -5%);
+  }
+  to {
+    clip-path: inset(-10% -5% -10% -5%);
+  }
+}
+@keyframes fr-nozzle {
+  0% {
+    top: 100%;
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    top: 0%;
+    opacity: 0;
+  }
+}
+.fr-print {
+  position: relative;
+}
+.fr-print > .fr-print__body {
+  animation: fr-print-in 1.15s steps(16, end) 0.1s both;
+}
+.fr-print::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: var(--accent-text);
+  opacity: 0;
+  pointer-events: none;
+  animation: fr-nozzle 1.15s steps(16, end) 0.1s both;
+}
+
+.fr-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--fr-marquee-dur, 42s) linear infinite;
+}
+.fr-marquee-host:hover .fr-marquee {
+  animation-play-state: paused;
+}
+
+@keyframes fr-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+.fr-blink {
+  animation: fr-blink 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fr-print > .fr-print__body,
+  .fr-print::after,
+  .fr-marquee,
+  .fr-blink {
+    animation: none !important;
+  }
+  .fr-btn__knob,
+  .fr-link::after {
+    transition: none;
+  }
+}
+
+/* ── Small parts ──────────────────────────────────────────────────────── */
+/* <details> accordion without the native marker. */
+.fr-acc > summary {
+  list-style: none;
+  cursor: pointer;
+}
+.fr-acc > summary::-webkit-details-marker {
+  display: none;
+}
+.fr-acc > summary:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.fr-acc .fr-acc__icon {
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.fr-acc[open] .fr-acc__icon {
+  transform: rotate(45deg);
+}
+
+/* Callout tag on the 3D diagram. Text only inside (it gets scrambled). Set
+   in the condensed pixel face, so long words fit the narrow phone columns. */
+.fr-tag {
+  display: inline-block;
+  padding: 0.2rem 0.4rem 0.3rem;
+  border: 1px solid var(--line-2);
+  border-radius: 3px;
+  background: var(--bg-2);
+  color: var(--fg);
+  font-size: 13px;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  overflow-wrap: break-word;
+}
+@media (min-width: 640px) {
+  .fr-tag {
+    padding: 0.3rem 0.7rem 0.4rem;
+    font-size: 17px;
+    letter-spacing: 0.03em;
+  }
+}
+
+/* Nav link underline. */
+.fr-nav-link {
+  position: relative;
+  padding: 0.35rem 0;
+  font-size: 18px;
+  line-height: 1.1;
+  letter-spacing: 0.03em;
+  color: rgba(240, 232, 216, 0.72);
+  transition: color 0.2s ease;
+}
+.fr-nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--fr-amber);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.fr-nav-link:hover,
+.fr-nav-link:focus-visible {
+  color: var(--fr-bone);
+  outline: none;
+}
+.fr-nav-link:hover::after,
+.fr-nav-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* ==========================================================================
+   Site theme scope (blog + shop)
+   --------------------------------------------------------------------------
+   Pages outside the landing keep their own markup and Tailwind classes; their
+   colours and font families were mapped to this palette at the source. This
+   scope supplies what a class swap cannot: the body font, pixel headings,
+   and the rule that the single-weight pixel faces are never faux-bolded,
+   slanted or forced to all caps.
+   ========================================================================== */
+.fr-site {
+  --fg: var(--fr-bone);
+  --fg-2: rgba(240, 232, 216, 0.7);
+  --fg-3: rgba(240, 232, 216, 0.46);
+  --line: rgba(240, 232, 216, 0.14);
+  --line-2: rgba(240, 232, 216, 0.32);
+  --bg: var(--fr-ink);
+  --bg-2: var(--fr-ink-2);
+  --accent: var(--fr-amber);
+  --accent-text: var(--fr-amber);
+  --on-accent: #15110a;
+  background-color: var(--fr-ink) !important;
+  color: var(--fr-bone);
+  font-family: var(--fr-font-body);
+}
+.fr-site :is(h1, h2, h3, h4) {
+  font-family: var(--fr-font-pixel);
+  letter-spacing: 0;
+}
+/* Anything set in a pixel face: headings, plus elements whose inline style
+   names one of the pixel font tokens. */
+.fr-site :is(h1, h2, h3, h4),
+.fr-site [style*="--fr-font-pixel"],
+.fr-site [style*="--fr-font-label"] {
+  font-weight: 400 !important;
+  font-style: normal !important;
+  font-synthesis: none;
+  text-transform: none !important;
+}
+/* These pages were sized for Cinzel and all-caps Jost. The pixel faces have
+   a lower x-height, so the same pixel sizes read much smaller.
+   font-size-adjust scales each element so its x-height is a fixed fraction
+   of its font-size, restoring the visual size without touching the markup. */
+.fr-site :is(h1, h2, h3, h4),
+.fr-site [style*="--fr-font-pixel"] {
+  font-size-adjust: 0.56;
+}
+.fr-site [style*="--fr-font-label"] {
+  font-size-adjust: 0.68;
+  letter-spacing: 0.02em;
+}
+
+/* Featured prints, mobile accordion: a timer bar along the bottom of the open
+   panel that fills while it waits to advance. */
+.fr-autobar {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 3px;
+  transform-origin: left;
+  animation: fr-autobar linear both;
+}
+@keyframes fr-autobar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fr-autobar {
+    display: none;
+  }
+}
