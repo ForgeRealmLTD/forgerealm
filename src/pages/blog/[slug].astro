@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import BaseLayout from "~/layouts/BaseLayout.astro";
-import BlogNavbar from "~/components/BlogNavbar";
+import Navbar from "~/components/Navbar";
 
 export async function getStaticPaths() {
   const posts = await getCollection("post", ({ data }) => !data.draft);
@@ -27,10 +27,11 @@ const formatDate = (date?: Date) =>
 ---
 
 <BaseLayout
+  bodyClass="fr-site"
   title={`${post.data.title} | ForgeRealm`}
   description={post.data.excerpt || "ForgeRealm blog post"}
 >
-  <div class="relative min-h-screen overflow-hidden bg-[#0a0f1a] text-white">
+  <div class="relative min-h-screen overflow-hidden bg-[#0b0a08] text-white">
     <style>
       @keyframes glow-pulse {
         0%,
@@ -73,7 +74,7 @@ const formatDate = (date?: Date) =>
       </div>
     </div>
 
-    <BlogNavbar client:load />
+    <Navbar client:load />
 
     <!-- Header -->
     <section
@@ -81,8 +82,8 @@ const formatDate = (date?: Date) =>
     >
       <a
         href="/blog"
-        class="group inline-flex items-center gap-2.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[11px] font-medium uppercase tracking-[0.22em] text-slate-400 backdrop-blur-xl transition hover:border-cyan-400/20 hover:text-cyan-300"
-        style="font-family: 'Jost', sans-serif;"
+        class="group inline-flex items-center gap-2.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[11px] font-medium text-slate-400 backdrop-blur-xl transition hover:border-cyan-400/20 hover:text-cyan-300"
+        style="font-family: var(--fr-font-label);"
       >
         <svg
           class="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5"
@@ -101,24 +102,24 @@ const formatDate = (date?: Date) =>
       <header class="mt-8 sm:mt-10">
         <div class="flex flex-wrap items-center gap-3">
           <span
-            class="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-cyan-200"
-            style="font-family: 'Jost', sans-serif;"
+            class="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-[10px] font-medium text-cyan-200"
+            style="font-family: var(--fr-font-label);"
           >
             {post.data.category || "Update"}
           </span>
           {
             post.data.publishDate && (
               <span
-                class="text-[11px] uppercase tracking-[0.2em] text-slate-500"
-                style="font-family: 'Jost', sans-serif;"
+                class="text-[11px] text-slate-500"
+                style="font-family: var(--fr-font-label);"
               >
                 {formatDate(post.data.publishDate)}
               </span>
             )
           }
           <span
-            class="text-[11px] uppercase tracking-[0.2em] text-slate-500"
-            style="font-family: 'Jost', sans-serif;"
+            class="text-[11px] text-slate-500"
+            style="font-family: var(--fr-font-label);"
           >
             {post.data.author || "ForgeRealm"}
           </span>
@@ -126,7 +127,7 @@ const formatDate = (date?: Date) =>
 
         <h1
           class="mt-6 max-w-4xl text-3xl sm:text-4xl lg:text-5xl leading-[1.05] text-white"
-          style="font-family: 'Cinzel', serif;"
+          style="font-family: var(--fr-font-pixel);"
         >
           {post.data.title}
         </h1>
@@ -135,7 +136,7 @@ const formatDate = (date?: Date) =>
           post.data.excerpt && (
             <p
               class="mt-5 max-w-2xl text-base sm:text-lg text-slate-400"
-              style="font-family: 'Cormorant Garamond', serif; font-style: italic; line-height: 1.7;"
+              style="font-family: var(--fr-font-pixel); font-style: italic; line-height: 1.7;"
             >
               {post.data.excerpt}
             </p>
@@ -172,10 +173,10 @@ const formatDate = (date?: Date) =>
             prose-a:text-cyan-300 prose-a:no-underline prose-a:border-b prose-a:border-cyan-300/30 hover:prose-a:border-cyan-300/60
             prose-blockquote:border-cyan-300/30 prose-blockquote:text-slate-300 prose-blockquote:not-italic
             prose-code:text-cyan-200 prose-code:bg-white/[0.06] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:text-sm
-            prose-pre:bg-[#0c1220] prose-pre:border prose-pre:border-white/[0.06] prose-pre:rounded-xl
+            prose-pre:bg-[#141210] prose-pre:border prose-pre:border-white/[0.06] prose-pre:rounded-xl
             prose-ul:marker:text-cyan-400/50
             prose-hr:border-white/[0.06]"
-          style="font-family: 'Inter', sans-serif;"
+          style="font-family: var(--fr-font-body);"
         >
           <Content />
         </div>
@@ -190,20 +191,20 @@ const formatDate = (date?: Date) =>
           <div class="inline-flex items-center gap-2 mb-4">
             <div class="w-4 h-px bg-cyan-400/50"></div>
             <p
-              class="text-[10px] font-medium uppercase tracking-[0.28em] text-cyan-300/60"
-              style="font-family: 'Jost', sans-serif;"
+              class="text-[10px] font-medium text-cyan-300/60"
+              style="font-family: var(--fr-font-label);"
             >
               Details
             </p>
           </div>
           <dl
             class="space-y-3.5 text-sm"
-            style="font-family: 'Inter', sans-serif;"
+            style="font-family: var(--fr-font-body);"
           >
             <div>
               <dt
-                class="text-[10px] uppercase tracking-[0.2em] text-slate-600"
-                style="font-family: 'Jost', sans-serif;"
+                class="text-[10px] text-slate-600"
+                style="font-family: var(--fr-font-label);"
               >
                 Author
               </dt>
@@ -213,8 +214,8 @@ const formatDate = (date?: Date) =>
             </div>
             <div>
               <dt
-                class="text-[10px] uppercase tracking-[0.2em] text-slate-600"
-                style="font-family: 'Jost', sans-serif;"
+                class="text-[10px] text-slate-600"
+                style="font-family: var(--fr-font-label);"
               >
                 Category
               </dt>
@@ -224,8 +225,8 @@ const formatDate = (date?: Date) =>
               post.data.publishDate && (
                 <div>
                   <dt
-                    class="text-[10px] uppercase tracking-[0.2em] text-slate-600"
-                    style="font-family: 'Jost', sans-serif;"
+                    class="text-[10px] text-slate-600"
+                    style="font-family: var(--fr-font-label);"
                   >
                     Published
                   </dt>
@@ -245,8 +246,8 @@ const formatDate = (date?: Date) =>
               <div class="inline-flex items-center gap-2 mb-4">
                 <div class="w-4 h-px bg-cyan-400/50" />
                 <p
-                  class="text-[10px] font-medium uppercase tracking-[0.28em] text-cyan-300/60"
-                  style="font-family: 'Jost', sans-serif;"
+                  class="text-[10px] font-medium text-cyan-300/60"
+                  style="font-family: var(--fr-font-label);"
                 >
                   Tags
                 </p>
@@ -254,8 +255,8 @@ const formatDate = (date?: Date) =>
               <div class="flex flex-wrap gap-2">
                 {post.data.tags.map((tag: string) => (
                   <span
-                    class="rounded-full border border-white/[0.06] bg-white/[0.03] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-slate-400"
-                    style="font-family: 'Jost', sans-serif;"
+                    class="rounded-full border border-white/[0.06] bg-white/[0.03] px-3 py-1 text-[10px] font-medium text-slate-400"
+                    style="font-family: var(--fr-font-label);"
                   >
                     {tag}
                   </span>
@@ -272,8 +273,8 @@ const formatDate = (date?: Date) =>
               <div class="inline-flex items-center gap-2 mb-4">
                 <div class="w-4 h-px bg-cyan-400/50" />
                 <p
-                  class="text-[10px] font-medium uppercase tracking-[0.28em] text-cyan-300/60"
-                  style="font-family: 'Jost', sans-serif;"
+                  class="text-[10px] font-medium text-cyan-300/60"
+                  style="font-family: var(--fr-font-label);"
                 >
                   More
                 </p>
@@ -285,14 +286,14 @@ const formatDate = (date?: Date) =>
                     class="group block rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3.5 transition hover:border-cyan-400/20 hover:bg-white/[0.05]"
                   >
                     <p
-                      class="text-[9px] uppercase tracking-[0.2em] text-slate-600"
-                      style="font-family: 'Jost', sans-serif;"
+                      class="text-[9px] text-slate-600"
+                      style="font-family: var(--fr-font-label);"
                     >
                       {entry.data.category || "Update"}
                     </p>
                     <p
                       class="mt-1.5 text-sm leading-snug text-white group-hover:text-cyan-100 transition-colors"
-                      style="font-family: 'Cinzel', serif;"
+                      style="font-family: var(--fr-font-pixel);"
                     >
                       {entry.data.title}
                     </p>
@@ -309,20 +310,20 @@ const formatDate = (date?: Date) =>
         >
           <p
             class="text-sm font-semibold text-white"
-            style="font-family: 'Cinzel', serif;"
+            style="font-family: var(--fr-font-pixel);"
           >
             Stay updated
           </p>
           <p
             class="mt-2 text-[12px] text-slate-400"
-            style="font-family: 'Cormorant Garamond', serif; font-style: italic; line-height: 1.6;"
+            style="font-family: var(--fr-font-pixel); font-style: italic; line-height: 1.6;"
           >
             Get drops, booth dates, and studio updates in your inbox.
           </p>
           <a
             href="/subscribe"
-            class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-lg shadow-blue-500/20 transition hover:-translate-y-0.5"
-            style="font-family: 'Jost', sans-serif;"
+            class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-4 py-2.5 text-[11px] font-semibold text-white shadow-lg shadow-blue-500/20 transition hover:-translate-y-0.5"
+            style="font-family: var(--fr-font-label);"
           >
             Subscribe
           </a>

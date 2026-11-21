@@ -31,7 +31,7 @@ export default function BlogNavbar() {
     <header className="fixed top-0 left-0 right-0 z-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4">
         <div
-          className={`flex items-center justify-between transition-all duration-300 rounded-2xl border ${scrolled ? "py-2 px-4 bg-[#080c16] border-white/[0.06] shadow-xl shadow-black/30" : "py-3 border-transparent"}`}
+          className={`flex items-center justify-between transition-all duration-300 rounded-2xl border ${scrolled ? "py-2 px-4 bg-[#0b0a08] border-white/[0.06] shadow-xl shadow-black/30" : "py-3 border-transparent"}`}
         >
           {/* Left: Logo */}
           <a href="/" className="inline-flex items-center gap-3 group">
@@ -55,14 +55,14 @@ export default function BlogNavbar() {
             <div className="hidden sm:block">
               <span
                 className="text-[15px] font-semibold text-white block leading-tight whitespace-nowrap"
-                style={{ fontFamily: "'Cinzel', serif" }}
+                style={{ fontFamily: "var(--fr-font-pixel)" }}
               >
                 ForgeRealm
               </span>
               <span
-                className="text-[9px] tracking-[0.18em] text-cyan-300/70 whitespace-nowrap"
+                className="text-[9px] text-cyan-300/70 whitespace-nowrap"
                 style={{
-                  fontFamily: "'Cormorant Garamond', serif",
+                  fontFamily: "var(--fr-font-pixel)",
                   fontStyle: "italic",
                   fontWeight: 400,
                 }}
@@ -78,7 +78,7 @@ export default function BlogNavbar() {
           >
             <span
               className="text-[14px] font-semibold whitespace-nowrap text-[#FADE6A]"
-              style={{ fontFamily: "'Cinzel', serif", color: "#FADE6A" }}
+              style={{ fontFamily: "var(--fr-font-pixel)", color: "#FADE6A" }}
             >
               ForgeRealm
             </span>
@@ -92,8 +92,8 @@ export default function BlogNavbar() {
               <a
                 key={label}
                 href={href}
-                className="px-4 py-2 rounded-full text-[10px] font-medium uppercase tracking-[0.18em] text-stone-400 transition-all duration-300 hover:text-white hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70 focus-visible:text-white"
-                style={{ fontFamily: "'Jost', sans-serif" }}
+                className="px-4 py-2 rounded-full text-[10px] font-medium text-stone-400 transition-all duration-300 hover:text-white hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70 focus-visible:text-white"
+                style={{ fontFamily: "var(--fr-font-label)" }}
               >
                 {label}
               </a>
@@ -104,8 +104,8 @@ export default function BlogNavbar() {
           <div className="flex items-center gap-2">
             <a
               href="/shop/sign-in"
-              className={`hidden sm:inline-flex items-center rounded-full px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/70 transition-all hover:text-white border border-white/20 hover:border-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080c16] ${scrolled ? "bg-black/40 backdrop-blur-xl" : "bg-white/[0.04]"}`}
-              style={{ fontFamily: "'Cinzel', serif" }}
+              className={`hidden sm:inline-flex items-center rounded-full px-5 py-2.5 text-[10px] font-semibold text-white/70 transition-all hover:text-white border border-white/20 hover:border-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b0a08] ${scrolled ? "bg-black/40 backdrop-blur-xl" : "bg-white/[0.04]"}`}
+              style={{ fontFamily: "var(--fr-font-pixel)" }}
             >
               Sign In
             </a>
@@ -113,7 +113,7 @@ export default function BlogNavbar() {
             {/* Mobile hamburger */}
             <button
               onClick={() => setOpen(true)}
-              className={`md:hidden rounded-full p-2.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FADE6A]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080c16] ${scrolled ? "bg-black/50 backdrop-blur-xl border border-[#FADE6A]/30" : "bg-white/[0.06] border border-white/[0.08]"}`}
+              className={`md:hidden rounded-full p-2.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FADE6A]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b0a08] ${scrolled ? "bg-black/50 backdrop-blur-xl border border-[#FADE6A]/30" : "bg-white/[0.06] border border-white/[0.08]"}`}
               aria-label="Open menu"
             >
               <HiOutlineMenu
@@ -141,7 +141,7 @@ export default function BlogNavbar() {
         }`}
         style={{
           background:
-            "linear-gradient(180deg, #080c16 0%, #0c1222 50%, #080c16 100%)",
+            "linear-gradient(180deg, #0b0a08 0%, #141210 50%, #0b0a08 100%)",
         }}
       >
         {/* Close button */}
@@ -154,7 +154,7 @@ export default function BlogNavbar() {
             />
             <span
               className="text-[13px] font-semibold text-white"
-              style={{ fontFamily: "'Cinzel', serif" }}
+              style={{ fontFamily: "var(--fr-font-pixel)" }}
             >
               ForgeRealm
             </span>
@@ -176,7 +176,7 @@ export default function BlogNavbar() {
               href={href}
               onClick={() => setOpen(false)}
               className="w-full text-center rounded-xl px-6 py-4 text-[18px] text-stone-300 transition hover:bg-blue-500/[0.08] hover:text-white"
-              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400 }}
+              style={{ fontFamily: "var(--fr-font-body)", fontWeight: 400 }}
             >
               {label}
             </a>
@@ -189,8 +189,8 @@ export default function BlogNavbar() {
           <a
             href="/shop/sign-in"
             onClick={() => setOpen(false)}
-            className="block w-full rounded-full border border-white/20 py-3.5 text-center text-[12px] font-semibold uppercase tracking-[0.14em] text-white/70 transition hover:border-white/40 hover:text-white"
-            style={{ fontFamily: "'Cinzel', serif" }}
+            className="block w-full rounded-full border border-white/20 py-3.5 text-center text-[12px] font-semibold text-white/70 transition hover:border-white/40 hover:text-white"
+            style={{ fontFamily: "var(--fr-font-pixel)" }}
           >
             Sign In
           </a>

@@ -5,12 +5,13 @@ import SignInForm from "../../components/SignIn";
 ---
 
 <BaseLayout
+  bodyClass="fr-site"
   title="ForgeRealm Sign In"
   description="Sign in to the ForgeRealm shop"
 >
   <ShopNavbar client:load />
 
-  <main class="min-h-[100dvh] bg-slate-950 text-white px-5 pb-10">
+  <main class="min-h-[100dvh] bg-[#0b0a08] text-white px-5 pb-10">
     <div class="h-24 md:h-28"></div>
 
     <div
@@ -56,7 +57,7 @@ import SignInForm from "../../components/SignIn";
       </style>
 
       <section
-        class="relative flex w-full flex-wrap rounded-3xl border border-white/10 bg-slate-950/95 shadow-2xl shadow-blue-500/10 backdrop-blur overflow-hidden"
+        class="relative flex w-full flex-wrap rounded-3xl border border-white/10 bg-[#0b0a08]/95 shadow-2xl shadow-blue-500/10 backdrop-blur overflow-hidden"
       >
         <div class="flex w-full flex-col md:w-1/2 lg:w-1/3">
           <div
@@ -81,7 +82,7 @@ import SignInForm from "../../components/SignIn";
             <div class="pt-4 flex justify-center">
               <a
                 href="/shop"
-                class="inline-flex items-center gap-2 rounded-full bg-white text-blue-700 font-semibold px-4 py-2 text-xs uppercase tracking-[0.18em] hover:bg-blue-100 transition-colors shadow-md shadow-blue-500/20"
+                class="inline-flex items-center gap-2 rounded-full bg-white text-blue-700 font-semibold px-4 py-2 text-xs hover:bg-blue-100 transition-colors shadow-md shadow-blue-500/20"
               >
                 Return to shop
               </a>

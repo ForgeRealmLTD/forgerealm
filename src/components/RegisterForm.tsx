@@ -79,9 +79,7 @@ const RegisterForm = () => {
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-blue-500/10 via-transparent to-cyan-400/10" />
       <div className="relative flex flex-col gap-6">
         <div className="space-y-2">
-          <p className="text-xs uppercase tracking-[0.3em] text-blue-200">
-            Create Account
-          </p>
+          <p className="text-xs text-blue-200">Create Account</p>
           <h3 className="text-2xl font-semibold text-white">Enter the Realm</h3>
           <p className="text-sm text-slate-200/80">
             Forge your profile to save favorites and shop.
@@ -90,9 +88,7 @@ const RegisterForm = () => {
 
         <form className="grid gap-4" onSubmit={handleRegister}>
           <label className="flex flex-col gap-2 text-sm text-slate-200">
-            <span className="text-xs uppercase tracking-wide text-slate-300">
-              Username
-            </span>
+            <span className="text-xs text-slate-300">Username</span>
             <input
               className={`w-full rounded-lg border border-white/10 bg-slate-900/70 px-3 py-2 shadow-inner focus:border-blue-400 focus:outline-none placeholder-slate-500 ${
                 username ? "text-white" : "text-slate-400"
@@ -105,9 +101,7 @@ const RegisterForm = () => {
             />
           </label>
           <label className="flex flex-col gap-2 text-sm text-slate-200">
-            <span className="text-xs uppercase tracking-wide text-slate-300">
-              Email
-            </span>
+            <span className="text-xs text-slate-300">Email</span>
             <input
               type="email"
               className={`w-full rounded-lg border border-white/10 bg-slate-900/70 px-3 py-2 shadow-inner focus:border-blue-400 focus:outline-none placeholder-slate-500 ${
@@ -121,9 +115,7 @@ const RegisterForm = () => {
             />
           </label>
           <label className="flex flex-col gap-2 text-sm text-slate-200">
-            <span className="text-xs uppercase tracking-wide text-slate-300">
-              Password
-            </span>
+            <span className="text-xs text-slate-300">Password</span>
             <input
               type="password"
               className={`w-full rounded-lg border border-white/10 bg-slate-900/70 px-3 py-2 shadow-inner focus:border-blue-400 focus:outline-none placeholder-slate-500 ${
@@ -144,7 +136,7 @@ const RegisterForm = () => {
             >
               <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#ffffff_0%,#3b82f6_20%,#06b6d4_40%,#3b82f6_60%,#ffffff_80%,#3b82f6_100%)]" />
               <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite_reverse] bg-[conic-gradient(from_90deg_at_50%_50%,#ffffff_0%,#06b6d4_25%,#3b82f6_50%,#06b6d4_75%,#ffffff_100%)] opacity-60" />
-              <span className="relative inline-flex items-center gap-2 rounded-full bg-blue-500 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-blue-400">
+              <span className="relative inline-flex items-center gap-2 rounded-full bg-blue-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-blue-400">
                 {loading ? "Working..." : "Register"}
               </span>
             </button>

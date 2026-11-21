@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { HiOutlineMenu, HiX } from "react-icons/hi";
 import { FiLogOut, FiUser } from "react-icons/fi";
-import { FaShoppingBag } from "react-icons/fa";
+import { ArrowKnob } from "./landing/ui";
 
 type Link = { label: string; href: string };
 
@@ -33,6 +32,14 @@ const baseLinks: Link[] = [
 const ShopNavbar = () => {
   const [open, setOpen] = useState(false);
   const [authRole, setAuthRole] = useState<"admin" | "user" | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 20);
+    fn();
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -82,7 +89,7 @@ const ShopNavbar = () => {
         ...(authRole === "admin"
           ? [{ label: "Users", href: "/shop/users" }]
           : []),
-        { label: "LOGOUT", href: "#", isLogout: true },
+        { label: "Log out", href: "#", isLogout: true },
       ]
     : [...baseLinks, { label: "Sign In", href: "/shop/sign-in" }];
 
@@ -102,111 +109,148 @@ const ShopNavbar = () => {
     }
   };
 
+  // Same bar as the landing page's Navbar (see Navbar.tsx): transparent at
+  // the top, solid ink with a hairline once scrolled, full-screen menu below
+  // `lg`. Only the links differ, because they depend on the sign-in state.
   return (
-    <header className="fixed top-0 left-0 right-0 z-20">
-      <div className="mx-auto max-w-7xl px-4 py-4">
-        <div className="flex items-center justify-between rounded-full border border-white/20 bg-slate-950/70 px-5 py-3 shadow-lg shadow-blue-500/15 backdrop-blur">
+    <header
+      className="fr-ink fixed inset-x-0 top-0 z-50"
+      style={{ backgroundColor: "transparent" }}
+    >
+      <div
+        className="border-b transition-[background-color,border-color] duration-300"
+        style={{
+          backgroundColor: scrolled ? "rgba(11, 10, 8, 0.88)" : "transparent",
+          borderColor: scrolled ? "var(--line)" : "transparent",
+          backdropFilter: scrolled ? "blur(14px)" : undefined,
+          WebkitBackdropFilter: scrolled ? "blur(14px)" : undefined,
+        }}
+      >
+        <div className="fr-wrap flex h-16 items-center justify-between gap-6">
           <a
             href="/"
-            className="inline-flex items-center gap-2 text-white"
+            className="group inline-flex items-center gap-3 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ffb224]"
             aria-label="ForgeRealm home"
           >
             <img
               src="/headfrlogorv-128.webp"
-              alt="ForgeRealm Logo"
-              width={32}
-              height={32}
-              className="h-8 w-8 rounded-full"
+              alt=""
+              width={34}
+              height={34}
+              className="h-[34px] w-[34px] rounded-full transition-transform duration-500 group-hover:rotate-[14deg]"
               loading="eager"
             />
-            <span className="font-extrabold tracking-[0.2em] text-xs uppercase">
-              Forge<span className="text-blue-300">Realm</span>
+            <span className="leading-none">
+              <span className="fr-px fr-fg block text-[1.75rem] leading-[0.8]">
+                ForgeRealm
+              </span>
+              <span className="fr-label fr-fg-3 mt-0.5 hidden !text-[13px] sm:block">
+                Leeds, UK
+              </span>
             </span>
           </a>
 
-          <nav className="hidden md:flex items-center gap-8 text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">
+          <nav className="hidden items-center gap-7 lg:flex" aria-label="Main">
             {isAuthed && (
-              <div
-                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white"
+              <span
+                className="fr-label fr-fg-3 inline-flex items-center gap-2"
                 title="Logged in"
                 aria-label="Logged in"
               >
                 <FiUser className="text-sm" />
                 Logged in
-              </div>
+              </span>
             )}
             {links.map((link) =>
               link.isLogout ? (
                 <button
                   key={link.label}
                   onClick={handleLogout}
-                  className="inline-flex items-center gap-2 rounded-full bg-red-500 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white shadow-sm shadow-red-500/30 transition hover:bg-red-400"
+                  className="fr-nav-link inline-flex items-center gap-2"
                 >
                   <FiLogOut className="text-sm" />
                   {link.label}
                 </button>
               ) : (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="relative transition-colors hover:text-white after:absolute after:left-0 after:bottom-[-6px] after:h-[2px] after:w-0 after:bg-blue-400 after:transition-all hover:after:w-full"
-                >
+                <a key={link.label} href={link.href} className="fr-nav-link">
                   {link.label}
                 </a>
               ),
             )}
-            <a
-              href="/"
-              className="inline-flex items-center gap-2 rounded-full bg-white text-slate-900 px-4 py-2 font-bold tracking-wide shadow-sm hover:bg-blue-100 transition"
-            >
-              <FaShoppingBag className="text-blue-600" />
-              Main Site
-            </a>
           </nav>
 
-          <button
-            onClick={() => setOpen(true)}
-            className="md:hidden text-white text-2xl"
-            aria-label="Open menu"
-          >
-            <HiOutlineMenu />
-          </button>
+          <div className="flex items-center gap-3 sm:gap-5">
+            <a
+              href="/"
+              // "Main Site" is a longer label than the landing page's "Shop", so
+              // on narrow phones it would run into the wordmark. It is in the
+              // menu there instead.
+              className="fr-btn fr-btn--solid fr-btn--sm max-[439px]:hidden"
+            >
+              Main Site
+              <ArrowKnob />
+            </a>
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              className="fr-fg fr-line-2 grid h-10 w-10 place-items-center rounded-full border lg:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffb224]"
+              aria-label="Open menu"
+              aria-expanded={open}
+            >
+              <span className="relative block h-[9px] w-[18px]" aria-hidden>
+                <span className="absolute inset-x-0 top-0 h-px bg-current" />
+                <span className="absolute inset-x-0 bottom-0 h-px bg-current" />
+              </span>
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Mobile overlay */}
+      {/* Full-screen menu (below lg) */}
       <div
-        className={`fixed inset-0 z-20 bg-black/60 backdrop-blur transition-opacity ${
-          open ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
-        onClick={() => setOpen(false)}
-      />
-
-      {/* Mobile drawer */}
-      <aside
-        className={`fixed right-0 top-0 bottom-0 z-30 w-64 bg-slate-950/90 backdrop-blur border-l border-white/10 p-6 transform transition-transform ${
-          open ? "translate-x-0" : "translate-x-full"
+        className={`fr-ink fr-plate fixed inset-0 z-50 flex flex-col transition-all duration-500 lg:hidden ${
+          open
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none -translate-y-full opacity-0"
         }`}
         aria-hidden={!open}
+        inert={!open}
       >
-        <div className="flex items-center justify-between mb-6">
-          <span className="text-white font-semibold tracking-wide uppercase text-xs">
-            Menu
+        <div className="fr-wrap flex h-16 flex-none items-center justify-between">
+          <span className="inline-flex items-center gap-3">
+            <img
+              src="/headfrlogorv-128.webp"
+              alt=""
+              width={34}
+              height={34}
+              className="h-[34px] w-[34px] rounded-full"
+            />
+            <span className="fr-px fr-fg text-[1.75rem] leading-none">
+              ForgeRealm
+            </span>
           </span>
           <button
+            type="button"
             onClick={() => setOpen(false)}
-            className="text-white text-2xl"
+            className="fr-fg fr-line-2 grid h-10 w-10 place-items-center rounded-full border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffb224]"
             aria-label="Close menu"
           >
-            <HiX />
+            <span className="relative block h-[18px] w-[18px]" aria-hidden>
+              <span className="absolute left-0 right-0 top-1/2 h-px rotate-45 bg-current" />
+              <span className="absolute left-0 right-0 top-1/2 h-px -rotate-45 bg-current" />
+            </span>
           </button>
         </div>
-        <nav className="flex flex-col gap-4 text-sm uppercase tracking-wide text-slate-200">
+
+        <nav
+          className="fr-wrap flex flex-1 flex-col justify-center overflow-y-auto"
+          aria-label="Mobile"
+        >
           {isAuthed && (
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white">
+            <span className="fr-label fr-fg-3 mb-4 inline-flex items-center gap-2">
               <FiUser className="text-sm" />
               Logged in
-            </div>
+            </span>
           )}
           {links.map((link) =>
             link.isLogout ? (
@@ -216,32 +260,38 @@ const ShopNavbar = () => {
                   handleLogout();
                   setOpen(false);
                 }}
-                className="inline-flex items-center gap-2 rounded-full bg-red-500 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white shadow-sm shadow-red-500/30 transition hover:bg-red-400"
+                className="fr-line group border-b py-3.5 text-left first:border-t"
               >
-                <FiLogOut className="text-sm" />
-                {link.label}
+                <span className="fr-px fr-fg text-[2.9rem] leading-[0.85] transition-colors group-hover:text-[#ffb224]">
+                  {link.label}
+                </span>
               </button>
             ) : (
               <a
                 key={link.label}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-2 hover:bg-white/10 transition"
+                className="fr-line group border-b py-3.5 first:border-t"
               >
-                {link.label}
+                <span className="fr-px fr-fg text-[2.9rem] leading-[0.85] transition-colors group-hover:text-[#ffb224]">
+                  {link.label}
+                </span>
               </a>
             ),
           )}
+        </nav>
+
+        <div className="fr-wrap flex-none pb-8 pt-6">
           <a
             href="/"
             onClick={() => setOpen(false)}
-            className="mt-4 inline-flex items-center gap-2 rounded-full bg-white text-slate-900 px-4 py-2 font-semibold tracking-wide shadow hover:bg-blue-100 transition"
+            className="fr-btn fr-btn--solid w-full"
           >
-            <FaShoppingBag className="text-blue-600" />
             Main Site
+            <ArrowKnob />
           </a>
-        </nav>
-      </aside>
+        </div>
+      </div>
     </header>
   );
 };

@@ -190,7 +190,7 @@ function OrderSuccessOverlay({ onClose }: { onClose: () => void }) {
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-md text-center"
       >
-        <div className="rounded-3xl border border-white/10 bg-[#0c1220] p-8 shadow-2xl shadow-blue-500/10 sm:p-10">
+        <div className="rounded-3xl border border-white/10 bg-[#141210] p-8 shadow-2xl shadow-blue-500/10 sm:p-10">
           {/* Animated checkmark */}
           <motion.div
             initial={{ scale: 0 }}
@@ -247,7 +247,7 @@ function OrderSuccessOverlay({ onClose }: { onClose: () => void }) {
             <div className="mt-8 space-y-3">
               <a
                 href="/shop/orders"
-                className="block w-full rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 py-3.5 text-sm font-bold uppercase tracking-wider text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30"
+                className="block w-full rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 py-3.5 text-sm font-bold text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30"
               >
                 View Orders
               </a>
@@ -450,7 +450,7 @@ function MarqueeBanner() {
 
   return (
     <div
-      className="relative overflow-hidden border-y border-white/[0.04] bg-[#0a0f1a] py-4"
+      className="relative overflow-hidden border-y border-white/[0.04] bg-[#0b0a08] py-4"
       style={{ maxHeight: "52px" }}
     >
       <div
@@ -461,7 +461,7 @@ function MarqueeBanner() {
           <span
             key={i}
             className="mx-6 inline-flex items-center gap-2.5 text-[14px] sm:text-[15px] text-slate-400 whitespace-nowrap sm:mx-8"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            style={{ fontFamily: "var(--fr-font-body)" }}
           >
             <span className="text-base">{item.icon}</span>
             {item.text}
@@ -529,238 +529,219 @@ function ShopHeader({ onCartOpen }: { onCartOpen: () => void }) {
       });
   };
 
+  const navLinks: Array<[string, string]> = [
+    ["Home", "/"],
+    ["Shop", "#products"],
+    ["Blog", "/blog"],
+    ["Profile", "/shop/dashboard"],
+  ];
+
+  const bagIcon = (
+    <svg
+      className="h-4 w-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.6}
+        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+      />
+    </svg>
+  );
+
+  // Same bar as the landing page's Navbar (see Navbar.tsx): transparent at
+  // the top, solid ink with a hairline once scrolled, full-screen menu below
+  // `lg`. The shop keeps its own links and puts the basket where the landing
+  // page has its Shop button.
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-500 ${scrolled ? "border-b border-white/[0.06] bg-[#0a0f1a]/80 backdrop-blur-3xl shadow-2xl shadow-black/30" : "bg-transparent"}`}
+      className="fr-ink sticky top-0 z-50"
+      style={{ backgroundColor: "transparent" }}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        {/* Logo */}
-        <a href="/" className="group flex items-center gap-2.5">
-          <div className="relative">
-            <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-500/50 to-cyan-400/50 blur-md opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            <img
-              src="/headfrlogorv-128.webp"
-              alt="ForgeRealm"
-              width={36}
-              height={36}
-              className="relative h-9 w-9 rounded-full ring-1 ring-white/20 transition-all duration-300 group-hover:ring-blue-400/50"
-              loading="eager"
-            />
-          </div>
-          <span
-            className="font-semibold tracking-[0.1em] text-sm text-blue-300"
-            style={{ fontFamily: "'Cinzel', serif" }}
-          >
-            ForgeRealm
-          </span>
-        </a>
-
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-1">
+      <div
+        className="border-b transition-[background-color,border-color] duration-300"
+        style={{
+          backgroundColor: scrolled ? "rgba(11, 10, 8, 0.88)" : "transparent",
+          borderColor: scrolled ? "var(--line)" : "transparent",
+          backdropFilter: scrolled ? "blur(14px)" : undefined,
+          WebkitBackdropFilter: scrolled ? "blur(14px)" : undefined,
+        }}
+      >
+        <div className="fr-wrap flex h-16 items-center justify-between gap-6">
+          {/* Logo + wordmark */}
           <a
             href="/"
-            className="rounded-lg px-3 py-2 text-sm text-slate-400 transition-all hover:bg-white/5 hover:text-white"
+            className="group inline-flex items-center gap-3 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ffb224]"
+            aria-label="ForgeRealm home"
           >
-            Home
+            <img
+              src="/headfrlogorv-128.webp"
+              alt=""
+              width={34}
+              height={34}
+              className="h-[34px] w-[34px] rounded-full transition-transform duration-500 group-hover:rotate-[14deg]"
+              loading="eager"
+            />
+            <span className="leading-none">
+              <span className="fr-px fr-fg block text-[1.75rem] leading-[0.8]">
+                ForgeRealm
+              </span>
+              <span className="fr-label fr-fg-3 mt-0.5 hidden !text-[13px] sm:block">
+                Leeds, UK
+              </span>
+            </span>
           </a>
-          <a
-            href="#products"
-            className="rounded-lg px-3 py-2 text-sm text-slate-400 transition-all hover:bg-white/5 hover:text-white"
+
+          {/* Desktop links */}
+          <nav className="hidden items-center gap-7 lg:flex" aria-label="Main">
+            {navLinks.map(([label, href]) => (
+              <a key={label} href={href} className="fr-nav-link">
+                {label}
+              </a>
+            ))}
+            {isAuthed && (
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="fr-nav-link"
+                aria-label="Log out"
+              >
+                Logout
+              </button>
+            )}
+          </nav>
+
+          {/* Basket + menu */}
+          <div className="flex items-center gap-3 sm:gap-5">
+            <button
+              type="button"
+              onClick={onCartOpen}
+              className="fr-btn fr-btn--solid fr-btn--sm relative"
+              aria-label={`Open basket (${count} item${count === 1 ? "" : "s"})`}
+            >
+              Basket
+              <span className="fr-btn__knob" aria-hidden="true">
+                {bagIcon}
+              </span>
+              <AnimatePresence>
+                {count > 0 && (
+                  <motion.span
+                    initial={{ scale: 0, rotate: -180 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    exit={{ scale: 0 }}
+                    className="absolute -right-2 -top-2 flex items-center justify-center rounded-full bg-[#f0e8d8] text-[12px] font-bold text-[#15110a] shadow-lg shadow-black/40"
+                    style={{
+                      width: 22,
+                      height: 22,
+                      fontFamily: "var(--fr-font-body)",
+                    }}
+                  >
+                    {count}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </button>
+            <button
+              type="button"
+              onClick={() => setMobileOpen(true)}
+              className="fr-fg fr-line-2 grid h-10 w-10 place-items-center rounded-full border lg:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffb224]"
+              aria-label="Open menu"
+              aria-expanded={mobileOpen}
+            >
+              <span className="relative block h-[9px] w-[18px]" aria-hidden>
+                <span className="absolute inset-x-0 top-0 h-px bg-current" />
+                <span className="absolute inset-x-0 bottom-0 h-px bg-current" />
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Full-screen menu (below lg) */}
+      <div
+        className={`fr-ink fr-plate fixed inset-0 z-50 flex flex-col transition-all duration-500 lg:hidden ${
+          mobileOpen
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none -translate-y-full opacity-0"
+        }`}
+        aria-hidden={!mobileOpen}
+        inert={!mobileOpen}
+      >
+        <div className="fr-wrap flex h-16 flex-none items-center justify-between">
+          <span className="inline-flex items-center gap-3">
+            <img
+              src="/headfrlogorv-128.webp"
+              alt=""
+              width={34}
+              height={34}
+              className="h-[34px] w-[34px] rounded-full"
+            />
+            <span className="fr-px fr-fg text-[1.75rem] leading-none">
+              ForgeRealm
+            </span>
+          </span>
+          <button
+            type="button"
+            onClick={() => setMobileOpen(false)}
+            className="fr-fg fr-line-2 grid h-10 w-10 place-items-center rounded-full border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffb224]"
+            aria-label="Close menu"
           >
-            Shop
-          </a>
-          <a
-            href="/blog"
-            className="rounded-lg px-3 py-2 text-sm text-slate-400 transition-all hover:bg-white/5 hover:text-white"
-          >
-            Blog
-          </a>
-          <a
-            href="/shop/dashboard"
-            className="rounded-lg px-3 py-2 text-sm text-slate-400 transition-all hover:bg-white/5 hover:text-white"
-          >
-            Profile
-          </a>
+            <span className="relative block h-[18px] w-[18px]" aria-hidden>
+              <span className="absolute left-0 right-0 top-1/2 h-px rotate-45 bg-current" />
+              <span className="absolute left-0 right-0 top-1/2 h-px -rotate-45 bg-current" />
+            </span>
+          </button>
+        </div>
+
+        <nav
+          className="fr-wrap flex flex-1 flex-col justify-center overflow-y-auto"
+          aria-label="Mobile"
+        >
+          {navLinks.map(([label, href]) => (
+            <a
+              key={label}
+              href={href}
+              onClick={() => setMobileOpen(false)}
+              className="fr-line group border-b py-3.5 first:border-t"
+            >
+              <span className="fr-px fr-fg text-[2.9rem] leading-[0.85] transition-colors group-hover:text-[#ffb224]">
+                {label}
+              </span>
+            </a>
+          ))}
           {isAuthed && (
             <button
               type="button"
               onClick={handleLogout}
-              className="ml-1 inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm text-red-300 transition-all hover:bg-red-500/[0.08] hover:text-red-200"
-              aria-label="Log out"
+              className="fr-line group border-b py-3.5 text-left"
             >
-              <svg
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.6}
-                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                />
-              </svg>
-              Logout
+              <span className="fr-px fr-fg text-[2.9rem] leading-[0.85] transition-colors group-hover:text-[#ffb224]">
+                Logout
+              </span>
             </button>
           )}
-          <div className="ml-2 h-5 w-px bg-white/10" />
-          <button
-            onClick={onCartOpen}
-            className="group relative ml-2 flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-medium text-white transition-all hover:border-blue-500/30 hover:bg-white/10 hover:shadow-lg hover:shadow-blue-500/10"
-          >
-            <svg
-              className="h-4 w-4 transition-transform group-hover:scale-110"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-              />
-            </svg>
-            Basket
-            <AnimatePresence>
-              {count > 0 && (
-                <motion.span
-                  initial={{ scale: 0, rotate: -180 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  exit={{ scale: 0 }}
-                  className="absolute -right-2 -top-2 flex h-5.5 w-5.5 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 text-[13px] font-bold text-white shadow-lg shadow-blue-500/30"
-                  style={{ width: 22, height: 22 }}
-                >
-                  {count}
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </button>
         </nav>
 
-        {/* Mobile */}
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="fr-wrap flex-none pb-8 pt-6">
           <button
-            onClick={onCartOpen}
-            className="relative rounded-full bg-white/5 p-2.5 text-white transition hover:bg-white/10"
+            type="button"
+            onClick={() => {
+              setMobileOpen(false);
+              onCartOpen();
+            }}
+            className="fr-btn fr-btn--solid w-full"
           >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-              />
-            </svg>
-            {count > 0 && (
-              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-[12px] font-bold text-white">
-                {count}
-              </span>
-            )}
-          </button>
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="rounded-full bg-white/5 p-2.5 text-white transition hover:bg-white/10"
-          >
-            {mobileOpen ? (
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            ) : (
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            )}
+            Basket{count > 0 ? ` (${count})` : ""}
+            <span className="fr-btn__knob" aria-hidden="true">
+              {bagIcon}
+            </span>
           </button>
         </div>
       </div>
-
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden border-t border-white/5 md:hidden"
-          >
-            <div className="space-y-3 px-4 py-4">
-              <a
-                href="/"
-                className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white"
-              >
-                Home
-              </a>
-              <a
-                href="#products"
-                onClick={() => setMobileOpen(false)}
-                className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white"
-              >
-                Shop
-              </a>
-              <a
-                href="/blog"
-                className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white"
-              >
-                Blog
-              </a>
-              <a
-                href="/shop/dashboard"
-                className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white"
-              >
-                Profile
-              </a>
-              {isAuthed && (
-                <button
-                  type="button"
-                  onClick={handleLogout}
-                  className="mt-1 flex w-full items-center gap-2 rounded-lg border border-red-400/20 bg-red-500/[0.06] px-3 py-2 text-left text-sm font-medium text-red-200 hover:bg-red-500/[0.12] hover:text-red-100"
-                >
-                  <svg
-                    className="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.6}
-                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                    />
-                  </svg>
-                  Logout
-                </button>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </header>
   );
 }
@@ -770,7 +751,7 @@ function ShopHeader({ onCartOpen }: { onCartOpen: () => void }) {
 function HeroBanner() {
   const counter = useCountUp(783, 2200);
   return (
-    <section className="relative overflow-hidden bg-[#0a0f1a]">
+    <section className="relative overflow-hidden bg-[#0b0a08]">
       {/* Ambient background - subtle and refined */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -left-40 -top-40 h-[600px] w-[600px] rounded-full bg-blue-600/15 blur-[250px] glow-breathe" />
@@ -820,22 +801,22 @@ function HeroBanner() {
           >
             <div className="mb-4 sm:mb-5 inline-flex items-center gap-3">
               <span
-                className="text-[13px] sm:text-[15px] font-medium uppercase tracking-[0.28em] text-blue-300/70"
-                style={{ fontFamily: "'Jost', sans-serif" }}
+                className="text-[13px] sm:text-[15px] font-medium text-blue-300/70"
+                style={{ fontFamily: "var(--fr-font-label)" }}
               >
                 Leeds Artisan 3D Printing
               </span>
             </div>
             <h1
               className="text-3xl font-bold leading-[0.95] tracking-tight sm:text-5xl lg:text-[4rem]"
-              style={{ fontFamily: "'Cinzel', serif" }}
+              style={{ fontFamily: "var(--fr-font-pixel)" }}
             >
               <span className="shimmer-text">Welcome to</span>
               <br />
               <span
                 className="bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-400 bg-clip-text text-transparent gradient-text-flow"
                 style={{
-                  fontFamily: "'Cormorant Garamond', serif",
+                  fontFamily: "var(--fr-font-pixel)",
                   fontStyle: "italic",
                   fontWeight: 300,
                   fontSize: "1.1em",
@@ -847,7 +828,7 @@ function HeroBanner() {
             <p
               className="mt-3 sm:mt-5 max-w-md leading-relaxed text-slate-400/90"
               style={{
-                fontFamily: "'Inter', sans-serif",
+                fontFamily: "var(--fr-font-body)",
                 fontSize: "clamp(16px,4vw,20px)",
                 lineHeight: 1.7,
               }}
@@ -858,16 +839,16 @@ function HeroBanner() {
             <div className="mt-5 sm:mt-8 flex flex-wrap gap-2.5 sm:gap-3">
               <a
                 href="#products"
-                className="btn-shine inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-6 py-2.5 sm:px-7 sm:py-3 text-[12px] sm:text-[15px] font-semibold uppercase tracking-[0.14em] text-white transition-all hover:-translate-y-0.5 shadow-lg shadow-blue-500/25"
-                style={{ fontFamily: "'Cinzel', serif" }}
+                className="btn-shine inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-6 py-2.5 sm:px-7 sm:py-3 text-[12px] sm:text-[15px] font-semibold text-white transition-all hover:-translate-y-0.5 shadow-lg shadow-blue-500/25"
+                style={{ fontFamily: "var(--fr-font-pixel)" }}
               >
                 Shop Collection
               </a>
               <a
                 href="/custom-order"
-                className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 sm:px-7 sm:py-3 text-[12px] sm:text-[15px] font-semibold uppercase tracking-[0.14em] text-black transition-all hover:-translate-y-0.5 shadow-lg shadow-amber-500/20"
+                className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 sm:px-7 sm:py-3 text-[12px] sm:text-[15px] font-semibold text-black transition-all hover:-translate-y-0.5 shadow-lg shadow-amber-500/20"
                 style={{
-                  fontFamily: "'Cinzel', serif",
+                  fontFamily: "var(--fr-font-pixel)",
                   background: "linear-gradient(to top, #F59E0B, #FADE6A)",
                 }}
               >
@@ -930,7 +911,7 @@ function HeroBanner() {
                       {counter.count}
                       <span className="text-2xl text-blue-400">+</span>
                     </p>
-                    <p className="mt-1 text-xs tracking-[0.2em] uppercase text-slate-400">
+                    <p className="mt-1 text-xs text-slate-400">
                       Eco prints sold
                     </p>
                     <p className="mt-2 text-[13px] text-emerald-400/80 italic">
@@ -950,9 +931,7 @@ function HeroBanner() {
                         className="rounded-xl border border-white/5 bg-white/[0.03] px-3 py-2.5 text-center"
                       >
                         <p className="text-lg font-bold text-white">{s.n}</p>
-                        <p className="text-[12px] uppercase tracking-wider text-slate-500">
-                          {s.l}
-                        </p>
+                        <p className="text-[12px] text-slate-500">{s.l}</p>
                       </div>
                     ))}
                   </div>
@@ -964,7 +943,7 @@ function HeroBanner() {
       </div>
 
       {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0f1a] to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0b0a08] to-transparent" />
     </section>
   );
 }
@@ -980,20 +959,20 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
         <div className="mb-5 sm:mb-8 flex items-end justify-between">
           <div>
             <p
-              className="text-[12px] sm:text-[15px] font-medium uppercase tracking-[0.28em] text-blue-300/70"
-              style={{ fontFamily: "'Jost', sans-serif" }}
+              className="text-[12px] sm:text-[15px] font-medium text-blue-300/70"
+              style={{ fontFamily: "var(--fr-font-label)" }}
             >
               This week
             </p>
             <h2
               className="mt-1 text-xl sm:text-2xl font-normal text-white"
-              style={{ fontFamily: "'Cinzel', serif" }}
+              style={{ fontFamily: "var(--fr-font-pixel)" }}
             >
               The{" "}
               <em
                 className="text-cyan-300"
                 style={{
-                  fontFamily: "'Cormorant Garamond', serif",
+                  fontFamily: "var(--fr-font-pixel)",
                   fontStyle: "italic",
                   fontWeight: 300,
                 }}
@@ -1040,29 +1019,29 @@ function FeaturedRow({ onQuickView }: { onQuickView: (p: Product) => void }) {
                 <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
                   <div className="flex items-center gap-2 mb-2">
                     <span
-                      className="text-[8px] sm:text-[9px] font-medium uppercase tracking-[0.25em] text-cyan-300/60"
-                      style={{ fontFamily: "'Jost', sans-serif" }}
+                      className="text-[8px] sm:text-[9px] font-medium text-cyan-300/60"
+                      style={{ fontFamily: "var(--fr-font-label)" }}
                     >
                       Featured
                     </span>
                   </div>
                   <h3
                     className="text-base sm:text-lg font-bold text-white leading-tight mb-1.5 group-hover:text-cyan-100 transition-colors"
-                    style={{ fontFamily: "'Cinzel', serif" }}
+                    style={{ fontFamily: "var(--fr-font-pixel)" }}
                   >
                     {item.name}
                   </h3>
                   <div className="flex items-baseline justify-between">
                     <span
                       className="text-xl sm:text-2xl font-semibold text-cyan-300"
-                      style={{ fontFamily: "'Inter', sans-serif" }}
+                      style={{ fontFamily: "var(--fr-font-body)" }}
                     >
                       {item.displayPrice}
                     </span>
                     <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0">
                       <span
-                        className="text-[9px] uppercase tracking-wider text-white/50"
-                        style={{ fontFamily: "'Jost', sans-serif" }}
+                        className="text-[9px] text-white/50"
+                        style={{ fontFamily: "var(--fr-font-label)" }}
                       >
                         View
                       </span>
@@ -1195,7 +1174,7 @@ function ProductCard({
                 loading="lazy"
               />
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1a] via-transparent to-transparent opacity-60" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0b0a08] via-transparent to-transparent opacity-60" />
           </>
         )}
 
@@ -1203,7 +1182,7 @@ function ProductCard({
         <div className="absolute right-2 top-2 flex flex-col items-end gap-1.5 z-10">
           {product.badge && (
             <div
-              className={`rounded-full px-2 py-0.5 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.1em] shadow-lg ${
+              className={`rounded-full px-2 py-0.5 text-[9px] sm:text-[10px] font-semibold shadow-lg ${
                 product.badge === "Coming Soon"
                   ? "bg-slate-900/90 text-slate-300 border border-slate-700/50"
                   : product.badge === "Low Stock"
@@ -1230,7 +1209,7 @@ function ProductCard({
           <div className="absolute inset-x-3 bottom-3 translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 hidden sm:block pointer-events-none sm:pointer-events-auto">
             <button
               onClick={handleAdd}
-              className={`w-full rounded-xl py-2.5 text-[13px] font-semibold uppercase tracking-[0.1em] transition-all backdrop-blur-xl ${
+              className={`w-full rounded-xl py-2.5 text-[13px] font-semibold transition-all backdrop-blur-xl ${
                 added
                   ? "bg-emerald-500/90 text-white scale-[0.97]"
                   : "bg-gradient-to-r from-amber-400 to-amber-500 text-black hover:from-amber-300 hover:to-amber-400 shadow-lg shadow-amber-500/20"
@@ -1248,21 +1227,21 @@ function ProductCard({
           <div className="min-w-0 flex-1">
             <h3
               className="truncate text-[13px] sm:text-[15px] font-normal text-white/90 group-hover:text-white transition-colors"
-              style={{ fontFamily: "'Cinzel', serif" }}
+              style={{ fontFamily: "var(--fr-font-pixel)" }}
             >
               {product.name}
             </h3>
           </div>
           <span
             className="shrink-0 text-[17px] sm:text-[20px] font-semibold text-cyan-300/80"
-            style={{ fontFamily: "'Cormorant Garamond', serif" }}
+            style={{ fontFamily: "var(--fr-font-pixel)" }}
           >
             {product.displayPrice}
           </span>
         </div>
         <p
           className="mt-1 sm:mt-1.5 line-clamp-2 text-[13px] sm:text-[15px] leading-relaxed text-slate-400 hidden sm:block"
-          style={{ fontFamily: "'Inter', sans-serif" }}
+          style={{ fontFamily: "var(--fr-font-body)" }}
         >
           {product.description}
         </p>
@@ -1288,19 +1267,19 @@ function ProductCard({
                   e.stopPropagation();
                   onQuickView(product);
                 }}
-                className="flex-1 rounded-lg py-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/70 border border-white/15 transition-all hover:border-white/30 hover:text-white"
-                style={{ fontFamily: "'Cinzel', serif" }}
+                className="flex-1 rounded-lg py-2 text-[10px] font-semibold text-white/70 border border-white/15 transition-all hover:border-white/30 hover:text-white"
+                style={{ fontFamily: "var(--fr-font-pixel)" }}
               >
                 View
               </button>
               <button
                 onClick={handleAdd}
-                className={`flex-1 rounded-lg py-2 text-[10px] font-semibold uppercase tracking-[0.1em] transition-all ${
+                className={`flex-1 rounded-lg py-2 text-[10px] font-semibold transition-all ${
                   added
                     ? "bg-emerald-500 text-white"
                     : "bg-gradient-to-r from-amber-400 to-amber-500 text-black"
                 }`}
-                style={{ fontFamily: "'Cinzel', serif" }}
+                style={{ fontFamily: "var(--fr-font-pixel)" }}
               >
                 {added ? "✓ Added" : "Add to Basket"}
               </button>
@@ -1490,12 +1469,12 @@ function PriceRangeSlider({
         />
         {/* Min thumb */}
         <div
-          className={`absolute h-5 w-5 -translate-x-1/2 rounded-full border-2 border-blue-400 bg-[#0c1220] shadow-lg shadow-blue-500/20 transition-transform ${dragging === "min" ? "scale-125 border-cyan-400" : "hover:scale-110"}`}
+          className={`absolute h-5 w-5 -translate-x-1/2 rounded-full border-2 border-blue-400 bg-[#141210] shadow-lg shadow-blue-500/20 transition-transform ${dragging === "min" ? "scale-125 border-cyan-400" : "hover:scale-110"}`}
           style={{ left: `${pct(value[0])}%` }}
         />
         {/* Max thumb */}
         <div
-          className={`absolute h-5 w-5 -translate-x-1/2 rounded-full border-2 border-blue-400 bg-[#0c1220] shadow-lg shadow-blue-500/20 transition-transform ${dragging === "max" ? "scale-125 border-cyan-400" : "hover:scale-110"}`}
+          className={`absolute h-5 w-5 -translate-x-1/2 rounded-full border-2 border-blue-400 bg-[#141210] shadow-lg shadow-blue-500/20 transition-transform ${dragging === "max" ? "scale-125 border-cyan-400" : "hover:scale-110"}`}
           style={{ left: `${pct(value[1])}%` }}
         />
       </div>
@@ -1522,7 +1501,7 @@ function FilterSidebar({
     <div className="space-y-7">
       {/* Price range */}
       <div>
-        <h3 className="mb-3 text-[13px] font-semibold uppercase tracking-[0.25em] text-slate-400">
+        <h3 className="mb-3 text-[13px] font-semibold text-slate-400">
           Price Range
         </h3>
         <PriceRangeSlider
@@ -1533,7 +1512,7 @@ function FilterSidebar({
 
       {/* Sort */}
       <div>
-        <h3 className="mb-3 text-[13px] font-semibold uppercase tracking-[0.25em] text-slate-400">
+        <h3 className="mb-3 text-[13px] font-semibold text-slate-400">
           Sort By
         </h3>
         <div className="space-y-1.5">
@@ -1555,7 +1534,7 @@ function FilterSidebar({
 
       {/* Availability */}
       <div>
-        <h3 className="mb-3 text-[13px] font-semibold uppercase tracking-[0.25em] text-slate-400">
+        <h3 className="mb-3 text-[13px] font-semibold text-slate-400">
           Availability
         </h3>
         <button
@@ -1577,9 +1556,7 @@ function FilterSidebar({
 
       {/* Badges */}
       <div>
-        <h3 className="mb-3 text-[13px] font-semibold uppercase tracking-[0.25em] text-slate-400">
-          Tags
-        </h3>
+        <h3 className="mb-3 text-[13px] font-semibold text-slate-400">Tags</h3>
         <div className="flex flex-wrap gap-2">
           {BADGE_OPTIONS.map((badge) => {
             const active = filters.badges.includes(badge);
@@ -1615,7 +1592,7 @@ function FilterSidebar({
             badges: [],
           })
         }
-        className="w-full rounded-lg border border-white/[0.06] bg-white/[0.03] py-2.5 text-xs font-medium uppercase tracking-wider text-slate-500 transition hover:bg-white/[0.06] hover:text-white"
+        className="w-full rounded-lg border border-white/[0.06] bg-white/[0.03] py-2.5 text-xs font-medium text-slate-500 transition hover:bg-white/[0.06] hover:text-white"
       >
         Reset all filters
       </button>
@@ -1667,7 +1644,7 @@ function FilterSidebar({
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="fixed bottom-0 left-0 top-0 z-[80] w-full max-w-xs border-r border-white/10 bg-[#0a0f1a]/95 backdrop-blur-xl lg:hidden"
+              className="fixed bottom-0 left-0 top-0 z-[80] w-full max-w-xs border-r border-white/10 bg-[#0b0a08]/95 backdrop-blur-xl lg:hidden"
             >
               <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4">
                 <h2 className="text-sm font-bold text-white flex items-center gap-2">
@@ -1742,28 +1719,28 @@ function LampBanner({ onQuickView }: { onQuickView: (p: Product) => void }) {
         />
         {/* Full-bleed scrim on mobile where the photo sits behind the copy;
             on larger screens it only feathers the seam between the two. */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/20 sm:from-[#0f1420] sm:via-[#0f1420]/95 sm:to-transparent sm:col-span-2" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/20 sm:from-[#141210] sm:via-[#141210]/95 sm:to-transparent sm:col-span-2" />
 
         <div className="relative z-10 flex items-end sm:col-start-1 sm:row-start-1 sm:items-center">
           <div className="max-w-xl p-5 sm:p-10 lg:p-14">
             <div className="inline-flex items-center gap-2 mb-3">
               <span
-                className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.3em] text-amber-300/70"
-                style={{ fontFamily: "'Jost', sans-serif" }}
+                className="text-[10px] sm:text-[11px] font-medium text-amber-300/70"
+                style={{ fontFamily: "var(--fr-font-label)" }}
               >
                 New Arrival
               </span>
             </div>
             <h3
               className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white leading-[0.95] mb-3"
-              style={{ fontFamily: "'Cinzel', serif" }}
+              style={{ fontFamily: "var(--fr-font-pixel)" }}
             >
               Artichoke
               <br />
               <span
                 className="text-amber-200/90"
                 style={{
-                  fontFamily: "'Cormorant Garamond', serif",
+                  fontFamily: "var(--fr-font-pixel)",
                   fontWeight: 300,
                   fontStyle: "italic",
                   fontSize: "1.1em",
@@ -1774,27 +1751,27 @@ function LampBanner({ onQuickView }: { onQuickView: (p: Product) => void }) {
             </h3>
             <p
               className="text-[13px] sm:text-[16px] text-white/50 max-w-sm leading-relaxed mb-4 hidden sm:block"
-              style={{ fontFamily: "'Inter', sans-serif" }}
+              style={{ fontFamily: "var(--fr-font-body)" }}
             >
               Stand, bulb &amp; shade included. Black or brushed silver finish.
             </p>
             <div className="flex items-baseline gap-3 mb-3 sm:mb-4">
               <span
                 className="text-2xl sm:text-4xl font-bold text-amber-200"
-                style={{ fontFamily: "'Inter', sans-serif" }}
+                style={{ fontFamily: "var(--fr-font-body)" }}
               >
                 &pound;20
               </span>
               <span
-                className="text-[11px] text-white/30 uppercase tracking-wider"
-                style={{ fontFamily: "'Jost', sans-serif" }}
+                className="text-[11px] text-white/30 "
+                style={{ fontFamily: "var(--fr-font-label)" }}
               >
                 per lamp
               </span>
             </div>
             <div
-              className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80 border border-white/20 rounded-full transition-all group-hover:border-amber-300/40 group-hover:text-amber-200"
-              style={{ fontFamily: "'Cinzel', serif" }}
+              className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 text-[9px] sm:text-[10px] font-semibold text-white/80 border border-white/20 rounded-full transition-all group-hover:border-amber-300/40 group-hover:text-amber-200"
+              style={{ fontFamily: "var(--fr-font-pixel)" }}
             >
               View Details
               <svg
@@ -1816,8 +1793,8 @@ function LampBanner({ onQuickView }: { onQuickView: (p: Product) => void }) {
 
         <div className="absolute top-4 right-4 px-3 py-1.5 bg-amber-500/20 border border-amber-400/30 rounded-full backdrop-blur-sm">
           <span
-            className="text-[9px] font-semibold uppercase tracking-[0.15em] text-amber-300"
-            style={{ fontFamily: "'Jost', sans-serif" }}
+            className="text-[9px] font-semibold text-amber-300"
+            style={{ fontFamily: "var(--fr-font-label)" }}
           >
             Premium
           </span>
@@ -1853,26 +1830,26 @@ function BundlePanel() {
 
   return (
     <div
-      className="relative overflow-hidden rounded-2xl bg-[#0d1220]"
+      className="relative overflow-hidden rounded-2xl bg-[#141210]"
       style={{ border: "1px solid rgba(255,255,255,0.12)" }}
     >
       <div className="grid gap-8 p-5 sm:p-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12 lg:p-12">
         <div className="flex flex-col justify-center">
           <span
-            className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.3em] text-cyan-300/70"
-            style={{ fontFamily: "'Jost', sans-serif" }}
+            className="text-[10px] sm:text-[11px] font-medium text-cyan-300/70"
+            style={{ fontFamily: "var(--fr-font-label)" }}
           >
             Bundle
           </span>
           <h3
             className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.05] text-white"
-            style={{ fontFamily: "'Cinzel', serif" }}
+            style={{ fontFamily: "var(--fr-font-pixel)" }}
           >
             Voronoi Cat Family
           </h3>
           <p
             className="mt-4 max-w-sm text-[14px] sm:text-[15px] leading-relaxed text-white/55"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            style={{ fontFamily: "var(--fr-font-body)" }}
           >
             The whole litter: two full-size cats and two small ones, in matte
             black and white.
@@ -1881,20 +1858,20 @@ function BundlePanel() {
           <div className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
             <span
               className="text-3xl sm:text-4xl font-bold text-cyan-300"
-              style={{ fontFamily: "'Inter', sans-serif" }}
+              style={{ fontFamily: "var(--fr-font-body)" }}
             >
               {money(BUNDLE_PRICE)}
             </span>
             <span
               className="text-base text-white/35 line-through"
-              style={{ fontFamily: "'Inter', sans-serif" }}
+              style={{ fontFamily: "var(--fr-font-body)" }}
             >
               {money(separately)}
             </span>
             {saving > 0 && (
               <span
-                className="text-[11px] uppercase tracking-[0.16em] text-cyan-200/80"
-                style={{ fontFamily: "'Jost', sans-serif" }}
+                className="text-[11px] text-cyan-200/80"
+                style={{ fontFamily: "var(--fr-font-label)" }}
               >
                 Save {money(saving)}
               </span>
@@ -1903,8 +1880,8 @@ function BundlePanel() {
 
           <a
             href="#products"
-            className="mt-7 inline-flex w-fit items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80 transition-all hover:border-cyan-300/40 hover:text-cyan-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0d1220]"
-            style={{ fontFamily: "'Cinzel', serif" }}
+            className="mt-7 inline-flex w-fit items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 text-[10px] font-semibold text-white/80 transition-all hover:border-cyan-300/40 hover:text-cyan-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#141210]"
+            style={{ fontFamily: "var(--fr-font-pixel)" }}
           >
             Shop the pieces
           </a>
@@ -1927,7 +1904,7 @@ function BundlePanel() {
                 />
                 <span
                   className="absolute left-2.5 top-2.5 rounded-full bg-black/80 px-2 py-0.5 text-[11px] font-semibold text-white"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  style={{ fontFamily: "var(--fr-font-body)" }}
                 >
                   &times;{line.qty}
                 </span>
@@ -1935,13 +1912,13 @@ function BundlePanel() {
               <div className="px-3 py-2.5">
                 <p
                   className="text-[12px] sm:text-[13px] leading-snug text-white/80"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  style={{ fontFamily: "var(--fr-font-body)" }}
                 >
                   {line.product!.name}
                 </p>
                 <p
                   className="mt-0.5 text-[11px] text-white/35"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  style={{ fontFamily: "var(--fr-font-body)" }}
                 >
                   {money(line.product!.price)} each
                 </p>
@@ -2003,20 +1980,20 @@ function ProductGrid({
       <div className="mb-6 flex items-end justify-between">
         <div>
           <p
-            className="text-[12px] font-medium uppercase tracking-[0.28em] text-blue-300/70"
-            style={{ fontFamily: "'Jost', sans-serif" }}
+            className="text-[12px] font-medium text-blue-300/70"
+            style={{ fontFamily: "var(--fr-font-label)" }}
           >
             Browse
           </p>
           <h2
             className="mt-1 text-2xl font-normal text-white"
-            style={{ fontFamily: "'Cinzel', serif" }}
+            style={{ fontFamily: "var(--fr-font-pixel)" }}
           >
             The{" "}
             <em
               className="text-cyan-300"
               style={{
-                fontFamily: "'Cormorant Garamond', serif",
+                fontFamily: "var(--fr-font-pixel)",
                 fontStyle: "italic",
                 fontWeight: 300,
               }}
@@ -2160,7 +2137,7 @@ function ProductModal({
           exit={{ opacity: 0, scale: 0.92, y: 30 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-white/10 bg-[#0c1220] shadow-2xl shadow-black/50"
+          className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-white/10 bg-[#141210] shadow-2xl shadow-black/50"
         >
           <button
             onClick={onClose}
@@ -2238,7 +2215,7 @@ function ProductModal({
               )}
               {product.badge && (
                 <div
-                  className={`absolute left-4 top-4 rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-wider backdrop-blur-sm ${
+                  className={`absolute left-4 top-4 rounded-full px-3 py-1.5 text-xs font-bold backdrop-blur-sm ${
                     product.badge === "Coming Soon"
                       ? "bg-slate-900/80 text-slate-400"
                       : product.badge === "Popular"
@@ -2332,7 +2309,7 @@ function ProductModal({
               <button
                 onClick={handleAdd}
                 disabled={isComingSoon || isSoldOut}
-                className={`mt-8 w-full rounded-xl py-3.5 text-sm font-bold uppercase tracking-wider transition-all ${
+                className={`mt-8 w-full rounded-xl py-3.5 text-sm font-bold transition-all ${
                   added
                     ? "bg-emerald-500 text-white scale-[0.98]"
                     : isComingSoon
@@ -2413,7 +2390,7 @@ function CartDrawer({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed bottom-0 right-0 top-0 z-[80] flex w-full max-w-md flex-col border-l border-white/10 bg-[#0a0f1a]/95 backdrop-blur-xl"
+            className="fixed bottom-0 right-0 top-0 z-[80] flex w-full max-w-md flex-col border-l border-white/10 bg-[#0b0a08]/95 backdrop-blur-xl"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/[0.08] px-6 py-5">
@@ -2492,7 +2469,7 @@ function CartDrawer({
                           className="flex gap-3.5 rounded-xl border border-white/[0.06] bg-white/[0.03] p-3"
                         >
                           <div
-                            className={`h-16 w-16 shrink-0 overflow-hidden rounded-lg ${item.product.image ? "bg-[#0c1220]" : `bg-gradient-to-br ${st.gradient}`}`}
+                            className={`h-16 w-16 shrink-0 overflow-hidden rounded-lg ${item.product.image ? "bg-[#141210]" : `bg-gradient-to-br ${st.gradient}`}`}
                           >
                             {item.product.image ? (
                               <img
@@ -2596,7 +2573,7 @@ function CartDrawer({
                 </div>
                 <button
                   onClick={handleCheckout}
-                  className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-400 py-4 text-sm font-bold uppercase tracking-wider text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30"
+                  className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-400 py-4 text-sm font-bold text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30"
                 >
                   <span className="relative z-10">Proceed to Checkout</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-400 to-blue-500 opacity-0 transition-opacity group-hover:opacity-100" />
@@ -2705,16 +2682,12 @@ function CheckoutForm({
     }
 
     try {
-      const res = await fetch("/api/create-checkout", {
+      // Only IDs and quantities: the backend prices the order itself
+      const res = await fetch(`${apiBase()}/api/checkout`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: items.map((i) => ({
-            id: i.product.id,
-            name: i.product.name,
-            price: i.product.price,
-            qty: i.qty,
-          })),
+          items: items.map((i) => ({ id: i.product.id, qty: i.qty })),
           customer,
         }),
       });
@@ -2734,8 +2707,7 @@ function CheckoutForm({
 
   const inputClass =
     "w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition focus:border-blue-500/40 focus:bg-white/[0.08]";
-  const labelClass =
-    "block text-[13px] font-semibold uppercase tracking-[0.2em] text-slate-400 mb-1.5";
+  const labelClass = "block text-[13px] font-semibold   text-slate-400 mb-1.5";
 
   return (
     <AnimatePresence>
@@ -2755,7 +2727,7 @@ function CheckoutForm({
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className="fixed inset-4 z-[100] flex items-start justify-center overflow-y-auto sm:inset-8 md:inset-12"
           >
-            <div className="w-full max-w-3xl rounded-3xl border border-white/10 bg-[#0c1220] shadow-2xl shadow-black/50">
+            <div className="w-full max-w-3xl rounded-3xl border border-white/10 bg-[#141210] shadow-2xl shadow-black/50">
               {/* Header */}
               <div className="flex items-center justify-between border-b border-white/[0.08] px-6 py-5 sm:px-8">
                 <div className="flex items-center gap-3">
@@ -3179,7 +3151,7 @@ function CheckoutForm({
                         <button
                           onClick={handleSubmit}
                           disabled={submitting}
-                          className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-400 py-4 text-sm font-bold uppercase tracking-wider text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30 disabled:opacity-50"
+                          className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-400 py-4 text-sm font-bold text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30 disabled:opacity-50"
                         >
                           <span className="relative z-10 flex items-center justify-center gap-2">
                             {submitting ? (
@@ -3231,7 +3203,7 @@ function CheckoutForm({
 
 function ShopFooter() {
   return (
-    <footer className="border-t border-white/5 bg-[#070b14]">
+    <footer className="border-t border-white/5 bg-[#0b0a08]">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
@@ -3245,15 +3217,15 @@ function ShopFooter() {
                 loading="lazy"
               />
               <span
-                className="font-semibold tracking-[0.1em] text-sm text-blue-300"
-                style={{ fontFamily: "'Cinzel', serif" }}
+                className="font-semibold text-sm text-blue-300"
+                style={{ fontFamily: "var(--fr-font-pixel)" }}
               >
                 ForgeRealm
               </span>
             </a>
             <p
               className="mt-4 text-[15px] leading-relaxed text-slate-400"
-              style={{ fontFamily: "'Inter', sans-serif" }}
+              style={{ fontFamily: "var(--fr-font-body)" }}
             >
               Artisan Fantasy Miniatures. Every piece printed, finished, and
               packed with care in Leeds.
@@ -3261,8 +3233,8 @@ function ShopFooter() {
           </div>
           <div>
             <h4
-              className="text-[13px] font-semibold uppercase tracking-[0.14em] text-slate-300 mb-4"
-              style={{ fontFamily: "'Cinzel', serif" }}
+              className="text-[13px] font-semibold text-slate-300 mb-4"
+              style={{ fontFamily: "var(--fr-font-pixel)" }}
             >
               Shop
             </h4>
@@ -3278,7 +3250,7 @@ function ShopFooter() {
                   <a
                     href="#products"
                     className="text-[15px] text-slate-400 transition hover:text-blue-300"
-                    style={{ fontFamily: "'Inter', sans-serif" }}
+                    style={{ fontFamily: "var(--fr-font-body)" }}
                   >
                     {l}
                   </a>
@@ -3288,8 +3260,8 @@ function ShopFooter() {
           </div>
           <div>
             <h4
-              className="text-[13px] font-semibold uppercase tracking-[0.14em] text-slate-300 mb-4"
-              style={{ fontFamily: "'Cinzel', serif" }}
+              className="text-[13px] font-semibold text-slate-300 mb-4"
+              style={{ fontFamily: "var(--fr-font-pixel)" }}
             >
               Info
             </h4>
@@ -3304,7 +3276,7 @@ function ShopFooter() {
                   <a
                     href={l.href}
                     className="text-[15px] text-slate-400 transition hover:text-blue-300"
-                    style={{ fontFamily: "'Inter', sans-serif" }}
+                    style={{ fontFamily: "var(--fr-font-body)" }}
                   >
                     {l.label}
                   </a>
@@ -3314,8 +3286,8 @@ function ShopFooter() {
           </div>
           <div>
             <h4
-              className="text-[13px] font-semibold uppercase tracking-[0.14em] text-slate-300 mb-4"
-              style={{ fontFamily: "'Cinzel', serif" }}
+              className="text-[13px] font-semibold text-slate-300 mb-4"
+              style={{ fontFamily: "var(--fr-font-pixel)" }}
             >
               Delivery
             </h4>
@@ -3324,7 +3296,7 @@ function ShopFooter() {
                 <li
                   key={l}
                   className="text-[15px] text-slate-400"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  style={{ fontFamily: "var(--fr-font-body)" }}
                 >
                   {l}
                 </li>
@@ -3333,8 +3305,8 @@ function ShopFooter() {
           </div>
         </div>
         <div
-          className="mt-12 border-t border-white/5 pt-6 text-center text-[13px] text-slate-500 tracking-wide"
-          style={{ fontFamily: "'Jost', sans-serif" }}
+          className="mt-12 border-t border-white/5 pt-6 text-center text-[13px] text-slate-500 "
+          style={{ fontFamily: "var(--fr-font-label)" }}
         >
           &copy; {new Date().getFullYear()} ForgeRealm Ltd. Leeds, UK.
         </div>
@@ -3416,7 +3388,7 @@ function ShopContent() {
     <CartProvider>
       <ToastProvider>
         <InjectStyles />
-        <div className="min-h-screen bg-[#0a0f1a] text-white">
+        <div className="min-h-screen bg-[#0b0a08] text-white">
           {/* Noise texture overlay */}
           <div className="noise-overlay" />
           {/* Cursor glow - desktop only */}
@@ -3497,7 +3469,7 @@ function ShopContent() {
           {/* Bottom CTA */}
 
           <section className="section-glow relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-950/40 via-[#0a0f1a] to-blue-950/40" />
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-950/40 via-[#0b0a08] to-blue-950/40" />
             <div className="absolute inset-0">
               <div className="absolute left-1/4 top-0 h-[300px] w-[300px] rounded-full bg-blue-500/10 blur-[120px]" />
               <div className="absolute right-1/4 bottom-0 h-[300px] w-[300px] rounded-full bg-cyan-500/10 blur-[120px]" />
@@ -3505,13 +3477,13 @@ function ShopContent() {
             <div className="relative mx-auto max-w-3xl px-4 py-12 sm:py-20 text-center sm:px-6">
               <h2
                 className="text-2xl font-normal text-white sm:text-4xl lg:text-5xl"
-                style={{ fontFamily: "'Cinzel', serif" }}
+                style={{ fontFamily: "var(--fr-font-pixel)" }}
               >
                 Commission a{" "}
                 <em
                   className="text-cyan-300"
                   style={{
-                    fontFamily: "'Cormorant Garamond', serif",
+                    fontFamily: "var(--fr-font-pixel)",
                     fontStyle: "italic",
                     fontWeight: 300,
                   }}
@@ -3521,7 +3493,7 @@ function ShopContent() {
               </h2>
               <p
                 className="mt-3 sm:mt-4 text-sm sm:text-lg text-slate-400"
-                style={{ fontFamily: "'Inter', sans-serif" }}
+                style={{ fontFamily: "var(--fr-font-body)" }}
               >
                 Tell us your vision and we'll forge it into reality. Every
                 custom order is hand-finished in Leeds.

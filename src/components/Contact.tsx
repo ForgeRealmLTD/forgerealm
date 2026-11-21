@@ -5,9 +5,9 @@ import {
   FaEnvelope,
   FaMapMarkerAlt,
   FaClock,
-  FaEnvelopeOpenText,
   FaPhoneAlt,
 } from "react-icons/fa";
+import { ArrowKnob } from "./landing/ui";
 
 export default function Contact() {
   const [isVisible, setIsVisible] = useState(false);
@@ -43,99 +43,75 @@ export default function Contact() {
       ref={sectionRef}
       data-observe
       suppressHydrationWarning
-      className={`reveal landing-ambience relative py-16 sm:py-24 overflow-hidden bg-transparent ${isVisible ? "is-visible" : ""}`}
+      className={`reveal fr-ink fr-plate relative overflow-hidden py-20 sm:py-28 lg:py-32 ${isVisible ? "is-visible" : ""}`}
     >
-      {/* Top divider */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent" />
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start justify-center">
+      <div className="fr-wrap relative">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
           {/* Contact Info */}
-          <div className="space-y-10 flex-1 max-w-2xl">
-            {/* Header */}
-            <div className="flex items-center gap-4">
-              <h2
-                className="text-4xl sm:text-5xl font-bold text-white"
-                style={{ fontFamily: "'Cinzel', serif" }}
-              >
-                Contact
-              </h2>
-              <FaEnvelopeOpenText
-                className="w-8 h-8 sm:w-10 sm:h-10 text-blue-400"
-                aria-hidden
-              />
-            </div>
+          <div className="lg:col-span-6">
+            <h2 className="fr-h2">Contact</h2>
 
-            <p
-              className="text-lg text-stone-400 leading-relaxed"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
+            <p className="fr-body mt-5 max-w-lg">
               Have a design, concept, or a project idea? Let's create something
               extraordinary together.
             </p>
 
-            {/* Contact details */}
-            <div className="space-y-4">
+            {/* Contact details, as a ruled table */}
+            <dl className="fr-line-2 mt-10 border-t">
               {[
                 {
                   title: "Location",
                   detail: "Leeds, United Kingdom",
-                  icon: <FaMapMarkerAlt className="text-blue-400" />,
+                  icon: <FaMapMarkerAlt />,
                 },
                 {
                   title: "Email",
                   detail: "info@forgerealm.co.uk",
-                  icon: <FaEnvelope className="text-blue-400" />,
+                  href: "mailto:info@forgerealm.co.uk",
+                  icon: <FaEnvelope />,
                 },
                 {
                   title: "Phone",
                   detail: "+44 (0) 7344 237800",
-                  icon: <FaPhoneAlt className="text-blue-400" />,
+                  href: "tel:+447344237800",
+                  icon: <FaPhoneAlt />,
                 },
                 {
                   title: "Hours",
                   detail: "Mon-Fri 08:00-18:00",
-                  icon: <FaClock className="text-blue-400" />,
+                  icon: <FaClock />,
                 },
               ].map((item) => (
                 <div
                   key={item.title}
-                  className="group flex items-center gap-6 p-5 rounded-2xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:border-blue-400/40 hover:-translate-y-0.5"
+                  className="fr-line grid grid-cols-[6.5rem_1fr] items-baseline gap-4 border-b py-4 sm:grid-cols-[9rem_1fr]"
                 >
-                  <div className="flex-shrink-0 p-3 rounded-xl bg-blue-400/10 group-hover:bg-blue-400/20 transition-colors duration-300">
-                    {item.icon}
-                  </div>
-                  <div>
-                    <div
-                      className="font-semibold text-white group-hover:text-blue-300 transition-colors duration-300 text-lg"
-                      style={{ fontFamily: "'Cinzel', serif" }}
-                    >
-                      {item.title}
-                    </div>
-                    <div
-                      className="text-sm text-stone-400"
-                      style={{ fontFamily: "'Inter', sans-serif" }}
-                    >
-                      {item.detail}
-                    </div>
-                  </div>
+                  <dt className="fr-label fr-fg-3 flex items-center gap-2.5">
+                    <span className="fr-accent-text text-xs" aria-hidden="true">
+                      {item.icon}
+                    </span>
+                    {item.title}
+                  </dt>
+                  <dd className="fr-px text-[1.6rem] leading-none sm:text-[1.9rem]">
+                    {item.href ? (
+                      <a href={item.href} className="fr-link">
+                        {item.detail}
+                      </a>
+                    ) : (
+                      item.detail
+                    )}
+                  </dd>
                 </div>
               ))}
-            </div>
+            </dl>
 
             {/* Business hours */}
-            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-8 transition-colors duration-300 hover:border-blue-400/30 group">
-              <div className="flex items-center gap-4 text-white font-semibold mb-6">
-                <div className="p-3 rounded-xl bg-blue-400/10 group-hover:bg-blue-400/20 transition-colors duration-300">
-                  <FaClock className="text-blue-400" />
-                </div>
-                <span
-                  className="group-hover:text-blue-300 transition-colors duration-300 text-xl"
-                  style={{ fontFamily: "'Cinzel', serif" }}
-                >
-                  Business Hours
-                </span>
-              </div>
-              <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="mt-10">
+              <h3 className="fr-label fr-fg-3 flex items-center gap-2.5">
+                <FaClock className="fr-accent-text text-xs" aria-hidden />
+                Business Hours
+              </h3>
+              <dl className="fr-line mt-4 border-t">
                 {[
                   { day: "Mon\u2013Fri", hours: "08:00\u201318:00" },
                   { day: "Saturday", hours: "10:00\u201316:00" },
@@ -143,63 +119,48 @@ export default function Contact() {
                 ].map(({ day, hours }) => (
                   <div
                     key={day}
-                    className="flex justify-between items-center p-3 rounded-xl bg-white/[0.03] transition-colors duration-300"
+                    className="fr-line flex items-baseline justify-between border-b py-3"
                   >
-                    <span
-                      className="text-stone-500"
-                      style={{ fontFamily: "'Inter', sans-serif" }}
-                    >
-                      {day}
-                    </span>
-                    <span
-                      className="font-medium text-white"
-                      style={{ fontFamily: "'Inter', sans-serif" }}
-                    >
+                    <dt className="fr-fg-2">{day}</dt>
+                    <dd className="fr-px text-[1.45rem] leading-none tabular-nums">
                       {hours}
-                    </span>
+                    </dd>
                   </div>
                 ))}
-              </div>
+              </dl>
             </div>
           </div>
 
-          {/* CTA section */}
-          <div className="flex flex-col items-center justify-center text-center space-y-10 flex-1 max-w-lg">
-            <div className="space-y-8">
-              <h2
-                className="text-4xl sm:text-5xl font-bold max-w-[32rem] leading-tight"
-                style={{ fontFamily: "'Cinzel', serif" }}
-              >
-                <span className="text-white">Get in touch</span>
-                <br />
-                <span className="text-white">with ForgeRealm</span>
-              </h2>
-              <p
-                className="text-lg max-w-lg leading-relaxed text-stone-400"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
-                Reach out directly for collaborations, custom prints, or
-                wholesale orders. We're here to bring your vision to life.
-              </p>
+          {/* CTA: an amber panel, echoing the printer panel in the hero */}
+          <div className="lg:sticky lg:top-24 lg:col-span-6 lg:self-start lg:pl-6">
+            <div className="fr-amber fr-layers flex min-h-[26rem] flex-col justify-between rounded-[22px] p-7 sm:rounded-[28px] sm:p-10 lg:min-h-[32rem]">
+              <div>
+                <h2 className="fr-h2 !text-[clamp(3rem,6vw,5.75rem)]">
+                  Get in touch
+                  <br />
+                  with ForgeRealm
+                </h2>
+                <p className="fr-body mt-6 max-w-md">
+                  Reach out directly for collaborations, custom prints, or
+                  wholesale orders. We're here to bring your vision to life.
+                </p>
+              </div>
+
+              <div className="mt-10">
+                <a
+                  href="mailto:forgerealmltd@gmail.com,info@forgerealm.co.uk"
+                  className="fr-btn fr-btn--solid"
+                >
+                  Send an Email
+                  <ArrowKnob />
+                </a>
+
+                <p className="fr-fg-3 mt-5 max-w-sm text-sm leading-relaxed">
+                  We usually respond within 24 hours on working days. Let's
+                  create something amazing together!
+                </p>
+              </div>
             </div>
-
-            {/* Simple gradient CTA button */}
-            <a
-              href="mailto:forgerealmltd@gmail.com,info@forgerealm.co.uk"
-              className="group inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold transition-opacity duration-300 hover:opacity-90"
-              style={{ fontFamily: "'Cinzel', serif" }}
-            >
-              <span>Send an Email</span>
-              <FaEnvelope className="text-white/80 group-hover:text-white transition-colors duration-300" />
-            </a>
-
-            <p
-              className="text-sm max-w-sm text-stone-500"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
-              We usually respond within 24 hours on working days. Let's create
-              something amazing together!
-            </p>
           </div>
         </div>
       </div>

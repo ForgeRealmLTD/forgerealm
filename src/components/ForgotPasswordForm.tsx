@@ -95,7 +95,7 @@ export default function ForgotPasswordForm() {
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400 mb-1.5">
+                <label className="block text-[11px] font-semibold text-slate-400 mb-1.5">
                   Email Address
                 </label>
                 <input
@@ -117,7 +117,7 @@ export default function ForgotPasswordForm() {
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="w-full rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 py-3.5 text-sm font-bold uppercase tracking-wider text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30 disabled:opacity-50"
+                className="w-full rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 py-3.5 text-sm font-bold text-white shadow-xl shadow-blue-500/20 transition-all hover:shadow-blue-500/30 disabled:opacity-50"
               >
                 {status === "loading" ? "Sending..." : "Send Reset Link"}
               </button>

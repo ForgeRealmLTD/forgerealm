@@ -10,7 +10,7 @@ const latest = stalls.find((s) => s.kind !== "note") ?? stalls[0];
   href="#latest-stall"
   data-jump-latest
   aria-label={`Jump to latest post, ${latest.label}, ${latest.date}`}
-  class="group relative block w-full overflow-hidden rounded-2xl border border-cyan-300/30 bg-gradient-to-r from-blue-500/20 via-cyan-500/15 to-blue-500/20 px-6 py-5 sm:px-8 sm:py-6 shadow-[0_10px_40px_-12px_rgba(34,211,238,0.45)] transition-all hover:-translate-y-0.5 hover:border-cyan-300/60 hover:shadow-[0_14px_50px_-10px_rgba(34,211,238,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0f1a]"
+  class="group relative block w-full overflow-hidden rounded-2xl border border-cyan-300/30 bg-gradient-to-r from-blue-500/20 via-cyan-500/15 to-blue-500/20 px-6 py-5 sm:px-8 sm:py-6 shadow-[0_10px_40px_-12px_rgba(34,211,238,0.45)] transition-all hover:-translate-y-0.5 hover:border-cyan-300/60 hover:shadow-[0_14px_50px_-10px_rgba(34,211,238,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b0a08]"
 >
   <!-- Decorative breathing glows -->
   <span
@@ -42,19 +42,19 @@ const latest = stalls.find((s) => s.kind !== "note") ?? stalls[0];
       </span>
       <span>
         <span
-          class="block text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.28em] text-cyan-300/80"
-          style="font-family: 'Jost', sans-serif;"
+          class="block text-[10px] sm:text-[11px] font-medium text-cyan-300/80"
+          style="font-family: var(--fr-font-label);"
         >
           Jump to latest post
         </span>
         <span
           class="mt-1 block text-lg sm:text-xl lg:text-2xl text-white"
-          style="font-family: 'Cinzel', serif;"
+          style="font-family: var(--fr-font-pixel);"
         >
           {latest.label}
           <em
             class="text-cyan-300/90"
-            style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300;"
+            style="font-family: var(--fr-font-pixel); font-style: italic; font-weight: 300;"
           >
             {latest.date}
           </em>
@@ -63,8 +63,8 @@ const latest = stalls.find((s) => s.kind !== "note") ?? stalls[0];
     </span>
     <span
       aria-hidden="true"
-      class="hidden sm:inline-flex items-center gap-1 rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.22em] text-cyan-100 transition-all group-hover:bg-cyan-300/20 group-hover:border-cyan-300/60"
-      style="font-family: 'Jost', sans-serif;"
+      class="hidden sm:inline-flex items-center gap-1 rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1.5 text-[10px] font-medium text-cyan-100 transition-all group-hover:bg-cyan-300/20 group-hover:border-cyan-300/60"
+      style="font-family: var(--fr-font-label);"
     >
       Scroll to entry
       <svg

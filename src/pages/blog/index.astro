@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "~/layouts/BaseLayout.astro";
-import BlogNavbar from "~/components/BlogNavbar";
+import Navbar from "~/components/Navbar";
 import BlogHero from "~/components/blog/BlogHero.astro";
 import StallsTimeline from "~/components/blog/StallsTimeline.astro";
 import JumpToLatest from "~/components/blog/JumpToLatest.astro";
@@ -14,6 +14,25 @@ const journalPosts = (await getCollection("post", ({ data }) => !data.draft))
       (a.data.publishDate?.getTime() ?? 0),
   );
 
+// The "Where to find us" card. Update this one block when the next stall is
+// booked; the badge, heading, paragraph and side card all read from it.
+const nextStall = {
+  date: new Date("2026-11-28T12:00:00Z"),
+  place: "Albion Place",
+  headline: "Back at Albion",
+};
+const londonDate = (opts: Intl.DateTimeFormatOptions) =>
+  nextStall.date.toLocaleDateString("en-GB", {
+    timeZone: "Europe/London",
+    ...opts,
+  });
+const nextStallDayMonth = londonDate({ day: "numeric", month: "long" }); // 28 November
+const nextStallFull = londonDate({
+  weekday: "long",
+  day: "numeric",
+  month: "long",
+}); // Saturday 28 November
+
 const formatShortDate = (date?: Date) =>
   date
     ? date.toLocaleDateString("en-GB", {
@@ -25,10 +44,11 @@ const formatShortDate = (date?: Date) =>
 ---
 
 <BaseLayout
+  bodyClass="fr-site"
   title="Blog | ForgeRealm"
   description="The Stall Chronicles. Every ForgeRealm booth we've run so far, in order, with the wins, mistakes, and people we met along the way."
 >
-  <div class="relative min-h-screen overflow-hidden bg-[#0a0f1a] text-white">
+  <div class="relative min-h-screen overflow-hidden bg-[#0b0a08] text-white">
     <style>
       @keyframes glow-pulse {
         0%,
@@ -69,7 +89,7 @@ const formatShortDate = (date?: Date) =>
       }
     </style>
 
-    <BlogNavbar client:idle />
+    <Navbar client:idle />
 
     <BlogHero />
 
@@ -87,8 +107,8 @@ const formatShortDate = (date?: Date) =>
       <div class="inline-flex items-center gap-3 mb-5">
         <div class="w-5 h-px bg-cyan-400/50"></div>
         <span
-          class="text-[11px] sm:text-[12px] font-medium uppercase tracking-[0.28em] text-cyan-300/70"
-          style="font-family: 'Jost', sans-serif;"
+          class="text-[11px] sm:text-[12px] font-medium text-cyan-300/70"
+          style="font-family: var(--fr-font-label);"
         >
           Where to find us
         </span>
@@ -122,35 +142,35 @@ const formatShortDate = (date?: Date) =>
                 ></span>
               </span>
               <span
-                class="text-[11px] font-medium uppercase tracking-[0.24em] text-cyan-100"
-                style="font-family: 'Jost', sans-serif;"
+                class="text-[11px] font-medium text-cyan-100"
+                style="font-family: var(--fr-font-label);"
               >
                 Stall booked
               </span>
             </div>
             <h3
               class="text-2xl sm:text-3xl lg:text-4xl leading-[1.1] text-white"
-              style="font-family: 'Cinzel', serif;"
+              style="font-family: var(--fr-font-pixel);"
             >
-              Back at Albion, <em
+              {nextStall.headline}, <em
                 class="text-cyan-300"
-                style="font-family: 'Cormorant Garamond', serif; font-weight: 300;"
-                >17 October</em
+                style="font-family: var(--fr-font-pixel); font-weight: 300;"
+                >{nextStallDayMonth}</em
               >
             </h3>
             <p
               class="mt-4 max-w-xl text-base sm:text-lg text-slate-300"
-              style="font-family: 'Cormorant Garamond', serif; font-style: italic; line-height: 1.7;"
+              style="font-family: var(--fr-font-pixel); font-style: italic; line-height: 1.7;"
             >
-              We're trading at Albion Place, Leeds on Saturday 17 October. You
+              We're trading at {nextStall.place}, Leeds on {nextStallFull}. You
               can also find our prints on the shelf at The Mini Mall inside the
               Merrion Centre, Leeds.
             </p>
             <div class="mt-6 flex flex-wrap items-center gap-3">
               <a
                 href="/subscribe"
-                class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-6 py-3 text-[13px] font-semibold uppercase tracking-[0.14em] text-white shadow-xl shadow-blue-500/25 transition-all hover:-translate-y-0.5 hover:shadow-blue-500/40"
-                style="font-family: 'Cinzel', serif;"
+                class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-6 py-3 text-[13px] font-semibold text-white shadow-xl shadow-blue-500/25 transition-all hover:-translate-y-0.5 hover:shadow-blue-500/40"
+                style="font-family: var(--fr-font-pixel);"
               >
                 Get a reminder
                 <svg
@@ -167,8 +187,8 @@ const formatShortDate = (date?: Date) =>
               </a>
               <a
                 href="/shop"
-                class="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.04] px-6 py-3 text-[13px] font-semibold uppercase tracking-[0.14em] text-slate-200 transition hover:border-cyan-300/30 hover:text-cyan-100"
-                style="font-family: 'Jost', sans-serif;"
+                class="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.04] px-6 py-3 text-[13px] font-semibold text-slate-200 transition hover:border-cyan-300/30 hover:text-cyan-100"
+                style="font-family: var(--fr-font-label);"
               >
                 Browse the shop
               </a>
@@ -180,14 +200,14 @@ const formatShortDate = (date?: Date) =>
               class="col-span-3 rounded-xl border border-cyan-300/25 bg-cyan-300/[0.06] p-4 text-center"
             >
               <p
-                class="text-[10px] uppercase tracking-[0.22em] text-cyan-200 mb-1.5"
-                style="font-family: 'Jost', sans-serif;"
+                class="text-[10px] text-cyan-200 mb-1.5"
+                style="font-family: var(--fr-font-label);"
               >
                 Stocked at
               </p>
               <p
                 class="text-xl sm:text-2xl text-white"
-                style="font-family: 'Cinzel', serif;"
+                style="font-family: var(--fr-font-pixel);"
               >
                 The Mini Mall
               </p>
@@ -196,14 +216,14 @@ const formatShortDate = (date?: Date) =>
               class="col-span-3 rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 text-center"
             >
               <p
-                class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70 mb-1.5"
-                style="font-family: 'Jost', sans-serif;"
+                class="text-[10px] text-cyan-300/70 mb-1.5"
+                style="font-family: var(--fr-font-label);"
               >
                 Find it
               </p>
               <p
                 class="text-base sm:text-lg text-white"
-                style="font-family: 'Cinzel', serif;"
+                style="font-family: var(--fr-font-pixel);"
               >
                 Merrion Centre, Leeds
               </p>
@@ -212,22 +232,22 @@ const formatShortDate = (date?: Date) =>
               class="col-span-3 rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 text-center"
             >
               <p
-                class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70 mb-1.5"
-                style="font-family: 'Jost', sans-serif;"
+                class="text-[10px] text-cyan-300/70 mb-1.5"
+                style="font-family: var(--fr-font-label);"
               >
                 Next stall
               </p>
               <p
                 class="text-base sm:text-lg text-white"
-                style="font-family: 'Cinzel', serif;"
+                style="font-family: var(--fr-font-pixel);"
               >
-                Saturday 17 October
+                {nextStallFull}
               </p>
               <p
                 class="mt-1 text-sm text-cyan-100/80"
-                style="font-family: 'Jost', sans-serif;"
+                style="font-family: var(--fr-font-label);"
               >
-                Albion Place
+                {nextStall.place}
               </p>
             </div>
           </div>
@@ -256,25 +276,25 @@ const formatShortDate = (date?: Date) =>
         <div class="inline-flex items-center gap-3 mb-4">
           <div class="w-5 h-px bg-cyan-400/50"></div>
           <span
-            class="text-[11px] sm:text-[12px] font-medium uppercase tracking-[0.28em] text-cyan-300/70"
-            style="font-family: 'Jost', sans-serif;"
+            class="text-[11px] sm:text-[12px] font-medium text-cyan-300/70"
+            style="font-family: var(--fr-font-label);"
           >
             The Stall Chronicles
           </span>
         </div>
         <h2
           class="text-3xl sm:text-4xl lg:text-5xl leading-[1.05] text-white"
-          style="font-family: 'Cinzel', serif;"
+          style="font-family: var(--fr-font-pixel);"
         >
           Every booth, <em
             class="text-cyan-300"
-            style="font-family: 'Cormorant Garamond', serif; font-weight: 300;"
+            style="font-family: var(--fr-font-pixel); font-weight: 300;"
             >in order</em
           >
         </h2>
         <p
           class="mt-5 max-w-3xl text-base sm:text-lg text-slate-400"
-          style="font-family: 'Cormorant Garamond', serif; font-style: italic; line-height: 1.7;"
+          style="font-family: var(--fr-font-pixel); font-style: italic; line-height: 1.7;"
         >
           From a rain-soaked Christmas debut in Albion Place to a wholesome
           residential experiment in Alwoodley, the full story of every
@@ -305,24 +325,24 @@ const formatShortDate = (date?: Date) =>
             <div class="inline-flex items-center gap-3 mb-3">
               <div class="w-4 h-px bg-cyan-400/50"></div>
               <p
-                class="text-[11px] font-medium uppercase tracking-[0.28em] text-cyan-300/70"
-                style="font-family: 'Jost', sans-serif;"
+                class="text-[11px] font-medium text-cyan-300/70"
+                style="font-family: var(--fr-font-label);"
               >
                 Why we're writing this
               </p>
             </div>
             <h3
               class="text-xl sm:text-2xl lg:text-[26px] leading-[1.25] text-white"
-              style="font-family: 'Cinzel', serif;"
+              style="font-family: var(--fr-font-pixel);"
             >
               A blog built on <em
                 class="text-cyan-300"
-                style="font-family: 'Cormorant Garamond', serif; font-weight: 300;"
+                style="font-family: var(--fr-font-pixel); font-weight: 300;"
                 >full transparency</em
               >
             </h3>
           </div>
-          <div class="space-y-4" style="font-family: 'Inter', sans-serif;">
+          <div class="space-y-4" style="font-family: var(--fr-font-body);">
             <p class="text-sm sm:text-[15px] text-slate-300 leading-[1.8]">
               The whole point of this blog is to show what starting a small
               business actually looks like from the inside: the decisions, the
@@ -354,8 +374,8 @@ const formatShortDate = (date?: Date) =>
           <div class="inline-flex items-center gap-3 mb-6">
             <div class="w-5 h-px bg-cyan-400/50" />
             <span
-              class="text-[11px] sm:text-[12px] font-medium uppercase tracking-[0.28em] text-cyan-300/70"
-              style="font-family: 'Jost', sans-serif;"
+              class="text-[11px] sm:text-[12px] font-medium text-cyan-300/70"
+              style="font-family: var(--fr-font-label);"
             >
               Journal notes
             </span>
@@ -368,15 +388,15 @@ const formatShortDate = (date?: Date) =>
               >
                 <div class="flex flex-wrap items-center gap-2 mb-3">
                   <span
-                    class="text-[10px] uppercase tracking-[0.22em] text-cyan-300/70"
-                    style="font-family: 'Jost', sans-serif;"
+                    class="text-[10px] text-cyan-300/70"
+                    style="font-family: var(--fr-font-label);"
                   >
                     {post.data.category || "Update"}
                   </span>
                   {post.data.publishDate && (
                     <span
-                      class="text-[10px] uppercase tracking-[0.22em] text-slate-500"
-                      style="font-family: 'Jost', sans-serif;"
+                      class="text-[10px] text-slate-500"
+                      style="font-family: var(--fr-font-label);"
                     >
                       · {formatShortDate(post.data.publishDate)}
                     </span>
@@ -384,14 +404,14 @@ const formatShortDate = (date?: Date) =>
                 </div>
                 <h4
                   class="text-lg leading-[1.25] text-white transition-colors group-hover:text-cyan-100"
-                  style="font-family: 'Cinzel', serif;"
+                  style="font-family: var(--fr-font-pixel);"
                 >
                   {post.data.title}
                 </h4>
                 {post.data.excerpt && (
                   <p
                     class="mt-3 text-sm text-slate-400 leading-[1.7]"
-                    style="font-family: 'Cormorant Garamond', serif; font-style: italic;"
+                    style="font-family: var(--fr-font-pixel); font-style: italic;"
                   >
                     {post.data.excerpt}
                   </p>
@@ -411,21 +431,21 @@ const formatShortDate = (date?: Date) =>
       </div>
       <p
         class="mt-8 max-w-3xl text-base sm:text-lg text-slate-400"
-        style="font-family: 'Cormorant Garamond', serif; font-style: italic; line-height: 1.7;"
+        style="font-family: var(--fr-font-pixel); font-style: italic; line-height: 1.7;"
       >
         Thanks for reading all the way through. New entries land here as we run
         more stalls, make more mistakes, and meet more good people.
       </p>
       <p
-        class="mt-4 text-[13px] uppercase tracking-[0.22em] text-slate-500"
-        style="font-family: 'Jost', sans-serif;"
+        class="mt-4 text-[13px] text-slate-500"
+        style="font-family: var(--fr-font-label);"
       >
         Ishmam &amp; Tobi · ForgeRealm · Leeds
       </p>
     </section>
 
     <!-- Subscribe CTA -->
-    <section class="relative border-t border-white/[0.04] bg-[#0a0f1a]">
+    <section class="relative border-t border-white/[0.04] bg-[#0b0a08]">
       <div
         class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(6,182,212,0.06),transparent_50%)]"
       >
@@ -436,24 +456,24 @@ const formatShortDate = (date?: Date) =>
         <div class="inline-flex items-center gap-3 mb-4">
           <div class="w-8 h-px bg-cyan-400/50"></div>
           <span
-            class="text-[11px] font-medium uppercase tracking-[0.28em] text-cyan-300/60"
-            style="font-family: 'Jost', sans-serif;">Stay Updated</span
+            class="text-[11px] font-medium text-cyan-300/60"
+            style="font-family: var(--fr-font-label);">Stay Updated</span
           >
           <div class="w-8 h-px bg-cyan-400/50"></div>
         </div>
         <h2
           class="text-2xl sm:text-3xl font-normal text-white"
-          style="font-family: 'Cinzel', serif;"
+          style="font-family: var(--fr-font-pixel);"
         >
           Never miss a <em
             class="text-cyan-300"
-            style="font-family: 'Cormorant Garamond', serif; font-weight: 300;"
+            style="font-family: var(--fr-font-pixel); font-weight: 300;"
             >drop</em
           >
         </h2>
         <p
           class="mt-4 max-w-lg mx-auto text-sm sm:text-base text-slate-400"
-          style="font-family: 'Cormorant Garamond', serif; font-style: italic; line-height: 1.7;"
+          style="font-family: var(--fr-font-pixel); font-style: italic; line-height: 1.7;"
         >
           Subscribe to get product launches, booth dates, and studio updates
           straight to your inbox.
@@ -461,8 +481,8 @@ const formatShortDate = (date?: Date) =>
         <div class="mt-8">
           <a
             href="/subscribe"
-            class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-8 py-3.5 text-sm font-semibold uppercase tracking-[0.14em] text-white shadow-xl shadow-blue-500/25 transition-all hover:-translate-y-0.5 hover:shadow-blue-500/40"
-            style="font-family: 'Cinzel', serif;"
+            class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-8 py-3.5 text-sm font-semibold text-white shadow-xl shadow-blue-500/25 transition-all hover:-translate-y-0.5 hover:shadow-blue-500/40"
+            style="font-family: var(--fr-font-pixel);"
           >
             Subscribe
             <svg

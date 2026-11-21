@@ -15,10 +15,22 @@ import { CHRISTMAS } from "../config/seasonal";
 ---
 
 <BaseLayout>
-  <div
-    class="relative isolate text-white overflow-x-clip"
-    style="font-family: 'Jost', sans-serif; background: linear-gradient(180deg, #080c14 0%, #0a0e18 30%, #0c1020 60%, #080c14 100%);"
-  >
+  <!-- `fr-ink` sets the dark surface tokens for the whole page; individual
+       sections flip to paper/amber with their own surface class. -->
+  <div class="fr-ink relative isolate overflow-x-clip">
+    <!-- Scroll position shown as a print job: a hairline bar up top and a
+         small readout in the left gutter (desktop only). -->
+    <div id="fr-progress" class="fr-progress" aria-hidden="true"></div>
+    <div
+      id="fr-progress-readout"
+      class="fr-progress-readout"
+      aria-hidden="true"
+    >
+      Printing 000%
+    </div>
+
+    <div class="fr-grain" aria-hidden="true"></div>
+
     {CHRISTMAS && <ChristmasTouches />}
     <Navbar client:load />
     <Hero client:idle festive={CHRISTMAS} />
@@ -37,25 +49,35 @@ import { CHRISTMAS } from "../config/seasonal";
   </div>
 </BaseLayout>
 
-<script is:inline define:vars={{ festive: CHRISTMAS }}>
+<script is:inline>
   document.documentElement.setAttribute("data-theme", "dark");
   document.documentElement.classList.add("dark");
 
-  // Cursor glow - desktop only
-  if (window.innerWidth >= 768) {
-    const glow = document.createElement("div");
-    glow.style.cssText =
-      "position:fixed;width:400px;height:400px;border-radius:50%;pointer-events:none;z-index:1;background:radial-gradient(circle,rgba(" +
-      (festive ? "251,191,36" : "59,130,246") +
-      ",0.06) 0%,transparent 70%);transform:translate(-50%,-50%);transition:opacity 0.3s ease;opacity:0;";
-    document.body.appendChild(glow);
-    document.addEventListener("mousemove", (e) => {
-      glow.style.left = e.clientX + "px";
-      glow.style.top = e.clientY + "px";
-      glow.style.opacity = "1";
-    });
-    document.addEventListener("mouseleave", () => {
-      glow.style.opacity = "0";
-    });
-  }
+  // Print progress: one rAF-throttled scroll listener, transform-only updates.
+  (() => {
+    const bar = document.getElementById("fr-progress");
+    const readout = document.getElementById("fr-progress-readout");
+    if (!bar) return;
+    let queued = false;
+    const update = () => {
+      queued = false;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      bar.style.transform = "scaleX(" + p + ")";
+      if (readout) {
+        readout.textContent =
+          p >= 0.995
+            ? "Print complete"
+            : "Printing " + String(Math.round(p * 100)).padStart(3, "0") + "%";
+      }
+    };
+    const queue = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", queue, { passive: true });
+    window.addEventListener("resize", queue);
+    update();
+  })();
 </script>
