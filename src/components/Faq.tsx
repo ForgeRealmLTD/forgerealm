@@ -1,6 +1,5 @@
 "use client";
 
-import { HiChevronDown } from "react-icons/hi";
 import { useEffect, useRef, useState } from "react";
 
 export default function Faq() {
@@ -51,81 +50,68 @@ export default function Faq() {
       ref={sectionRef}
       data-observe
       suppressHydrationWarning
-      className={`reveal landing-ambience relative py-16 sm:py-24 overflow-hidden bg-transparent ${isVisible ? "is-visible" : ""}`}
+      className={`reveal fr-paper fr-sheet relative my-3 overflow-hidden py-16 sm:my-4 sm:py-24 lg:py-28 ${isVisible ? "is-visible" : ""}`}
     >
-      {/* Top divider */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-        <div className="grid gap-8 lg:grid-cols-[1fr_2fr] xl:grid-cols-[400px_1fr]">
-          {/* Left spotlight */}
-          <div className="relative order-1 lg:order-1">
-            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition-colors duration-300 hover:border-blue-400/40">
-              <h2
-                className="text-3xl font-bold text-white"
-                style={{ fontFamily: "'Cinzel', serif" }}
-              >
-                FAQs
-              </h2>
-              <p
-                className="mt-4 text-sm text-stone-400"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
-                Quick answers to shipping, materials, and custom prints. Tap any
-                question to expand.
-              </p>
-              <div className="mt-6 grid gap-3 text-xs text-stone-400">
-                {[
-                  { label: "Response time", value: "Under 24 hours" },
-                  { label: "Shipping", value: "UK wide delivery" },
-                  { label: "Materials", value: "PLA and PETG" },
-                ].map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 transition-colors duration-300 hover:border-blue-400/30"
-                  >
-                    <p
-                      className="uppercase tracking-[0.3em] text-[10px] text-blue-400/70"
-                      style={{ fontFamily: "'Jost', sans-serif" }}
-                    >
-                      {stat.label}
-                    </p>
-                    <p
-                      className="mt-1 font-semibold text-white"
-                      style={{ fontFamily: "'Cinzel', serif" }}
-                    >
-                      {stat.value}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
+      <div className="fr-wrap relative">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
+          {/* Left: heading and the quick facts, as a ruled list */}
+          <div className="lg:col-span-5">
+            <h2 className="fr-h2 !text-[clamp(4.5rem,11vw,9.5rem)]">FAQs</h2>
+            <p className="fr-body mt-5 max-w-sm">
+              Quick answers to shipping, materials, and custom prints. Tap any
+              question to expand.
+            </p>
+            <dl className="fr-line mt-8 max-w-md border-t">
+              {[
+                { label: "Response time", value: "Under 24 hours" },
+                { label: "Shipping", value: "UK wide delivery" },
+                { label: "Materials", value: "PLA and PETG" },
+              ].map((stat) => (
+                <div
+                  key={stat.label}
+                  className="fr-line flex items-baseline justify-between gap-6 border-b py-3.5"
+                >
+                  <dt className="fr-label fr-fg-3">{stat.label}</dt>
+                  <dd className="fr-px text-right text-[1.6rem] leading-none">
+                    {stat.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
-          {/* FAQ items */}
-          <div className="space-y-4 order-2 lg:order-2">
+          {/* Right: the questions, hairline-ruled */}
+          <div className="fr-line-2 border-t lg:col-span-7">
             {faqs.map((item, idx) => (
-              <details
-                key={item.q}
-                className="group rounded-2xl border border-white/10 bg-white/[0.03] transition-colors duration-300 hover:border-blue-400/40"
-              >
-                <summary className="flex cursor-pointer list-none items-center gap-4 px-6 py-5 text-white">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-blue-400/30 bg-blue-400/10 text-xs font-semibold tracking-[0.25em] text-blue-300">
+              <details key={item.q} className="fr-acc fr-line border-b">
+                <summary className="flex items-center gap-4 py-6 sm:gap-5 sm:py-7">
+                  <span
+                    className="fr-px grid h-9 w-9 flex-none place-items-center pb-0.5 text-[1.45rem] leading-none sm:h-10 sm:w-10 sm:text-[1.6rem]"
+                    style={{
+                      background: "var(--accent-text)",
+                      color: "var(--bg)",
+                    }}
+                  >
                     {String(idx + 1).padStart(2, "0")}
                   </span>
-                  <span
-                    className="text-base font-semibold text-white/90 group-hover:text-white transition-colors duration-300"
-                    style={{ fontFamily: "'Cinzel', serif" }}
-                  >
+                  <span className="fr-h3 flex-1 !text-[clamp(1.65rem,2.5vw,2.25rem)]">
                     {item.q}
                   </span>
-                  <span className="ml-auto flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white/70 transition-transform duration-300 group-open:rotate-180">
-                    <HiChevronDown />
+                  <span
+                    className="fr-acc__icon fr-line-2 grid h-10 w-10 flex-none place-items-center rounded-full border"
+                    aria-hidden="true"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <path
+                        d="M7 1.5v11M1.5 7h11"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                        strokeLinecap="round"
+                      />
+                    </svg>
                   </span>
                 </summary>
-                <div
-                  className="px-6 pb-6 text-sm text-stone-400"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
-                >
+                <div className="fr-body max-w-3xl pb-7 pl-[3.25rem] pr-4 sm:pl-[3.75rem] sm:pr-16">
                   {item.a}
                 </div>
               </details>
