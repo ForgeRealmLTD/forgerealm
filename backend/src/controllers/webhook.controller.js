@@ -5,16 +5,18 @@ const { generateInvoicePdf } = require("../utils/invoice");
 const pool = require("../config/db");
 
 const handleStripeWebhook = asyncHandler(async (req, res) => {
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   const sig = req.headers["stripe-signature"];
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
+  // Check config BEFORE constructing the client: `new Stripe(undefined)`
+  // throws, which used to surface as a vague 500 instead of this message.
   if (!webhookSecret || !process.env.STRIPE_SECRET_KEY) {
     console.error(
       "Stripe webhook: missing STRIPE_SECRET_KEY or STRIPE_WEBHOOK_SECRET",
     );
     return res.status(500).json({ error: "Webhook not configured" });
   }
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
   let event;
   try {
@@ -65,11 +67,14 @@ async function handleCheckoutComplete(stripe, session) {
     return;
   }
 
-  // Get line items from Stripe
+  // Get line items from Stripe. Checkout stores our product ID on each
+  // line's product metadata, so expand the product to read it back.
   const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
     limit: 100,
+    expand: ["data.price.product"],
   });
   const items = lineItems.data.map((li) => ({
+    id: li.price?.product?.metadata?.product_id || null,
     name: li.description,
     price: li.price.unit_amount,
     qty: li.quantity,
